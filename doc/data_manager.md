@@ -1,25 +1,43 @@
 # Data manager
 
-
 <!-- vim-markdown-toc GitLab -->
 
-- [Интерфейс взаимодействия](#Интерфейс-взаимодействия)
-    + [Сервер](#Сервер)
+* [Интерфейс взаимодействия](#Интерфейс-взаимодействия)
+    * [Как сервер](#Как-сервер)
         * [Внешнее API](#Внешнее-api)
         * [Внутреннее API](#Внутреннее-api)
-    + [Клиент](#Клиент)
-- [Спецификация](#Спецификация)
-    + [Внешнее API](#Внешнее-api-1)
-        * [Загрузка файла](#Загрузка-файла)
-        * [Получение метаинформации о файле](#Получение-метаинформации-о-файле)
-        * [Загрузка файла](#Загрузка-файла-1)
-    + [Внутреннее API](#Внутреннее-api-1)
-        * [Получение списка хостов (агентов) с актуальной версией файла](#Получение-списка-хостов-агентов-с-актуальной-версией-файла)
-        * [Распределение файлов по агентам](#Распределение-файлов-по-агентам)
+    * [Как клиент](#Как-клиент)
+* [Спецификация](#Спецификация)
+    * [Внешнее API](#Внешнее-api-1)
+        * [Загрузка файла в облако](#Загрузка-файла-в-облако)
+            * [URL](#url)
+            * [Method](#method)
+            * [Data Params](#data-params)
+            * [Success Response](#success-response)
+            * [Error Response](#error-response)
+            * [Sample call](#sample-call)
+        * [Выгрузка файла](#Выгрузка-файла)
+            * [URL](#url-1)
+            * [Method](#method-1)
+            * [Url Params](#url-params)
+            * [Data Params](#data-params-1)
+            * [Success Response](#success-response-1)
+            * [Error Response](#error-response-1)
+            * [Sample call](#sample-call-1)
+        * [Получение метаинформации файла](#Получение-метаинформации-файла)
+            * [URL](#url-2)
+            * [Method](#method-2)
+            * [Url Params](#url-params-1)
+            * [Data Params](#data-params-2)
+            * [Success Response](#success-response-2)
+            * [Error Response](#error-response-2)
+            * [Sample call](#sample-call-2)
+    * [Внутреннее API](#Внутреннее-api-1)
         * [GRPC](#grpc)
-        * [Клиент](#Клиент-1)
-            - [Отправка файлов на агент](#Отправка-файлов-на-агент)
-            - [Выгрузка файлов с агента](#Выгрузка-файлов-с-агента)
+        * [Распределение файлов по агентам](#Распределение-файлов-по-агентам)
+        * [Клиент](#Клиент)
+            * [Отправка файлов на агент](#Отправка-файлов-на-агент)
+            * [Выгрузка файлов с агента](#Выгрузка-файлов-с-агента)
 
 <!-- vim-markdown-toc -->
 
@@ -27,170 +45,146 @@
 Файлы неизменяемые. Для начала храним в отдельном хранилище под data manager, в светлом будущем --- реплицированное распределенное хранилище на самих клиентах.
 Все идентификаторы --- UUID.
 
-#### Сервер
+#### Как сервер
 ##### Внешнее API
 + `POST /upload` --- загрузка файла.
-+ `POST /download` --- скачивание файла.
++ `GET /download` --- скачивание файла.
 + `GET /info` --- получение метаинформации.
 
 ##### Внутреннее API
-+ `GET/GRPC /get_filemap` --- получение списка хостов, хранящих копию файла.
-+ `POST/GRPC /stage_in_files` --- распределение файлов по агентам.
++ `gRPC /get_filemap` --- получение списка хостов, хранящих копию файла.
++ `gRPC /stage_in_files` --- распределение файлов по агентам.
 
-#### Клиент
-+ `POST/GRPC http://resource_manager/stage_in_files` --- отправка списка файлов на хост.
-+ `POST/GRPC http://resource_manager/stage_out_files` --- выгрузка файлов с агентов.
+#### Как клиент
++ `gRPC http://resource_manager/stage_in_files` --- отправка списка файлов на хост.
++ `gRPC http://resource_manager/stage_out_files` --- выгрузка файлов с агентов.
 
 ### Спецификация
 #### Внешнее API
-HTTP
-##### Загрузка файла
-```protobuf
-// POST
-// /upload
-
-message UserId {
-    required string uuid = 1;
-}
-
-enum AccessPerms {
-    kNone = 0,
-    kRead = 1,
-    kReadWrite = 2,
-    // kWrite is meaningless
-}
-
-message UserWithPerms {
-    required UserId user = 1;
-    required AccessPerms perms = 2;
-}
-
-message FileId {
-    required string uuid = 1;
-}
-
-message Request {
-    required string filename = 1;
-    repeated UserWithPerms acl = 2;
-    required int32 ttl = 3;
-    required int32 replication = 4;
-    oneof contents {
-        bytes blob = 5;
-        string url = 6;
-        FileId copy = 7;
-    }
-}
-
-message Response {
-    required FileId id = 1;
+REST
+##### Загрузка файла в облако
+###### URL
+`/upload`
+###### Method
+`POST`
+###### Data Params
++ Required
+    * `filename=[string]`
++ Optional
+    * `ttl=[uint64]`
+    * `acl=[array of { "user": [uuid], "perms": [oneof Read, ReadWrite]}]`
+    * `replication=[uint32]`
+    * `blob=[bytes]`
+    * `url=[string]`
+    * `copy_from=[uuid]`
+###### Success Response
++ **Code**: `200`
++ **Content**
+```
+{
+    "file_id": [uuid]
 }
 ```
 
-##### Получение метаинформации о файле
-```protobuf
-// GET
-// /info?file_id=FILE_ID
-
-message ResponseSuccess {
-    required FileId file_id = 1;
-    required string filename = 2;
-    repeated UserWithPerms acl = 3;
-    required int32 ttl = 4;
-    required int32 replication = 5;
-    required uint64 byte_size = 6;
-    required uint64 occupied_storage = 7;
-}
-
-enum ErrorKind {
-    AcccessDenied = 1;
-    FileDoesNotExist = 2;
-    FileDeleted = 3;
-}
-
-message ResponseError {
-    required ErrorKind kind = 1;
-    optional string description = 2;
-}
-
-message Repsonse {
-    oneof result {
-        ResponseSuccess success = 1;
-        ResponseError error = 2;
-    }
+###### Error Response
++ **Code**: `400`
++ **Content**
+```
+{
+    "error": [string]
 }
 ```
 
-##### Загрузка файла
-```protobuf
-// GET
-// /download?file_id=FILE_ID
+###### Sample call
+```
+curl https://sky.io/api/file/upload -X POST --data '{
+    "filename": "file.txt",
+    "ttl": 14,
+    "blob": "Hello, world!"
+}'
+```
 
-message Response {
-    required string filename = 1;
-    required bytes contents = 2;
+##### Выгрузка файла
+###### URL
++ `/download/:file_id`
++ `/download/:job_id/:filename`
+###### Method
+`GET`
+###### Url Params
+* **Required**:
+  * `file_id=[uuid]`
+  * `job_id=[uuid]`
+  * `filename=[string]`
+###### Data Params
+None
+###### Success Response
++ **Code**: `200`
++ **Content**
+```
+{
+    "filename": [string],
+    "contents": [bytes],
 }
+```
+
+###### Error Response
++ **Code**: `400 / 404`
++ **Content**
+```
+{
+    "error": [string]
+}
+```
+
+###### Sample call
+```
+curl https://sky.io/api/files/dc4eec6e-4e34-49a7-8fe8-8e19d5bfb8a4/download
+```
+
+##### Получение метаинформации файла
+###### URL
++ `/download/:file_id`
++ `/download/:job_id/:filename`
+###### Method
+`GET`
+###### Url Params
+* **Required**:
+  * `file_id=[uuid]`
+  * `job_id=[uuid]`
+  * `filename=[string]`
+###### Data Params
+None
+###### Success Response
++ **Code**: `200`
++ **Content**
+```
+{
+    "file_id": [uuid],
+    "filename": [string],
+    "acl": [array of { "user": [uuid], "perms": [oneof Read, ReadWrite]}],
+    "ttl": [uint64],
+    "replication": [uint32],
+    "byte_size": [uint64],
+    "disk_size": [uint64]
+}
+```
+
+###### Error Response
++ **Code**: `400 / 403 / 404`
++ **Content**
+```
+{
+    "error": [string]
+}
+```
+
+###### Sample call
+```
+curl https://sky.io/api/dc4eec6e-4e34-49a7-8fe8-8e19d5bfb8a4/info
 ```
 
 #### Внутреннее API
 Внешнее API + дополнительные ручки:
-
-##### Получение списка хостов (агентов) с актуальной версией файла
-```protobuf
-// GET or GRPC
-// /get_filemap?file_id=FILE_ID
-
-message HostId {
-    required string uuid = 1;
-}
-
-enum FileMapErrorKind {
-    FileDoesNotExist = 1;
-}
-
-enum FileMapError {
-    required FileMapErrorKind kind = 1;
-    optional string description = 2;
-}
-
-message FileMapSuccessResponse {
-    repeated HostId hosts = 1;
-}
-
-message FileMapRequest {
-    required FileId file = 1;
-}
-
-message FileMapResponse {
-    oneof result {
-        FileMapSuccessResponse success = 1;
-        FileMapError error = 2;
-    }
-}
-```
-
-##### Распределение файлов по агентам
-```protobuf
-// POST or GRPC
-// /stage_in_files
-
-enum StageInFilesErrorKind {
-    FileDoesNotExist = 1;
-}
-
-enum StageInFilesError {
-    required StageInFilesErrorKind kind = 1;
-    optional string description = 2;
-}
-
-message StageInFilesRequest {
-    repeated FileId files = 1;
-    repeated HostId hosts = 2;
-}
-
-message StageInFilesResponse {
-    repeated HostId success_hosts = 1;
-}
-```
 
 ##### GRPC
 ```protobuf
@@ -200,12 +194,40 @@ service DataManger {
 }
 ```
 
+##### Распределение файлов по агентам
+```protobuf
+enum StageInFilesErrorKind {
+    FileDoesNotExist = 1;
+}
+
+enum StageInFilesError {
+    required StageInFilesErrorKind kind = 1;
+    optional string description = 2;
+}
+
+message JobId {
+    required string uuid = 1;
+}
+
+message StageInFilesRequest {
+    required JobId job = 1;
+    repeated FileId files = 2;
+    repeated ResourceId resources = 3;
+}
+
+message StagedFile {
+    required fild_id file = 1;
+    repeated ResourceId resources = 2;
+};
+
+message StageInFilesResponse {
+    repeated StagedFile success_files = 1;
+}
+```
+
 ##### Клиент
 ###### Отправка файлов на агент
 ```protobuf
-// POST or GRPC
-// /stage_in_files
-
 message StageInFilesRequest {
     repeated FileId files = 1;
 }
@@ -217,9 +239,6 @@ message StageInFilesResponse {
 
 ###### Выгрузка файлов с агента
 ```protobuf
-// POST or GRPC
-// /stage_out_files
-
 message StageOutFilesRequest {
     repeated FileId files = 1;
 }
