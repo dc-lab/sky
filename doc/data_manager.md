@@ -216,7 +216,7 @@ message StageInFilesRequest {
 }
 
 message StagedFile {
-    required fild_id file = 1;
+    required file_id file = 1;
     repeated ResourceId resources = 2;
 };
 
