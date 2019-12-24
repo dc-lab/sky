@@ -240,7 +240,7 @@ message StageInFilesResponse {
 ###### Выгрузка файлов с агента
 ```protobuf
 message StageOutFilesRequest {
-    repeated FileId files = 1;
+    repeated string files = 1;
 }
 
 message StageOutFilesResponse {
