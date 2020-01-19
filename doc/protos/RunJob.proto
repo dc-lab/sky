@@ -1,0 +1,25 @@
+syntax = "proto2";
+
+import "Common.proto";
+
+message JobRequirement {
+    optional string python_version = 1;
+}
+
+message RunJobRequest {
+    required JobId job = 1;
+    repeated JobRequirement requirements = 2;
+    repeated FileId files = 3;
+    // execution line ???
+}
+
+// Подумать success and fail
+enum ResponseCode {
+    WAIT = 0;
+    RUN = 1;
+    DONE = 2;
+}
+
+message RunJobResponse {
+    required ResponseCode code = 1;
+}

@@ -1,0 +1,18 @@
+syntax = "proto2";
+
+import "Common.proto";
+
+// Возможно достаточно просто файлов, чтобы зарегистрировать у себя. Неявная связь с job'ами возникает только по запросу RunJob.
+message StageInFilesRequest {
+    required JobId job = 1;
+    repeated FileId files = 2;
+}
+
+// Увидел это в других спеках. Обдумать, почему для этого должен быть отдельный класс (может быть просто класс File).
+message StagedFile {
+    required FileId file = 1;
+};
+
+message StageInFilesResponse {
+    repeated StagedFile success_files = 1;
+}
