@@ -54,19 +54,19 @@
 Задания состоят из бинарного запускаемого файла и входных данных, загружаемых на агента из дата-менеджера.
 Все идентификаторы --- UUID.
 
-##### Внешнее API
-+ `POST /run` --- запуск задания.
-+ `GET /job_info` --- состояние задания.
-+ `GET /list_jobs` --- список заданий.
-+ `POST /cancel` --- отмена задания.
-+ `DELETE /delete` --- удаление задания.
+##### Внешний API
++ `POST /jobs` --- запуск задания.
++ `GET /jobs/JOB_ID` --- получения состояния задания.
++ `GET /list_jobs` --- получение списка заданий.
++ `POST /jobs/JOBS_ID/cancel` --- отмена задания.
++ `DELETE /jobs/JOB_ID` --- удаление задания.
 
 ### Спецификация
 #### Внешнее API
 REST
 ##### Запуск задания
 ###### URL
-`/run`
+`/jobs`
 ###### Method
 `POST`
 ###### Data Params
@@ -75,6 +75,7 @@ REST
 + Optional
     * `binary=[uuid]`
     * `input_files=[array of uuid]`
+	* `output_files=[array of string]`
     * `ttl=[uint64]`
 ###### Success Response
 + **Code**: `201`
@@ -96,14 +97,14 @@ REST
 
 ###### Sample call
 ```
-curl https://sky.io/api/job/run -X POST --data '{
+curl https://sky.io/api/jobs -X POST --data '{
     "command": "uname -a | wc -l",
 }'
 ```
 
 ##### Состояние задания
 ###### URL
-+ `/job_info/:job_id`
++ `/jobs/JOB_ID`
 ###### Method
 `GET`
 ###### Url Params
@@ -117,9 +118,10 @@ None
 ```
 {
     "state": [string],
-    "answer_id": [uuid],
+    "answer_id": [list of uuids],
 }
 ```
++ **Comments**: `answer_id = uuid выходного файла (или выходных файлов, если их несколько)`
 
 ###### Error Response
 + **Code**: `400 / 404 / 410`
@@ -132,7 +134,7 @@ None
 
 ###### Sample call
 ```
-curl https://sky.io/api/job/job_info/dc4eec6e-4e34-49a7-8fe8-8e19d5bfb8a4
+curl https://sky.io/api/jobs/dc4eec6e-4e34-49a7-8fe8-8e19d5bfb8a4
 ```
 
 ##### Список заданий
@@ -152,7 +154,7 @@ curl https://sky.io/api/job/job_info/dc4eec6e-4e34-49a7-8fe8-8e19d5bfb8a4
 ```
 
 ###### Error Response
-+ **Code**: `400 / 403`
++ **Code**: `400`
 + **Content**
 ```
 {
@@ -165,9 +167,9 @@ curl https://sky.io/api/job/job_info/dc4eec6e-4e34-49a7-8fe8-8e19d5bfb8a4
 curl https://sky.io/api/list_jobs
 ```
 
-##### Остановка задания
+##### Отмена задания
 ###### URL
-`/cancel`
+`/jobs/JOB_ID/cancel`
 ###### Method
 `POST`
 ###### Data Params
@@ -183,7 +185,7 @@ curl https://sky.io/api/list_jobs
 ```
 
 ###### Error Response
-+ **Code**: `400 / 403`
++ **Code**: `400 / 403 / 404`
 + **Content**
 ```
 {
@@ -193,14 +195,12 @@ curl https://sky.io/api/list_jobs
 
 ###### Sample call
 ```
-curl https://sky.io/api/job/cancel -X POST --data '{
-    "job_id": "dc4eec6e-4e34-49a7-8fe8-8e19d5bfb8a4",
-}'
+curl https://sky.io/api/jobs/dc4eec6e-4e34-49a7-8fe8-8e19d5bfb8a4/cancel -X POST
 ```
 
 ##### Удаление задания
 ###### URL
-`/delete`
+`/jobs/JOB_ID/delete`
 ###### Method
 `DELETE`
 ###### Data Params
@@ -216,7 +216,7 @@ curl https://sky.io/api/job/cancel -X POST --data '{
 ```
 
 ###### Error Response
-+ **Code**: `400 / 403`
++ **Code**: `400 / 403 / 404`
 + **Content**
 ```
 {
@@ -226,7 +226,5 @@ curl https://sky.io/api/job/cancel -X POST --data '{
 
 ###### Sample call
 ```
-curl https://sky.io/api/job/cancel -X DELETE --data '{
-    "job_id": "dc4eec6e-4e34-49a7-8fe8-8e19d5bfb8a4",
-}'
+curl https://sky.io/api/jobs/dc4eec6e-4e34-49a7-8fe8-8e19d5bfb8a4 -X DELETE
 ```
