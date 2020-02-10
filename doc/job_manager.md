@@ -3,14 +3,15 @@
 <!-- vim-markdown-toc GitLab -->
 
 * [Интерфейс взаимодействия](#Интерфейс-взаимодействия)
-    * [Внешнее API](#Внешнее-api)
+    * [Внешний API](#Внешний-api)
 * [Спецификация](#Спецификация)
-    * [Внешнее API](#Внешнее-api-1)
+    * [Внешний API](#Внешний-api-1)
         * [Запуск задания](#Запуск-задания)
             * [URL](#url)
             * [Method](#method)
             * [Data Params](#data-params)
             * [Success Response](#success-response)
+            * [Comments] (#comments)
             * [Error Response](#error-response)
             * [Sample call](#sample-call)
         * [Состояние задания](#Состояние-задания)
@@ -19,6 +20,7 @@
             * [Url Params](#url-params-3)
             * [Data Params](#data-params-3)
             * [Success Response](#success-response-3)
+            * [Comments] (#comments-3)
             * [Error Response](#error-response-3)
             * [Sample call](#sample-call-3)
         * [Список заданий](#Список-заданий)
@@ -62,7 +64,7 @@
 + `DELETE /jobs/JOB_ID` --- удаление задания.
 
 ### Спецификация
-#### Внешнее API
+#### Внешний API
 REST
 ##### Запуск задания
 ###### URL
@@ -71,12 +73,11 @@ REST
 `POST`
 ###### Data Params
 + Required
-    * `command=[string]`
+    * `tasks = [array of 
+       {command=[string] (required), input_files=[array of (uuid, path)], output_files=[array of string], ttl=[uint64]}
 + Optional
-    * `binary=[uuid]`
-    * `input_files=[array of uuid]`
-	* `output_files=[array of string]`
-    * `ttl=[uint64]`
+    * `type=string`
+  `
 ###### Success Response
 + **Code**: `201`
 + **Content**
@@ -84,6 +85,12 @@ REST
 {
     "job_id": [uuid]
 }
+```
+
++ **Comments**: 
+```
+ttl = время жизни задания, по истечению которого оно будет принудительно завершено.
+type = тип задания, сколько тасков внутри, по умолчанию один таск. - simple
 ```
 
 ###### Error Response
@@ -98,7 +105,9 @@ REST
 ###### Sample call
 ```
 curl https://sky.io/api/jobs -X POST --data '{
-    "command": "uname -a | wc -l",
+    "tasks": {
+         "command": "uname -a | wc -l",
+    }
 }'
 ```
 
@@ -118,10 +127,15 @@ None
 ```
 {
     "state": [string],
-    "answer_id": [list of uuids],
+    "results": [list of uuids],
+    "spec": [...]
 }
 ```
-+ **Comments**: `answer_id = uuid выходного файла (или выходных файлов, если их несколько)`
++ **Comments**: 
+```
+results = uuid выходного файла (или выходных файлов, если их несколько)
+spec = параметры задания, достаточные чтобы перезапустить его
+```
 
 ###### Error Response
 + **Code**: `400 / 404 / 410`
@@ -139,7 +153,7 @@ curl https://sky.io/api/jobs/dc4eec6e-4e34-49a7-8fe8-8e19d5bfb8a4
 
 ##### Список заданий
 ###### URL
-+ `/list_jobs`
++ `/jobs`
 ###### Method
 `GET`
 ###### Data Params
@@ -164,7 +178,7 @@ curl https://sky.io/api/jobs/dc4eec6e-4e34-49a7-8fe8-8e19d5bfb8a4
 
 ###### Sample call
 ```
-curl https://sky.io/api/list_jobs
+curl https://sky.io/api/jobs
 ```
 
 ##### Отмена задания
