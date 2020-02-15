@@ -39,7 +39,7 @@
 
 ### Спецификация
 #### Внешний API
-[Swagger 3.0 описание](../api/generated/data_manager/index.html), [исходный data_manager.yaml](../api/openapi/data_manager.yaml)
+[Swagger 3.0 описание](https://htmlpreview.github.io/?https://github.com/dc-lab/sky/blob/data-manager-spec/api/generated/data_manager/index.html), [исходный data_manager.yaml](../api/openapi/data_manager.yaml)
 
 #### Внутренний API
 Внешний API + gRPC:
