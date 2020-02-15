@@ -89,7 +89,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiError'
         404:
-          description: Файл не найдет
+          description: Файл не найден
           content:
             application/json:
               schema:
