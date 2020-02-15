@@ -877,7 +877,7 @@ public class FilesApiExample {
     public static void main(String[] args) {
         
         FilesApi apiInstance = new FilesApi();
-        Long fileId = 789; // Long | Идентификатор файла
+        String fileId = fileId_example; // String | Идентификатор файла (хеш)
         try {
             byte[] result = apiInstance.getFileData(fileId);
             System.out.println(result);
@@ -896,7 +896,7 @@ public class FilesApiExample {
 
     public static void main(String[] args) {
         FilesApi apiInstance = new FilesApi();
-        Long fileId = 789; // Long | Идентификатор файла
+        String fileId = fileId_example; // String | Идентификатор файла (хеш)
         try {
             byte[] result = apiInstance.getFileData(fileId);
             System.out.println(result);
@@ -912,7 +912,7 @@ public class FilesApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Files-getFileData-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Long *fileId = 789; // Идентификатор файла
+                              <pre class="prettyprint"><code class="language-cpp">String *fileId = fileId_example; // Идентификатор файла (хеш)
 
 FilesApi *apiInstance = [[FilesApi alloc] init];
 
@@ -933,7 +933,7 @@ FilesApi *apiInstance = [[FilesApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var DataManager = require('data_manager');
 
 var api = new DataManager.FilesApi()
-var fileId = 789; // {{Long}} Идентификатор файла
+var fileId = fileId_example; // {{String}} Идентификатор файла (хеш)
 
 var callback = function(error, data, response) {
   if (error) {
@@ -964,7 +964,7 @@ namespace Example
         {
 
             var apiInstance = new FilesApi();
-            var fileId = 789;  // Long | Идентификатор файла
+            var fileId = fileId_example;  // String | Идентификатор файла (хеш)
 
             try
             {
@@ -987,7 +987,7 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiFilesApi();
-$fileId = 789; // Long | Идентификатор файла
+$fileId = fileId_example; // String | Идентификатор файла (хеш)
 
 try {
     $result = $api_instance->getFileData($fileId);
@@ -1004,7 +1004,7 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::FilesApi;
 
 my $api_instance = WWW::SwaggerClient::FilesApi->new();
-my $fileId = 789; # Long | Идентификатор файла
+my $fileId = fileId_example; # String | Идентификатор файла (хеш)
 
 eval { 
     my $result = $api_instance->getFileData(fileId => $fileId);
@@ -1024,7 +1024,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.FilesApi()
-fileId = 789 # Long | Идентификатор файла
+fileId = fileId_example # String | Идентификатор файла (хеш)
 
 try: 
     # Скачивание файла
@@ -1051,14 +1051,11 @@ except ApiException as e:
                                           <div class="json-schema-view">
                                               <div class="primitive">
                                                   <span class="type">
-                                                      Long
+                                                      String
                                                   </span>
-                                                      <span class="format">
-                                                          (int64)
-                                                      </span>
                                   
                                                       <div class="inner description">
-                                                          Идентификатор файла
+                                                          Идентификатор файла (хеш)
                                                       </div>
                                               </div>
                                                   <div class="inner required">
@@ -1301,7 +1298,7 @@ public class FilesApiExample {
     public static void main(String[] args) {
         
         FilesApi apiInstance = new FilesApi();
-        Long fileId = 789; // Long | Идентификатор файла
+        String fileId = fileId_example; // String | Идентификатор файла
         try {
             File result = apiInstance.getFileInfo(fileId);
             System.out.println(result);
@@ -1320,7 +1317,7 @@ public class FilesApiExample {
 
     public static void main(String[] args) {
         FilesApi apiInstance = new FilesApi();
-        Long fileId = 789; // Long | Идентификатор файла
+        String fileId = fileId_example; // String | Идентификатор файла
         try {
             File result = apiInstance.getFileInfo(fileId);
             System.out.println(result);
@@ -1336,7 +1333,7 @@ public class FilesApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Files-getFileInfo-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Long *fileId = 789; // Идентификатор файла
+                              <pre class="prettyprint"><code class="language-cpp">String *fileId = fileId_example; // Идентификатор файла
 
 FilesApi *apiInstance = [[FilesApi alloc] init];
 
@@ -1357,7 +1354,7 @@ FilesApi *apiInstance = [[FilesApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var DataManager = require('data_manager');
 
 var api = new DataManager.FilesApi()
-var fileId = 789; // {{Long}} Идентификатор файла
+var fileId = fileId_example; // {{String}} Идентификатор файла
 
 var callback = function(error, data, response) {
   if (error) {
@@ -1388,7 +1385,7 @@ namespace Example
         {
 
             var apiInstance = new FilesApi();
-            var fileId = 789;  // Long | Идентификатор файла
+            var fileId = fileId_example;  // String | Идентификатор файла
 
             try
             {
@@ -1411,7 +1408,7 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiFilesApi();
-$fileId = 789; // Long | Идентификатор файла
+$fileId = fileId_example; // String | Идентификатор файла
 
 try {
     $result = $api_instance->getFileInfo($fileId);
@@ -1428,7 +1425,7 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::FilesApi;
 
 my $api_instance = WWW::SwaggerClient::FilesApi->new();
-my $fileId = 789; # Long | Идентификатор файла
+my $fileId = fileId_example; # String | Идентификатор файла
 
 eval { 
     my $result = $api_instance->getFileInfo(fileId => $fileId);
@@ -1448,7 +1445,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.FilesApi()
-fileId = 789 # Long | Идентификатор файла
+fileId = fileId_example # String | Идентификатор файла
 
 try: 
     # Получение метаинформации о файле
@@ -1475,11 +1472,8 @@ except ApiException as e:
                                           <div class="json-schema-view">
                                               <div class="primitive">
                                                   <span class="type">
-                                                      Long
+                                                      String
                                                   </span>
-                                                      <span class="format">
-                                                          (int64)
-                                                      </span>
                                   
                                                       <div class="inner description">
                                                           Идентификатор файла
@@ -1695,7 +1689,7 @@ public class FilesApiExample {
         
         FilesApi apiInstance = new FilesApi();
         FileMetadata body = ; // FileMetadata | Новые метаданные файла
-        Long fileId = 789; // Long | Идетификатор файла
+        String fileId = fileId_example; // String | Идентификатор файла (хеш)
         try {
             apiInstance.updateFile(body, fileId);
         } catch (ApiException e) {
@@ -1714,7 +1708,7 @@ public class FilesApiExample {
     public static void main(String[] args) {
         FilesApi apiInstance = new FilesApi();
         FileMetadata body = ; // FileMetadata | Новые метаданные файла
-        Long fileId = 789; // Long | Идетификатор файла
+        String fileId = fileId_example; // String | Идентификатор файла (хеш)
         try {
             apiInstance.updateFile(body, fileId);
         } catch (ApiException e) {
@@ -1730,7 +1724,7 @@ public class FilesApiExample {
   </div> -->
                             <div class="tab-pane" id="examples-Files-updateFile-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">FileMetadata *body = ; // Новые метаданные файла
-Long *fileId = 789; // Идетификатор файла
+String *fileId = fileId_example; // Идентификатор файла (хеш)
 
 FilesApi *apiInstance = [[FilesApi alloc] init];
 
@@ -1750,7 +1744,7 @@ FilesApi *apiInstance = [[FilesApi alloc] init];
 
 var api = new DataManager.FilesApi()
 var body = ; // {{FileMetadata}} Новые метаданные файла
-var fileId = 789; // {{Long}} Идетификатор файла
+var fileId = fileId_example; // {{String}} Идентификатор файла (хеш)
 
 var callback = function(error, data, response) {
   if (error) {
@@ -1782,7 +1776,7 @@ namespace Example
 
             var apiInstance = new FilesApi();
             var body = new FileMetadata(); // FileMetadata | Новые метаданные файла
-            var fileId = 789;  // Long | Идетификатор файла
+            var fileId = fileId_example;  // String | Идентификатор файла (хеш)
 
             try
             {
@@ -1805,7 +1799,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiFilesApi();
 $body = ; // FileMetadata | Новые метаданные файла
-$fileId = 789; // Long | Идетификатор файла
+$fileId = fileId_example; // String | Идентификатор файла (хеш)
 
 try {
     $api_instance->updateFile($body, $fileId);
@@ -1822,7 +1816,7 @@ use WWW::SwaggerClient::FilesApi;
 
 my $api_instance = WWW::SwaggerClient::FilesApi->new();
 my $body = WWW::SwaggerClient::Object::FileMetadata->new(); # FileMetadata | Новые метаданные файла
-my $fileId = 789; # Long | Идетификатор файла
+my $fileId = fileId_example; # String | Идентификатор файла (хеш)
 
 eval { 
     $api_instance->updateFile(body => $body, fileId => $fileId);
@@ -1842,7 +1836,7 @@ from pprint import pprint
 # create an instance of the API class
 api_instance = swagger_client.FilesApi()
 body =  # FileMetadata | Новые метаданные файла
-fileId = 789 # Long | Идетификатор файла
+fileId = fileId_example # String | Идентификатор файла (хеш)
 
 try: 
     # Обновить метаданные файла
@@ -1868,14 +1862,11 @@ except ApiException as e:
                                           <div class="json-schema-view">
                                               <div class="primitive">
                                                   <span class="type">
-                                                      Long
+                                                      String
                                                   </span>
-                                                      <span class="format">
-                                                          (int64)
-                                                      </span>
                                   
                                                       <div class="inner description">
-                                                          Идетификатор файла
+                                                          Идентификатор файла (хеш)
                                                       </div>
                                               </div>
                                                   <div class="inner required">
@@ -1984,7 +1975,7 @@ except ApiException as e:
                                 </div>
                             </div>
 
-                            <h3> Status: 404 - Файл не найдет </h3>
+                            <h3> Status: 404 - Файл не найден </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
@@ -1999,7 +1990,7 @@ except ApiException as e:
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
-  "description" : "Файл не найдет",
+  "description" : "Файл не найден",
   "content" : {
     "application/json" : {
       "schema" : {

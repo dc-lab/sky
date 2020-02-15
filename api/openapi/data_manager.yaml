@@ -69,11 +69,10 @@ paths:
       parameters:
       - name: fileId
         in: path
-        description: Идетификатор файла
+        description: Идентификатор файла (хеш)
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       requestBody:
         description: Новые метаданные файла
         content:
@@ -110,11 +109,10 @@ paths:
       parameters:
       - name: fileId
         in: path
-        description: Идентификатор файла
+        description: Идентификатор файла (хеш)
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       responses:
         200:
           description: Запрошенный файл
@@ -153,8 +151,7 @@ paths:
         description: Идентификатор файла
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       responses:
         200:
           description: Запрошенная метаинформация
