@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package sky.proto;
+
+option go_package = ".;sky_proto";
+
+message THardwareData {
+  uint32 cores_count = 1;
+  uint64 memory_bytes = 2;
+  uint64 disk_bytes = 3;
+}
+
+message TResult {
+  enum TResultCode {
+    NONE = 0;
+    WAIT = 1;
+    RUN = 2;
+    FAILED = 3;
+    SUCCESS = 4;
+  }
+
+  enum TErrorCode {
+    UNKNOWN = 0;
+    INTERNAL = 1;
+    INVALID_ARGUMENT = 2;
+    UNAUTHENTICATED = 3;
+    UNAUTHORIZED = 4;
+    NOT_IMPLEMENTED = 5;
+  }
+
+  TResultCode result_code = 1;
+  TErrorCode error_code = 2;
+}
