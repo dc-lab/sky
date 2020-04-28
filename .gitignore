@@ -1,0 +1,5 @@
+/resource_manager/resource_manager
+/cli/cli
+*.pb.go
+/resource_manager_grpc/resource_manager_grpc
+/user_manager/user_manager
