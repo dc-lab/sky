@@ -1,0 +1,165 @@
+syntax = "proto3";
+
+// build *.pb.go from project root
+// protoc -I. --go_out=plugins=grpc,paths=source_relative:/home/comunodi/sky cloud/proto/*.proto
+
+package cloud;
+
+import "cloud/proto/common.proto";
+
+option go_package = "github.com/dc-lab/sky/cloud/proto";
+
+service TCloudConnector {
+  rpc DoAction (stream TCloudRequest) returns (stream TCloudResponse) {}
+}
+
+message TCloudRequest {
+  oneof Body {
+    TAllocateInstanceRequest allocate_instance_request = 1;
+    TDeallocateInstanceRequest deallocate_instance_request = 2;
+    TConnectInstanceRequest connect_instance_request = 3;
+    TDisconnectInstanceRequest disconnect_instance_request = 4;
+    TStartInstanceRequest start_instance_request = 5;
+    TStopInstanceRequest stop_instance_request = 6;
+    TDeployImageRequest deploy_image_request = 7;
+  }
+}
+
+message TCloudResponse {
+  oneof Body {
+    TAllocateInstanceResponse allocate_instance_response = 1;
+    TDeallocateInstanceResponse deallocate_instance_response = 2;
+    TConnectInstanceResponse connect_instance_response = 3;
+    TDisconnectInstanceResponse disconnect_instance_response = 4;
+    TStartInstanceResponse start_instance_response = 5;
+    TStopInstanceResponse stop_instance_response = 6;
+    TDeployImageResponse deploy_image_response = 7;
+  }
+}
+
+// make API call to allocate new instance using quota of providing account
+// connect allocated instance with user account
+// in case of success returns instance UUID
+// TODO: describe possible errors
+message TAllocateInstanceRequest {
+  TUserCredentials creds = 1;
+  TApiSettings settings = 2;
+  THardwareData hardware_data = 3;
+}
+
+message TAllocateInstanceResponse {
+  TResult result = 1;
+  string instance_uuid = 2;
+}
+
+// make API call to deallocate existing instance for providing account
+// disconnect instance from user account
+// TODO: describe possible errors
+message TDeallocateInstanceRequest {
+  TUserCredentials creds = 1;
+  TApiSettings settings = 2;
+  string instance_uuid = 3;
+}
+
+message TDeallocateInstanceResponse {
+  TResult result = 1;
+}
+
+// make API call to ensure existence of instance and correctness of user permissions
+// associate instance with user account
+// TODO: describe possible errors
+message TConnectInstanceRequest {
+  TUserCredentials creds = 1;
+  TApiSettings settings = 2;
+  THardwareData hardware_data = 3;
+}
+
+message TConnectInstanceResponse {
+  TResult result = 1;
+  string instance_uuid = 2;
+}
+
+// dissociate instance with user account
+// TODO: describe possible errors
+message TDisconnectInstanceRequest {
+  TUserCredentials creds = 1;
+  string instance_uuid = 2;
+}
+
+message TDisconnectInstanceResponse {
+  TResult result = 1;
+}
+
+// make API call to start instance connected with user account
+// TODO: describe possible errors
+message TStartInstanceRequest {
+  TUserCredentials creds = 1;
+  TApiSettings settings = 2;
+  string instance_uuid = 3;
+}
+
+message TStartInstanceResponse {
+  TResult result = 1;
+}
+
+// make API call to stop instance connected with user account
+// TODO: describe possible errors
+message TStopInstanceRequest {
+  TUserCredentials creds = 1;
+  TApiSettings settings = 2;
+  string instance_uuid = 3;
+}
+
+message TStopInstanceResponse {
+  TResult result = 1;
+}
+
+// make API call to deploy docker image on instance connected with user account
+// TODO: describe possible errors
+message TDeployImageRequest {
+  TUserCredentials creds = 1;
+  TApiSettings settings = 2;
+  string instance_uuid = 3;
+  TDockerImage docker_image = 4;
+}
+
+message TDeployImageResponse {
+  TResult result = 1;
+}
+
+message TDockerImage {
+  string registry = 1;
+  string repository = 2;
+  string image = 3;
+  string tag = 4;
+}
+
+// container for provider-specific user credentials
+message TUserCredentials {
+  oneof Body {
+    TAmazonCredentials amazon_credentials = 1;
+  }
+}
+
+message TAmazonCredentials {
+  string access_key_id = 1;
+  string secret_access_key = 2;
+}
+
+// container for provider-specific api settings
+message TApiSettings {
+  oneof Body {
+    TAmazonApiSettings amazon_settings = 1;
+  }
+}
+
+message TAmazonApiSettings {
+  enum EScheme {
+    NONE = 0;
+    HTTP = 1;
+    HTTPS = 2;
+  }
+
+  EScheme scheme = 1;
+  string region = 2;
+}
