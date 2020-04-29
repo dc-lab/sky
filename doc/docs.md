@@ -3,197 +3,246 @@
 
 ## Table of Contents
 
-- [AgentService.proto](#AgentService.proto)
-  
-  
-  
-    - [Agent](#.Agent)
-  
+- [Protocol Documentation](#protocol-documentation)
+  - [Table of Contents](#table-of-contents)
+  - [agent.proto](#agentproto)
+    - [TFromAgentMessage](#tfromagentmessage)
+    - [TGreetings](#tgreetings)
+    - [THardwareData](#thardwaredata)
+    - [THardwareRequest](#thardwarerequest)
+    - [TResult](#tresult)
+    - [TTask](#ttask)
+    - [TTaskRequest](#ttaskrequest)
+    - [TTaskResponse](#ttaskresponse)
+    - [TToAgentMessage](#ttoagentmessage)
+    - [TResult.TErrorCode](#tresultterrorcode)
+    - [TResult.TResultCode](#tresulttresultcode)
+    - [ResourceManager](#resourcemanager)
+  - [stage_in_file.proto](#stageinfileproto)
+    - [StageInFilesRequest](#stageinfilesrequest)
+    - [StageInFilesResponse](#stageinfilesresponse)
+    - [StagedFile](#stagedfile)
+  - [Scalar Value Types](#scalar-value-types)
 
-- [Common.proto](#Common.proto)
-    - [FileId](#.FileId)
-    - [JobId](#.JobId)
-  
-  
-  
-  
+    - [TResult.TErrorCode](#protobuf.TResult.TErrorCode)
+    - [TResult.TResultCode](#protobuf.TResult.TResultCode)
 
-- [RunJob.proto](#RunJob.proto)
-    - [JobRequirement](#.JobRequirement)
-    - [RunJobRequest](#.RunJobRequest)
-    - [RunJobResponse](#.RunJobResponse)
-  
-    - [ResponseCode](#.ResponseCode)
-  
-  
-  
 
-- [StageInFile.proto](#StageInFile.proto)
+    - [ResourceManager](#protobuf.ResourceManager)
+
+
+- [stage_in_file.proto](#stage_in_file.proto)
     - [StageInFilesRequest](#.StageInFilesRequest)
     - [StageInFilesResponse](#.StageInFilesResponse)
     - [StagedFile](#.StagedFile)
-  
-  
-  
-  
+
+
+
+
 
 - [Scalar Value Types](#scalar-value-types)
 
 
 
-<a name="AgentService.proto"></a>
+<a name="agent.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## AgentService.proto
+## agent.proto
 
 
- 
 
- 
+<a name="protobuf.TFromAgentMessage"></a>
 
- 
+### TFromAgentMessage
 
 
-<a name=".Agent"></a>
 
-### Agent
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| hardware_data | [THardwareData](#protobuf.THardwareData) | optional |  |
+| greetings | [TGreetings](#protobuf.TGreetings) | optional |  |
+| task_response | [TTaskResponse](#protobuf.TTaskResponse) | optional |  |
+
+
+
+
+
+
+<a name="protobuf.TGreetings"></a>
+
+### TGreetings
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| token | [string](#string) | required |  |
+
+
+
+
+
+
+<a name="protobuf.THardwareData"></a>
+
+### THardwareData
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| cores_count | [int32](#int32) | required |  |
+| memory_amount | [uint64](#uint64) | required |  |
+| disk_amount | [uint64](#uint64) | required |  |
+
+
+
+
+
+
+<a name="protobuf.THardwareRequest"></a>
+
+### THardwareRequest
+
+
+
+
+
+
+
+<a name="protobuf.TResult"></a>
+
+### TResult
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| result_code | [TResult.TResultCode](#protobuf.TResult.TResultCode) | required |  |
+| error_code | [TResult.TErrorCode](#protobuf.TResult.TErrorCode) | optional |  |
+
+
+
+
+
+
+<a name="protobuf.TTask"></a>
+
+### TTask
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) | required |  |
+| execution_shell_command | [string](#string) | required |  |
+| requirements_shell_command | [string](#string) | optional |  |
+
+
+
+
+
+
+<a name="protobuf.TTaskRequest"></a>
+
+### TTaskRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| task | [TTask](#protobuf.TTask) | required |  |
+
+
+
+
+
+
+<a name="protobuf.TTaskResponse"></a>
+
+### TTaskResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| task_id | [string](#string) | required |  |
+| result | [TResult](#protobuf.TResult) | required |  |
+
+
+
+
+
+
+<a name="protobuf.TToAgentMessage"></a>
+
+### TToAgentMessage
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| hardware_request | [THardwareRequest](#protobuf.THardwareRequest) | optional |  |
+| task_request | [TTaskRequest](#protobuf.TTaskRequest) | optional |  |
+
+
+
+
+
+
+
+
+<a name="protobuf.TResult.TErrorCode"></a>
+
+### TResult.TErrorCode
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| UNKNOWN | 0 |  |
+| INTERNAL | 1 |  |
+| INVALID_ARGUMENT | 2 |  |
+| UNAUTHENTICATED | 3 |  |
+| UNAUTHORIZED | 4 |  |
+
+
+
+<a name="protobuf.TResult.TResultCode"></a>
+
+### TResult.TResultCode
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| NONE | 0 |  |
+| WAIT | 1 |  |
+| RUN | 2 |  |
+| FAILED | 3 |  |
+| SUCCESS | 4 |  |
+
+
+
+
+
+
+
+<a name="protobuf.ResourceManager"></a>
+
+### ResourceManager
 
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| StageInFiles | [.StageInFilesRequest](#StageInFilesRequest) | [.StageInFilesResponse](#StageInFilesResponse) |  |
-| RunJob | [.RunJobRequest](#RunJobRequest) | [.RunJobResponse](#RunJobResponse) |  |
-
- 
+| Send | [TFromAgentMessage](#protobuf.TFromAgentMessage) stream | [TToAgentMessage](#protobuf.TToAgentMessage) stream |  |
 
 
 
-<a name="Common.proto"></a>
+
+
+<a name="stage_in_file.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## Common.proto
-
-
-
-<a name=".FileId"></a>
-
-### FileId
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| uuid | [string](#string) | required |  |
-
-
-
-
-
-
-<a name=".JobId"></a>
-
-### JobId
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| uuid | [string](#string) | required |  |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
-<a name="RunJob.proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## RunJob.proto
-
-
-
-<a name=".JobRequirement"></a>
-
-### JobRequirement
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| python_version | [string](#string) | optional |  |
-
-
-
-
-
-
-<a name=".RunJobRequest"></a>
-
-### RunJobRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| job | [JobId](#JobId) | required |  |
-| requirements | [JobRequirement](#JobRequirement) | repeated |  |
-| files | [FileId](#FileId) | repeated | execution line ??? |
-
-
-
-
-
-
-<a name=".RunJobResponse"></a>
-
-### RunJobResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| code | [ResponseCode](#ResponseCode) | required |  |
-
-
-
-
-
- 
-
-
-<a name=".ResponseCode"></a>
-
-### ResponseCode
-Подумать success and fail
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| WAIT | 0 |  |
-| RUN | 1 |  |
-| DONE | 2 |  |
-
-
- 
-
- 
-
- 
-
-
-
-<a name="StageInFile.proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## StageInFile.proto
+## stage_in_file.proto
 
 
 
@@ -205,8 +254,8 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| job | [JobId](#JobId) | required |  |
-| files | [FileId](#FileId) | repeated |  |
+| task_id | [string](#string) | required |  |
+| file_id | [string](#string) | repeated |  |
 
 
 
@@ -236,19 +285,19 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| file | [FileId](#FileId) | required |  |
+| file_id | [string](#string) | required |  |
 
 
 
 
 
- 
 
- 
 
- 
 
- 
+
+
+
+
 
 
 
@@ -271,4 +320,3 @@
 | <a name="bool" /> bool |  | bool | boolean | boolean |
 | <a name="string" /> string | A string must always contain UTF-8 encoded or 7-bit ASCII text. | string | String | str/unicode |
 | <a name="bytes" /> bytes | May contain any arbitrary sequence of bytes. | string | ByteString | str |
-
