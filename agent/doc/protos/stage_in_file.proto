@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+// Возможно достаточно просто файлов, чтобы зарегистрировать у себя. Неявная связь с job'ами возникает только по запросу RunJob.
+message StageInFilesRequest {
+    required string task_id = 1;
+    repeated string file_id = 2;
+}
+
+// Увидел это в других спеках. Обдумать, почему для этого должен быть отдельный класс (может быть просто класс File).
+message StagedFile {
+    required string file_id = 1;
+};
+
+message StageInFilesResponse {
+    repeated StagedFile success_files = 1;
+}
