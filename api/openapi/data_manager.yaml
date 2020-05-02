@@ -14,7 +14,7 @@ servers:
 - url: http://api.sky.io/v1
 tags:
 - name: files
-  description: Управленме файлами
+  description: Управление файлами
   # externalDocs:
     # description: Find out more
     # url: http://swagger.io
@@ -133,7 +133,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiError'
         404:
-          description: Файл не найдет
+          description: Файл не найден
           content:
             application/json:
               schema:
@@ -166,7 +166,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiError'
         404:
-          description: Файл не найдет
+          description: Файл не найден
           content:
             application/json:
               schema:
