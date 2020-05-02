@@ -5,7 +5,7 @@ syntax = "proto3";
 
 package entity;
 
-option go_package = "github.com/dc-lab/sky/common/src/protos";
+option go_package = "github.com/dc-lab/sky/common/src/proto";
 
 message TTask {
   string id = 1; // required
