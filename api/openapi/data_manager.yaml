@@ -1,0 +1,240 @@
+openapi: 3.0.1
+info:
+  title: Data manager
+  description: Data manager specification
+  # termsOfService: http://swagger.io/terms/
+  contact:
+    email: mail@bigredeye.me
+  # license:
+  #  name: Apache 2.0
+  #  url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: https://api.sky.io/v1
+- url: http://api.sky.io/v1
+tags:
+- name: files
+  description: Управление файлами
+  # externalDocs:
+    # description: Find out more
+    # url: http://swagger.io
+# - name: store
+  # description: Access to Petstore orders
+# - name: user
+  # description: Operations about user
+  # externalDocs:
+    # description: Find out more about our store
+    # url: http://swagger.io
+paths:
+  /files:
+    post:
+      tags:
+      - files
+      summary: Загрузка файла (используя multipart/form-data)
+      operationId: uploadFile
+      requestBody:
+        description: Содержимое файла + метаданные
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                metadata:
+                  $ref: '#/components/schemas/FileMetadata'
+                file:
+                  type: string
+                  description: Содержимое файла
+                  format: binary
+      responses:
+        201:
+          description: Описание загруженного файла
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+        405:
+          description: Некорректный формат запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      x-codegen-request-body-name: body
+  /files/{fileId}:
+    put:
+      tags:
+      - files
+      summary: Обновить метаданные файла
+      operationId: updateFile
+      parameters:
+      - name: fileId
+        in: path
+        description: Идентификатор файла (хеш)
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Новые метаданные файла
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileMetadata'
+        required: true
+      responses:
+        400:
+          description: Некорректный fileId
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Файл не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        405:
+          description: Некорректный формат запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      x-codegen-request-body-name: body
+  /files/{fileId}/data:
+    get:
+      tags:
+      - files
+      summary: Скачивание файла
+      operationId: getFileData
+      parameters:
+      - name: fileId
+        in: path
+        description: Идентификатор файла (хеш)
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Запрошенный файл
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
+              description: Имя файла
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        400:
+          description: Некорректный идентификатор файла
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Файл не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      x-codegen-request-body-name: body
+  /files/{fileId}/info:
+    get:
+      tags:
+      - files
+      summary: Получение метаинформации о файле
+      operationId: getFileInfo
+      parameters:
+      - name: fileId
+        in: path
+        description: Идентификатор файла
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Запрошенная метаинформация
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+        400:
+          description: Некорректный идентификатор файла
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Файл не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    File:
+      required:
+      - name
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          description: Уникальный идентификатор файла (хеш)
+          example: "9b10119dcceecb9b6afe914f35a4bb69e26b4cd7"
+        name:
+          type: string
+          description: Имя файла
+          example: "example.txt"
+        ttl:
+          type: integer
+          format: int64
+          description: Время жизни файла (в секундах)
+        acl:
+          type: array
+          description: Список доступа
+          items:
+            $ref: '#/components/schemas/UserAccess'
+    FileMetadata:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Имя файла
+          example: "example.txt"
+        ttl:
+          type: integer
+          format: int64
+          description: Время жизни файла (в секундах)
+        acl:
+          type: array
+          description: Список доступа
+          items:
+            $ref: '#/components/schemas/UserAccess'
+    UserAccess:
+      required:
+      - id
+      - accessLevel
+      type: object
+      properties:
+        id:
+          type: string
+          description: Уникальный идентификатор пользователя (скорее всего uuid)
+          example: "123e4567-e89b-12d3-a456-426655440000"
+        accessLevel:
+          type: string
+          description: Уровень доступа пользователя
+          enum:
+          - read
+          - write
+    ApiError:
+      description: Описание ошибки
+      required:
+      - error
+      type: object
+      properties:
+        error:
+          type: string
+          description: Описание ошибки
