@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+// build *.pb.go from project root
+// protoc -I. --go_out=plugins=grpc,paths=source_relative:. cloud/proto/*.proto
+
+package action;
+
+option go_package = "github.com/dc-lab/sky/common/src/protos";
+
+message TResult {
+  enum TResultCode {
+    NONE = 0;
+    WAIT = 1;
+    RUN = 2;
+    FAILED = 3;
+    SUCCESS = 4;
+  }
+
+  enum TErrorCode {
+    UNKNOWN = 0;
+    INTERNAL = 1;
+    INVALID_ARGUMENT = 2;
+    UNAUTHENTICATED = 3;
+    UNAUTHORIZED = 4;
+    NOT_IMPLEMENTED = 5;
+  }
+
+  TResultCode result_code = 1; // required
+  TErrorCode error_code = 2; // optional
+}
