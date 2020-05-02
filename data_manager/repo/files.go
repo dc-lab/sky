@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	_ "github.com/lib/pq"
 
+	"github.com/cenkalti/backoff/v4"
+
 	"data_manager/modeldb"
 )
 
@@ -13,13 +15,14 @@ type FilesRepo struct {
 
 func OpenFilesRepo(driver string, connStr string) (*FilesRepo, error) {
 	db, err := sql.Open(driver, connStr)
-	if err != nil {
-		return nil, err
+
+	if err == nil {
+		err = backoff.Retry(db.Ping, backoff.NewExponentialBackOff())
 	}
 
 	return &FilesRepo{
 		Conn: db,
-	}, nil
+	}, err
 }
 
 func (s *FilesRepo) Migrate() error {

@@ -47,7 +47,7 @@ func main() {
 		log.WithError(err).WithField("dir", conf.StorageDir).Fatalln("Failed to create storage directory")
 	}
 
-	repo, err := repo.OpenFilesRepo("postgres", "postgres://postgres:db_password@localhost/skyDataManagerFiles?sslmode=disable")
+	repo, err := repo.OpenFilesRepo("postgres", conf.PostgresAddress)
 	if err != nil {
 		log.WithError(err).Fatalln("Could not connect to database")
 	}
