@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 // build *.pb.go from project root
-// protoc -I. --go_out=plugins=grpc,paths=source_relative:. common/proto/*.proto
+// protoc -I. --go_out=plugins=grpc,paths=source_relative:. common/src/proto/*.proto
 
 package entity;
 
