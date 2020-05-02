@@ -5,7 +5,7 @@ syntax = "proto3";
 
 package action;
 
-option go_package = "github.com/dc-lab/sky/common/src/proto";
+option go_package = "github.com/dc-lab/sky/common/src/api/proto";
 
 message TResult {
   enum TResultCode {
