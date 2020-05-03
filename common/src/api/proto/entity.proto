@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+// build *.pb.go from project root
+// protoc -I. --go_out=plugins=grpc,paths=source_relative:. common/src/api/proto/*.proto
+
+package entity;
+
+option go_package = "github.com/dc-lab/sky/common/src/api/proto";
+
+message TTask {
+  string id = 1; // required
+  string execution_shell_command = 2; // required
+  string requirements_shell_command = 3; // optional
+}
+
+message THardwareData {
+  uint32 cores_count = 1; // required
+  uint64 memory_bytes = 2; // required
+  uint64 disk_bytes = 3; // required
+}
+
+message TGreetings {
+  string token = 1; // required
+}
