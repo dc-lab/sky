@@ -1,4 +1,4 @@
-module github.com/dc-lab/sky/common
+module github.com/dc-lab/sky/api/proto/common
 
 go 1.13
 
