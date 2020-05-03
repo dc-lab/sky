@@ -7,14 +7,14 @@ import (
 	"log"
 	"net"
 
-	pb "github.com/dc-lab/sky/cloud/proto"
+	"github.com/dc-lab/sky/api/proto/cloud"
 	"github.com/dc-lab/sky/cloud/server/cmd"
 	"github.com/dc-lab/sky/cloud/server/handlers"
 )
 
 type Server struct{}
 
-func (s Server) DoAction(srv pb.TCloudConnector_DoActionServer) error {
+func (s Server) DoAction(srv cloud.TCloudManager_DoActionServer) error {
 	log.Println("start new server")
 	ctx := srv.Context()
 
@@ -41,42 +41,42 @@ func (s Server) DoAction(srv pb.TCloudConnector_DoActionServer) error {
 		}
 
 		// parse request type from received stream
-		var resp *pb.TCloudResponse
+		var resp *cloud.TCloudResponse
 		switch typedReq := req.Body.(type) {
-		case *pb.TCloudRequest_AllocateInstanceRequest:
+		case *cloud.TCloudRequest_AllocateInstanceRequest:
 			typedResp := handlers.HandleAllocateVMRequest(typedReq.AllocateInstanceRequest)
-			resp = &pb.TCloudResponse{
-				Body: &pb.TCloudResponse_AllocateInstanceResponse{AllocateInstanceResponse: &typedResp},
+			resp = &cloud.TCloudResponse{
+				Body: &cloud.TCloudResponse_AllocateInstanceResponse{AllocateInstanceResponse: &typedResp},
 			}
-		case *pb.TCloudRequest_DeallocateInstanceRequest:
+		case *cloud.TCloudRequest_DeallocateInstanceRequest:
 			typedResp := handlers.HandleDeallocateVMRequest(typedReq.DeallocateInstanceRequest)
-			resp = &pb.TCloudResponse{
-				Body: &pb.TCloudResponse_DeallocateInstanceResponse{DeallocateInstanceResponse: &typedResp},
+			resp = &cloud.TCloudResponse{
+				Body: &cloud.TCloudResponse_DeallocateInstanceResponse{DeallocateInstanceResponse: &typedResp},
 			}
-		case *pb.TCloudRequest_ConnectInstanceRequest:
+		case *cloud.TCloudRequest_ConnectInstanceRequest:
 			typedResp := handlers.HandleConnectInstanceRequest(typedReq.ConnectInstanceRequest)
-			resp = &pb.TCloudResponse{
-				Body: &pb.TCloudResponse_ConnectInstanceResponse{ConnectInstanceResponse: &typedResp},
+			resp = &cloud.TCloudResponse{
+				Body: &cloud.TCloudResponse_ConnectInstanceResponse{ConnectInstanceResponse: &typedResp},
 			}
-		case *pb.TCloudRequest_DisconnectInstanceRequest:
+		case *cloud.TCloudRequest_DisconnectInstanceRequest:
 			typedResp := handlers.HandleDisconnectInstanceRequest(typedReq.DisconnectInstanceRequest)
-			resp = &pb.TCloudResponse{
-				Body: &pb.TCloudResponse_DisconnectInstanceResponse{DisconnectInstanceResponse: &typedResp},
+			resp = &cloud.TCloudResponse{
+				Body: &cloud.TCloudResponse_DisconnectInstanceResponse{DisconnectInstanceResponse: &typedResp},
 			}
-		case *pb.TCloudRequest_StartInstanceRequest:
+		case *cloud.TCloudRequest_StartInstanceRequest:
 			typedResp := handlers.HandleStartVMRequest(typedReq.StartInstanceRequest)
-			resp = &pb.TCloudResponse{
-				Body: &pb.TCloudResponse_StartInstanceResponse{StartInstanceResponse: &typedResp},
+			resp = &cloud.TCloudResponse{
+				Body: &cloud.TCloudResponse_StartInstanceResponse{StartInstanceResponse: &typedResp},
 			}
-		case *pb.TCloudRequest_StopInstanceRequest:
+		case *cloud.TCloudRequest_StopInstanceRequest:
 			typedResp := handlers.HandleStopVMRequest(typedReq.StopInstanceRequest)
-			resp = &pb.TCloudResponse{
-				Body: &pb.TCloudResponse_StopInstanceResponse{StopInstanceResponse: &typedResp},
+			resp = &cloud.TCloudResponse{
+				Body: &cloud.TCloudResponse_StopInstanceResponse{StopInstanceResponse: &typedResp},
 			}
-		case *pb.TCloudRequest_DeployImageRequest:
+		case *cloud.TCloudRequest_DeployImageRequest:
 			typedResp := handlers.HandleDeployImageRequest(typedReq.DeployImageRequest)
-			resp = &pb.TCloudResponse{
-				Body: &pb.TCloudResponse_DeployImageResponse{DeployImageResponse: &typedResp},
+			resp = &cloud.TCloudResponse{
+				Body: &cloud.TCloudResponse_DeployImageResponse{DeployImageResponse: &typedResp},
 			}
 		default:
 			log.Print("got unrecognized req")
@@ -103,7 +103,7 @@ func main() {
 
 	// create grpc server
 	s := grpc.NewServer()
-	pb.RegisterTCloudConnectorServer(s, Server{})
+	cloud.RegisterTCloudManagerServer(s, Server{})
 
 	// and start...
 	if err := s.Serve(lis); err != nil {

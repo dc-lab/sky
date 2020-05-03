@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/dc-lab/sky/api/proto/cloud"
 	"github.com/dc-lab/sky/cloud/client/helpers"
-	pb "github.com/dc-lab/sky/cloud/proto"
 )
 
 type DeployCmdParams struct {
@@ -32,9 +32,9 @@ var deployCmd = &cobra.Command{
 		apiSettings := helpers.NewAwsApiSettings(rootParams.region)
 		dockerImage := helpers.NewDockerImage(deployParams.registry, deployParams.repository, deployParams.image, deployParams.tag)
 
-		req := pb.TCloudRequest{
-			Body: &pb.TCloudRequest_DeployImageRequest{
-				DeployImageRequest: &pb.TDeployImageRequest{
+		req := cloud.TCloudRequest{
+			Body: &cloud.TCloudRequest_DeployImageRequest{
+				DeployImageRequest: &cloud.TDeployImageRequest{
 					Creds: &creds,
 					Settings: &apiSettings,
 					InstanceUuid: deallocateParams.instanceUuid,

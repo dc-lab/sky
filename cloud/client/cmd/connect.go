@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/dc-lab/sky/api/proto/cloud"
 	"github.com/dc-lab/sky/cloud/client/helpers"
-	pb "github.com/dc-lab/sky/cloud/proto"
 )
 
 type ConnectCmdParams struct {
@@ -30,9 +30,9 @@ var connectCmd = &cobra.Command{
 		apiSettings := helpers.NewAwsApiSettings(rootParams.region)
 		hardwareData := helpers.NewHardwareData(connectParams.coresCount, connectParams.memoryBytes, connectParams.diskBytes)
 
-		req := pb.TCloudRequest{
-			Body: &pb.TCloudRequest_ConnectInstanceRequest{
-				ConnectInstanceRequest: &pb.TConnectInstanceRequest{
+		req := cloud.TCloudRequest{
+			Body: &cloud.TCloudRequest_ConnectInstanceRequest{
+				ConnectInstanceRequest: &cloud.TConnectInstanceRequest{
 					Creds: &creds,
 					Settings: &apiSettings,
 					HardwareData: &hardwareData,

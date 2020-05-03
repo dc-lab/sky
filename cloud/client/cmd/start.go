@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/dc-lab/sky/api/proto/cloud"
 	"github.com/dc-lab/sky/cloud/client/helpers"
-	pb "github.com/dc-lab/sky/cloud/proto"
 )
 
 type StartCmdParams struct {
@@ -27,9 +27,9 @@ var startCmd = &cobra.Command{
 		creds := helpers.NewAwsCredentials(rootParams.accessKeyId, rootParams.secretAccessKey)
 		apiSettings := helpers.NewAwsApiSettings(rootParams.region)
 
-		req := pb.TCloudRequest{
-			Body: &pb.TCloudRequest_StartInstanceRequest{
-				StartInstanceRequest: &pb.TStartInstanceRequest{
+		req := cloud.TCloudRequest{
+			Body: &cloud.TCloudRequest_StartInstanceRequest{
+				StartInstanceRequest: &cloud.TStartInstanceRequest{
 					Creds: &creds,
 					Settings: &apiSettings,
 					InstanceUuid: startParams.instanceUuid,

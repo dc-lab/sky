@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/dc-lab/sky/api/proto/cloud"
 	"github.com/dc-lab/sky/cloud/client/helpers"
-	pb "github.com/dc-lab/sky/cloud/proto"
 )
 
 type AllocateCmdParams struct {
@@ -30,9 +30,9 @@ var allocateCmd = &cobra.Command{
 		apiSettings := helpers.NewAwsApiSettings(rootParams.region)
 		hardwareData := helpers.NewHardwareData(allocateParams.coresCount, allocateParams.memoryBytes, allocateParams.diskBytes)
 
-		req := pb.TCloudRequest{
-			Body: &pb.TCloudRequest_AllocateInstanceRequest{
-				AllocateInstanceRequest: &pb.TAllocateInstanceRequest{
+		req := cloud.TCloudRequest{
+			Body: &cloud.TCloudRequest_AllocateInstanceRequest{
+				AllocateInstanceRequest: &cloud.TAllocateInstanceRequest{
 					Creds: &creds,
 					Settings: &apiSettings,
 					HardwareData: &hardwareData,

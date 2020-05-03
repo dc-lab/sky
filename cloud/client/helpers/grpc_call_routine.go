@@ -7,10 +7,10 @@ import (
 
 	"google.golang.org/grpc"
 
-	pb "github.com/dc-lab/sky/cloud/proto"
+	"github.com/dc-lab/sky/api/proto/cloud"
 )
 
-func MakeCloudRequest(grpcPort uint16, req *pb.TCloudRequest) *pb.TCloudResponse {
+func MakeCloudRequest(grpcPort uint16, req *cloud.TCloudRequest) *cloud.TCloudResponse {
 	log.Println("connect called")
 
 	conn, err := grpc.Dial(fmt.Sprintf(":%d", grpcPort), grpc.WithInsecure())
@@ -19,7 +19,7 @@ func MakeCloudRequest(grpcPort uint16, req *pb.TCloudRequest) *pb.TCloudResponse
 	}
 
 	// create stream
-	client := pb.NewTCloudConnectorClient(conn)
+	client := cloud.NewTCloudManagerClient(conn)
 	stream, err := client.DoAction(context.Background())
 	if err != nil {
 		log.Fatalf("open stream error %v", err)

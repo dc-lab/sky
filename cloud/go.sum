@@ -22,6 +22,11 @@ github.com/cpuguy83/go-md2man/v2 v2.0.0/go.mod h1:maD7wRr/U5Z6m/iR4s+kqSMx2CaBsr
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/dc-lab/sky v0.0.0-20200503102138-2d5b83e48e13 h1:PF/yvIs1/7qRJ8JjpCIB7k6Kv1tSmFbifzU+p9PX4Hk=
+github.com/dc-lab/sky/api/proto/cloud v0.0.0-20200503102138-2d5b83e48e13 h1:47ZDV7l5OO7DOVh7S+0y5gl22RLXto2/ke+e6H3CTZ0=
+github.com/dc-lab/sky/api/proto/cloud v0.0.0-20200503102138-2d5b83e48e13/go.mod h1:WpkC4PuCmbyT5fOPVUsHuzpg1P4IvDuddKVy6dRj/40=
+github.com/dc-lab/sky/api/proto/common v0.0.0-20200503100219-97ef56d66353 h1:FrivuYf68+uN1Fg+jMbwoEw9L7lvqZzTXv0LAp/7yis=
+github.com/dc-lab/sky/api/proto/common v0.0.0-20200503100219-97ef56d66353/go.mod h1:X9zn6FA/CFYdEwRp5P/nRmuVEZyfDjv4P4c/sRBNJVU=
 github.com/dgrijalva/jwt-go v3.2.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZmtrrCbhqsmaPHjLKYnJCaQ=
 github.com/dgryski/go-sip13 v0.0.0-20181026042036-e10d5fee7954/go.mod h1:vAd38F8PWV+bWy6jNmig1y/TA+kYO4g3RSRF0IAv0no=
 github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
@@ -50,6 +55,8 @@ github.com/golang/protobuf v1.4.0-rc.1.0.20200221234624-67d41d38c208/go.mod h1:x
 github.com/golang/protobuf v1.4.0-rc.2/go.mod h1:LlEzMj4AhA7rCAGe4KMBDvJI+AwstrUpVNzEA03Pprs=
 github.com/golang/protobuf v1.4.0-rc.4.0.20200313231945-b860323f09d0 h1:aRz0NBceriICVtjhCgKkDvl+RudKu1CT6h0ZvUTrNfE=
 github.com/golang/protobuf v1.4.0-rc.4.0.20200313231945-b860323f09d0/go.mod h1:WU3c8KckQ9AFe+yFwt9sWVRKCVIyN9cPHBJSNnbL67w=
+github.com/golang/protobuf v1.4.0 h1:oOuy+ugB+P/kBdUnG5QaMXSIyJ1q38wWSojYCb3z5VQ=
+github.com/golang/protobuf v1.4.0/go.mod h1:jodUvKwWbYaEsadDk5Fwe5c77LiNKVO9IDvqG2KuDX0=
 github.com/google/btree v1.0.0/go.mod h1:lNA+9X1NB3Zf8V7Ke586lFgjr2dZNuvo3lPJSGZ5JPQ=
 github.com/google/go-cmp v0.2.0 h1:+dTQ8DZQJz0Mb/HjFlkptS1FeQ4cWSnN941F8aEG4SQ=
 github.com/google/go-cmp v0.2.0/go.mod h1:oXzfMopK8JAjlY9xF4vHSVASa0yLyX7SntLO5aqRK0M=

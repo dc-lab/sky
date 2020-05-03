@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/dc-lab/sky/api/proto/cloud"
 	"github.com/dc-lab/sky/cloud/client/helpers"
-	pb "github.com/dc-lab/sky/cloud/proto"
 )
 
 type StopCmdParams struct {
@@ -27,9 +27,9 @@ var stopCmd = &cobra.Command{
 		creds := helpers.NewAwsCredentials(rootParams.accessKeyId, rootParams.secretAccessKey)
 		apiSettings := helpers.NewAwsApiSettings(rootParams.region)
 
-		req := pb.TCloudRequest{
-			Body: &pb.TCloudRequest_StopInstanceRequest{
-				StopInstanceRequest: &pb.TStopInstanceRequest{
+		req := cloud.TCloudRequest{
+			Body: &cloud.TCloudRequest_StopInstanceRequest{
+				StopInstanceRequest: &cloud.TStopInstanceRequest{
 					Creds: &creds,
 					Settings: &apiSettings,
 					InstanceUuid: stopParams.instanceUuid,

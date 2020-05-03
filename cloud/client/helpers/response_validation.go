@@ -3,16 +3,16 @@ package helpers
 import (
 	"log"
 
-	pb "github.com/dc-lab/sky/cloud/proto"
+	"github.com/dc-lab/sky/api/proto/common"
 )
 
 type WithResult interface {
-	GetResult() *pb.TResult
+	GetResult() *common.TResult
 }
 
 func EnsureOkStatusCode(obj WithResult) {
 	code := obj.GetResult().GetResultCode()
-	if code != pb.TResult_SUCCESS {
+	if code != common.TResult_SUCCESS {
 		log.Fatalf("unexpected result code: %v", code)
 	}
 }

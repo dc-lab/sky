@@ -3,12 +3,13 @@ package handlers
 import (
 	"log"
 
-	cloud "github.com/dc-lab/sky/cloud/proto"
+	"github.com/dc-lab/sky/api/proto/cloud"
+	"github.com/dc-lab/sky/api/proto/common"
 )
 
 func HandleStopVMRequest(req *cloud.TStopInstanceRequest) cloud.TStopInstanceResponse {
 	log.Printf("got Stop Instance req: %s", req.InstanceUuid)
 	return cloud.TStopInstanceResponse{
-		Result: &cloud.TResult{ResultCode: cloud.TResult_FAILED, ErrorCode: cloud.TResult_NOT_IMPLEMENTED},
+		Result: &common.TResult{ResultCode: common.TResult_FAILED, ErrorCode: common.TResult_NOT_IMPLEMENTED},
 	}
 }

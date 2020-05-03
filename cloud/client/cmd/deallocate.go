@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/dc-lab/sky/api/proto/cloud"
 	"github.com/dc-lab/sky/cloud/client/helpers"
-	pb "github.com/dc-lab/sky/cloud/proto"
 )
 
 type DeallocateCmdParams struct {
@@ -27,9 +27,9 @@ var deallocateCmd = &cobra.Command{
 		creds := helpers.NewAwsCredentials(rootParams.accessKeyId, rootParams.secretAccessKey)
 		apiSettings := helpers.NewAwsApiSettings(rootParams.region)
 
-		req := pb.TCloudRequest{
-			Body: &pb.TCloudRequest_DeallocateInstanceRequest{
-				DeallocateInstanceRequest: &pb.TDeallocateInstanceRequest{
+		req := cloud.TCloudRequest{
+			Body: &cloud.TCloudRequest_DeallocateInstanceRequest{
+				DeallocateInstanceRequest: &cloud.TDeallocateInstanceRequest{
 					Creds: &creds,
 					Settings: &apiSettings,
 					InstanceUuid: deallocateParams.instanceUuid,

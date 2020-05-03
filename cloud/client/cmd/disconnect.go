@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/dc-lab/sky/api/proto/cloud"
 	"github.com/dc-lab/sky/cloud/client/helpers"
-	pb "github.com/dc-lab/sky/cloud/proto"
 )
 
 type DisconnectCmdParams struct {
@@ -26,9 +26,9 @@ var disconnectCmd = &cobra.Command{
 
 		creds := helpers.NewAwsCredentials(rootParams.accessKeyId, rootParams.secretAccessKey)
 
-		req := pb.TCloudRequest{
-			Body: &pb.TCloudRequest_DisconnectInstanceRequest{
-				DisconnectInstanceRequest: &pb.TDisconnectInstanceRequest{
+		req := cloud.TCloudRequest{
+			Body: &cloud.TCloudRequest_DisconnectInstanceRequest{
+				DisconnectInstanceRequest: &cloud.TDisconnectInstanceRequest{
 					Creds: &creds,
 					InstanceUuid: disconnectParams.instanceUuid,
 				},
