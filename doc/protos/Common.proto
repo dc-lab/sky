@@ -1,9 +1,0 @@
-syntax = "proto2";
-
-message FileId {
-    required string uuid = 1;
-}
-
-message JobId {
-    required string uuid = 1;
-}
