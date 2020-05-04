@@ -19,6 +19,8 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 
+	"github.com/gabriel-vasile/mimetype"
+
 	"data_manager/config"
 	errs "data_manager/errors"
 	"data_manager/modelapi"
@@ -73,6 +75,17 @@ func (s *FilesService) makeUploadUrl(r *http.Request, id string, uploadToken str
 	return r.Host + uri.String()
 }
 
+// CreateFile godoc
+// @Summary Create new file
+// @Description Create new file metadata, actual file binary should be uploaded later
+// @Tags files
+// @Accept json
+// @Produce json
+// @Param file body modelapi.FileRequest true "File metadata"
+// @Success 200 {object} modelapi.FileResponse
+// @Failure 400 {object} errors.ErrorResponse
+// @Failure 500 {object} errors.ErrorResponse
+// @Router /files [post]
 func (s *FilesService) CreateFile(w http.ResponseWriter, r *http.Request) {
 	var request modelapi.FileRequest
 	if err := render.Decode(r, &request); err != nil {
@@ -94,6 +107,16 @@ func (s *FilesService) CreateFile(w http.ResponseWriter, r *http.Request) {
 	render.Respond(w, r, response)
 }
 
+// GetFile godoc
+// @Summary Get existing file metadata
+// @Tags files
+// @Produce json
+// @Param id path string true "File id"
+// @Success 200 {object} modelapi.FileResponse
+// @Failure 400 {object} errors.ErrorResponse
+// @Failure 404 {object} errors.ErrorResponse
+// @Failure 500 {object} errors.ErrorResponse
+// @Router /files/{id} [get]
 func (s *FilesService) GetFile(w http.ResponseWriter, r *http.Request) {
 	file := s.getFile(r)
 	if file == nil {
@@ -110,6 +133,21 @@ func fileNotExists(path string) bool {
 	return os.IsNotExist(err)
 }
 
+// UploadFileData godoc
+// @Summary Upload file data
+// @Description Upload binary data for existing file metadata. Should not be called directly, use returned upload url instead
+// @Tags files
+// @Accept mpfd
+// @Produce json
+// @Param id path string true "File id"
+// @Param token query string true "Token returned with metadata"
+// @Param file formData file true "File contents"
+// @Success 200 {object} modelapi.FileResponse
+// @Failure 400 {object} errors.ErrorResponse
+// @Failure 404 {object} errors.ErrorResponse
+// @Failure 413 {object} errors.ErrorResponse
+// @Failure 500 {object} errors.ErrorResponse
+// @Router /files/{id}/data [post]
 func (s *FilesService) UploadFileData(w http.ResponseWriter, r *http.Request) {
 	file := s.getFile(r)
 	if file == nil {
@@ -201,6 +239,14 @@ func (s *FilesService) UploadFileData(w http.ResponseWriter, r *http.Request) {
 	tempFile.Close()
 	log.WithField("bytes", fileSize).Debug("Total written size")
 
+	mime, err := mimetype.DetectFile(tempFile.Name())
+	if err != nil {
+		log.WithError(err).Error("Failed to detect mime type")
+		file.ContentType = "application/octet-stream"
+	} else {
+		file.ContentType = mime.String()
+	}
+
 	fileHashValue := hex.EncodeToString(hash.Sum(nil))
 	log.Debug("Got file with sha256 hash: %s", fileHashValue)
 
@@ -229,9 +275,19 @@ func (s *FilesService) UploadFileData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	render.Respond(w, r, res)
+	render.Respond(w, r, modelapi.FileResponse{File: &res})
 }
 
+// GetFile godoc
+// @Summary Get existing file contents
+// @Tags files
+// @Produce json
+// @Param id path string true "File id"
+// @Success 200 {string} string
+// @Failure 400 {object} errors.ErrorResponse
+// @Failure 404 {object} errors.ErrorResponse
+// @Failure 500 {object} errors.ErrorResponse
+// @Router /files/{id}/data [get]
 func (s *FilesService) DownloadFileData(w http.ResponseWriter, r *http.Request) {
 	file := s.getFile(r)
 	if file == nil {
@@ -267,7 +323,7 @@ func (s *FilesService) DownloadFileData(w http.ResponseWriter, r *http.Request) 
 	}
 
 	w.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s\"", file.Name))
-	w.Header().Set("Content-Type", "application/octet-stream")
+	w.Header().Set("Content-Type", file.ContentType)
 	w.Header().Set("Content-Length", strconv.FormatInt(stat.Size(), 10))
 
 	bytesWritten, err := io.Copy(w, reader)
