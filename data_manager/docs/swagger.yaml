@@ -1,0 +1,197 @@
+basePath: /v1
+definitions:
+  errors.ErrorResponse:
+    properties:
+      error:
+        example: Some debug info
+        type: string
+      status:
+        example: Generic error description
+        type: string
+    type: object
+  modelapi.FileRequest:
+    properties:
+      name:
+        example: file.txt
+        type: string
+      owner:
+        example: b14bf169-3df5-4d61-ba94-1a09103cbdb2
+        type: string
+      tags:
+        $ref: '#/definitions/modeldb.TagsMap'
+        type: object
+    type: object
+  modelapi.FileResponse:
+    properties:
+      id:
+        example: 6d83a3d2-16a6-486a-91a2-5d44ba74e326
+        type: string
+      name:
+        example: file.txt
+        type: string
+      owner:
+        example: b14bf169-3df5-4d61-ba94-1a09103cbdb2
+        type: string
+      tags:
+        $ref: '#/definitions/modeldb.TagsMap'
+        type: object
+      upload_url:
+        example: https://sky.sskvor.dev/v1/files/6d83a3d2-16a6-486a-91a2-5d44ba74e326/data?token=9ee2e81f-16a3-46e1-b794-9e8364a90128
+        type: string
+    type: object
+  modeldb.TagsMap:
+    additionalProperties:
+      type: string
+    type: object
+host: sky.sskvor.dev
+info:
+  contact:
+    email: mail@sskvor.dev
+    name: '@BigRedEye'
+    url: https://t.me/BigRedEye
+  description: This is data manager for Sky platform.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  title: Sky Data Manager
+  version: "1.0"
+paths:
+  /files:
+    post:
+      consumes:
+      - application/json
+      description: Create new file metadata, actual file binary should be uploaded
+        later
+      parameters:
+      - description: File metadata
+        in: body
+        name: file
+        required: true
+        schema:
+          $ref: '#/definitions/modelapi.FileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/modelapi.FileResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrorResponse'
+      summary: Create new file
+      tags:
+      - files
+  /files/{id}:
+    get:
+      parameters:
+      - description: File id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/modelapi.FileResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errors.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrorResponse'
+      summary: Get existing file metadata
+      tags:
+      - files
+  /files/{id}/data:
+    get:
+      parameters:
+      - description: File id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errors.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrorResponse'
+      summary: Get existing file contents
+      tags:
+      - files
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload binary data for existing file metadata. Should not be called
+        directly, use returned upload url instead
+      parameters:
+      - description: File id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Token returned with metadata
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: File contents
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/modelapi.FileResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errors.ErrorResponse'
+        "413":
+          description: Request Entity Too Large
+          schema:
+            $ref: '#/definitions/errors.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrorResponse'
+      summary: Upload file data
+      tags:
+      - files
+swagger: "2.0"
