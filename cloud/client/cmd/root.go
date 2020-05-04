@@ -6,11 +6,15 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/dc-lab/sky/cloud/client/cfg"
+	"github.com/dc-lab/sky/cloud/client/config"
 )
 
 var (
-	cfgFile string
+	envs = map[string]string {
+		config.EnvAwsKeyId: "aws-access-key-id",
+		config.EnvAwsSecretKey: "aws-secret-access-key",
+	}
+
 	rootParams RootCmdParams
 )
 
@@ -37,19 +41,13 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.sky/cloud-client.json)")
-
 	rootCmd.PersistentFlags().Uint16Var(&rootParams.grpcPort, "grpc-port", 5005, "Cloud server port")
 
-	rootCmd.PersistentFlags().StringVar(&rootParams.accessKeyId, "aws-access-key-id", "", "AWS access key id (default is $SKY_CLOUD_KEY_ID)")
-	if rootCmd.PersistentFlags().Lookup("aws-access-key-id") == nil {
-		os.Getenv(cfg.EnvAwsKeyId)
-	}
+	rootCmd.PersistentFlags().StringVar(&rootParams.accessKeyId, "aws-access-key-id", "", "AWS access key id")
 
-	rootCmd.PersistentFlags().StringVar(&rootParams.secretAccessKey, "aws-secret-access-key", "", "AWS secret access key (default is $SKY_CLOUD_SECRET_KEY)")
-	if rootCmd.PersistentFlags().Lookup("aws-secret-access-key") == nil {
-		os.Getenv(cfg.EnvAwsSecretKey)
-	}
+	rootCmd.PersistentFlags().StringVar(&rootParams.secretAccessKey, "aws-secret-access-key", "", "AWS secret access key")
 
 	rootCmd.PersistentFlags().StringVar(&rootParams.region, "aws-region", "", "AWS region for API requests")
+
+	config.SetEnvDefaultForPersistentFlags(rootCmd, envs)
 }
