@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	common "github.com/dc-lab/sky/common"
+	common "github.com/dc-lab/sky/agent/src/common"
 	"github.com/spf13/viper"
 )
 
