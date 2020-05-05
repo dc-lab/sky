@@ -35,10 +35,21 @@ message TTaskResponse {
     required TResult result = 2;
 }
 
+message TFile {
+    required string id = 1;
+    required string agent_relative_local_path = 2;
+}
+
+message TStageIn {
+    required string task_id = 1;
+    repeated TFile files = 2;
+}
+
 message TToAgentMessage {
     oneof Body {
         THardwareRequest hardware_request = 1;
         TTaskRequest task_request = 2;
+        TStageIn stage_in_request = 3;
     }
 }
 

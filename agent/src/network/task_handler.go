@@ -2,11 +2,13 @@ package network
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
 	"path"
 
 	"github.com/dc-lab/sky/agent/src/common"
+	data_manager_api "github.com/dc-lab/sky/agent/src/data_manager"
 	parser "github.com/dc-lab/sky/agent/src/parser"
 	pb "github.com/dc-lab/sky/agent/src/protos"
 )
@@ -20,10 +22,14 @@ func ConsumeTasksStatus(client pb.ResourceManager_SendClient, consumer func(pb.R
 	}
 }
 
+func GetExecutionDirForTaskId(task_id string) string {
+	return path.Join(parser.AgentConfig.AgentDirectory, task_id)
+}
+
 func HandleTask(task *pb.TTask) {
 	result := pb.TResult{ResultCode: pb.TResult_WAIT.Enum()}
 	GlobalTasksStatuses.Store(task.GetId(), ProcessInfo{Result: result})
-	executionDir := path.Join(parser.AgentConfig.AgentDirectory, task.GetId())
+	executionDir := GetExecutionDirForTaskId(task.GetId())
 	err := os.Mkdir(executionDir, 0777)
 	common.DealWithError(err)
 	RunShellCommand(
@@ -42,12 +48,17 @@ func HandleTask(task *pb.TTask) {
 		true)
 }
 
-func CreateFile(filePath string) *os.File {
-	stdoutFile, err := os.Create(filePath)
-	if err != nil {
-		panic(err)
+func StageInFiles(task_id *string, files []*pb.TFile) {
+	executionDir := GetExecutionDirForTaskId(*task_id)
+	err := os.Mkdir(executionDir, 0777)
+	common.DealWithError(err)
+	for _, file := range files {
+		body := data_manager_api.GetFileBody(file.GetId())
+		defer body.Close()
+		out := common.CreateFile(path.Join(executionDir, file.GetAgentRelativeLocalPath()))
+		defer out.Close()
+		io.Copy(out, body)
 	}
-	return stdoutFile
 }
 
 func RunShellCommand(command string, directory string, stdOutFilePath string, stdErrFilePath string, taskId string, changeTaskStatus bool) {
@@ -55,10 +66,10 @@ func RunShellCommand(command string, directory string, stdOutFilePath string, st
 	cmd.Dir = directory
 	fmt.Println("Directory ", directory)
 	fmt.Println("Command ", command)
-	stdoutFile := CreateFile(stdOutFilePath)
+	stdoutFile := common.CreateFile(stdOutFilePath)
 	defer stdoutFile.Close()
 	cmd.Stdout = stdoutFile
-	stderrFile := CreateFile(stdErrFilePath)
+	stderrFile := common.CreateFile(stdErrFilePath)
 	defer stderrFile.Close()
 	cmd.Stderr = stderrFile
 	// pid := cmd.Process.Pid

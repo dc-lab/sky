@@ -38,7 +38,12 @@ func ReceiveResourceManagerRequest(client pb.ResourceManager_SendClient) {
 		case *pb.TToAgentMessage_TaskRequest:
 			fmt.Println("Task request")
 			task := response.TaskRequest.GetTask()
-			HandleTask(task)
+			go HandleTask(task)
+		case *pb.TToAgentMessage_StageInRequest:
+			fmt.Println("Stage in request")
+			files := response.StageInRequest.Files
+			task_id := response.StageInRequest.TaskId
+			go StageInFiles(task_id, files)
 		default:
 			fmt.Println("Non type of response")
 		}
