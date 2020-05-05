@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"io"
 
-	common "github.com/dc-lab/sky/common"
-	hardware "github.com/dc-lab/sky/hardware"
-	"github.com/dc-lab/sky/parser"
-	pb "github.com/dc-lab/sky/protos"
+	common "github.com/dc-lab/sky/agent/src/common"
+	hardware "github.com/dc-lab/sky/agent/src/hardware"
+	parser "github.com/dc-lab/sky/agent/src/parser"
+	pb "github.com/dc-lab/sky/agent/src/protos"
 	"google.golang.org/grpc"
 )
 

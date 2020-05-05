@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/dc-lab/sky/network"
+	"github.com/dc-lab/sky/agent/src/network"
 )
 
 func main() {
