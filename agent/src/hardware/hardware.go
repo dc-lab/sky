@@ -1,7 +1,7 @@
 package hardware
 
 import (
-	common "github.com/dc-lab/sky/common"
+	common "github.com/dc-lab/sky/agent/src/common"
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/disk"
 	"github.com/shirou/gopsutil/mem"

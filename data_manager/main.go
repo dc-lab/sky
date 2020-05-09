@@ -16,6 +16,19 @@ import (
 	"data_manager/router"
 )
 
+// @title Sky Data Manager
+// @version 1.0
+// @description This is data manager for Sky platform.
+
+// @contact.name @BigRedEye
+// @contact.url https://t.me/BigRedEye
+// @contact.email mail@sskvor.dev
+
+// @license.name MIT
+// @license.url https://opensource.org/licenses/MIT
+
+// @host sky.sskvor.dev
+// @BasePath /v1
 func main() {
 	log.SetFormatter(&log.TextFormatter{
 		FullTimestamp: true,

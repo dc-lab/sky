@@ -9,9 +9,9 @@ import (
 type TagsMap map[string]string
 
 type File struct {
-	Id          string  `json:"id"`
-	Owner       string  `json:"owner,omitempty"`
-	Name        string  `json:"name,omitempty"`
+	Id          string  `json:"id" example:"6d83a3d2-16a6-486a-91a2-5d44ba74e326"`
+	Owner       string  `json:"owner,omitempty" example:"b14bf169-3df5-4d61-ba94-1a09103cbdb2"`
+	Name        string  `json:"name,omitempty" example:"file.txt"`
 	Tags        TagsMap `json:"tags,omitempty"`
 	Hash        string  `json:"-"`
 	UploadToken string  `json:"-"`

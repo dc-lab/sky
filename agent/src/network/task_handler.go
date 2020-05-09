@@ -6,9 +6,9 @@ import (
 	"os/exec"
 	"path"
 
-	"github.com/dc-lab/sky/common"
-	parser "github.com/dc-lab/sky/parser"
-	pb "github.com/dc-lab/sky/protos"
+	"github.com/dc-lab/sky/agent/src/common"
+	parser "github.com/dc-lab/sky/agent/src/parser"
+	pb "github.com/dc-lab/sky/agent/src/protos"
 )
 
 func ConsumeTasksStatus(client pb.ResourceManager_SendClient, consumer func(pb.ResourceManager_SendClient, string, *pb.TResult)) {

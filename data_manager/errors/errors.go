@@ -10,8 +10,8 @@ type ErrorResponse struct {
 	Error      error `json:"-"`
 	HttpStatus int   `json:"-"`
 
-	StatusText string `json:"status"`
-	ErrorText  string `json:"error,omitempty"`
+	StatusText string `json:"status" example:"Generic error description"`
+	ErrorText  string `json:"error,omitempty" example:"Some debug info"`
 }
 
 func (res *ErrorResponse) Render(w http.ResponseWriter, r *http.Request) error {

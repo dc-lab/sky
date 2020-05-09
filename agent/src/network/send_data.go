@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	common "github.com/dc-lab/sky/common"
-	hardware "github.com/dc-lab/sky/hardware"
-	pb "github.com/dc-lab/sky/protos"
+	common "github.com/dc-lab/sky/agent/src/common"
+	hardware "github.com/dc-lab/sky/agent/src/hardware"
+	pb "github.com/dc-lab/sky/agent/src/protos"
 )
 
 func SendRegistrationData(client pb.ResourceManager_SendClient, token *string) {
