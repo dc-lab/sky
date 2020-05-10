@@ -9,8 +9,8 @@ import (
 
 	"github.com/swaggo/http-swagger"
 
-	_ "data_manager/docs"
-	"data_manager/handlers"
+	_ "github.com/dc-lab/sky/data_manager/docs"
+	"github.com/dc-lab/sky/data_manager/handlers"
 )
 
 func MakeRouter(srv handlers.FilesService) chi.Router {

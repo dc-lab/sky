@@ -1,4 +1,4 @@
-module data_manager
+module github.com/dc-lab/sky/data_manager
 
 go 1.14
 
