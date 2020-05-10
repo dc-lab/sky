@@ -1,8 +1,8 @@
 FROM    golang:1.14.2-alpine3.11 AS builder
 RUN     apk update && apk add bash ca-certificates git gcc g++ libc-dev binutils file
 WORKDIR /usr/src/app/sky/agent/
-COPY    . ./
-COPY    config.docker.json /config.json
+COPY    src ./
+COPY    docker/config.json /config.json
 RUN     go mod download
 RUN     go build -o /agent
 
