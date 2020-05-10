@@ -35,10 +35,26 @@ message TTaskResponse {
     required TResult result = 2;
 }
 
+message TFile {
+    required string id = 1;
+    required string agent_relative_local_path = 2;
+}
+
+message TStageInRequest {
+    required string task_id = 1;
+    repeated TFile files = 2;
+}
+
+message TStageInResponse {
+    required string task_id = 1;
+    required TResult result = 2;
+}
+
 message TToAgentMessage {
     oneof Body {
         THardwareRequest hardware_request = 1;
         TTaskRequest task_request = 2;
+        TStageInRequest stage_in_request = 3;
     }
 }
 
@@ -47,6 +63,7 @@ message TFromAgentMessage {
         THardwareData hardware_data = 1;
         TGreetings greetings = 2;
         TTaskResponse task_response = 3;
+        TStageInResponse stage_in_response = 4;
     }
 }
 message TResult {
@@ -68,4 +85,5 @@ message TResult {
 
     required TResultCode result_code = 1;
     optional TErrorCode error_code = 2;
+    optional string error_text = 3;
 }

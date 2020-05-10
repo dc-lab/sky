@@ -24,6 +24,13 @@ func CreateConnection(address string) (pb.ResourceManager_SendClient, context.Co
 	return stream, ctx
 }
 
+func StageInFiles(client pb.ResourceManager_SendClient, task_id *string, files []*pb.TFile) {
+	response := DownloadFiles(task_id, files)
+	body := pb.TFromAgentMessage_StageInResponse{StageInResponse: &response}
+	err := client.Send(&pb.TFromAgentMessage{Body: &body})
+	common.DealWithError(err)
+}
+
 func ReceiveResourceManagerRequest(client pb.ResourceManager_SendClient) {
 	for {
 		generalResponse, err := client.Recv()
@@ -38,7 +45,12 @@ func ReceiveResourceManagerRequest(client pb.ResourceManager_SendClient) {
 		case *pb.TToAgentMessage_TaskRequest:
 			fmt.Println("Task request")
 			task := response.TaskRequest.GetTask()
-			HandleTask(task)
+			go HandleTask(task)
+		case *pb.TToAgentMessage_StageInRequest:
+			fmt.Println("Stage in request")
+			files := response.StageInRequest.Files
+			task_id := response.StageInRequest.TaskId
+			go StageInFiles(client, task_id, files)
 		default:
 			fmt.Println("Non type of response")
 		}

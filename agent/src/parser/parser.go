@@ -39,17 +39,6 @@ func readConfig(filename string, defaults map[string]interface{}) (*viper.Viper,
 	return v, err
 }
 
-func PathExists(path string) (bool, error) {
-	_, err := os.Stat(path)
-	if err == nil {
-		return true, nil
-	}
-	if os.IsNotExist(err) {
-		return false, nil
-	}
-	return true, err
-}
-
 func ParseArguments() Config {
 	var configPath = *flag.String("config", "config.json", "Path to agent configuration file")
 	flag.Parse()
@@ -68,7 +57,7 @@ func ParseArguments() Config {
 		AgentDirectory:         v.GetString("AgentDirectory"),
 		Token:                  token,
 	}
-	if flag, err := PathExists(config.AgentDirectory); flag {
+	if flag, err := common.PathExists(config.AgentDirectory); flag {
 		common.DealWithError(err)
 		os.RemoveAll(config.AgentDirectory)
 	}
