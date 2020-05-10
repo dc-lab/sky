@@ -50,11 +50,21 @@ message TStageInResponse {
     required TResult result = 2;
 }
 
+message TStageOutRequest {
+    required string task_id = 1;
+}
+
+message TStageOutResponse {
+    required string task_id = 1;
+    repeated TFile task_files = 2;
+}
+
 message TToAgentMessage {
     oneof Body {
         THardwareRequest hardware_request = 1;
         TTaskRequest task_request = 2;
         TStageInRequest stage_in_request = 3;
+        TStageOutRequest sage_ou_request = 4;
     }
 }
 
@@ -64,6 +74,7 @@ message TFromAgentMessage {
         TGreetings greetings = 2;
         TTaskResponse task_response = 3;
         TStageInResponse stage_in_response = 4;
+        TStageOutResponse stage_out_response = 5;
     }
 }
 message TResult {

@@ -3,6 +3,7 @@ package network
 import (
 	"context"
 	"fmt"
+	data_manager_api "github.com/dc-lab/sky/agent/src/data_manager"
 	"io"
 
 	common "github.com/dc-lab/sky/agent/src/common"
@@ -24,9 +25,23 @@ func CreateConnection(address string) (pb.ResourceManager_SendClient, context.Co
 	return stream, ctx
 }
 
-func StageInFiles(client pb.ResourceManager_SendClient, task_id *string, files []*pb.TFile) {
+func StageInFiles(client pb.ResourceManager_SendClient, task_id string, files []*pb.TFile) {
 	response := DownloadFiles(task_id, files)
 	body := pb.TFromAgentMessage_StageInResponse{StageInResponse: &response}
+	err := client.Send(&pb.TFromAgentMessage{Body: &body})
+	common.DealWithError(err)
+}
+
+func StageOutFiles(client pb.ResourceManager_SendClient, task_id string) {
+	taskDir := GetExecutionDirForTaskId(task_id)
+	filePaths := common.GetChildrenFilePaths(taskDir)
+	var files []*pb.TFile
+	for _, filePath := range filePaths {
+		file := data_manager_api.UploadFile(filePath, taskDir)
+		files = append(files, &file)
+	}
+	response := pb.TStageOutResponse{TaskId: &task_id, TaskFiles: files}
+	body := pb.TFromAgentMessage_StageOutResponse{StageOutResponse: &response}
 	err := client.Send(&pb.TFromAgentMessage{Body: &body})
 	common.DealWithError(err)
 }
@@ -48,9 +63,13 @@ func ReceiveResourceManagerRequest(client pb.ResourceManager_SendClient) {
 			go HandleTask(task)
 		case *pb.TToAgentMessage_StageInRequest:
 			fmt.Println("Stage in request")
-			files := response.StageInRequest.Files
-			task_id := response.StageInRequest.TaskId
-			go StageInFiles(client, task_id, files)
+			files := response.StageInRequest.GetFiles()
+			taskId := response.StageInRequest.GetTaskId()
+			go StageInFiles(client, taskId, files)
+		case *pb.TToAgentMessage_SageOuRequest:
+			fmt.Println("Stage out request")
+			taskId := response.SageOuRequest.GetTaskId()
+			go StageOutFiles(client, taskId)
 		default:
 			fmt.Println("Non type of response")
 		}
