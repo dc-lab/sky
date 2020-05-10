@@ -48,17 +48,27 @@ func HandleTask(task *pb.TTask) {
 		true)
 }
 
-func StageInFiles(task_id *string, files []*pb.TFile) {
+func DownloadFiles(task_id *string, files []*pb.TFile) pb.TStageInResponse {
 	executionDir := GetExecutionDirForTaskId(*task_id)
 	err := os.Mkdir(executionDir, 0777)
 	common.DealWithError(err)
+	result := pb.TResult{ResultCode: pb.TResult_RUN.Enum()}
 	for _, file := range files {
-		body := data_manager_api.GetFileBody(file.GetId())
+		err, body := data_manager_api.GetFileBody(file.GetId())
+		if err != nil {
+			result.ResultCode = pb.TResult_FAILED.Enum()
+			err_str := err.Error()
+			result.ErrorText = &err_str
+		}
 		defer body.Close()
 		out := common.CreateFile(path.Join(executionDir, file.GetAgentRelativeLocalPath()))
 		defer out.Close()
 		io.Copy(out, body)
 	}
+	if *result.ResultCode != pb.TResult_FAILED {
+		result.ResultCode = pb.TResult_SUCCESS.Enum()
+	}
+	return pb.TStageInResponse{TaskId: task_id, Result: &result}
 }
 
 func RunShellCommand(command string, directory string, stdOutFilePath string, stdErrFilePath string, taskId string, changeTaskStatus bool) {
