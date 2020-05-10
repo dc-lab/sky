@@ -3,7 +3,7 @@ package network
 import (
 	"sync"
 
-	pb "github.com/dc-lab/sky/agent/src/protos"
+	pb "github.com/dc-lab/sky/api/proto/common"
 )
 
 type ProcessInfo struct {
