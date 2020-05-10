@@ -1,8 +1,14 @@
 package repo
 
 import (
+	log "github.com/sirupsen/logrus"
+
 	"database/sql"
 	_ "github.com/lib/pq"
+
+	"github.com/golang-migrate/migrate/v4"
+	"github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 
 	"github.com/cenkalti/backoff/v4"
 
@@ -20,32 +26,33 @@ func OpenFilesRepo(driver string, connStr string) (*FilesRepo, error) {
 		err = backoff.Retry(db.Ping, backoff.NewExponentialBackOff())
 	}
 
-	return &FilesRepo{
+	repo := &FilesRepo{
 		Conn: db,
-	}, err
+	}
+
+	if err != nil {
+		return repo, err
+	}
+
+	err = repo.migrate(connStr)
+
+	if err != nil {
+		log.WithError(err).Fatalln("Failed to run migrations")
+	}
+
+	return repo, err
 }
 
-func (s *FilesRepo) Migrate() error {
-	_, err := s.Conn.Exec(`
-		CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-		CREATE TABLE IF NOT EXISTS files(
-			id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-			owner text NOT NULL DEFAULT '',
-			name text NOT NULL DEFAULT '',
-			tags json,
-			task_id text NOT NULL DEFAULT '',
-			executable boolean NOT NULL DEFAULT false,
-			hash text NOT NULL DEFAULT '',
-			content_type text NOT NULL DEFAULT '',
-			upload_token uuid DEFAULT uuid_generate_v4()
-		);
-		CREATE TABLE IF NOT EXISTS hash_ref_counts(
-			hash text PRIMARY KEY,
-			ref_count integer NOT NULL
-		);
-	`)
-
-	return err
+func (s *FilesRepo) migrate(connStr string) error {
+	driver, err := postgres.WithInstance(s.Conn, &postgres.Config{})
+	if err != nil {
+		return err
+	}
+	m, err := migrate.NewWithDatabaseInstance("file:///migrations", "postgres", driver)
+	if err != nil {
+		return err
+	}
+	return m.Up()
 }
 
 func (s *FilesRepo) Create(file modeldb.File) (modeldb.File, error) {

@@ -64,9 +64,6 @@ func main() {
 	if err != nil {
 		log.WithError(err).Fatalln("Could not connect to database")
 	}
-	if err := repo.Migrate(); err != nil {
-		log.WithError(err).Fatalln("Failed to run migrations")
-	}
 
 	srv := handlers.FilesService{
 		Repo:   repo,
