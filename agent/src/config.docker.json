@@ -1,0 +1,4 @@
+{
+  "ResourceManagerAddress": "130.193.48.74:8090",
+  "AgentDirectory": "/usr/src/app/sky/agent"
+}
