@@ -33,6 +33,8 @@ func (s *FilesRepo) Migrate() error {
 			owner text NOT NULL DEFAULT '',
 			name text NOT NULL DEFAULT '',
 			tags json,
+			task_id text NOT NULL DEFAULT '',
+			executable boolean NOT NULL DEFAULT false,
 			hash text NOT NULL DEFAULT '',
 			content_type text NOT NULL DEFAULT '',
 			upload_token uuid DEFAULT uuid_generate_v4()
@@ -52,13 +54,15 @@ func (s *FilesRepo) Create(file modeldb.File) (modeldb.File, error) {
 			owner,
 			name,
 			hash,
-			tags
+			tags,
+			task_id,
+			executable
 		)
-		VALUES ($1, $2, $3, $4)
+		VALUES ($1, $2, $3, $4, $5, $6)
 		RETURNING 
 			id,
 			upload_token`,
-		file.Owner, file.Name, file.Hash, file.Tags,
+		file.Owner, file.Name, file.Hash, file.Tags, file.TaskId, file.Executable,
 	).Scan(&file.Id, &file.UploadToken)
 	return file, err
 }
@@ -71,9 +75,11 @@ func (s *FilesRepo) Update(file modeldb.File) (modeldb.File, error) {
 			name=$3,
 			hash=$4,
 			tags=$5,
-			content_type=$6
+			task_id=$6,
+			executable=$7,
+			content_type=$8,
 		WHERE id=$1`,
-		file.Id, file.Owner, file.Name, file.Hash, file.Tags, file.ContentType,
+		file.Id, file.Owner, file.Name, file.Hash, file.Tags, file.TaskId, file.Executable, file.ContentType,
 	)
 	return file, err
 }
@@ -88,11 +94,13 @@ func (s *FilesRepo) Get(id string) (modeldb.File, error) {
 			name,
 			hash,
 			tags,
+			task_id,
+			executable,
 			upload_token,
-			content_type
+			content_type,
 		FROM files
 		WHERE id=$1`, id,
-	).Scan(&file.Id, &file.Owner, &file.Name, &file.Hash, &file.Tags, &file.UploadToken, &file.ContentType)
+	).Scan(&file.Id, &file.Owner, &file.Name, &file.Hash, &file.Tags, &file.TaskId, &file.Executable, &file.UploadToken, &file.ContentType)
 	return file, err
 }
 
