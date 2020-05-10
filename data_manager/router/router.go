@@ -25,11 +25,15 @@ func MakeRouter(srv handlers.FilesService) chi.Router {
 	r.Route("/v1", func(r chi.Router) {
 		r.Route("/files", func(r chi.Router) {
 			r.Post("/", srv.CreateFile)
-			r.Route("/{fileId}", func(r chi.Router) {
+			r.Route("/{fileId:[0-9a-f\\-]+}", func(r chi.Router) {
 				r.Use(srv.FileCtx)
 				r.Get("/", srv.GetFile)
 				r.Get("/data", srv.DownloadFileData)
 				r.Post("/data", srv.UploadFileData)
+			})
+			r.Route("/outputs/{taskId:[0-9a-f\\-]+}/{path:*}", func(r chi.Router) {
+				r.Use(srv.FileCtx)
+				r.Post("/", srv.GetFile)
 			})
 		})
 	})

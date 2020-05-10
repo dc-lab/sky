@@ -11,6 +11,7 @@ require (
 	github.com/go-chi/render v1.0.1
 	github.com/go-openapi/spec v0.19.7 // indirect
 	github.com/go-openapi/swag v0.19.9 // indirect
+	github.com/golang-migrate/migrate/v4 v4.11.0
 	github.com/lib/pq v1.4.0
 	github.com/mailru/easyjson v0.7.1 // indirect
 	github.com/sirupsen/logrus v1.6.0
