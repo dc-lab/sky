@@ -11,6 +11,8 @@ definitions:
     type: object
   modelapi.FileRequest:
     properties:
+      executable:
+        type: boolean
       name:
         example: file.txt
         type: string
@@ -20,9 +22,13 @@ definitions:
       tags:
         $ref: '#/definitions/modeldb.TagsMap'
         type: object
+      task_id:
+        type: string
     type: object
   modelapi.FileResponse:
     properties:
+      executable:
+        type: boolean
       id:
         example: 6d83a3d2-16a6-486a-91a2-5d44ba74e326
         type: string
@@ -35,6 +41,8 @@ definitions:
       tags:
         $ref: '#/definitions/modeldb.TagsMap'
         type: object
+      task_id:
+        type: string
       upload_url:
         example: https://sky.sskvor.dev/v1/files/6d83a3d2-16a6-486a-91a2-5d44ba74e326/data?token=9ee2e81f-16a3-46e1-b794-9e8364a90128
         type: string
