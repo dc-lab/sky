@@ -1,4 +1,4 @@
-module github.com/dc-lab/sky/api/proto/cloud
+module github.com/dc-lab/sky/api/proto/resource_manager
 
 go 1.13
 

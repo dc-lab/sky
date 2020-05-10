@@ -27,4 +27,5 @@ message TResult {
 
   TResultCode result_code = 1; // required
   TErrorCode error_code = 2; // optional
+  string error_text = 3; // optional
 }
