@@ -21,14 +21,11 @@ import (
 
 	"github.com/gabriel-vasile/mimetype"
 
-	"data_manager/config"
-	errs "data_manager/errors"
-	"data_manager/modelapi"
-	"data_manager/modeldb"
-	"data_manager/repo"
-	// FIXME(sskvor)
-	//	httpSwagger "github.com/swaggo/http-swagger"
-	//	_ "app/docs"
+	"github.com/dc-lab/sky/data_manager/config"
+	errs "github.com/dc-lab/sky/data_manager/errors"
+	"github.com/dc-lab/sky/data_manager/modelapi"
+	"github.com/dc-lab/sky/data_manager/modeldb"
+	"github.com/dc-lab/sky/data_manager/repo"
 )
 
 const maxUploadBufferSize = 8 * 1024 * 1024 // 8 MiB

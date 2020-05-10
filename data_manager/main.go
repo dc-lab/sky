@@ -10,10 +10,10 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"data_manager/config"
-	"data_manager/handlers"
-	"data_manager/repo"
-	"data_manager/router"
+	"github.com/dc-lab/sky/data_manager/config"
+	"github.com/dc-lab/sky/data_manager/handlers"
+	"github.com/dc-lab/sky/data_manager/repo"
+	"github.com/dc-lab/sky/data_manager/router"
 )
 
 // @title Sky Data Manager

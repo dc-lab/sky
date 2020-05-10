@@ -12,7 +12,7 @@ import (
 
 	"github.com/cenkalti/backoff/v4"
 
-	"data_manager/modeldb"
+	"github.com/dc-lab/sky/data_manager/modeldb"
 )
 
 type FilesRepo struct {
