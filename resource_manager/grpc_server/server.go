@@ -1,16 +1,14 @@
-package main
+package grpc_server
 
 import (
-	pb "github.com/dc-lab/sky/resource_manager_grpc/proto"
-	"google.golang.org/grpc"
+	pb "github.com/dc-lab/sky/api/proto/resource_manager"
 	"io"
 	"log"
-	"net"
 )
 
-type server struct{}
+type Server struct{}
 
-func (s server) Send(srv pb.ResourceManager_SendServer) error {
+func (s Server) Send(srv pb.ResourceManager_SendServer) error {
 	log.Println("start new server")
 	ctx := srv.Context()
 
@@ -37,10 +35,10 @@ func (s server) Send(srv pb.ResourceManager_SendServer) error {
 			log.Printf("Got greetings: %s", greetings.GetToken())
 			log.Println("Going to send TaskRequest")
 			taskId := "123"
-			shellCommand := []byte("ls -la")
+			shellCommand := "ls -la"
 			task := pb.TTask{
 				Id:                       &taskId,
-				ExecutionShellCommand:    shellCommand,
+				ExecutionShellCommand:    &shellCommand,
 				RequirementsShellCommand: nil,
 			}
 			taskRequest := pb.TTaskRequest{Task: &task}
@@ -51,7 +49,7 @@ func (s server) Send(srv pb.ResourceManager_SendServer) error {
 			log.Println("send new message")
 		case *pb.TFromAgentMessage_HardwareData:
 			hardwareData := req.GetHardwareData()
-			log.Printf("Got hardware data: %d, %d, %d\n", hardwareData.GetCoresCount(), hardwareData.GetDiskAmount(), hardwareData.GetMemoryAmount())
+			log.Printf("Got hardware data: %d, %d, %d\n", hardwareData.GetCoresCount(), hardwareData.GetDiskBytes(), hardwareData.GetMemoryBytes())
 		case *pb.TFromAgentMessage_TaskResponse:
 			taskResponse := req.GetTaskResponse()
 			log.Printf("Got task response: %s, %s, %s", taskResponse.GetTaskId(), taskResponse.GetResult().GetErrorCode(), taskResponse.GetResult().GetResultCode())
@@ -65,19 +63,5 @@ func (s server) Send(srv pb.ResourceManager_SendServer) error {
 		//	log.Printf("send error %v\n", err)
 		//}
 		//log.Println("send new message")
-	}
-}
-
-func main() {
-	lis, err := net.Listen("tcp", ":5051")
-	if err != nil {
-		log.Fatalf("Failed to listen: %v", err)
-	}
-
-	s := grpc.NewServer()
-	pb.RegisterResourceManagerServer(s, server{})
-
-	if err := s.Serve(lis); err != nil {
-		log.Fatalf("Failed to serve: %v", err)
 	}
 }
