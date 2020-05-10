@@ -7,10 +7,10 @@ import (
 	"github.com/shirou/gopsutil/mem"
 )
 
-func GetCoresCount() int32 {
+func GetCoresCount() uint32 {
 	corescount, err := cpu.Counts(false)
 	common.DealWithError(err)
-	return int32(corescount)
+	return uint32(corescount)
 }
 
 func GetMemory() uint64 {
@@ -26,14 +26,14 @@ func GetDisk() uint64 {
 }
 
 type HardwareData struct {
-	CpuCount     int32
-	MemoryAmount uint64
-	DiskAmount   uint64
+	CpuCount    uint32
+	MemoryBytes uint64
+	DiskBytes   uint64
 }
 
 func GetHardwareData() HardwareData {
 	return HardwareData{
-		CpuCount:     GetCoresCount(),
-		MemoryAmount: GetMemory(),
-		DiskAmount:   GetDisk()}
+		CpuCount:    GetCoresCount(),
+		MemoryBytes: GetMemory(),
+		DiskBytes:   GetDisk()}
 }
