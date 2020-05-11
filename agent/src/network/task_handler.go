@@ -49,8 +49,8 @@ func HandleTask(task *rm.TTask) {
 		true)
 }
 
-func DownloadFiles(task_id *string, files []*rm.TFile) rm.TStageInResponse {
-	executionDir := GetExecutionDirForTaskId(*task_id)
+func DownloadFiles(task_id string, files []*rm.TFile) rm.TStageInResponse {
+	executionDir := GetExecutionDirForTaskId(task_id)
 	err := os.Mkdir(executionDir, 0777)
 	common.DealWithError(err)
 	result := pb.TResult{ResultCode: pb.TResult_RUN}
@@ -69,7 +69,7 @@ func DownloadFiles(task_id *string, files []*rm.TFile) rm.TStageInResponse {
 	if result.ResultCode != pb.TResult_FAILED {
 		result.ResultCode = pb.TResult_SUCCESS
 	}
-	return rm.TStageInResponse{TaskId: task_id, Result: &result}
+	return rm.TStageInResponse{TaskId: &task_id, Result: &result}
 }
 
 func RunShellCommand(command string, directory string, stdOutFilePath string, stdErrFilePath string, taskId string, changeTaskStatus bool) {
