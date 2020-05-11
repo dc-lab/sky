@@ -1,14 +1,14 @@
 syntax = "proto3";
 
 // build *.pb.go from project root
-// protoc -I. --go_out=plugins=grpc,paths=source_relative:. api/proto/cloud/*.proto
+// protoc -I. --go_out=plugins=grpc,paths=source_relative:. api/proto/cloud_manager/*.proto
 
-package cloud;
+package cloud_manager;
 
 import "api/proto/common/action.proto";
 import "api/proto/common/entity.proto";
 
-option go_package = "github.com/dc-lab/sky/api/proto/cloud";
+option go_package = "github.com/dc-lab/sky/api/proto/cloud_manager";
 
 service TCloudManager {
   rpc DoAction (stream TCloudRequest) returns (stream TCloudResponse) {}
