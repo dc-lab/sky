@@ -3,7 +3,6 @@ package network
 import (
 	"context"
 	"fmt"
-	data_manager_api "github.com/dc-lab/sky/agent/src/data_manager"
 	rm "github.com/dc-lab/sky/api/proto/resource_manager"
 	"io"
 
@@ -25,27 +24,6 @@ func CreateConnection(address string) (rm.ResourceManager_SendClient, context.Co
 	return stream, ctx
 }
 
-func StageInFiles(client rm.ResourceManager_SendClient, task_id string, files []*rm.TFile) {
-	response := DownloadFiles(task_id, files)
-	body := rm.TFromAgentMessage_StageInResponse{StageInResponse: &response}
-	err := client.Send(&rm.TFromAgentMessage{Body: &body})
-	common.DealWithError(err)
-}
-
-func StageOutFiles(client rm.ResourceManager_SendClient, taskId string) {
-	taskDir := common.GetExecutionDirForTaskId(parser.AgentConfig.AgentDirectory, taskId)
-	filePaths := common.GetChildrenFilePaths(taskDir)
-	var files []*rm.TFile
-	for _, filePath := range filePaths {
-		file := data_manager_api.UploadFile(filePath, taskDir)
-		files = append(files, &file)
-	}
-	response := rm.TStageOutResponse{TaskId: taskId, TaskFiles: files}
-	body := rm.TFromAgentMessage_StageOutResponse{StageOutResponse: &response}
-	err := client.Send(&rm.TFromAgentMessage{Body: &body})
-	common.DealWithError(err)
-}
-
 func ReceiveResourceManagerRequest(client rm.ResourceManager_SendClient) {
 	for {
 		generalResponse, err := client.Recv()
@@ -60,7 +38,7 @@ func ReceiveResourceManagerRequest(client rm.ResourceManager_SendClient) {
 		case *rm.TToAgentMessage_TaskRequest:
 			fmt.Println("Task request")
 			task := response.TaskRequest.GetTask()
-			go HandleTask(task)
+			go StartTask(task)
 		case *rm.TToAgentMessage_StageInRequest:
 			fmt.Println("Stage in request")
 			files := response.StageInRequest.GetFiles()

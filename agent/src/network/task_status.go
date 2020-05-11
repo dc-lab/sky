@@ -1,29 +1,23 @@
 package network
 
 import (
-	"sync"
-
 	pb "github.com/dc-lab/sky/api/proto/common"
+	"sync"
 )
-
-type ProcessInfo struct {
-	Result    pb.TResult
-	ProcessID int
-}
 
 type TasksInfo struct {
 	Mutex sync.RWMutex
-	Data  map[string]ProcessInfo
+	Data  map[string]*Task
 }
 
-func (info *TasksInfo) Load(key string) (ProcessInfo, bool) {
+func (info *TasksInfo) Load(key string) (*Task, bool) {
 	info.Mutex.RLock()
 	defer info.Mutex.RUnlock()
 	val, ok := info.Data[key]
 	return val, ok
 }
 
-func (info *TasksInfo) Store(key string, value ProcessInfo) {
+func (info *TasksInfo) Store(key string, value *Task) {
 	info.Mutex.Lock()
 	defer info.Mutex.Unlock()
 	info.Data[key] = value
@@ -38,6 +32,12 @@ func (info *TasksInfo) Delete(key string) {
 	}
 }
 
+func (info *TasksInfo) UpdateTaskResult(taskId string, result *pb.TResult) {
+	task, _ := GlobalTasksStatuses.Load(taskId)
+	task.Result = result
+	GlobalTasksStatuses.Store(taskId, task)
+}
+
 var GlobalTasksStatuses = TasksInfo{
-	Data: make(map[string]ProcessInfo),
+	Data: make(map[string]*Task),
 }

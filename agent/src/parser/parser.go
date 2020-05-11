@@ -57,7 +57,7 @@ func ParseArguments() Config {
 		AgentDirectory:         v.GetString("AgentDirectory"),
 		Token:                  token,
 	}
-	if flag, err := common.PathExists(config.AgentDirectory); flag {
+	if flag, err := common.PathExists(config.AgentDirectory, false); flag {
 		common.DealWithError(err)
 		os.RemoveAll(config.AgentDirectory)
 	}
