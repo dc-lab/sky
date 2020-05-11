@@ -1,4 +1,4 @@
-syntax = "proto2";
+syntax = "proto3";
 
 // build *.pb.go from project root
 // protoc -I. --go_out=plugins=grpc,paths=source_relative:. api/proto/resource_manager/*.proto
@@ -15,48 +15,48 @@ service ResourceManager {
 }
 
 message TTask {
-    required string id = 1;
-    required string execution_shell_command = 2;
-    optional string requirements_shell_command = 3;
+    string id = 1; // required
+    string execution_shell_command = 2; // required
+    string requirements_shell_command = 3; // optional
 }
 
 message TGreetings {
-    required string token = 1;
+    string token = 1; // required
 }
 
 message THardwareRequest {
 }
 
 message TTaskRequest {
-    required TTask task = 1;
+    TTask task = 1; // required
 }
 
 message TTaskResponse {
-    required string task_id = 1;
-    required action.TResult result = 2;
+    string task_id = 1; // required
+    action.TResult result = 2; // required
 }
 
 message TFile {
-    required string id = 1;
-    required string agent_relative_local_path = 2;
+    string id = 1; // required
+    string agent_relative_local_path = 2; // required
 }
 
 message TStageInRequest {
-    required string task_id = 1;
+    string task_id = 1; // required
     repeated TFile files = 2;
 }
 
 message TStageInResponse {
-    required string task_id = 1;
-    required action.TResult result = 2;
+    string task_id = 1; // required
+    action.TResult result = 2; // required
 }
 
 message TStageOutRequest {
-    required string task_id = 1;
+    string task_id = 1; // required
 }
 
 message TStageOutResponse {
-    required string task_id = 1;
+    string task_id = 1; // required
     repeated TFile task_files = 2;
 }
 
@@ -68,6 +68,7 @@ message TToAgentMessage {
         TStageOutRequest stage_out_request = 4;
     }
 }
+
 message TFromAgentMessage {
     oneof Body {
         entity.THardwareData hardware_data = 1;
