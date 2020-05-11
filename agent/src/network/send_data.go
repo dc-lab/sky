@@ -11,7 +11,7 @@ import (
 )
 
 func printHardwareData(hwType string, hardwareData hardware.HardwareData) {
-	fmt.Printf("%s %vc %vb %vb\n", hwType, hardwareData.CpuCount, hardwareData.MemoryBytes, hardwareData.DiskBytes)
+	fmt.Printf("%s %.2fc %db %db\n", hwType, hardwareData.CpuCount, hardwareData.MemoryBytes, hardwareData.DiskBytes)
 }
 
 func SendRegistrationData(client rm.ResourceManager_SendClient, token string) {
