@@ -69,7 +69,7 @@ func (s *FilesService) makeUploadUrl(r *http.Request, id string, uploadToken str
 		"token": uploadToken,
 		"query": uri.RawQuery,
 	}).Info("Debug url")
-	return r.Host + uri.String()
+	return "https://" + r.Host + uri.String()
 }
 
 // CreateFile godoc

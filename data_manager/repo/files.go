@@ -52,7 +52,11 @@ func (s *FilesRepo) migrate(connStr string) error {
 	if err != nil {
 		return err
 	}
-	return m.Up()
+	err = m.Up()
+	if err == migrate.ErrNoChange {
+		err = nil
+	}
+	return err
 }
 
 func (s *FilesRepo) Create(file modeldb.File) (modeldb.File, error) {
@@ -84,7 +88,7 @@ func (s *FilesRepo) Update(file modeldb.File) (modeldb.File, error) {
 			tags=$5,
 			task_id=$6,
 			executable=$7,
-			content_type=$8,
+			content_type=$8
 		WHERE id=$1`,
 		file.Id, file.Owner, file.Name, file.Hash, file.Tags, file.TaskId, file.Executable, file.ContentType,
 	)
@@ -104,7 +108,7 @@ func (s *FilesRepo) Get(id string) (modeldb.File, error) {
 			task_id,
 			executable,
 			upload_token,
-			content_type,
+			content_type
 		FROM files
 		WHERE id=$1`, id,
 	).Scan(&file.Id, &file.Owner, &file.Name, &file.Hash, &file.Tags, &file.TaskId, &file.Executable, &file.UploadToken, &file.ContentType)
