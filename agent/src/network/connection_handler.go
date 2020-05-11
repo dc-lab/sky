@@ -4,12 +4,12 @@ import (
 	"context"
 	"fmt"
 	data_manager_api "github.com/dc-lab/sky/agent/src/data_manager"
+	rm "github.com/dc-lab/sky/api/proto/resource_manager"
 	"io"
 
 	common "github.com/dc-lab/sky/agent/src/common"
 	hardware "github.com/dc-lab/sky/agent/src/hardware"
 	parser "github.com/dc-lab/sky/agent/src/parser"
-	rm "github.com/dc-lab/sky/api/proto/resource_manager"
 	"google.golang.org/grpc"
 )
 
@@ -32,18 +32,18 @@ func StageInFiles(client rm.ResourceManager_SendClient, task_id string, files []
 	common.DealWithError(err)
 }
 
-func StageOutFiles(client pb.ResourceManager_SendClient, task_id string) {
-	taskDir := GetExecutionDirForTaskId(task_id)
+func StageOutFiles(client rm.ResourceManager_SendClient, taskId string) {
+	taskDir := GetExecutionDirForTaskId(taskId)
 	filePaths := common.GetChildrenFilePaths(taskDir)
-	var files []*pb.TFile
+	var files []*rm.TFile
 	for _, filePath := range filePaths {
 		file := data_manager_api.UploadFile(filePath, taskDir)
 		files = append(files, &file)
 	}
-	response := pb.TStageOutResponse{TaskId: &task_id, TaskFiles: files}
-	body := pb.TFromAgentMessage_StageOutResponse{StageOutResponse: &response}
-	err := client.Send(&pb.TFromAgentMessage{Body: &body})
-	common.DealWithError(err)
+	//response := rm.TStageOutResponse{TaskId: &taskId, TaskFiles: files}
+	//body := rm.TFromAgentMessage_StageOutResponse{StageOutResponse: &response}
+	//err := client.Send(&rm.TFromAgentMessage{Body: &body})
+	//common.DealWithError(err)
 }
 
 func ReceiveResourceManagerRequest(client rm.ResourceManager_SendClient) {
@@ -66,9 +66,9 @@ func ReceiveResourceManagerRequest(client rm.ResourceManager_SendClient) {
 			files := response.StageInRequest.GetFiles()
 			taskId := response.StageInRequest.GetTaskId()
 			go StageInFiles(client, taskId, files)
-		case *rm.TToAgentMessage_SageOuRequest:
+		case *rm.TToAgentMessage_StageOutRequest:
 			fmt.Println("Stage out request")
-			taskId := response.SageOuRequest.GetTaskId()
+			taskId := response.StageOutRequest.GetTaskId()
 			go StageOutFiles(client, taskId)
 		default:
 			fmt.Println("Non type of response")

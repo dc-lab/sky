@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	pb "github.com/dc-lab/sky/agent/src/protos"
+	"github.com/dc-lab/sky/data_manager/modelapi"
 	"io"
 	"io/ioutil"
 	"mime/multipart"
@@ -14,6 +14,7 @@ import (
 	"path/filepath"
 
 	"github.com/dc-lab/sky/agent/src/common"
+	rm "github.com/dc-lab/sky/api/proto/resource_manager"
 )
 
 const DATA_MANAGER_API_URL = "https://sky.sskvor.dev/v1"
@@ -29,22 +30,22 @@ func GetFileBody(file_id string) (error, io.ReadCloser) {
 	return err, resp.Body
 }
 
-func UploadFile(absolutePath string, fileDir string) pb.TFile {
+func UploadFile(absolutePath string, fileDir string) rm.TFile {
 	relativePath := common.ConvertToRelativePath(fileDir, absolutePath)
 	metadata := UploadFileMetadata(relativePath)
-	fileId := metadata["id"]
-	UploadFileContent(absolutePath, "https://"+metadata["upload_url"])
-	return pb.TFile{Id: &fileId, AgentRelativeLocalPath: &relativePath}
+	fileId := metadata.Id
+	UploadFileContent(absolutePath, "https://"+metadata.UploadUrl)
+	return rm.TFile{Id: &fileId, AgentRelativeLocalPath: &relativePath}
 }
 
-func UploadFileMetadata(filePath string) map[string]string {
+func UploadFileMetadata(filePath string) modelapi.FileResponse {
 	values := map[string]string{"name": filePath}
 	jsonValue, _ := json.Marshal(values)
 	resp, err := http.Post(DATA_MANAGER_API_URL+"/files", "application/json", bytes.NewBuffer(jsonValue))
 	common.DealWithError(err)
 	body, err := ioutil.ReadAll(resp.Body)
 	common.DealWithError(err)
-	var data map[string]string
+	var data modelapi.FileResponse
 	err = json.Unmarshal(body, &data)
 	common.DealWithError(err)
 	return data
