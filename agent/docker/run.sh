@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/bin/sh
 
-echo "$SKY_RM_TOKEN" >> /token
+echo "$SKY_RM_TOKEN" > /usr/lib/sky/agent/lib/token
 
-exec ./agent
+exec /usr/lib/sky/agent/lib/agent
