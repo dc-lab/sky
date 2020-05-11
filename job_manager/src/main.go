@@ -1,11 +1,23 @@
 package main
 
 import (
+	"encoding/json"
+	"github.com/gofrs/uuid"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"time"
 )
+
+type JobSpec struct {
+}
+
+type JobState struct {
+	JobId   uuid.UUID
+	State   []string
+	Results []uuid.UUID
+	Spec    []JobSpec
+}
 
 func main() {
 	router := mux.NewRouter()
@@ -27,12 +39,21 @@ func main() {
 	log.Fatal(srv.ListenAndServe())
 }
 
-func startJob(_ http.ResponseWriter, _ *http.Request) {
-	log.Printf("job started")
+func startJob(w http.ResponseWriter, _ *http.Request) {
+	jobId, _ := uuid.NewV4()
+	_ = json.NewEncoder(w).Encode(jobId)
 }
 
-func getJobs(_ http.ResponseWriter, _ *http.Request) {
-	log.Printf("get jobs")
+func getJobs(w http.ResponseWriter, _ *http.Request) {
+	jobStates := make([]JobState, 0)
+	i := 0
+	for i < 5 {
+		jobId, _ := uuid.NewV4()
+		jobState := JobState{JobId: jobId}
+		jobStates = append(jobStates, jobState)
+		i++
+	}
+	_ = json.NewEncoder(w).Encode(jobStates)
 }
 
 func getJob(w http.ResponseWriter, r *http.Request) {
@@ -40,7 +61,8 @@ func getJob(w http.ResponseWriter, r *http.Request) {
 	if !ok {
 		http.Error(w, "job_id not found in URL", http.StatusBadRequest)
 	}
-	log.Printf("get job with id = %s", jobId)
+	jobState := JobState{JobId: uuid.FromStringOrNil(jobId)}
+	_ = json.NewEncoder(w).Encode(jobState)
 }
 
 func cancelJob(w http.ResponseWriter, r *http.Request) {
@@ -49,6 +71,7 @@ func cancelJob(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "job_id not found in URL", http.StatusBadRequest)
 	}
 	log.Printf("cancel job with id = %s", jobId)
+	_ = json.NewEncoder(w).Encode(jobId)
 }
 
 func deleteJob(w http.ResponseWriter, r *http.Request) {
@@ -57,4 +80,5 @@ func deleteJob(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "job_id not found in URL", http.StatusBadRequest)
 	}
 	log.Printf("delete job with id = %s", jobId)
+	_ = json.NewEncoder(w).Encode(jobId)
 }
