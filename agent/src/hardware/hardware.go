@@ -2,38 +2,91 @@ package hardware
 
 import (
 	common "github.com/dc-lab/sky/agent/src/common"
+	"github.com/dc-lab/sky/agent/src/parser"
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/disk"
 	"github.com/shirou/gopsutil/mem"
+	"github.com/struCoder/pidusage"
 )
 
-func GetCoresCount() int32 {
+type HardwareData struct {
+	CpuCount    float64
+	MemoryBytes uint64
+	DiskBytes   uint64
+}
+
+//////////////////BEGIN CORES//////////////////
+
+func GetTotalCoresCount() float64 {
 	corescount, err := cpu.Counts(false)
 	common.DealWithError(err)
-	return int32(corescount)
+	return float64(corescount)
 }
 
-func GetMemory() uint64 {
+func GetFreeCoresCount() float64 {
+	percentage, err := cpu.Percent(0, false)
+	common.DealWithError(err)
+	return GetTotalCoresCount() * (100. - percentage[0]) / 100.
+}
+
+//////////////////END CORES//////////////////
+
+//////////////////BEGIN MEMORY//////////////////
+
+func GetMemoryStat() *mem.VirtualMemoryStat {
 	memorystat, err := mem.VirtualMemory()
 	common.DealWithError(err)
-	return memorystat.Total
+	return memorystat
 }
 
-func GetDisk() uint64 {
-	diskamount, err := disk.Usage("/")
+func GetTotalMemory() uint64 {
+	return GetMemoryStat().Total
+}
+
+func GetFreeMemory() uint64 {
+	return GetMemoryStat().Free
+}
+
+//////////////////END MEMORY//////////////////
+
+//////////////////BEGIN DISK////////////////
+
+func GetDiskStat(path string) *disk.UsageStat {
+	diskamount, err := disk.Usage(path)
 	common.DealWithError(err)
-	return diskamount.Total
+	return diskamount
 }
 
-type HardwareData struct {
-	CpuCount     int32
-	MemoryAmount uint64
-	DiskAmount   uint64
+func GetTotalDisk() uint64 {
+	return GetDiskStat(parser.AgentConfig.AgentDirectory).Total
 }
 
-func GetHardwareData() HardwareData {
+func GetFreeDisk() uint64 {
+	return GetDiskStat(parser.AgentConfig.AgentDirectory).Free
+}
+
+//////////////////BEGIN DISK////////////////
+
+func GetTotalHardwareData() HardwareData {
 	return HardwareData{
-		CpuCount:     GetCoresCount(),
-		MemoryAmount: GetMemory(),
-		DiskAmount:   GetDisk()}
+		CpuCount:    GetTotalCoresCount(),
+		MemoryBytes: GetTotalMemory(),
+		DiskBytes:   GetTotalDisk()}
+}
+
+func GetFreeHardwareData() HardwareData {
+	return HardwareData{
+		CpuCount:    GetFreeCoresCount(),
+		MemoryBytes: GetFreeMemory(),
+		DiskBytes:   GetFreeDisk()}
+}
+
+func GetTaskHardwareDataUsage(taskId string, pid int) HardwareData {
+	sysInfo, err := pidusage.GetStat(pid)
+	common.DealWithError(err)
+	return HardwareData{
+		CpuCount:    sysInfo.CPU,
+		MemoryBytes: uint64(sysInfo.Memory),
+		DiskBytes:   GetDiskStat(common.GetExecutionDirForTaskId(parser.AgentConfig.AgentDirectory, taskId)).Used,
+	}
 }

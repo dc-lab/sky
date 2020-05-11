@@ -2,16 +2,19 @@ package network
 
 import (
 	"fmt"
+	"github.com/dc-lab/sky/agent/src/parser"
+	"io"
 	"os"
 	"os/exec"
 	"path"
 
 	"github.com/dc-lab/sky/agent/src/common"
-	parser "github.com/dc-lab/sky/agent/src/parser"
-	pb "github.com/dc-lab/sky/agent/src/protos"
+	data_manager_api "github.com/dc-lab/sky/agent/src/data_manager"
+	pb "github.com/dc-lab/sky/api/proto/common"
+	rm "github.com/dc-lab/sky/api/proto/resource_manager"
 )
 
-func ConsumeTasksStatus(client pb.ResourceManager_SendClient, consumer func(pb.ResourceManager_SendClient, string, *pb.TResult)) {
+func ConsumeTasksStatus(client rm.ResourceManager_SendClient, consumer func(rm.ResourceManager_SendClient, string, *pb.TResult)) {
 	GlobalTasksStatuses.Mutex.RLock()
 	defer GlobalTasksStatuses.Mutex.RUnlock()
 	for taskID, processInfo := range GlobalTasksStatuses.Data {
@@ -20,10 +23,10 @@ func ConsumeTasksStatus(client pb.ResourceManager_SendClient, consumer func(pb.R
 	}
 }
 
-func HandleTask(task *pb.TTask) {
-	result := pb.TResult{ResultCode: pb.TResult_WAIT.Enum()}
+func HandleTask(task *rm.TTask) {
+	result := pb.TResult{ResultCode: pb.TResult_WAIT}
 	GlobalTasksStatuses.Store(task.GetId(), ProcessInfo{Result: result})
-	executionDir := path.Join(parser.AgentConfig.AgentDirectory, task.GetId())
+	executionDir := common.GetExecutionDirForTaskId(parser.AgentConfig.AgentDirectory, task.GetId())
 	err := os.Mkdir(executionDir, 0777)
 	common.DealWithError(err)
 	RunShellCommand(
@@ -42,12 +45,27 @@ func HandleTask(task *pb.TTask) {
 		true)
 }
 
-func CreateFile(filePath string) *os.File {
-	stdoutFile, err := os.Create(filePath)
-	if err != nil {
-		panic(err)
+func DownloadFiles(task_id string, files []*rm.TFile) rm.TStageInResponse {
+	executionDir := common.GetExecutionDirForTaskId(parser.AgentConfig.AgentDirectory, task_id)
+	err := os.Mkdir(executionDir, 0777)
+	common.DealWithError(err)
+	result := pb.TResult{ResultCode: pb.TResult_RUN}
+	for _, file := range files {
+		err, body := data_manager_api.GetFileBody(file.GetId())
+		if err != nil {
+			result.ResultCode = pb.TResult_FAILED
+			err_str := err.Error()
+			result.ErrorText = err_str
+		}
+		defer body.Close()
+		out := common.CreateFile(path.Join(executionDir, file.GetAgentRelativeLocalPath()))
+		defer out.Close()
+		io.Copy(out, body)
 	}
-	return stdoutFile
+	if result.ResultCode != pb.TResult_FAILED {
+		result.ResultCode = pb.TResult_SUCCESS
+	}
+	return rm.TStageInResponse{TaskId: task_id, Result: &result}
 }
 
 func RunShellCommand(command string, directory string, stdOutFilePath string, stdErrFilePath string, taskId string, changeTaskStatus bool) {
@@ -55,25 +73,25 @@ func RunShellCommand(command string, directory string, stdOutFilePath string, st
 	cmd.Dir = directory
 	fmt.Println("Directory ", directory)
 	fmt.Println("Command ", command)
-	stdoutFile := CreateFile(stdOutFilePath)
+	stdoutFile := common.CreateFile(stdOutFilePath)
 	defer stdoutFile.Close()
 	cmd.Stdout = stdoutFile
-	stderrFile := CreateFile(stdErrFilePath)
+	stderrFile := common.CreateFile(stdErrFilePath)
 	defer stderrFile.Close()
 	cmd.Stderr = stderrFile
 	// pid := cmd.Process.Pid
-	result := pb.TResult{ResultCode: pb.TResult_RUN.Enum()}
+	result := pb.TResult{ResultCode: pb.TResult_RUN}
 	if changeTaskStatus {
 		GlobalTasksStatuses.Store(taskId, ProcessInfo{Result: result})
 	}
 	err := cmd.Run()
 	if changeTaskStatus {
 		if err != nil {
-			result = pb.TResult{ResultCode: pb.TResult_FAILED.Enum(), ErrorCode: pb.TResult_INTERNAL.Enum()}
+			result = pb.TResult{ResultCode: pb.TResult_FAILED, ErrorCode: pb.TResult_INTERNAL}
 			fmt.Println("Error ", err)
 			common.DealWithError(err)
 		} else {
-			result = pb.TResult{ResultCode: pb.TResult_SUCCESS.Enum()}
+			result = pb.TResult{ResultCode: pb.TResult_SUCCESS}
 		}
 		GlobalTasksStatuses.Store(taskId, ProcessInfo{Result: result})
 	} else {

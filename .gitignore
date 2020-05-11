@@ -1,0 +1,6 @@
+.idea
+/cli/cli
+/data_manager/data_manager
+/resource_manager/resource_manager
+/resource_manager_grpc/resource_manager_grpc
+/user_manager/user_manager

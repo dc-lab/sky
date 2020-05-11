@@ -1,12 +1,18 @@
 package repo
 
 import (
+	log "github.com/sirupsen/logrus"
+
 	"database/sql"
 	_ "github.com/lib/pq"
 
+	"github.com/golang-migrate/migrate/v4"
+	"github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
+
 	"github.com/cenkalti/backoff/v4"
 
-	"data_manager/modeldb"
+	"github.com/dc-lab/sky/data_manager/modeldb"
 )
 
 type FilesRepo struct {
@@ -20,29 +26,36 @@ func OpenFilesRepo(driver string, connStr string) (*FilesRepo, error) {
 		err = backoff.Retry(db.Ping, backoff.NewExponentialBackOff())
 	}
 
-	return &FilesRepo{
+	repo := &FilesRepo{
 		Conn: db,
-	}, err
+	}
+
+	if err != nil {
+		return repo, err
+	}
+
+	err = repo.migrate(connStr)
+
+	if err != nil {
+		log.WithError(err).Fatalln("Failed to run migrations")
+	}
+
+	return repo, err
 }
 
-func (s *FilesRepo) Migrate() error {
-	_, err := s.Conn.Exec(`
-		CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-		CREATE TABLE IF NOT EXISTS files(
-			id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-			owner text NOT NULL DEFAULT '',
-			name text NOT NULL DEFAULT '',
-			tags json,
-			hash text NOT NULL DEFAULT '',
-			content_type text NOT NULL DEFAULT '',
-			upload_token uuid DEFAULT uuid_generate_v4()
-		);
-		CREATE TABLE IF NOT EXISTS hash_ref_counts(
-			hash text PRIMARY KEY,
-			ref_count integer NOT NULL
-		);
-	`)
-
+func (s *FilesRepo) migrate(connStr string) error {
+	driver, err := postgres.WithInstance(s.Conn, &postgres.Config{})
+	if err != nil {
+		return err
+	}
+	m, err := migrate.NewWithDatabaseInstance("file:///migrations", "postgres", driver)
+	if err != nil {
+		return err
+	}
+	err = m.Up()
+	if err == migrate.ErrNoChange {
+		err = nil
+	}
 	return err
 }
 
@@ -52,13 +65,15 @@ func (s *FilesRepo) Create(file modeldb.File) (modeldb.File, error) {
 			owner,
 			name,
 			hash,
-			tags
+			tags,
+			task_id,
+			executable
 		)
-		VALUES ($1, $2, $3, $4)
+		VALUES ($1, $2, $3, $4, $5, $6)
 		RETURNING 
 			id,
 			upload_token`,
-		file.Owner, file.Name, file.Hash, file.Tags,
+		file.Owner, file.Name, file.Hash, file.Tags, file.TaskId, file.Executable,
 	).Scan(&file.Id, &file.UploadToken)
 	return file, err
 }
@@ -71,9 +86,11 @@ func (s *FilesRepo) Update(file modeldb.File) (modeldb.File, error) {
 			name=$3,
 			hash=$4,
 			tags=$5,
-			content_type=$6
+			task_id=$6,
+			executable=$7,
+			content_type=$8
 		WHERE id=$1`,
-		file.Id, file.Owner, file.Name, file.Hash, file.Tags, file.ContentType,
+		file.Id, file.Owner, file.Name, file.Hash, file.Tags, file.TaskId, file.Executable, file.ContentType,
 	)
 	return file, err
 }
@@ -88,11 +105,13 @@ func (s *FilesRepo) Get(id string) (modeldb.File, error) {
 			name,
 			hash,
 			tags,
+			task_id,
+			executable,
 			upload_token,
 			content_type
 		FROM files
 		WHERE id=$1`, id,
-	).Scan(&file.Id, &file.Owner, &file.Name, &file.Hash, &file.Tags, &file.UploadToken, &file.ContentType)
+	).Scan(&file.Id, &file.Owner, &file.Name, &file.Hash, &file.Tags, &file.TaskId, &file.Executable, &file.UploadToken, &file.ContentType)
 	return file, err
 }
 

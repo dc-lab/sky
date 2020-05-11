@@ -241,6 +241,9 @@
         "modelapi.FileRequest": {
             "type": "object",
             "properties": {
+                "executable": {
+                    "type": "boolean"
+                },
                 "name": {
                     "type": "string",
                     "example": "file.txt"
@@ -252,12 +255,18 @@
                 "tags": {
                     "type": "object",
                     "$ref": "#/definitions/modeldb.TagsMap"
+                },
+                "task_id": {
+                    "type": "string"
                 }
             }
         },
         "modelapi.FileResponse": {
             "type": "object",
             "properties": {
+                "executable": {
+                    "type": "boolean"
+                },
                 "id": {
                     "type": "string",
                     "example": "6d83a3d2-16a6-486a-91a2-5d44ba74e326"
@@ -273,6 +282,9 @@
                 "tags": {
                     "type": "object",
                     "$ref": "#/definitions/modeldb.TagsMap"
+                },
+                "task_id": {
+                    "type": "string"
                 },
                 "upload_url": {
                     "type": "string",
