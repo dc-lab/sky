@@ -7,7 +7,7 @@ import (
 	"log"
 	"net"
 
-	"github.com/dc-lab/sky/api/proto/cloud"
+	cloud "github.com/dc-lab/sky/api/proto/cloud_manager"
 	"github.com/dc-lab/sky/cloud_manager/server/cmd"
 	"github.com/dc-lab/sky/cloud_manager/server/handlers"
 )

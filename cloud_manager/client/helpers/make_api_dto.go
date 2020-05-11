@@ -1,7 +1,7 @@
 package helpers
 
 import (
-	"github.com/dc-lab/sky/api/proto/cloud"
+	cloud "github.com/dc-lab/sky/api/proto/cloud_manager"
 	"github.com/dc-lab/sky/api/proto/common"
 )
 

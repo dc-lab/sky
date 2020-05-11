@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/dc-lab/sky/api/proto/cloud"
+	cloud "github.com/dc-lab/sky/api/proto/cloud_manager"
 	"github.com/dc-lab/sky/cloud_manager/client/helpers"
 )
 

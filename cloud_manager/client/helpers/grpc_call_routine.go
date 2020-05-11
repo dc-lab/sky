@@ -7,7 +7,7 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/dc-lab/sky/api/proto/cloud"
+	cloud "github.com/dc-lab/sky/api/proto/cloud_manager"
 )
 
 func MakeCloudRequest(grpcPort uint16, req *cloud.TCloudRequest) *cloud.TCloudResponse {
