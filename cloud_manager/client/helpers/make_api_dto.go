@@ -27,7 +27,7 @@ func NewAwsCredentials(accessKeyId, secretAccessKey string) cloud.TUserCredentia
 	}
 }
 
-func NewHardwareData(coresCount uint32, memoryBytes uint64, diskBytes uint64) common.THardwareData {
+func NewHardwareData(coresCount float64, memoryBytes uint64, diskBytes uint64) common.THardwareData {
 	return common.THardwareData{
 		CoresCount:  coresCount,
 		MemoryBytes: memoryBytes,

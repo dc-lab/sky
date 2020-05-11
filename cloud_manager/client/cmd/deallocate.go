@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/dc-lab/sky/api/proto/cloud"
-	"github.com/dc-lab/sky/cloud/client/helpers"
+	"github.com/dc-lab/sky/cloud_manager/client/helpers"
 )
 
 type DeallocateCmdParams struct {

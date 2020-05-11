@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/dc-lab/sky/cloud/client/config"
+	"github.com/dc-lab/sky/cloud_manager/client/config"
 )
 
 var (

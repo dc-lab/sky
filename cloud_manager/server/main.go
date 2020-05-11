@@ -8,8 +8,8 @@ import (
 	"net"
 
 	"github.com/dc-lab/sky/api/proto/cloud"
-	"github.com/dc-lab/sky/cloud/server/cmd"
-	"github.com/dc-lab/sky/cloud/server/handlers"
+	"github.com/dc-lab/sky/cloud_manager/server/cmd"
+	"github.com/dc-lab/sky/cloud_manager/server/handlers"
 )
 
 type Server struct{}

@@ -12,7 +12,7 @@ var (
 
 	rootCmd = &cobra.Command{
 		Use:   "server.go [ARGS]",
-		Short: "Run SKY cloud API",
+		Short: "Run SKY cloud_manager API",
 	}
 )
 

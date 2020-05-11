@@ -7,11 +7,11 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/dc-lab/sky/api/proto/cloud"
-	"github.com/dc-lab/sky/cloud/client/helpers"
+	"github.com/dc-lab/sky/cloud_manager/client/helpers"
 )
 
 type ConnectCmdParams struct {
-	coresCount  uint32
+	coresCount  float64
 	memoryBytes uint64
 	diskBytes   uint64
 }
@@ -54,7 +54,7 @@ var connectCmd = &cobra.Command{
 }
 
 func init() {
-	connectCmd.Flags().Uint32Var(&connectParams.coresCount, "cpu", 0, "Cores count")
+	connectCmd.Flags().Float64Var(&connectParams.coresCount, "cpu", 0, "Cores count")
 
 	connectCmd.Flags().Uint64Var(&connectParams.memoryBytes, "memory", 0, "RAM in bytes")
 

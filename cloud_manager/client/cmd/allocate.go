@@ -7,11 +7,11 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/dc-lab/sky/api/proto/cloud"
-	"github.com/dc-lab/sky/cloud/client/helpers"
+	"github.com/dc-lab/sky/cloud_manager/client/helpers"
 )
 
 type AllocateCmdParams struct {
-	coresCount  uint32
+	coresCount  float64
 	memoryBytes uint64
 	diskBytes   uint64
 }
@@ -54,7 +54,7 @@ var allocateCmd = &cobra.Command{
 }
 
 func init() {
-	allocateCmd.Flags().Uint32Var(&allocateParams.coresCount, "cpu", 0, "Cores count")
+	allocateCmd.Flags().Float64Var(&allocateParams.coresCount, "cpu", 0, "Cores count")
 
 	allocateCmd.Flags().Uint64Var(&allocateParams.memoryBytes, "memory", 0, "RAM in bytes")
 
