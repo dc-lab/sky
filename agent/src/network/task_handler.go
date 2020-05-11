@@ -2,12 +2,10 @@ package network
 
 import (
 	"fmt"
-	"io"
 	"os/exec"
 	"path"
 
 	"github.com/dc-lab/sky/agent/src/common"
-	data_manager_api "github.com/dc-lab/sky/agent/src/data_manager"
 	pb "github.com/dc-lab/sky/api/proto/common"
 	rm "github.com/dc-lab/sky/api/proto/resource_manager"
 )
@@ -40,29 +38,6 @@ func StartTask(taskProto *rm.TTask) {
 		path.Join(task.ExecutionDir, "execution_err"),
 		taskProto.GetId(),
 		true)
-}
-
-func DownloadFiles(taskId string, files []*rm.TFile) rm.TStageInResponse {
-	task, flag := GlobalTasksStatuses.Load(taskId)
-	result := pb.TResult{ResultCode: pb.TResult_FAILED}
-	if flag {
-		for _, file := range files {
-			err, body := data_manager_api.GetFileBody(file.GetId())
-			if err != nil {
-				result.ResultCode = pb.TResult_FAILED
-				err_str := err.Error()
-				result.ErrorText = err_str
-			}
-			defer body.Close()
-			out := common.CreateFile(path.Join(task.ExecutionDir, file.GetAgentRelativeLocalPath()))
-			defer out.Close()
-			io.Copy(out, body)
-		}
-		if result.ResultCode != pb.TResult_FAILED {
-			result.ResultCode = pb.TResult_SUCCESS
-		}
-	}
-	return rm.TStageInResponse{TaskId: taskId, Result: &result}
 }
 
 func RunShellCommand(command string, directory string, stdOutFilePath string, stdErrFilePath string, taskId string, changeTaskStatus bool) {
