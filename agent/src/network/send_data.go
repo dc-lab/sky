@@ -10,24 +10,26 @@ import (
 	rm "github.com/dc-lab/sky/api/proto/resource_manager"
 )
 
-func SendRegistrationData(client rm.ResourceManager_SendClient, token *string) {
+func SendRegistrationData(client rm.ResourceManager_SendClient, token string) {
 	request := rm.TGreetings{Token: token}
 	body := rm.TFromAgentMessage_Greetings{Greetings: &request}
 	err := client.Send(&rm.TFromAgentMessage{Body: &body})
 	common.DealWithError(err)
 }
 
-func SendHardwareData(client rm.ResourceManager_SendClient, hardwareData hardware.HardwareData) {
+func SendHardwareData(client rm.ResourceManager_SendClient, totalHardwareData hardware.HardwareData, freeHardwareData hardware.HardwareData) {
 	fmt.Println("Send hardware data")
-	request := pb.THardwareData{CoresCount: hardwareData.CpuCount, MemoryBytes: hardwareData.MemoryBytes, DiskBytes: hardwareData.DiskBytes}
-	body := rm.TFromAgentMessage_HardwareData{HardwareData: &request}
+	totalHardware := pb.THardwareData{CoresCount: totalHardwareData.CpuCount, MemoryBytes: totalHardwareData.MemoryBytes, DiskBytes: totalHardwareData.DiskBytes}
+	freeHardware := pb.THardwareData{CoresCount: freeHardwareData.CpuCount, MemoryBytes: freeHardwareData.MemoryBytes, DiskBytes: freeHardwareData.DiskBytes}
+	response := rm.THardwareResponse{TotalHardwareData: &totalHardware, FreeHardwareData: &freeHardware}
+	body := rm.TFromAgentMessage_HardwareResponse{&response}
 	err := client.Send(&rm.TFromAgentMessage{Body: &body})
 	common.DealWithError(err)
 }
 
 func SendTaskData(client rm.ResourceManager_SendClient, taskId string, resultPtr *pb.TResult) {
 	fmt.Println("Send task data")
-	request := rm.TTaskResponse{TaskId: &taskId, Result: resultPtr}
+	request := rm.TTaskResponse{TaskId: taskId, Result: resultPtr}
 	body := rm.TFromAgentMessage_TaskResponse{TaskResponse: &request}
 	err := client.Send(&rm.TFromAgentMessage{Body: &body})
 	common.DealWithError(err)
@@ -38,7 +40,7 @@ func SendTaskData(client rm.ResourceManager_SendClient, taskId string, resultPtr
 
 func SendHealthChecks(client rm.ResourceManager_SendClient) {
 	for ; ; time.Sleep(time.Second * 10) {
-		SendHardwareData(client, hardware.GetHardwareData())
+		SendHardwareData(client, hardware.GetTotalHardwareData(), hardware.GetFreeHardwareData())
 	}
 }
 
