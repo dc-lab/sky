@@ -1,15 +1,14 @@
 package common
 
 import (
-	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 )
 
 func DealWithError(err error) {
 	if err != nil {
-		fmt.Println(err)
-		// TODO(glebx777): add logging
+		log.Println(err)
 	}
 }
 

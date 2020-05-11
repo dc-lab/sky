@@ -2,6 +2,7 @@ package network
 
 import (
 	"fmt"
+	"log"
 	"time"
 
 	common "github.com/dc-lab/sky/agent/src/common"
@@ -11,7 +12,7 @@ import (
 )
 
 func printHardwareData(hwType string, hardwareData hardware.HardwareData) {
-	fmt.Printf("%s %.2fc %db %db\n", hwType, hardwareData.CpuCount, hardwareData.MemoryBytes, hardwareData.DiskBytes)
+	log.Printf("%s %.2fc %db %db\n", hwType, hardwareData.CpuCount, hardwareData.MemoryBytes, hardwareData.DiskBytes)
 }
 
 func SendRegistrationData(client rm.ResourceManager_SendClient, token string) {
@@ -22,7 +23,7 @@ func SendRegistrationData(client rm.ResourceManager_SendClient, token string) {
 }
 
 func SendHardwareData(client rm.ResourceManager_SendClient, totalHardwareData hardware.HardwareData, freeHardwareData hardware.HardwareData) {
-	fmt.Println("Send hardware data")
+	log.Println("Send hardware data")
 	printHardwareData("total: ", totalHardwareData)
 	printHardwareData("free: ", freeHardwareData)
 	totalHardware := pb.THardwareData{CoresCount: totalHardwareData.CpuCount, MemoryBytes: totalHardwareData.MemoryBytes, DiskBytes: totalHardwareData.DiskBytes}
