@@ -2,9 +2,7 @@ package network
 
 import (
 	"fmt"
-	"github.com/dc-lab/sky/agent/src/parser"
 	"io"
-	"os"
 	"os/exec"
 	"path"
 
@@ -19,53 +17,52 @@ func ConsumeTasksStatus(client rm.ResourceManager_SendClient, consumer func(rm.R
 	defer GlobalTasksStatuses.Mutex.RUnlock()
 	for taskID, processInfo := range GlobalTasksStatuses.Data {
 		fmt.Println("key:", taskID, ", val:", processInfo)
-		consumer(client, taskID, &processInfo.Result) // don't change last argument
+		consumer(client, taskID, processInfo.Result) // don't change last argument
 	}
 }
 
-func HandleTask(task *rm.TTask) {
+func StartTask(taskProto *rm.TTask) {
 	result := pb.TResult{ResultCode: pb.TResult_WAIT}
-	GlobalTasksStatuses.Store(task.GetId(), ProcessInfo{Result: result})
-	executionDir := common.GetExecutionDirForTaskId(parser.AgentConfig.AgentDirectory, task.GetId())
-	err := os.Mkdir(executionDir, 0777)
-	common.DealWithError(err)
+	task := Task{TaskId: taskProto.GetId(), Result: &result}
+	task.Init()
+	GlobalTasksStatuses.Store(taskProto.GetId(), &task)
 	RunShellCommand(
-		task.GetRequirementsShellCommand(),
-		executionDir,
-		path.Join(executionDir, "requirements_out"),
-		path.Join(executionDir, "requirements_err"),
-		task.GetId(),
+		taskProto.GetRequirementsShellCommand(),
+		task.ExecutionDir,
+		path.Join(task.ExecutionDir, "requirements_out"),
+		path.Join(task.ExecutionDir, "requirements_err"),
+		taskProto.GetId(),
 		false)
 	RunShellCommand(
-		task.GetExecutionShellCommand(),
-		executionDir,
-		path.Join(executionDir, "execution_out"),
-		path.Join(executionDir, "execution_err"),
-		task.GetId(),
+		taskProto.GetExecutionShellCommand(),
+		task.ExecutionDir,
+		path.Join(task.ExecutionDir, "execution_out"),
+		path.Join(task.ExecutionDir, "execution_err"),
+		taskProto.GetId(),
 		true)
 }
 
-func DownloadFiles(task_id string, files []*rm.TFile) rm.TStageInResponse {
-	executionDir := common.GetExecutionDirForTaskId(parser.AgentConfig.AgentDirectory, task_id)
-	err := os.Mkdir(executionDir, 0777)
-	common.DealWithError(err)
-	result := pb.TResult{ResultCode: pb.TResult_RUN}
-	for _, file := range files {
-		err, body := data_manager_api.GetFileBody(file.GetId())
-		if err != nil {
-			result.ResultCode = pb.TResult_FAILED
-			err_str := err.Error()
-			result.ErrorText = err_str
+func DownloadFiles(taskId string, files []*rm.TFile) rm.TStageInResponse {
+	task, flag := GlobalTasksStatuses.Load(taskId)
+	result := pb.TResult{ResultCode: pb.TResult_FAILED}
+	if flag {
+		for _, file := range files {
+			err, body := data_manager_api.GetFileBody(file.GetId())
+			if err != nil {
+				result.ResultCode = pb.TResult_FAILED
+				err_str := err.Error()
+				result.ErrorText = err_str
+			}
+			defer body.Close()
+			out := common.CreateFile(path.Join(task.ExecutionDir, file.GetAgentRelativeLocalPath()))
+			defer out.Close()
+			io.Copy(out, body)
 		}
-		defer body.Close()
-		out := common.CreateFile(path.Join(executionDir, file.GetAgentRelativeLocalPath()))
-		defer out.Close()
-		io.Copy(out, body)
+		if result.ResultCode != pb.TResult_FAILED {
+			result.ResultCode = pb.TResult_SUCCESS
+		}
 	}
-	if result.ResultCode != pb.TResult_FAILED {
-		result.ResultCode = pb.TResult_SUCCESS
-	}
-	return rm.TStageInResponse{TaskId: task_id, Result: &result}
+	return rm.TStageInResponse{TaskId: taskId, Result: &result}
 }
 
 func RunShellCommand(command string, directory string, stdOutFilePath string, stdErrFilePath string, taskId string, changeTaskStatus bool) {
@@ -82,7 +79,7 @@ func RunShellCommand(command string, directory string, stdOutFilePath string, st
 	// pid := cmd.Process.Pid
 	result := pb.TResult{ResultCode: pb.TResult_RUN}
 	if changeTaskStatus {
-		GlobalTasksStatuses.Store(taskId, ProcessInfo{Result: result})
+		GlobalTasksStatuses.UpdateTaskResult(taskId, &result)
 	}
 	err := cmd.Run()
 	if changeTaskStatus {
@@ -93,7 +90,7 @@ func RunShellCommand(command string, directory string, stdOutFilePath string, st
 		} else {
 			result = pb.TResult{ResultCode: pb.TResult_SUCCESS}
 		}
-		GlobalTasksStatuses.Store(taskId, ProcessInfo{Result: result})
+		GlobalTasksStatuses.UpdateTaskResult(taskId, &result)
 	} else {
 		common.DealWithError(err)
 	}

@@ -3,7 +3,6 @@ package common
 import (
 	"fmt"
 	"os"
-	"path"
 	"path/filepath"
 )
 
@@ -22,12 +21,12 @@ func CreateFile(filePath string) *os.File {
 	return stdoutFile
 }
 
-func PathExists(path string) (bool, error) {
-	_, err := os.Stat(path)
+func PathExists(path string, directoryFlag bool) (bool, error) {
+	stat, err := os.Stat(path)
 	if err == nil {
 		return true, nil
 	}
-	if os.IsNotExist(err) {
+	if os.IsNotExist(err) || (directoryFlag && !stat.IsDir()) {
 		return false, nil
 	}
 	return true, err
@@ -53,8 +52,4 @@ func ConvertToRelativePath(rootDir string, file string) string {
 	newFile, err := filepath.Rel(rootDir, file)
 	DealWithError(err)
 	return newFile
-}
-
-func GetExecutionDirForTaskId(rootDir string, task_id string) string {
-	return path.Join(rootDir, task_id)
 }
