@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+// build *.pb.go from project root
+// protoc -I. --go_out=plugins=grpc,paths=source_relative:. api/proto/data_manager/*.proto
+
+package data_manager;
+
+import "api/proto/common/action.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option go_package = "github.com/dc-lab/sky/api/proto/data_manager";
+
+service DataManager {
+    rpc CreateFile (CreateFileRequest) returns (CreateFileResponse) {
+        option (google.api.http) = {
+            post: "/v1/files"
+            body: "*"
+        };
+    }
+
+    rpc GetFileInfo (GetFileInfoRequest) returns (GetFileInfoResponse) {
+        option (google.api.http) = {
+            get: "/v1/files/{id}"
+        };
+    }
+
+    rpc UpdateTaskResults (stream UpdateTaskResultsRequest) returns (UpdateTaskResultsResponse) {
+    }
+}
+
+message CreateFileRequest {
+    File file = 1;
+}
+
+message CreateFileResponse {
+    action.TResult result = 1;
+    File file = 2;
+    string upload_url = 3;
+}
+
+message GetFileInfoRequest {
+    string id = 1;
+}
+
+message GetFileInfoResponse {
+    action.TResult result = 1;
+    File file = 2;
+}
+
+message File {
+    // Output only.
+    string id = 1;
+    string name = 2;
+    string task_id = 3;
+    bool is_executable = 4;
+    map<string, string> tags = 5;
+}
+
+message UpdateTaskResultsRequest {
+    repeated TaskResult current_results = 1;
+    string agent_id = 2;
+    string task_id = 3;
+}
+
+message TaskResult {
+    string path = 1;
+    uint64 size = 2;
+    string hash = 3;
+    google.protobuf.Timestamp creation_time = 4;
+    google.protobuf.Timestamp modification_time = 5;
+}
+
+message UpdateTaskResultsResponse {
+    action.TResult result = 1;
+}
