@@ -34,8 +34,7 @@ message CreateFileRequest {
 }
 
 message CreateFileResponse {
-    action.TResult result = 1;
-    File file = 2;
+    File file = 1;
 }
 
 message GetFileInfoRequest {
@@ -43,8 +42,7 @@ message GetFileInfoRequest {
 }
 
 message GetFileInfoResponse {
-    action.TResult result = 1;
-    File file = 2;
+    File file = 1;
 }
 
 message File {
@@ -74,5 +72,4 @@ message TaskResult {
 }
 
 message UpdateTaskResultsResponse {
-    action.TResult result = 1;
 }
