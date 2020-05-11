@@ -85,12 +85,14 @@ func RunShellCommand(
 	stderrFile := common.CreateFile(stdErrFilePath)
 	defer stderrFile.Close()
 	cmd.Stderr = stderrFile
+	cmd.Start()
 	pid := int64(cmd.Process.Pid)
 	result := pb.TResult{ResultCode: pb.TResult_RUN}
 	if beforeExecution != nil {
 		beforeExecution(pid, &result)
 	}
-	err := cmd.Run()
+	err := cmd.Wait()
+	//err := cmd.Run()
 	if afterExecution != nil {
 		afterExecution(err)
 	}
