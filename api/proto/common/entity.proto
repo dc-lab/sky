@@ -8,7 +8,7 @@ package entity;
 option go_package = "github.com/dc-lab/sky/api/proto/common";
 
 message THardwareData {
-  uint32 cores_count = 1; // required
+  double cores_count = 1; // required
   uint64 memory_bytes = 2; // required
   uint64 disk_bytes = 3; // required
 }

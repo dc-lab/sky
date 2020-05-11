@@ -35,7 +35,7 @@ func UploadFile(absolutePath string, fileDir string) rm.TFile {
 	metadata := UploadFileMetadata(relativePath)
 	fileId := metadata.Id
 	UploadFileContent(absolutePath, "https://"+metadata.UploadUrl)
-	return rm.TFile{Id: &fileId, AgentRelativeLocalPath: &relativePath}
+	return rm.TFile{Id: fileId, AgentRelativeLocalPath: relativePath}
 }
 
 func UploadFileMetadata(filePath string) modelapi.FileResponse {

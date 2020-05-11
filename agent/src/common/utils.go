@@ -3,6 +3,7 @@ package common
 import (
 	"fmt"
 	"os"
+	"path"
 	"path/filepath"
 )
 
@@ -52,4 +53,8 @@ func ConvertToRelativePath(rootDir string, file string) string {
 	newFile, err := filepath.Rel(rootDir, file)
 	DealWithError(err)
 	return newFile
+}
+
+func GetExecutionDirForTaskId(rootDir string, task_id string) string {
+	return path.Join(rootDir, task_id)
 }

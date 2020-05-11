@@ -2,6 +2,7 @@ package network
 
 import (
 	"fmt"
+	"github.com/dc-lab/sky/agent/src/parser"
 	"io"
 	"os"
 	"os/exec"
@@ -9,7 +10,6 @@ import (
 
 	"github.com/dc-lab/sky/agent/src/common"
 	data_manager_api "github.com/dc-lab/sky/agent/src/data_manager"
-	parser "github.com/dc-lab/sky/agent/src/parser"
 	pb "github.com/dc-lab/sky/api/proto/common"
 	rm "github.com/dc-lab/sky/api/proto/resource_manager"
 )
@@ -23,14 +23,10 @@ func ConsumeTasksStatus(client rm.ResourceManager_SendClient, consumer func(rm.R
 	}
 }
 
-func GetExecutionDirForTaskId(task_id string) string {
-	return path.Join(parser.AgentConfig.AgentDirectory, task_id)
-}
-
 func HandleTask(task *rm.TTask) {
 	result := pb.TResult{ResultCode: pb.TResult_WAIT}
 	GlobalTasksStatuses.Store(task.GetId(), ProcessInfo{Result: result})
-	executionDir := GetExecutionDirForTaskId(task.GetId())
+	executionDir := common.GetExecutionDirForTaskId(parser.AgentConfig.AgentDirectory, task.GetId())
 	err := os.Mkdir(executionDir, 0777)
 	common.DealWithError(err)
 	RunShellCommand(
@@ -50,7 +46,7 @@ func HandleTask(task *rm.TTask) {
 }
 
 func DownloadFiles(task_id string, files []*rm.TFile) rm.TStageInResponse {
-	executionDir := GetExecutionDirForTaskId(task_id)
+	executionDir := common.GetExecutionDirForTaskId(parser.AgentConfig.AgentDirectory, task_id)
 	err := os.Mkdir(executionDir, 0777)
 	common.DealWithError(err)
 	result := pb.TResult{ResultCode: pb.TResult_RUN}
@@ -69,7 +65,7 @@ func DownloadFiles(task_id string, files []*rm.TFile) rm.TStageInResponse {
 	if result.ResultCode != pb.TResult_FAILED {
 		result.ResultCode = pb.TResult_SUCCESS
 	}
-	return rm.TStageInResponse{TaskId: &task_id, Result: &result}
+	return rm.TStageInResponse{TaskId: task_id, Result: &result}
 }
 
 func RunShellCommand(command string, directory string, stdOutFilePath string, stdErrFilePath string, taskId string, changeTaskStatus bool) {

@@ -78,11 +78,11 @@ github.com/cznic/mathutil v0.0.0-20180504122225-ca4c9f2c1369/go.mod h1:e6NPNENfs
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/dc-lab/sky/api/proto/common v0.0.0-20200510165926-48fa400624f6/go.mod h1:X9zn6FA/CFYdEwRp5P/nRmuVEZyfDjv4P4c/sRBNJVU=
-github.com/dc-lab/sky/api/proto/common v0.0.0-20200510201109-c416e7866322 h1:9U3OXSzH6Mg4mSlLVsgZUpXjGt1AF3b0TuH3oLd4LFM=
-github.com/dc-lab/sky/api/proto/common v0.0.0-20200510201109-c416e7866322/go.mod h1:EiaE6Rab1Sn4ImZ60upy3SF8UG4AuTdeBb3RXZjlATI=
-github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200510201109-c416e7866322 h1:YlIQ97QaifqtikW8u0+/xNrLEJ0vor0+723V5fY1XVk=
-github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200510201109-c416e7866322/go.mod h1:NmxoG8r2ilF0FYCIohAm5skOArWqaaXJFpcj1ct79Dw=
+github.com/dc-lab/sky/api/proto/common v0.0.0-20200511001614-2941aac9ecce/go.mod h1:EiaE6Rab1Sn4ImZ60upy3SF8UG4AuTdeBb3RXZjlATI=
+github.com/dc-lab/sky/api/proto/common v0.0.0-20200511130242-8e9cea1d039d h1:RGGsNVlQ6+o1MqgsMeCC+Gqor82tVjNRkJyZ5nMASxo=
+github.com/dc-lab/sky/api/proto/common v0.0.0-20200511130242-8e9cea1d039d/go.mod h1:EiaE6Rab1Sn4ImZ60upy3SF8UG4AuTdeBb3RXZjlATI=
+github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200511130242-8e9cea1d039d h1:K3dQlSnm97WLOBcEY/HL5Gf9NjUeF3kjjgK7hwBkIRM=
+github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200511130242-8e9cea1d039d/go.mod h1:CoBori6Wz4SfK1DCmVThhy0wVV1vTvK/m4tqSjC0mNo=
 github.com/dc-lab/sky/data_manager v0.0.0-20200510203427-81fe831a0a6b h1:LVy0y2a+qmwuPQ9iCqJPlddxoIUKkHmgLWp8aLvCbl8=
 github.com/dc-lab/sky/data_manager v0.0.0-20200510203427-81fe831a0a6b/go.mod h1:FxtWCsSmp/5vZMQ0FMZRkpc2dEn8qPMGuCGhHkX7hKQ=
 github.com/denisenkom/go-mssqldb v0.0.0-20190515213511-eb9f6a1743f3/go.mod h1:zAg7JM8CkOJ43xKXIj7eRO9kmWm/TW578qo+oDO6tuM=
@@ -161,6 +161,7 @@ github.com/golang/mock v1.4.0/go.mod h1:UOMv5ysSaYNkG+OFQykRIcU/QvvxJf3p21QfJ2Bt
 github.com/golang/protobuf v1.2.0/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
 github.com/golang/protobuf v1.3.1/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
 github.com/golang/protobuf v1.3.2/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
+github.com/golang/protobuf v1.3.3 h1:gyjaxf+svBWX08ZjK86iN9geUJF0H6gp2IRKX6Nf6/I=
 github.com/golang/protobuf v1.3.3/go.mod h1:vzj43D7+SQXF/4pzW/hwtAqwc6iTitCiVSaWz5lYuqw=
 github.com/golang/protobuf v1.4.0-rc.1/go.mod h1:ceaxUfeHdC40wWswd/P6IGgMaK3YpKi5j83Wpe3EHw8=
 github.com/golang/protobuf v1.4.0-rc.1.0.20200221234624-67d41d38c208/go.mod h1:xKAWHe0F5eneWXFV3EuXVDTCmh+JuBKY0li0aMyXATA=
@@ -392,6 +393,8 @@ github.com/stretchr/testify v1.3.0 h1:TivCn/peBQ7UY8ooIcPgZFpTNSz0Q2U6UrFlUfqbe0
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
 github.com/stretchr/testify v1.4.0 h1:2E4SXV/wtOkTonXsotYi4li6zVWxYlZuYNCXe9XRJyk=
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
+github.com/struCoder/pidusage v0.1.3 h1:pZcSa6asBE38TJtW0Nui6GeCjLTpaT/jAnNP7dUTLSQ=
+github.com/struCoder/pidusage v0.1.3/go.mod h1:pWBlW3YuSwRl6h7R5KbvA4N8oOqe9LjaKW5CwT1SPjI=
 github.com/subosito/gotenv v1.2.0 h1:Slr1R9HxAlEKefgq5jn9U+DnETlIUa6HfgEzj0g5d7s=
 github.com/subosito/gotenv v1.2.0/go.mod h1:N0PQaV/YGNqwC0u51sEeR/aUtSLEXKX9iv69rRypqCw=
 github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14/go.mod h1:gxQT6pBGRuIGunNf/+tSOB5OHvguWi8Tbt82WOkf35E=
