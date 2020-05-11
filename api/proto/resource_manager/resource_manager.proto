@@ -65,12 +65,22 @@ message TStageOutResponse {
     repeated TFile task_files = 2;
 }
 
+message TCancelTaskRequest {
+    string task_id = 1; // required
+}
+
+message TDeleteTaskRequest {
+    string task_id = 1; // required
+}
+
 message TToAgentMessage {
     oneof Body {
         THardwareRequest hardware_request = 1;
         TTaskRequest task_request = 2;
         TStageInRequest stage_in_request = 3;
         TStageOutRequest stage_out_request = 4;
+        TCancelTaskRequest cancel_task_request = 5;
+        TDeleteTaskRequest delete_task_request = 6;
     }
 }
 
