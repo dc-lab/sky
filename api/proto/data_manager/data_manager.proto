@@ -36,7 +36,6 @@ message CreateFileRequest {
 message CreateFileResponse {
     action.TResult result = 1;
     File file = 2;
-    string upload_url = 3;
 }
 
 message GetFileInfoRequest {
@@ -55,6 +54,9 @@ message File {
     string task_id = 3;
     bool is_executable = 4;
     map<string, string> tags = 5;
+
+    string upload_url = 6; // Returned only once in CreateFileRequest
+    repeated string download_urls = 7; // There can be more than 1 mirror
 }
 
 message UpdateTaskResultsRequest {
