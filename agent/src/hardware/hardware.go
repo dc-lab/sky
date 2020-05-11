@@ -2,7 +2,6 @@ package hardware
 
 import (
 	common "github.com/dc-lab/sky/agent/src/common"
-	"github.com/dc-lab/sky/agent/src/network"
 	"github.com/dc-lab/sky/agent/src/parser"
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/disk"
@@ -92,6 +91,6 @@ func GetTaskHardwareDataUsage(taskId string, pid int) HardwareData {
 	return HardwareData{
 		CpuCount:    sysInfo.CPU,
 		MemoryBytes: uint64(sysInfo.Memory),
-		DiskBytes:   GetDiskStat(network.GetExecutionDirForTaskId(taskId)).Used,
+		DiskBytes:   GetDiskStat(common.GetExecutionDirForTaskId(parser.AgentConfig.AgentDirectory, taskId)).Used,
 	}
 }

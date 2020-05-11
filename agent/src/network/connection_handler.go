@@ -33,17 +33,17 @@ func StageInFiles(client rm.ResourceManager_SendClient, task_id string, files []
 }
 
 func StageOutFiles(client rm.ResourceManager_SendClient, taskId string) {
-	taskDir := GetExecutionDirForTaskId(taskId)
+	taskDir := common.GetExecutionDirForTaskId(parser.AgentConfig.AgentDirectory, taskId)
 	filePaths := common.GetChildrenFilePaths(taskDir)
 	var files []*rm.TFile
 	for _, filePath := range filePaths {
 		file := data_manager_api.UploadFile(filePath, taskDir)
 		files = append(files, &file)
 	}
-	//response := rm.TStageOutResponse{TaskId: &taskId, TaskFiles: files}
-	//body := rm.TFromAgentMessage_StageOutResponse{StageOutResponse: &response}
-	//err := client.Send(&rm.TFromAgentMessage{Body: &body})
-	//common.DealWithError(err)
+	response := rm.TStageOutResponse{TaskId: taskId, TaskFiles: files}
+	body := rm.TFromAgentMessage_StageOutResponse{StageOutResponse: &response}
+	err := client.Send(&rm.TFromAgentMessage{Body: &body})
+	common.DealWithError(err)
 }
 
 func ReceiveResourceManagerRequest(client rm.ResourceManager_SendClient) {
@@ -79,7 +79,7 @@ func ReceiveResourceManagerRequest(client rm.ResourceManager_SendClient) {
 
 func RunClient() {
 	stream, ctx := CreateConnection(parser.AgentConfig.ResourceManagerAddress)
-	go SendRegistrationData(stream, &parser.AgentConfig.Token)
+	go SendRegistrationData(stream, parser.AgentConfig.Token)
 	go ReceiveResourceManagerRequest(stream)
 	go SendHealthChecks(stream)
 	go UpdateTasksStatuses(stream)
