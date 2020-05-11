@@ -81,8 +81,8 @@ github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/dc-lab/sky/api/proto/common v0.0.0-20200511001614-2941aac9ecce/go.mod h1:EiaE6Rab1Sn4ImZ60upy3SF8UG4AuTdeBb3RXZjlATI=
 github.com/dc-lab/sky/api/proto/common v0.0.0-20200511130242-8e9cea1d039d h1:RGGsNVlQ6+o1MqgsMeCC+Gqor82tVjNRkJyZ5nMASxo=
 github.com/dc-lab/sky/api/proto/common v0.0.0-20200511130242-8e9cea1d039d/go.mod h1:EiaE6Rab1Sn4ImZ60upy3SF8UG4AuTdeBb3RXZjlATI=
-github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200511130242-8e9cea1d039d h1:K3dQlSnm97WLOBcEY/HL5Gf9NjUeF3kjjgK7hwBkIRM=
-github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200511130242-8e9cea1d039d/go.mod h1:CoBori6Wz4SfK1DCmVThhy0wVV1vTvK/m4tqSjC0mNo=
+github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200511211817-4580db8e14ca h1:qCMiMJ4JWH3YSD9kIvroCgRzDuOWyaheZH3H6gay+XM=
+github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200511211817-4580db8e14ca/go.mod h1:CoBori6Wz4SfK1DCmVThhy0wVV1vTvK/m4tqSjC0mNo=
 github.com/dc-lab/sky/data_manager v0.0.0-20200510203427-81fe831a0a6b h1:LVy0y2a+qmwuPQ9iCqJPlddxoIUKkHmgLWp8aLvCbl8=
 github.com/dc-lab/sky/data_manager v0.0.0-20200510203427-81fe831a0a6b/go.mod h1:FxtWCsSmp/5vZMQ0FMZRkpc2dEn8qPMGuCGhHkX7hKQ=
 github.com/denisenkom/go-mssqldb v0.0.0-20190515213511-eb9f6a1743f3/go.mod h1:zAg7JM8CkOJ43xKXIj7eRO9kmWm/TW578qo+oDO6tuM=

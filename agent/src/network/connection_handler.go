@@ -48,6 +48,10 @@ func ReceiveResourceManagerRequest(client rm.ResourceManager_SendClient) {
 			fmt.Println("Stage out request")
 			taskId := response.StageOutRequest.GetTaskId()
 			go StageOutFiles(client, taskId)
+		case *rm.TToAgentMessage_CancelTaskRequest:
+			fmt.Println("Cancel task request")
+			taskId := response.CancelTaskRequest.GetTaskId()
+			go CancelTask(taskId)
 		default:
 			fmt.Println("Non type of response")
 		}
