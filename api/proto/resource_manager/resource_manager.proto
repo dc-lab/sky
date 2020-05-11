@@ -27,6 +27,11 @@ message TGreetings {
 message THardwareRequest {
 }
 
+message THardwareResponse {
+    entity.THardwareData total_hardware_data = 1;
+    entity.THardwareData free_hardware_data = 2;
+}
+
 message TTaskRequest {
     TTask task = 1; // required
 }
@@ -71,7 +76,7 @@ message TToAgentMessage {
 
 message TFromAgentMessage {
     oneof Body {
-        entity.THardwareData hardware_data = 1;
+        THardwareResponse hardware_response = 1;
         TGreetings greetings = 2;
         TTaskResponse task_response = 3;
         TStageInResponse stage_in_response = 4;
