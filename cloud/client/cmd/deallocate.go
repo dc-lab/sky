@@ -20,7 +20,7 @@ var deallocateParams DeallocateCmdParams
 var deallocateCmd = &cobra.Command{
 	Use:   "deallocate",
 	Short: "DeallocateInstance call",
-	Long: `Make GRPC call to Cloud server with DeallocateInstance action`,
+	Long:  `Make GRPC call to Cloud server with DeallocateInstance action`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("deallocate called")
 
@@ -30,8 +30,8 @@ var deallocateCmd = &cobra.Command{
 		req := cloud.TCloudRequest{
 			Body: &cloud.TCloudRequest_DeallocateInstanceRequest{
 				DeallocateInstanceRequest: &cloud.TDeallocateInstanceRequest{
-					Creds: &creds,
-					Settings: &apiSettings,
+					Creds:        &creds,
+					Settings:     &apiSettings,
 					InstanceUuid: deallocateParams.instanceUuid,
 				},
 			},

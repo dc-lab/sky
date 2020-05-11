@@ -20,7 +20,7 @@ var disconnectParams DisconnectCmdParams
 var disconnectCmd = &cobra.Command{
 	Use:   "disconnect",
 	Short: "DisconnectInstance",
-	Long: `Make GRPC call to Cloud server with DisconnectInstance action`,
+	Long:  `Make GRPC call to Cloud server with DisconnectInstance action`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("disconnect called")
 
@@ -29,7 +29,7 @@ var disconnectCmd = &cobra.Command{
 		req := cloud.TCloudRequest{
 			Body: &cloud.TCloudRequest_DisconnectInstanceRequest{
 				DisconnectInstanceRequest: &cloud.TDisconnectInstanceRequest{
-					Creds: &creds,
+					Creds:        &creds,
 					InstanceUuid: disconnectParams.instanceUuid,
 				},
 			},

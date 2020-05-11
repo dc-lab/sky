@@ -11,9 +11,9 @@ import (
 )
 
 type ConnectCmdParams struct {
-	coresCount uint32
+	coresCount  uint32
 	memoryBytes uint64
-	diskBytes uint64
+	diskBytes   uint64
 }
 
 var connectParams ConnectCmdParams
@@ -22,7 +22,7 @@ var connectParams ConnectCmdParams
 var connectCmd = &cobra.Command{
 	Use:   "connect",
 	Short: "ConnectInstance call",
-	Long: `Make GRPC call to Cloud server with ConnectInstance action`,
+	Long:  `Make GRPC call to Cloud server with ConnectInstance action`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("connect called")
 
@@ -33,8 +33,8 @@ var connectCmd = &cobra.Command{
 		req := cloud.TCloudRequest{
 			Body: &cloud.TCloudRequest_ConnectInstanceRequest{
 				ConnectInstanceRequest: &cloud.TConnectInstanceRequest{
-					Creds: &creds,
-					Settings: &apiSettings,
+					Creds:        &creds,
+					Settings:     &apiSettings,
 					HardwareData: &hardwareData,
 				},
 			},

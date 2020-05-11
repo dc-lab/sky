@@ -20,7 +20,7 @@ func NewAwsCredentials(accessKeyId, secretAccessKey string) cloud.TUserCredentia
 	return cloud.TUserCredentials{
 		Body: &cloud.TUserCredentials_AmazonCredentials{
 			AmazonCredentials: &cloud.TAmazonCredentials{
-				AccessKeyId: accessKeyId,
+				AccessKeyId:     accessKeyId,
 				SecretAccessKey: secretAccessKey,
 			},
 		},
@@ -29,17 +29,17 @@ func NewAwsCredentials(accessKeyId, secretAccessKey string) cloud.TUserCredentia
 
 func NewHardwareData(coresCount uint32, memoryBytes uint64, diskBytes uint64) common.THardwareData {
 	return common.THardwareData{
-		CoresCount: coresCount,
+		CoresCount:  coresCount,
 		MemoryBytes: memoryBytes,
-		DiskBytes: diskBytes,
+		DiskBytes:   diskBytes,
 	}
 }
 
 func NewDockerImage(registry, repository, image, tag string) cloud.TDockerImage {
 	return cloud.TDockerImage{
-		Registry: registry,
+		Registry:   registry,
 		Repository: repository,
-		Image: image,
-		Tag: tag,
+		Image:      image,
+		Tag:        tag,
 	}
 }

@@ -12,10 +12,10 @@ import (
 
 type DeployCmdParams struct {
 	instanceUuid string
-	registry string
-	repository string
-	image string
-	tag string
+	registry     string
+	repository   string
+	image        string
+	tag          string
 }
 
 var deployParams DeployCmdParams
@@ -24,7 +24,7 @@ var deployParams DeployCmdParams
 var deployCmd = &cobra.Command{
 	Use:   "deploy",
 	Short: "DeployImage call",
-	Long: `Make GRPC call to Cloud server with DeployImage action`,
+	Long:  `Make GRPC call to Cloud server with DeployImage action`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("deploy called")
 
@@ -35,10 +35,10 @@ var deployCmd = &cobra.Command{
 		req := cloud.TCloudRequest{
 			Body: &cloud.TCloudRequest_DeployImageRequest{
 				DeployImageRequest: &cloud.TDeployImageRequest{
-					Creds: &creds,
-					Settings: &apiSettings,
+					Creds:        &creds,
+					Settings:     &apiSettings,
 					InstanceUuid: deallocateParams.instanceUuid,
-					DockerImage: &dockerImage,
+					DockerImage:  &dockerImage,
 				},
 			},
 		}

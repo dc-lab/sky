@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	EnvAwsKeyId     = "SKY_CLOUD_AWS_KEY_ID"
-	EnvAwsSecretKey = "SKY_CLOUD_AWS_SECRET_KEY"
+	EnvAwsAccessKey   = "SKY_CLOUD_AWS_ACCESS_KEY"
+	EnvAwsAccessKeyId = "SKY_CLOUD_AWS_ACCESS_KEY_ID"
 )
 
 func SetEnvDefaultForFlags(cmd *cobra.Command, envs map[string]string) {

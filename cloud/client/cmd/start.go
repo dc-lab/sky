@@ -20,7 +20,7 @@ var startParams StartCmdParams
 var startCmd = &cobra.Command{
 	Use:   "start",
 	Short: "StartInstance",
-	Long: `Make GRPC call to Cloud server with StartInstance action`,
+	Long:  `Make GRPC call to Cloud server with StartInstance action`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("start called")
 
@@ -30,8 +30,8 @@ var startCmd = &cobra.Command{
 		req := cloud.TCloudRequest{
 			Body: &cloud.TCloudRequest_StartInstanceRequest{
 				StartInstanceRequest: &cloud.TStartInstanceRequest{
-					Creds: &creds,
-					Settings: &apiSettings,
+					Creds:        &creds,
+					Settings:     &apiSettings,
 					InstanceUuid: startParams.instanceUuid,
 				},
 			},

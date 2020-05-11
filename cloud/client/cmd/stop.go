@@ -20,7 +20,7 @@ var stopParams StopCmdParams
 var stopCmd = &cobra.Command{
 	Use:   "stop",
 	Short: "StopInstance",
-	Long: `Make GRPC call to Cloud server with StopInstance action`,
+	Long:  `Make GRPC call to Cloud server with StopInstance action`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("stop called")
 
@@ -30,8 +30,8 @@ var stopCmd = &cobra.Command{
 		req := cloud.TCloudRequest{
 			Body: &cloud.TCloudRequest_StopInstanceRequest{
 				StopInstanceRequest: &cloud.TStopInstanceRequest{
-					Creds: &creds,
-					Settings: &apiSettings,
+					Creds:        &creds,
+					Settings:     &apiSettings,
 					InstanceUuid: stopParams.instanceUuid,
 				},
 			},

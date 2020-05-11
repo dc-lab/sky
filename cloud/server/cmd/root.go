@@ -11,7 +11,7 @@ var (
 	GrpcPort uint16
 
 	rootCmd = &cobra.Command{
-		Use: "server.go [ARGS]",
+		Use:   "server.go [ARGS]",
 		Short: "Run SKY cloud API",
 	}
 )

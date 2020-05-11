@@ -10,19 +10,19 @@ import (
 )
 
 var (
-	envs = map[string]string {
-		config.EnvAwsKeyId: "aws-access-key-id",
-		config.EnvAwsSecretKey: "aws-secret-access-key",
+	envs = map[string]string{
+		config.EnvAwsAccessKey:   "aws-access-key",
+		config.EnvAwsAccessKeyId: "aws-access-key-id",
 	}
 
 	rootParams RootCmdParams
 )
 
 type RootCmdParams struct {
-	grpcPort uint16
-	accessKeyId string
+	grpcPort        uint16
+	accessKeyId     string
 	secretAccessKey string
-	region string
+	region          string
 }
 
 // rootCmd represents the base command when called without any subcommands
@@ -43,9 +43,9 @@ func Execute() {
 func init() {
 	rootCmd.PersistentFlags().Uint16Var(&rootParams.grpcPort, "grpc-port", 5005, "Cloud server port")
 
-	rootCmd.PersistentFlags().StringVar(&rootParams.accessKeyId, "aws-access-key-id", "", "AWS access key id")
+	rootCmd.PersistentFlags().StringVar(&rootParams.secretAccessKey, "aws-access-key", "", "AWS access key")
 
-	rootCmd.PersistentFlags().StringVar(&rootParams.secretAccessKey, "aws-secret-access-key", "", "AWS secret access key")
+	rootCmd.PersistentFlags().StringVar(&rootParams.accessKeyId, "aws-access-key-id", "", "AWS access key id")
 
 	rootCmd.PersistentFlags().StringVar(&rootParams.region, "aws-region", "", "AWS region for API requests")
 
