@@ -56,7 +56,7 @@ func ReceiveResourceManagerRequest(client rm.ResourceManager_SendClient) {
 		switch response := generalResponse.Body.(type) {
 		case *rm.TToAgentMessage_HardwareRequest:
 			fmt.Println("Hardware data request")
-			go SendHardwareData(client, hardware.GetHardwareData())
+			go SendHardwareData(client, hardware.GetTotalHardwareData(), hardware.GetFreeHardwareData())
 		case *rm.TToAgentMessage_TaskRequest:
 			fmt.Println("Task request")
 			task := response.TaskRequest.GetTask()
