@@ -24,13 +24,9 @@ func GetTotalCoresCount() float64 {
 }
 
 func GetFreeCoresCount() float64 {
-	percentage, err := cpu.Percent(0, true)
+	percentage, err := cpu.Percent(0, false)
 	common.DealWithError(err)
-	freeCores := 0.
-	for _, percentUsage := range percentage {
-		freeCores += 1. - percentUsage
-	}
-	return freeCores
+	return GetTotalCoresCount() * (100. - percentage[0]) / 100.
 }
 
 //////////////////END CORES//////////////////
