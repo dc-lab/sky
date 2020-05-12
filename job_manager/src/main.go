@@ -6,17 +6,33 @@ import (
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
+type TaskSpec struct {
+	Command     string
+	InputFiles  []string
+	OutputFiles []string
+	TimeLimit   uint64
+}
+
 type JobSpec struct {
+	Tasks []TaskSpec
+	Type  string
 }
 
 type JobState struct {
 	JobId   uuid.UUID
-	State   []string
+	State   string
 	Results []uuid.UUID
-	Spec    []JobSpec
+	Spec    JobSpec
+}
+
+func panicOnError(err error) {
+	if err != nil {
+		panic(err)
+	}
 }
 
 func main() {
@@ -39,9 +55,24 @@ func main() {
 	log.Fatal(srv.ListenAndServe())
 }
 
-func startJob(w http.ResponseWriter, _ *http.Request) {
-	jobId, _ := uuid.NewV4()
-	_ = json.NewEncoder(w).Encode(jobId)
+func startJob(w http.ResponseWriter, r *http.Request) {
+	jobId, err := uuid.NewV4()
+	panicOnError(err)
+
+	jobSpec := new(JobSpec)
+	err = json.NewDecoder(r.Body).Decode(jobSpec)
+	panicOnError(err)
+
+	jobState := new(JobState)
+	jobState.JobId = jobId
+	jobState.State = "Starting"
+	jobState.Results = make([]uuid.UUID, 0)
+	jobState.Spec = *jobSpec
+
+	_ = json.NewEncoder(os.Stdout).Encode(jobState)
+
+	err = json.NewEncoder(w).Encode(jobId)
+	panicOnError(err)
 }
 
 func getJobs(w http.ResponseWriter, _ *http.Request) {
