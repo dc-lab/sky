@@ -13,7 +13,8 @@ message TResult {
     WAIT = 1;
     RUN = 2;
     FAILED = 3;
-    SUCCESS = 4;
+    CANCELED = 4;
+    SUCCESS = 5;
   }
 
   enum TErrorCode {
