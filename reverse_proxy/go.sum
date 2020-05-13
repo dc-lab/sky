@@ -5,8 +5,11 @@ github.com/creack/pty v1.1.7/go.mod h1:lj5s0c3V2DBrqTV7llrYr5NG6My20zk30Fl46Y7Do
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/dc-lab/sky v0.0.0-20200512233612-8bbd85bd3a7e h1:2/QsM5i00WROJZgMisa4znG3GkSjtL8wfEdtZ67S7wo=
+github.com/dc-lab/sky v0.0.0-20200513215149-f07e457c4572 h1:RGI92plbjjaimHyt+S5emQN+WRybdZH8gXHbDrTYEJk=
 github.com/dc-lab/sky/user_manager v0.0.0-20200512233612-8bbd85bd3a7e h1:Dn5yRMS4CU+dpQHAGTZrN9ItG6XtaMl/Y/48QjIZfig=
 github.com/dc-lab/sky/user_manager v0.0.0-20200512233612-8bbd85bd3a7e/go.mod h1:aMTROy8P9Xw0z5u21Gg5LRWtzSZRYGlsZ+V79j8SxbA=
+github.com/dc-lab/sky/user_manager v0.0.0-20200513215149-f07e457c4572 h1:TPnVHng9G3TPp5vMuYVKzUv87/K3nsoa5eApznAlCMQ=
+github.com/dc-lab/sky/user_manager v0.0.0-20200513215149-f07e457c4572/go.mod h1:aMTROy8P9Xw0z5u21Gg5LRWtzSZRYGlsZ+V79j8SxbA=
 github.com/go-stack/stack v1.8.0/go.mod h1:v0f6uXyyMGvRgIKkXu+yp6POWl0qKG85gN/melR3HDY=
 github.com/gofrs/uuid v3.2.0+incompatible/go.mod h1:b2aQJv3Z4Fp6yNu3cdSllBxTCLRxnplIgP/c0N/04lM=
 github.com/google/uuid v1.1.1 h1:Gkbcsh/GbpXz7lPftLA3P6TYMwjCLYm83jiFQZF/3gY=

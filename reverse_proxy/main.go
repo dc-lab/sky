@@ -26,10 +26,24 @@ var endpoints *Endpoints
 func handlerProxy(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.URL.Host)
 
-	userToken := db.GetIdByToken()
-	// Check authorization
-	// And set user-id to special header
-	// help: Use r.Header.Set(grafanaHeader, grafanaUser)
+	userToken := r.Header.Get("User-Token")
+	if userToken == "" {
+		fmt.Println("No credentials provided")
+		http.Error(w, "No credentials provided", http.StatusUnauthorized)
+		return
+	}
+	userId, err := db.GetIdByToken(userToken)
+	if err != nil {
+		fmt.Println(err)
+		switch err.(type) {
+		case *db.UserNotFoundError:
+			http.Error(w, "Authorization failed", http.StatusForbidden)
+		default:
+			http.Error(w, "Internal error", http.StatusInternalServerError)
+		}
+		return
+	}
+	r.Header.Set("User-Id", userId)
 
 	var host string
 	for _, endpoint := range endpoints.Endpoints {
