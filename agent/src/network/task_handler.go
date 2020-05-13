@@ -24,48 +24,12 @@ func StartTask(taskProto *rm.TTask) {
 	GlobalTasksStatuses.Store(task.TaskId, &task)
 	task.InstallRequirements()
 	task.Run()
-	//RunShellCommand2(
-	//	task.RequirementsShellCommand,
-	//	task.ExecutionDir,
-	//	path.Join(task.ExecutionDir, "requirements_out"),
-	//	path.Join(task.ExecutionDir, "requirements_err"),
-	//	task.TaskId,
-	//	false)
-	//RunShellCommand2(
-	//	task.ExecutionShellCommand,
-	//	task.ExecutionDir,
-	//	path.Join(task.ExecutionDir, "execution_out"),
-	//	path.Join(task.ExecutionDir, "execution_err"),
-	//	task.TaskId,
-	//	true)
 }
 
 func CancelTask(taskId string) {
 	task, flag := GlobalTasksStatuses.Load(taskId)
 	if flag {
 		task.Cancel()
-	}
-}
-
-func RunShellCommand2(command string, directory string, stdOutFilePath string, stdErrFilePath string, taskId string, changeTaskStatus bool) {
-	cmd := exec.Command("/bin/sh", "-c", command)
-	cmd.Dir = directory
-	stdoutFile := common.CreateFile(stdOutFilePath)
-	defer stdoutFile.Close()
-	cmd.Stdout = stdoutFile
-	stderrFile := common.CreateFile(stdErrFilePath)
-	defer stderrFile.Close()
-	cmd.Stderr = stderrFile
-	pid := int64(cmd.Process.Pid)
-	result := pb.TResult{ResultCode: pb.TResult_RUN}
-	if changeTaskStatus {
-		GlobalTasksStatuses.UpdateTaskResult(taskId, &result)
-		GlobalTasksStatuses.UpdateTaskProcessID(taskId, pid)
-	}
-	err := cmd.Run()
-	if changeTaskStatus {
-	} else {
-		common.DealWithError(err)
 	}
 }
 
@@ -76,6 +40,7 @@ func RunShellCommand(
 	stdErrFilePath string,
 	beforeExecution func(pid int64, result *pb.TResult),
 	afterExecution func(err error),
+	quit <-chan struct{},
 ) {
 	cmd := exec.Command("/bin/sh", "-c", command)
 	cmd.Dir = directory
@@ -85,15 +50,24 @@ func RunShellCommand(
 	stderrFile := common.CreateFile(stdErrFilePath)
 	defer stderrFile.Close()
 	cmd.Stderr = stderrFile
-	cmd.Start()
+	err := cmd.Start()
+	common.DealWithError(err)
 	pid := int64(cmd.Process.Pid)
 	result := pb.TResult{ResultCode: pb.TResult_RUN}
 	if beforeExecution != nil {
 		beforeExecution(pid, &result)
 	}
-	err := cmd.Wait()
-	//err := cmd.Run()
-	if afterExecution != nil {
-		afterExecution(err)
+	done := make(chan error, 1)
+	go func() {
+		done <- cmd.Wait()
+	}()
+	select {
+	case <-quit:
+		err := cmd.Process.Kill()
+		common.DealWithError(err)
+	case err := <-done:
+		if afterExecution != nil {
+			afterExecution(err)
+		}
 	}
 }

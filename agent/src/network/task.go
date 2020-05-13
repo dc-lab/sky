@@ -8,6 +8,7 @@ import (
 	"os"
 	"path"
 	"sync/atomic"
+	"time"
 )
 
 type Task struct {
@@ -18,9 +19,11 @@ type Task struct {
 	Result                   *pb.TResult
 	ProcessID                int64 // use atomic
 	IsFinished               atomic.Value
+	QuitChanel               chan struct{}
 }
 
 func (t *Task) Init(taskProto *rm.TTask) {
+	t.QuitChanel = make(chan struct{}, 1)
 	t.IsFinished.Store(false)
 	t.TaskId = taskProto.GetId()
 	t.ExecutionShellCommand = taskProto.GetExecutionShellCommand()
@@ -40,7 +43,8 @@ func (t *Task) InstallRequirements() {
 		path.Join(t.ExecutionDir, "requirements_out"),
 		path.Join(t.ExecutionDir, "requirements_err"),
 		nil,
-		nil)
+		nil,
+		t.QuitChanel)
 }
 
 func (t *Task) Run() {
@@ -63,9 +67,17 @@ func (t *Task) Run() {
 		path.Join(t.ExecutionDir, "execution_out"),
 		path.Join(t.ExecutionDir, "execution_err"),
 		getProcessInfoBeforeExecution,
-		updateFinalResultFunc)
+		updateFinalResultFunc,
+		t.QuitChanel)
 }
 
 func (t *Task) Cancel() {
-
+	select {
+	case <-time.After(2 * time.Second):
+		return
+	case t.QuitChanel <- struct{}{}:
+		result := pb.TResult{ResultCode: pb.TResult_CANCELED}
+		GlobalTasksStatuses.UpdateTaskResult(t.TaskId, &result)
+		t.IsFinished.Store(true)
+	}
 }
