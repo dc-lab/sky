@@ -38,13 +38,6 @@ func (info *TasksInfo) UpdateTaskResult(taskId string, result *pb.TResult) {
 	GlobalTasksStatuses.Store(taskId, &task)
 }
 
-// TODO: delete
-func (info *TasksInfo) UpdateTaskProcessID(taskId string, pid int64) {
-	task, _ := GlobalTasksStatuses.Load(taskId)
-	task.ProcessID = pid
-	GlobalTasksStatuses.Store(taskId, &task)
-}
-
 var GlobalTasksStatuses = TasksInfo{
 	Data: make(map[string]*Task),
 }
