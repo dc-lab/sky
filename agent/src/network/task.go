@@ -54,11 +54,11 @@ func (t *Task) Run() {
 			result = pb.TResult{ResultCode: pb.TResult_FAILED, ErrorCode: pb.TResult_INTERNAL}
 			common.DealWithError(err)
 		}
-		GlobalTasksStatuses.UpdateTaskResult(t.TaskId, &result)
+		GlobalTasksStatuses.SetTaskResult(t.TaskId, &result)
 		t.IsFinished.Store(true)
 	}
 	getProcessInfoBeforeExecution := func(pid int64, result *pb.TResult) {
-		GlobalTasksStatuses.UpdateTaskResult(t.TaskId, result)
+		GlobalTasksStatuses.SetTaskResult(t.TaskId, result)
 		atomic.StoreInt64(&t.ProcessID, pid)
 	}
 	RunShellCommand(
@@ -77,7 +77,7 @@ func (t *Task) Cancel() {
 		return
 	case t.QuitChanel <- struct{}{}:
 		result := pb.TResult{ResultCode: pb.TResult_CANCELED}
-		GlobalTasksStatuses.UpdateTaskResult(t.TaskId, &result)
+		GlobalTasksStatuses.SetTaskResult(t.TaskId, &result)
 		t.IsFinished.Store(true)
 	}
 }

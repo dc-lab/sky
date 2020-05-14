@@ -13,7 +13,7 @@ func ConsumeTasksStatus(client rm.ResourceManager_SendClient, consumer func(rm.R
 	defer GlobalTasksStatuses.Mutex.RUnlock()
 	for taskID, processInfo := range GlobalTasksStatuses.Data {
 		fmt.Println("key:", taskID, ", val:", processInfo)
-		consumer(client, taskID, processInfo.Result) // don't change last argument
+		consumer(client, taskID, GlobalTasksStatuses.GetTaskResult(taskID)) // don't change last argument
 	}
 }
 

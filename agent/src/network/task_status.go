@@ -10,11 +10,11 @@ type TasksInfo struct {
 	Data  map[string]*Task
 }
 
-func (info *TasksInfo) Load(key string) (Task, bool) {
+func (info *TasksInfo) Load(key string) (*Task, bool) {
 	info.Mutex.RLock()
 	defer info.Mutex.RUnlock()
 	val, ok := info.Data[key]
-	return *val, ok
+	return val, ok
 }
 
 func (info *TasksInfo) Store(key string, value *Task) {
@@ -32,10 +32,16 @@ func (info *TasksInfo) Delete(key string) {
 	}
 }
 
-func (info *TasksInfo) UpdateTaskResult(taskId string, result *pb.TResult) {
-	task, _ := GlobalTasksStatuses.Load(taskId)
-	task.Result = result
-	GlobalTasksStatuses.Store(taskId, &task)
+func (info *TasksInfo) SetTaskResult(key string, result *pb.TResult) {
+	info.Mutex.Lock()
+	defer info.Mutex.Unlock()
+	info.Data[key].Result = result
+}
+
+func (info *TasksInfo) GetTaskResult(key string) *pb.TResult {
+	info.Mutex.RLock()
+	defer info.Mutex.RUnlock()
+	return info.Data[key].Result
 }
 
 var GlobalTasksStatuses = TasksInfo{
