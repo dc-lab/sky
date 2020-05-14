@@ -81,3 +81,11 @@ func (t *Task) Cancel() {
 		t.IsFinished.Store(true)
 	}
 }
+
+func (t *Task) Delete() {
+	t.Cancel()
+	err := common.RemoveDirectory(t.ExecutionDir)
+	common.DealWithError(err)
+	result := pb.TResult{ResultCode: pb.TResult_DELETED}
+	GlobalTasksStatuses.SetTaskResult(t.TaskId, &result)
+}

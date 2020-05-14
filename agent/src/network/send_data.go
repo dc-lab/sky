@@ -40,9 +40,9 @@ func SendTaskData(client rm.ResourceManager_SendClient, taskId string, resultPtr
 	body := rm.TFromAgentMessage_TaskResponse{TaskResponse: &request}
 	err := client.Send(&rm.TFromAgentMessage{Body: &body})
 	common.DealWithError(err)
-	if resultPtr.ResultCode == pb.TResult_FAILED || resultPtr.ResultCode == pb.TResult_SUCCESS {
-		GlobalTasksStatuses.Delete(taskId)
-	}
+	//if resultPtr.ResultCode == pb.TResult_FAILED || resultPtr.ResultCode == pb.TResult_SUCCESS {
+	//	GlobalTasksStatuses.Delete(taskId)
+	//}
 }
 
 func SendHealthChecks(client rm.ResourceManager_SendClient) {

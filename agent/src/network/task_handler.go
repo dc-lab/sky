@@ -33,6 +33,13 @@ func CancelTask(taskId string) {
 	}
 }
 
+func DeleteTask(taskId string) {
+	task, flag := GlobalTasksStatuses.Load(taskId)
+	if flag {
+		task.Delete()
+	}
+}
+
 func RunShellCommand(
 	command string,
 	directory string,

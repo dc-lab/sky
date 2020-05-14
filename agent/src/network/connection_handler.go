@@ -51,6 +51,9 @@ func ReceiveResourceManagerRequest(client rm.ResourceManager_SendClient) {
 		case *rm.TToAgentMessage_CancelTaskRequest:
 			taskId := response.CancelTaskRequest.GetTaskId()
 			go CancelTask(taskId)
+		case *rm.TToAgentMessage_DeleteTaskRequest:
+			taskId := response.DeleteTaskRequest.GetTaskId()
+			go DeleteTask(taskId)
 		default:
 			fmt.Println("Non type of response")
 		}
