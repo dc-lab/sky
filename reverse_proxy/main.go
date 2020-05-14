@@ -13,8 +13,9 @@ import (
 )
 
 type Endpoint struct {
-	PathPrefix string `json:"pathPrefix"`
-	Hostname   string `json:"hostname"`
+	PathPrefix   string `json:"path_prefix"`
+	Hostname     string `json:"hostname"`
+	AuthOptional bool   `json:"auth_optional"`
 }
 
 type Endpoints struct {
@@ -24,31 +25,12 @@ type Endpoints struct {
 var endpoints *Endpoints
 
 func handlerProxy(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.URL.Host)
-
-	userToken := r.Header.Get("User-Token")
-	if userToken == "" {
-		fmt.Println("No credentials provided")
-		http.Error(w, "No credentials provided", http.StatusUnauthorized)
-		return
-	}
-	userId, err := db.GetIdByToken(userToken)
-	if err != nil {
-		fmt.Println(err)
-		switch err.(type) {
-		case *db.UserNotFoundError:
-			http.Error(w, "Authorization failed", http.StatusForbidden)
-		default:
-			http.Error(w, "Internal error", http.StatusInternalServerError)
-		}
-		return
-	}
-	r.Header.Set("User-Id", userId)
-
 	var host string
+	var authOptional bool
 	for _, endpoint := range endpoints.Endpoints {
 		if strings.HasPrefix(r.URL.String(), endpoint.PathPrefix) {
 			host = endpoint.Hostname
+			authOptional = endpoint.AuthOptional
 			break
 		}
 	}
@@ -56,6 +38,27 @@ func handlerProxy(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("Can't find endpoint for url '%s'\n", r.URL.String())
 		http.Error(w, "No such url", http.StatusNotFound)
 		return
+	}
+
+	if !authOptional {
+		userToken := r.Header.Get("User-Token")
+		if userToken == "" {
+			fmt.Println("No credentials provided")
+			http.Error(w, "No credentials provided", http.StatusUnauthorized)
+			return
+		}
+		userId, err := db.GetIdByToken(userToken)
+		if err != nil {
+			fmt.Println(err)
+			switch err.(type) {
+			case *db.UserNotFoundError:
+				http.Error(w, "Authorization failed", http.StatusForbidden)
+			default:
+				http.Error(w, "Internal error", http.StatusInternalServerError)
+			}
+			return
+		}
+		r.Header.Set("User-Id", userId)
 	}
 
 	newUrl, err := url.Parse(fmt.Sprintf("http://%s/", host))
