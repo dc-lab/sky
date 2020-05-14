@@ -32,10 +32,16 @@ func (info *TasksInfo) Delete(key string) {
 	}
 }
 
-func (info *TasksInfo) UpdateTaskResult(taskId string, result *pb.TResult) {
-	task, _ := GlobalTasksStatuses.Load(taskId)
-	task.Result = result
-	GlobalTasksStatuses.Store(taskId, task)
+func (info *TasksInfo) SetTaskResult(key string, result *pb.TResult) {
+	info.Mutex.Lock()
+	defer info.Mutex.Unlock()
+	info.Data[key].Result = result
+}
+
+func (info *TasksInfo) GetTaskResult(key string) *pb.TResult {
+	info.Mutex.RLock()
+	defer info.Mutex.RUnlock()
+	return info.Data[key].Result
 }
 
 var GlobalTasksStatuses = TasksInfo{
