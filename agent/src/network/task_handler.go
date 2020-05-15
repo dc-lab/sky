@@ -2,16 +2,10 @@ package network
 
 import (
 	"fmt"
-	"github.com/dc-lab/sky/agent/src/parser"
-	"io"
-	"os"
-	"os/exec"
-	"path"
-
 	"github.com/dc-lab/sky/agent/src/common"
-	data_manager_api "github.com/dc-lab/sky/agent/src/data_manager"
 	pb "github.com/dc-lab/sky/api/proto/common"
 	rm "github.com/dc-lab/sky/api/proto/resource_manager"
+	"os/exec"
 )
 
 func ConsumeTasksStatus(client rm.ResourceManager_SendClient, consumer func(rm.ResourceManager_SendClient, string, *pb.TResult)) {
@@ -19,82 +13,68 @@ func ConsumeTasksStatus(client rm.ResourceManager_SendClient, consumer func(rm.R
 	defer GlobalTasksStatuses.Mutex.RUnlock()
 	for taskID, processInfo := range GlobalTasksStatuses.Data {
 		fmt.Println("key:", taskID, ", val:", processInfo)
-		consumer(client, taskID, &processInfo.Result) // don't change last argument
+		consumer(client, taskID, GlobalTasksStatuses.GetTaskResult(taskID)) // don't change last argument
 	}
 }
 
-func HandleTask(task *rm.TTask) {
+func StartTask(taskProto *rm.TTask) {
 	result := pb.TResult{ResultCode: pb.TResult_WAIT}
-	GlobalTasksStatuses.Store(task.GetId(), ProcessInfo{Result: result})
-	executionDir := common.GetExecutionDirForTaskId(parser.AgentConfig.AgentDirectory, task.GetId())
-	err := os.Mkdir(executionDir, 0777)
-	common.DealWithError(err)
-	RunShellCommand(
-		task.GetRequirementsShellCommand(),
-		executionDir,
-		path.Join(executionDir, "requirements_out"),
-		path.Join(executionDir, "requirements_err"),
-		task.GetId(),
-		false)
-	RunShellCommand(
-		task.GetExecutionShellCommand(),
-		executionDir,
-		path.Join(executionDir, "execution_out"),
-		path.Join(executionDir, "execution_err"),
-		task.GetId(),
-		true)
+	task := Task{Result: &result}
+	task.Init(taskProto)
+	GlobalTasksStatuses.Store(task.TaskId, &task)
+	task.InstallRequirements()
+	task.Run()
 }
 
-func DownloadFiles(task_id string, files []*rm.TFile) rm.TStageInResponse {
-	executionDir := common.GetExecutionDirForTaskId(parser.AgentConfig.AgentDirectory, task_id)
-	err := os.Mkdir(executionDir, 0777)
-	common.DealWithError(err)
-	result := pb.TResult{ResultCode: pb.TResult_RUN}
-	for _, file := range files {
-		err, body := data_manager_api.GetFileBody(file.GetId())
-		if err != nil {
-			result.ResultCode = pb.TResult_FAILED
-			err_str := err.Error()
-			result.ErrorText = err_str
-		}
-		defer body.Close()
-		out := common.CreateFile(path.Join(executionDir, file.GetAgentRelativeLocalPath()))
-		defer out.Close()
-		io.Copy(out, body)
+func CancelTask(taskId string) {
+	task, flag := GlobalTasksStatuses.Load(taskId)
+	if flag {
+		task.Cancel()
 	}
-	if result.ResultCode != pb.TResult_FAILED {
-		result.ResultCode = pb.TResult_SUCCESS
-	}
-	return rm.TStageInResponse{TaskId: task_id, Result: &result}
 }
 
-func RunShellCommand(command string, directory string, stdOutFilePath string, stdErrFilePath string, taskId string, changeTaskStatus bool) {
+func DeleteTask(taskId string) {
+	task, flag := GlobalTasksStatuses.Load(taskId)
+	if flag {
+		task.Delete()
+	}
+}
+
+func RunShellCommand(
+	command string,
+	directory string,
+	stdOutFilePath string,
+	stdErrFilePath string,
+	beforeExecution func(pid int64, result *pb.TResult),
+	afterExecution func(err error),
+	quit <-chan struct{},
+) {
 	cmd := exec.Command("/bin/sh", "-c", command)
 	cmd.Dir = directory
-	fmt.Println("Directory ", directory)
-	fmt.Println("Command ", command)
 	stdoutFile := common.CreateFile(stdOutFilePath)
 	defer stdoutFile.Close()
 	cmd.Stdout = stdoutFile
 	stderrFile := common.CreateFile(stdErrFilePath)
 	defer stderrFile.Close()
 	cmd.Stderr = stderrFile
-	// pid := cmd.Process.Pid
+	err := cmd.Start()
+	common.DealWithError(err)
+	pid := int64(cmd.Process.Pid)
 	result := pb.TResult{ResultCode: pb.TResult_RUN}
-	if changeTaskStatus {
-		GlobalTasksStatuses.Store(taskId, ProcessInfo{Result: result})
+	if beforeExecution != nil {
+		beforeExecution(pid, &result)
 	}
-	err := cmd.Run()
-	if changeTaskStatus {
-		if err != nil {
-			result = pb.TResult{ResultCode: pb.TResult_FAILED, ErrorCode: pb.TResult_INTERNAL}
-			fmt.Println("Error ", err)
-			common.DealWithError(err)
-		} else {
-			result = pb.TResult{ResultCode: pb.TResult_SUCCESS}
-		}
-		GlobalTasksStatuses.Store(taskId, ProcessInfo{Result: result})
-	} else {
+	done := make(chan error, 1)
+	go func() {
+		done <- cmd.Wait()
+	}()
+	select {
+	case <-quit:
+		err := cmd.Process.Kill()
 		common.DealWithError(err)
+	case err := <-done:
+		if afterExecution != nil {
+			afterExecution(err)
+		}
 	}
 }

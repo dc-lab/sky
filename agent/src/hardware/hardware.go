@@ -81,12 +81,12 @@ func GetFreeHardwareData() HardwareData {
 		DiskBytes:   GetFreeDisk()}
 }
 
-func GetTaskHardwareDataUsage(taskId string, pid int) HardwareData {
+func GetTaskHardwareDataUsage(pid int, taskPath string) HardwareData {
 	sysInfo, err := pidusage.GetStat(pid)
 	common.DealWithError(err)
 	return HardwareData{
 		CpuCount:    sysInfo.CPU,
 		MemoryBytes: uint64(sysInfo.Memory),
-		DiskBytes:   GetDiskStat(common.GetExecutionDirForTaskId(parser.AgentConfig.AgentDirectory, taskId)).Used,
+		DiskBytes:   GetDiskStat(taskPath).Used,
 	}
 }
