@@ -43,8 +43,9 @@ func (e *DockerExecutor) Prepare() {
 	}
 	io.Copy(os.Stdout, reader)
 	resp, err := e.DockerClient.ContainerCreate(ctx, &container.Config{
-		Image: e.Image,
-		Cmd:   []string{"/bin/sh", "-c", e.ExecutionShellCommand},
+		Image:      e.Image,
+		Cmd:        []string{"/bin/sh", "-c", e.ExecutionShellCommand},
+		WorkingDir: e.ExecutionDir,
 	}, &container.HostConfig{
 		Mounts: []mount.Mount{{Type: mount.TypeBind, Source: e.ExecutionDir, Target: e.ExecutionDir}},
 	}, nil, "")
