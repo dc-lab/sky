@@ -1,20 +1,18 @@
 package main
 
 import (
-	"encoding/json"
 	"github.com/gofrs/uuid"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
-	"os"
 	"time"
 )
 
 type TaskSpec struct {
 	Command     string
-	InputFiles  []string
-	OutputFiles []string
-	TimeLimit   uint64
+	InputFiles  []string `json:"input_files"`
+	OutputFiles []string `json:"output_files"`
+	TimeLimit   uint64   `json:"time_limit"`
 }
 
 type JobSpec struct {
@@ -27,12 +25,6 @@ type JobState struct {
 	State   string
 	Results []uuid.UUID
 	Spec    JobSpec
-}
-
-func panicOnError(err error) {
-	if err != nil {
-		panic(err)
-	}
 }
 
 func main() {
@@ -57,11 +49,10 @@ func main() {
 
 func startJob(w http.ResponseWriter, r *http.Request) {
 	jobId, err := uuid.NewV4()
-	panicOnError(err)
+	panicOnError(err, w, http.StatusInternalServerError)
 
 	jobSpec := new(JobSpec)
-	err = json.NewDecoder(r.Body).Decode(jobSpec)
-	panicOnError(err)
+	panicOnError(decodeBody(r.Body, jobSpec), w, http.StatusBadRequest)
 
 	jobState := new(JobState)
 	jobState.JobId = jobId
@@ -69,10 +60,7 @@ func startJob(w http.ResponseWriter, r *http.Request) {
 	jobState.Results = make([]uuid.UUID, 0)
 	jobState.Spec = *jobSpec
 
-	_ = json.NewEncoder(os.Stdout).Encode(jobState)
-
-	err = json.NewEncoder(w).Encode(jobId)
-	panicOnError(err)
+	panicOnError(encodeBody(w, jobState.JobId), w, http.StatusInternalServerError)
 }
 
 func getJobs(w http.ResponseWriter, _ *http.Request) {
@@ -84,32 +72,30 @@ func getJobs(w http.ResponseWriter, _ *http.Request) {
 		jobStates = append(jobStates, jobState)
 		i++
 	}
-	_ = json.NewEncoder(w).Encode(jobStates)
+
+	panicOnError(encodeBody(w, jobStates), w, http.StatusInternalServerError)
 }
 
 func getJob(w http.ResponseWriter, r *http.Request) {
-	jobId, ok := mux.Vars(r)["job_id"]
-	if !ok {
-		http.Error(w, "job_id not found in URL", http.StatusBadRequest)
-	}
+	jobId := mux.Vars(r)["job_id"]
+
 	jobState := JobState{JobId: uuid.FromStringOrNil(jobId)}
-	_ = json.NewEncoder(w).Encode(jobState)
+
+	panicOnError(encodeBody(w, jobState), w, http.StatusInternalServerError)
 }
 
 func cancelJob(w http.ResponseWriter, r *http.Request) {
-	jobId, ok := mux.Vars(r)["job_id"]
-	if !ok {
-		http.Error(w, "job_id not found in URL", http.StatusBadRequest)
-	}
+	jobId := mux.Vars(r)["job_id"]
+
 	log.Printf("cancel job with id = %s", jobId)
-	_ = json.NewEncoder(w).Encode(jobId)
+
+	panicOnError(encodeBody(w, jobId), w, http.StatusInternalServerError)
 }
 
 func deleteJob(w http.ResponseWriter, r *http.Request) {
-	jobId, ok := mux.Vars(r)["job_id"]
-	if !ok {
-		http.Error(w, "job_id not found in URL", http.StatusBadRequest)
-	}
-	log.Printf("delete job with id = %s", jobId)
-	_ = json.NewEncoder(w).Encode(jobId)
+	jobId := mux.Vars(r)["job_id"]
+
+	log.Printf("cancel job with id = %s", jobId)
+
+	panicOnError(encodeBody(w, jobId), w, http.StatusInternalServerError)
 }
