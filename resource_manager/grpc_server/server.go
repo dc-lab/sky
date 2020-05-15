@@ -35,11 +35,10 @@ func (s Server) Send(srv pb.ResourceManager_SendServer) error {
 			log.Printf("Got greetings: %s", greetings.GetToken())
 			log.Println("Going to send TaskRequest")
 			taskId := "123"
-			shellCommand := "ls -la"
+			shellCommand := "ls -la && sleep 0.5"
 			task := pb.TTask{
-				Id:                       &taskId,
-				ExecutionShellCommand:    &shellCommand,
-				RequirementsShellCommand: nil,
+				Id:                       taskId,
+				ExecutionShellCommand:    shellCommand,
 			}
 			taskRequest := pb.TTaskRequest{Task: &task}
 			resp := pb.TToAgentMessage{Body: &pb.TToAgentMessage_TaskRequest{TaskRequest: &taskRequest}}
@@ -47,9 +46,14 @@ func (s Server) Send(srv pb.ResourceManager_SendServer) error {
 				log.Printf("send error %v\n", err)
 			}
 			log.Println("send new message")
-		case *pb.TFromAgentMessage_HardwareData:
-			hardwareData := req.GetHardwareData()
-			log.Printf("Got hardware data: %d, %d, %d\n", hardwareData.GetCoresCount(), hardwareData.GetDiskBytes(), hardwareData.GetMemoryBytes())
+		case *pb.TFromAgentMessage_HardwareResponse:
+			hardwareResp := req.GetHardwareResponse()
+			freeHardwareData := hardwareResp.FreeHardwareData
+			totalHardwareData := hardwareResp.TotalHardwareData
+			log.Printf("Got hardware data: %.2f/%.2f, %d/%d, %d/%d\n",
+				freeHardwareData.CoresCount, totalHardwareData.CoresCount,
+				freeHardwareData.DiskBytes, totalHardwareData.DiskBytes,
+				freeHardwareData.MemoryBytes, totalHardwareData.MemoryBytes)
 		case *pb.TFromAgentMessage_TaskResponse:
 			taskResponse := req.GetTaskResponse()
 			log.Printf("Got task response: %s, %s, %s", taskResponse.GetTaskId(), taskResponse.GetResult().GetErrorCode(), taskResponse.GetResult().GetResultCode())
