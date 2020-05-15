@@ -2,6 +2,7 @@ package executors
 
 import (
 	"context"
+	"github.com/dc-lab/sky/agent/src/common"
 	pb "github.com/dc-lab/sky/api/proto/common"
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
@@ -10,6 +11,7 @@ import (
 	"io"
 	"os"
 	"sync/atomic"
+	"time"
 )
 
 type DockerExecutor struct {
@@ -42,9 +44,13 @@ func (e *DockerExecutor) Prepare() {
 		panic(err)
 	}
 	io.Copy(os.Stdout, reader)
+	cmd := []string{"/bin/sh", "-c", e.ExecutionShellCommand}
+	if e.RequirementsShellCommand != "" {
+		cmd = []string{"/bin/sh", "-c", e.RequirementsShellCommand, "&&", "/bin/sh", "-c", e.ExecutionShellCommand}
+	}
 	resp, err := e.DockerClient.ContainerCreate(ctx, &container.Config{
 		Image:      e.Image,
-		Cmd:        []string{"/bin/sh", "-c", e.ExecutionShellCommand},
+		Cmd:        cmd,
 		WorkingDir: e.ExecutionDir,
 	}, &container.HostConfig{
 		Mounts: []mount.Mount{{Type: mount.TypeBind, Source: e.ExecutionDir, Target: e.ExecutionDir}},
@@ -65,23 +71,29 @@ func (e *DockerExecutor) Run(
 	if err := e.DockerClient.ContainerStart(ctx, containerID, types.ContainerStartOptions{}); err != nil {
 		panic(err)
 	}
-
+	result := pb.TResult{ResultCode: pb.TResult_RUN}
+	if beforeExecution != nil {
+		beforeExecution(&result)
+	}
 	statusCh, errCh := e.DockerClient.ContainerWait(ctx, containerID, container.WaitConditionNotRunning)
 	select {
 	case err := <-errCh:
 		if err != nil {
 			panic(err)
 		}
+	case <-quiteChannel:
+		timeToGracefulStop := 5 * time.Second
+		err := e.DockerClient.ContainerStop(ctx, containerID, &timeToGracefulStop)
+		common.DealWithError(err)
+		return
 	case <-statusCh:
 	}
 
 	out, err := e.DockerClient.ContainerLogs(ctx, containerID, types.ContainerLogsOptions{ShowStdout: true, ShowStderr: true})
-	if err != nil {
-		panic(err)
-	}
-	_, err = io.Copy(os.Stdout, out)
+	_, copyLogError := io.Copy(os.Stdout, out)
 	//_, err = stdcopy.StdCopy(os.Stdout, os.Stderr, out)
-	if err != nil {
-		panic(err)
+	common.DealWithError(copyLogError)
+	if afterExecution != nil {
+		afterExecution(err)
 	}
 }
