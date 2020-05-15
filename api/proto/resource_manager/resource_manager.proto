@@ -18,6 +18,7 @@ message TTask {
     string id = 1; // required
     string execution_shell_command = 2; // required
     string requirements_shell_command = 3; // optional
+    string docker_image = 4; //optional
 }
 
 message TGreetings {
