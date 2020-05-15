@@ -4,7 +4,6 @@ import (
 	pb "github.com/dc-lab/sky/api/proto/resource_manager"
 	"io"
 	"log"
-	"strconv"
 )
 
 type Server struct{}
@@ -30,16 +29,15 @@ func (s Server) Send(srv pb.ResourceManager_SendServer) error {
 			continue
 		}
 
-		var taskId int8
 		switch x := req.Body.(type) {
 		case *pb.TFromAgentMessage_Greetings:
 			greetings := req.GetGreetings()
 			log.Printf("Got greetings: %s", greetings.GetToken())
 			log.Println("Going to send TaskRequest")
-			taskId++
+			taskId := "123"
 			shellCommand := "ls -la && sleep 0.5"
 			task := pb.TTask{
-				Id:                       strconv.Itoa(int(taskId)),
+				Id:                       taskId,
 				ExecutionShellCommand:    shellCommand,
 			}
 			taskRequest := pb.TTaskRequest{Task: &task}
