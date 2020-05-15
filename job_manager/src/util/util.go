@@ -1,4 +1,4 @@
-package main
+package util
 
 import (
 	"encoding/json"
@@ -6,23 +6,23 @@ import (
 	"net/http"
 )
 
-func panicOnError(err error, body http.ResponseWriter, code int) {
+func PanicOnError(err error, body http.ResponseWriter, code int) {
 	if err != nil {
 		m := make(map[string]error)
 		m["error"] = err
-		_ = encodeBody(body, m)
+		_ = EncodeBody(body, m)
 		http.Error(body, "", code)
 		panic(err)
 	}
 }
 
-func decodeBody(body io.Reader, v interface{}) error {
+func DecodeBody(body io.Reader, v interface{}) error {
 	decoder := json.NewDecoder(body)
 	decoder.DisallowUnknownFields()
 	return decoder.Decode(v)
 }
 
-func encodeBody(body io.Writer, v interface{}) error {
+func EncodeBody(body io.Writer, v interface{}) error {
 	encoder := json.NewEncoder(body)
 	encoder.SetIndent("", "    ")
 	return encoder.Encode(v)
