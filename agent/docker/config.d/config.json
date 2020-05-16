@@ -1,5 +1,0 @@
-{
-    "ResourceManagerAddress": "130.193.48.74:5051",
-    "AgentDirectory": "/usr/lib/sky/agent/lib",
-    "TokenPath": "/usr/lib/sky/agent/lib/token"
-}
