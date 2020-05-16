@@ -12,6 +12,12 @@ func DealWithError(err error) {
 	}
 }
 
+func DieWithError(err error) {
+	if err != nil {
+		log.Fatalln(err)
+	}
+}
+
 func CreateFile(filePath string) *os.File {
 	stdoutFile, err := os.Create(filePath)
 	if err != nil {

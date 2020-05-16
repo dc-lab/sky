@@ -13,15 +13,13 @@ import (
 type Config struct {
 	ResourceManagerAddress string
 	AgentDirectory         string
+	LogsDirectory          string
 	Token                  string
 }
 
 func GetToken(path string) string {
 	bytes, err := ioutil.ReadFile(path)
-	if err != nil {
-		common.DealWithError(err)
-		os.Exit(1)
-	}
+	common.DieWithError(err)
 	return string(bytes)
 }
 
@@ -39,32 +37,39 @@ func readConfig(filename string, defaults map[string]interface{}) (*viper.Viper,
 	return v, err
 }
 
+func mkdir(path string, removeIfExist bool) {
+	if exist, err := common.PathExists(path, false); exist && removeIfExist {
+		common.DealWithError(err)
+		os.RemoveAll(path)
+	}
+	err := os.MkdirAll(path, 0755)
+	common.DieWithError(err)
+}
+
 func ParseArguments() Config {
-	var configPath = *flag.String("config", "config.json", "Path to agent configuration file")
+	var configPath string
+	flag.StringVar(&configPath, "config", "config.json", "Path to agent configuration file")
 	flag.Parse()
+
 	v, err := readConfig(configPath, map[string]interface{}{
 		"ResourceManagerAddress": "localhost:5051",
 		"AgentDirectory":         "/tmp/agent",
+		"LogsDirectory":          "/tmp/agent-logs",
 		"TokenPath":              "/tmp/token",
 	})
-	if err != nil {
-		common.DealWithError(err)
-		os.Exit(1)
-	}
+	common.DieWithError(err)
+
 	token := GetToken(v.GetString("TokenPath"))
 	config := Config{
 		ResourceManagerAddress: v.GetString("ResourceManagerAddress"),
 		AgentDirectory:         v.GetString("AgentDirectory"),
+		LogsDirectory:          v.GetString("LogsDirectory"),
 		Token:                  token,
 	}
-	if flag, err := common.PathExists(config.AgentDirectory, false); flag {
-		common.DealWithError(err)
-		os.RemoveAll(config.AgentDirectory)
-	}
-	err = os.Mkdir(config.AgentDirectory, 0777)
-	if err != nil {
-		panic(err)
-	}
+
+	mkdir(config.AgentDirectory, true)
+	mkdir(config.LogsDirectory, false)
+
 	fmt.Println(config)
 	return config
 }
