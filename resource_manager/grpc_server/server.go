@@ -2,15 +2,23 @@ package grpc_server
 
 import (
 	pb "github.com/dc-lab/sky/api/proto/resource_manager"
+	"github.com/dc-lab/sky/resource_manager/app"
+	"github.com/dc-lab/sky/resource_manager/db"
 	"io"
 	"log"
 )
 
 type Server struct{}
 
+type AgentConnection struct {
+	resourceId string
+}
+
 func (s Server) Send(srv pb.ResourceManager_SendServer) error {
 	log.Println("start new server")
 	ctx := srv.Context()
+
+	var connection AgentConnection
 
 	for {
 		select {
@@ -32,13 +40,27 @@ func (s Server) Send(srv pb.ResourceManager_SendServer) error {
 		switch x := req.Body.(type) {
 		case *pb.TFromAgentMessage_Greetings:
 			greetings := req.GetGreetings()
-			log.Printf("Got greetings: %s", greetings.GetToken())
+			log.Println("Got greeting request")
+			token := greetings.GetToken()
+			resourceId, err := db.GetResourceIdByToken(token)
+			if err != nil {
+				switch err.(type) {
+				case *app.ResourceNotFound:
+					log.Printf("Can't find resource with token %s", token)
+				default:
+					log.Printf("Error while authorizing resource")
+				}
+				continue
+			}
+			connection.resourceId = resourceId
+			log.Printf("Successful authorization for resource %s", resourceId)
+
 			log.Println("Going to send TaskRequest")
 			taskId := "123"
 			shellCommand := "ls -la && sleep 0.5"
 			task := pb.TTask{
-				Id:                       taskId,
-				ExecutionShellCommand:    shellCommand,
+				Id:                    taskId,
+				ExecutionShellCommand: shellCommand,
 			}
 			taskRequest := pb.TTaskRequest{Task: &task}
 			resp := pb.TToAgentMessage{Body: &pb.TToAgentMessage_TaskRequest{TaskRequest: &taskRequest}}
