@@ -2,8 +2,8 @@ package main
 
 import (
 	pb "github.com/dc-lab/sky/api/proto/resource_manager"
-	"github.com/dc-lab/sky/resource_manager/controllers"
 	"github.com/dc-lab/sky/resource_manager/grpc_server"
+	"github.com/dc-lab/sky/resource_manager/http_handles"
 	"github.com/gorilla/mux"
 	"google.golang.org/grpc"
 	"log"
@@ -16,8 +16,8 @@ func httpStarter(wg *sync.WaitGroup, addr string) {
 	defer wg.Done()
 	router := mux.NewRouter()
 
-	router.HandleFunc("/resources", controllers.ResourcesHandle).Methods("GET", "POST")
-	router.HandleFunc("/resources/{id}", controllers.ResourceHandle).Methods("GET", "DELETE")
+	router.HandleFunc("/resources", http_handles.Resources).Methods("GET", "POST")
+	router.HandleFunc("/resources/{id}", http_handles.Resource).Methods("GET", "DELETE")
 
 	log.Fatal(http.ListenAndServe(addr, router))
 }

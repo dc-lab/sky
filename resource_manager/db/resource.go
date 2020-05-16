@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"github.com/dc-lab/sky/resource_manager/app"
 	"github.com/google/uuid"
 	"log"
 	"math/rand"
@@ -142,4 +143,27 @@ func GetUserResources(userId string) (string, []Resource) {
 		resources = append(resources, resource)
 	}
 	return "", resources
+}
+
+func GetResourceIdByToken(token string) (string, error) {
+	conn, err := pool.Acquire(context.Background())
+	if err != nil {
+		return "", err
+	}
+	defer conn.Release()
+
+	rows, err := conn.Query(context.Background(), "SELECT id FROM resources WHERE token=$1", token)
+	if err != nil {
+		return "", err
+	}
+	if !rows.Next() {
+		return "", &app.ResourceNotFound{}
+	}
+
+	var id string
+	err = rows.Scan(&id)
+	if err != nil {
+		return "", err
+	}
+	return id, nil
 }
