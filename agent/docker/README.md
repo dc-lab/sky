@@ -19,6 +19,27 @@ docker run -dit --rm --network=host --name sky-agent -e SKY_RM_TOKEN=docker-toke
 docker exec -ti sky-agent /bin/sh
 ```
 
+### Interact with supervisor
+
+```sh
+/ # supervisord ctl status
+agent:agent                      RUNNING   pid 16, uptime 0:01:04
+```
+
+```sh
+/ # supervisord ctl stop agent
+agent: stopped
+/ # supervisord ctl status
+agent:agent                      EXITED    2020-05-16 22:56:44.757649749 +0000 UTC m=+248.722554191
+```
+
+```sh
+/ # supervisord ctl start agent
+agent: started
+/ # supervisord ctl status
+agent:agent                      RUNNING   pid 147, uptime 0:00:02
+```
+
 ### File structure
 
 #### In git

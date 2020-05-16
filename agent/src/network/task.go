@@ -6,7 +6,6 @@ import (
 	"github.com/dc-lab/sky/agent/src/parser"
 	pb "github.com/dc-lab/sky/api/proto/common"
 	rm "github.com/dc-lab/sky/api/proto/resource_manager"
-	"os"
 	"path"
 	"sync/atomic"
 	"time"
