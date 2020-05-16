@@ -3,11 +3,9 @@ package parser
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
-	"os"
-
 	common "github.com/dc-lab/sky/agent/src/common"
 	"github.com/spf13/viper"
+	"io/ioutil"
 )
 
 type Config struct {
@@ -37,15 +35,6 @@ func readConfig(filename string, defaults map[string]interface{}) (*viper.Viper,
 	return v, err
 }
 
-func mkdir(path string, removeIfExist bool) {
-	if exist, err := common.PathExists(path, false); exist && removeIfExist {
-		common.DealWithError(err)
-		os.RemoveAll(path)
-	}
-	err := os.MkdirAll(path, 0755)
-	common.DieWithError(err)
-}
-
 func ParseArguments() Config {
 	var configPath string
 	flag.StringVar(&configPath, "config", "config.json", "Path to agent configuration file")
@@ -67,8 +56,8 @@ func ParseArguments() Config {
 		Token:                  token,
 	}
 
-	mkdir(config.AgentDirectory, true)
-	mkdir(config.LogsDirectory, false)
+	common.DieWithError(common.CreateDirectory(config.AgentDirectory, true))
+	common.DieWithError(common.CreateDirectory(config.LogsDirectory, false))
 
 	fmt.Println(config)
 	return config

@@ -85,8 +85,6 @@ github.com/dc-lab/sky/api/proto/common v0.0.0-20200511001614-2941aac9ecce h1:YJ7
 github.com/dc-lab/sky/api/proto/common v0.0.0-20200511001614-2941aac9ecce/go.mod h1:EiaE6Rab1Sn4ImZ60upy3SF8UG4AuTdeBb3RXZjlATI=
 github.com/dc-lab/sky/api/proto/common v0.0.0-20200515020111-283a44d41b89 h1:Dnw71bogJWIwmnNmuNDBfwrwavmlXcQCKTmt7pi3+0I=
 github.com/dc-lab/sky/api/proto/common v0.0.0-20200515020111-283a44d41b89/go.mod h1:EiaE6Rab1Sn4ImZ60upy3SF8UG4AuTdeBb3RXZjlATI=
-github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200515020111-283a44d41b89 h1:s4E9y9cn8EinKGRBZYoBlmxGrZF4dBydGlo3mfSg/Hs=
-github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200515020111-283a44d41b89/go.mod h1:CoBori6Wz4SfK1DCmVThhy0wVV1vTvK/m4tqSjC0mNo=
 github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200515024755-5011c2ffb495 h1:mYzSnJz+yeK82rWweDctEG8zScNNQarmhOm8DMT+sA0=
 github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200515024755-5011c2ffb495/go.mod h1:CoBori6Wz4SfK1DCmVThhy0wVV1vTvK/m4tqSjC0mNo=
 github.com/dc-lab/sky/data_manager v0.0.0-20200515020111-283a44d41b89 h1:/Kxva+13z7JClPCnNisU83LLaWvjZj2DWCqxokqFlfQ=

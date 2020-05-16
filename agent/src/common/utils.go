@@ -53,6 +53,14 @@ func GetChildrenFilePaths(rootDir string) []string {
 	return files
 }
 
+func CreateDirectory(dirPath string, removeIfExist bool) error {
+	if exist, err := PathExists(dirPath, false); exist && removeIfExist {
+		DealWithError(err)
+		_ = RemoveDirectory(dirPath)
+	}
+	return os.MkdirAll(dirPath, 0755)
+}
+
 func RemoveDirectory(dirPath string) error {
 	return os.RemoveAll(dirPath)
 }
