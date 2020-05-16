@@ -2,6 +2,8 @@ package main
 
 import (
 	pb "github.com/dc-lab/sky/api/proto/resource_manager"
+	"github.com/dc-lab/sky/resource_manager/app"
+	"github.com/dc-lab/sky/resource_manager/db"
 	"github.com/dc-lab/sky/resource_manager/grpc_server"
 	"github.com/dc-lab/sky/resource_manager/http_handles"
 	"github.com/gorilla/mux"
@@ -9,6 +11,8 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"os"
+	"path"
 	"sync"
 )
 
@@ -38,12 +42,24 @@ func gRPCStarter(wg *sync.WaitGroup, addr string) {
 }
 
 func main() {
+	app.ParseConfig()
+
+	logPath := path.Join(app.Config.LogsDir, "rm.log")
+	file, err := os.OpenFile(logPath, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+	log.SetOutput(file)
+
+	db.InitDB()
+
 	var wg sync.WaitGroup
 
 	wg.Add(1)
-	go httpStarter(&wg, ":8090")
+	go httpStarter(&wg, app.Config.HTTPAddress)
 	wg.Add(1)
-	go gRPCStarter(&wg, ":5051")
+	go gRPCStarter(&wg, app.Config.GRPCAddress)
 
 	wg.Wait()
 }
