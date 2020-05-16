@@ -14,7 +14,8 @@ message TResult {
     RUN = 2;
     FAILED = 3;
     CANCELED = 4;
-    SUCCESS = 5;
+    DELETED = 5;
+    SUCCESS = 6;
   }
 
   enum TErrorCode {

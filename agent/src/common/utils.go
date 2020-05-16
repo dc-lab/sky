@@ -47,6 +47,10 @@ func GetChildrenFilePaths(rootDir string) []string {
 	return files
 }
 
+func RemoveDirectory(dirPath string) error {
+	return os.RemoveAll(dirPath)
+}
+
 func ConvertToRelativePath(rootDir string, file string) string {
 	newFile, err := filepath.Rel(rootDir, file)
 	DealWithError(err)
