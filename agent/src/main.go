@@ -9,15 +9,16 @@ import (
 	"path"
 )
 
-func initLogs() {
-	logPath := path.Join(parser.AgentConfig.AgentDirectory, "sky-agent.log")
+func initLogs() *os.File {
+	logPath := path.Join(parser.AgentConfig.LogsDirectory, "agent.log")
 	file, err := os.OpenFile(logPath, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
 	common.DieWithError(err)
-	defer file.Close()
 	log.SetOutput(file)
+	return file
 }
 
 func main() {
-	initLogs()
+	logFile := initLogs()
+	defer logFile.Close()
 	network.RunClient()
 }
