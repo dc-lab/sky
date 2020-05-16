@@ -19,14 +19,15 @@ docker run -dit --rm --network=host --name sky-agent -e SKY_RM_TOKEN=docker-toke
 docker exec -ti sky-agent /bin/sh
 ```
 
-###File structure
-####In git
+### File structure
+
+#### In git
 ```text
 /etc -- for configs
 /usr -- for runtime
 ```
 
-####In docker container
+#### In docker container
 ```text
 /etc/sky/agent/config.json -- config for agent
 /etc/sky/agent/token -- token for agent
