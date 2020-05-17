@@ -13,5 +13,5 @@ COPY    --from=builder /sky-agent /usr/bin/sky-agent
 COPY    --from=ochinchina/supervisord:latest /usr/local/bin/supervisord /usr/bin/supervisord
 CMD     ["/usr/lib/sky/agent/run.sh"]
 
-HEALTHCHECK --interval=5s --timeout=1s --start-period=10s --retries=1 \
+HEALTHCHECK --interval=10s --timeout=1s --start-period=10s --retries=1 \
     CMD /usr/lib/sky/agent/check-agent-health.sh || exit 1
