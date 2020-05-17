@@ -1,33 +1,22 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"github.com/dc-lab/sky/user_manager/db"
-	"io/ioutil"
+	"github.com/dc-lab/sky/reverse_proxy/app"
+	"github.com/dc-lab/sky/reverse_proxy/db"
+	"log"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
 	"os"
+	"path"
 	"strings"
 )
-
-type Endpoint struct {
-	PathPrefix   string `json:"path_prefix"`
-	Hostname     string `json:"hostname"`
-	AuthOptional bool   `json:"auth_optional"`
-}
-
-type Endpoints struct {
-	Endpoints []Endpoint `json:"endpoints"`
-}
-
-var endpoints *Endpoints
 
 func handlerProxy(w http.ResponseWriter, r *http.Request) {
 	var host string
 	var authOptional bool
-	for _, endpoint := range endpoints.Endpoints {
+	for _, endpoint := range app.Config.Endpoints {
 		if strings.HasPrefix(r.URL.String(), endpoint.PathPrefix) {
 			host = endpoint.Hostname
 			authOptional = endpoint.AuthOptional
@@ -70,40 +59,21 @@ func handlerProxy(w http.ResponseWriter, r *http.Request) {
 	proxy.ServeHTTP(w, r)
 }
 
-func readEndpointConfig(filePath string) (*Endpoints, error) {
-	file, err := os.Open(filePath)
+func main() {
+	app.ParseConfig()
+
+	logPath := path.Join(app.Config.LogsDir, "rp.log")
+	file, err := os.OpenFile(logPath, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 	defer file.Close()
+	log.SetOutput(file)
 
-	rawJson, err := ioutil.ReadAll(file)
-	if err != nil {
-		return nil, err
-	}
-
-	var endpoints Endpoints
-	err = json.Unmarshal(rawJson, &endpoints)
-	if err != nil {
-		return nil, err
-	}
-	return &endpoints, nil
-}
-
-func main() {
-	if len(os.Args) < 2 {
-		fmt.Println("Expected path to JSON file with endpoint configuration")
-		os.Exit(1)
-	}
-	var err error
-	endpoints, err = readEndpointConfig(os.Args[1])
-	if err != nil {
-		fmt.Printf("Error reading from %s: %s\n", os.Args[1], err)
-		os.Exit(1)
-	}
+	db.InitDB()
 
 	http.HandleFunc("/", handlerProxy)
-	if err := http.ListenAndServe(":4000", nil); err != nil {
+	if err := http.ListenAndServe(app.Config.HTTPAddress, nil); err != nil {
 		panic(err)
 	}
 }
