@@ -12,6 +12,12 @@ func DealWithError(err error) {
 	}
 }
 
+func DieWithError(err error) {
+	if err != nil {
+		log.Fatalln(err)
+	}
+}
+
 func CreateFile(filePath string) *os.File {
 	stdoutFile, err := os.Create(filePath)
 	if err != nil {
@@ -45,6 +51,18 @@ func GetChildrenFilePaths(rootDir string) []string {
 		})
 	DealWithError(err)
 	return files
+}
+
+func CreateDirectory(dirPath string, removeIfExist bool) error {
+	if exist, err := PathExists(dirPath, false); exist && removeIfExist {
+		DealWithError(err)
+		_ = RemoveDirectory(dirPath)
+	}
+	return os.MkdirAll(dirPath, 0755)
+}
+
+func RemoveDirectory(dirPath string) error {
+	return os.RemoveAll(dirPath)
 }
 
 func ConvertToRelativePath(rootDir string, file string) string {

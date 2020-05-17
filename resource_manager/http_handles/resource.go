@@ -1,4 +1,4 @@
-package controllers
+package http_handles
 
 import (
 	"encoding/json"
@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-func ResourcesHandle(w http.ResponseWriter, req *http.Request) {
+func Resources(w http.ResponseWriter, req *http.Request) {
 	userId := req.Header.Get("User-Id")
 	if userId == "" {
 		log.Println("Empty User-Id header")
@@ -73,7 +73,7 @@ func ResourcesHandle(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func ResourceHandle(w http.ResponseWriter, req *http.Request) {
+func Resource(w http.ResponseWriter, req *http.Request) {
 	id := mux.Vars(req)["id"]
 	userId := req.Header.Get("User-Id")
 	if userId == "" {

@@ -2,13 +2,17 @@ package main
 
 import (
 	pb "github.com/dc-lab/sky/api/proto/resource_manager"
-	"github.com/dc-lab/sky/resource_manager/controllers"
+	"github.com/dc-lab/sky/resource_manager/app"
+	"github.com/dc-lab/sky/resource_manager/db"
 	"github.com/dc-lab/sky/resource_manager/grpc_server"
+	"github.com/dc-lab/sky/resource_manager/http_handles"
 	"github.com/gorilla/mux"
 	"google.golang.org/grpc"
 	"log"
 	"net"
 	"net/http"
+	"os"
+	"path"
 	"sync"
 )
 
@@ -16,8 +20,8 @@ func httpStarter(wg *sync.WaitGroup, addr string) {
 	defer wg.Done()
 	router := mux.NewRouter()
 
-	router.HandleFunc("/resources", controllers.ResourcesHandle).Methods("GET", "POST")
-	router.HandleFunc("/resources/{id}", controllers.ResourceHandle).Methods("GET", "DELETE")
+	router.HandleFunc("/resources", http_handles.Resources).Methods("GET", "POST")
+	router.HandleFunc("/resources/{id}", http_handles.Resource).Methods("GET", "DELETE")
 
 	log.Fatal(http.ListenAndServe(addr, router))
 }
@@ -38,12 +42,24 @@ func gRPCStarter(wg *sync.WaitGroup, addr string) {
 }
 
 func main() {
+	app.ParseConfig()
+
+	logPath := path.Join(app.Config.LogsDir, "rm.log")
+	file, err := os.OpenFile(logPath, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+	log.SetOutput(file)
+
+	db.InitDB()
+
 	var wg sync.WaitGroup
 
 	wg.Add(1)
-	go httpStarter(&wg, ":8090")
+	go httpStarter(&wg, app.Config.HTTPAddress)
 	wg.Add(1)
-	go gRPCStarter(&wg, ":5051")
+	go gRPCStarter(&wg, app.Config.GRPCAddress)
 
 	wg.Wait()
 }

@@ -39,18 +39,23 @@ func StageInFiles(client resource_manager.ResourceManager_SendClient, taskId str
 	utils.DealWithError(err)
 }
 
-func StageOutFiles(client resource_manager.ResourceManager_SendClient, taskId string) {
+func UploadTaskFiles(taskId string) []*resource_manager.TFile {
 	task, flag := GlobalTasksStatuses.Load(taskId)
+	var files []*resource_manager.TFile
 	if flag {
 		filePaths := utils.GetChildrenFilePaths(task.ExecutionDir)
-		var files []*resource_manager.TFile
 		for _, filePath := range filePaths {
 			file := data_manager_api.UploadFile(filePath, task.ExecutionDir)
 			files = append(files, &file)
 		}
-		response := resource_manager.TStageOutResponse{TaskId: taskId, TaskFiles: files}
-		body := resource_manager.TFromAgentMessage_StageOutResponse{StageOutResponse: &response}
-		err := client.Send(&resource_manager.TFromAgentMessage{Body: &body})
-		utils.DealWithError(err)
 	}
+	return files
+}
+
+func StageOutFiles(client resource_manager.ResourceManager_SendClient, taskId string) {
+	files := UploadTaskFiles(taskId)
+	response := resource_manager.TStageOutResponse{TaskId: taskId, TaskFiles: files}
+	body := resource_manager.TFromAgentMessage_StageOutResponse{StageOutResponse: &response}
+	err := client.Send(&resource_manager.TFromAgentMessage{Body: &body})
+	utils.DealWithError(err)
 }
