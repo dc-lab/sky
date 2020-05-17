@@ -13,7 +13,7 @@ option go_package = "github.com/dc-lab/sky/api/proto/resource_manager";
 service ResourceManager {
     rpc Send (stream TFromAgentMessage) returns (stream TToAgentMessage) {}
 
-    rpc Update (stream TResourceRequest) returns (stream TResourceResponse) {}
+    rpc Update (TResourceRequest) returns (TResourceResponse) {}
 }
 
 message TTask {
