@@ -10,7 +10,7 @@ docker build -t sky/agent -f ./docker/Dockerfile .
 ### Running the docker container
 
 ```sh
-docker run -dit --rm --network=host --name sky-agent -e SKY_RM_TOKEN=docker-token sky/agent
+docker run -dit --rm --network=host --name sky-agent -e SKY_RM_TOKEN=docker-token -e SKY_RM_ADDR=localhost:5051 sky/agent
 ```
 
 ### Attaching to the docker container
