@@ -17,14 +17,14 @@ type config struct {
 }
 
 var Config = config{
-	":8090",
-	":5051",
-	".",
-	"oleg",
-	"DB_PASSWORD",
-	"rc1b-6marivlovkr6pccx.mdb.yandexcloud.net:6432",
-	"sky_postgre",
-	true,
+	HTTPAddress:   ":8090",
+	GRPCAddress:   ":5051",
+	LogsDir:       ".",
+	DBUser:        "oleg",
+	DBPasswordEnv: "DB_PASSWORD",
+	DBHost:        "rc1b-6marivlovkr6pccx.mdb.yandexcloud.net:6432",
+	DBName:        "sky_postgre",
+	DBSsl:         true,
 }
 
 func ParseConfig() {
