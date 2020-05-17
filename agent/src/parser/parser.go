@@ -6,12 +6,14 @@ import (
 	common "github.com/dc-lab/sky/agent/src/common"
 	"github.com/spf13/viper"
 	"io/ioutil"
+	"path"
 )
 
 type Config struct {
 	ResourceManagerAddress string
 	AgentDirectory         string
-	LogsDirectory          string
+	AgentLogFile           string
+	HealthFile             string
 	Token                  string
 }
 
@@ -44,20 +46,25 @@ func ParseArguments() Config {
 		"ResourceManagerAddress": "localhost:5051",
 		"AgentDirectory":         "/tmp/agent",
 		"LogsDirectory":          "/tmp/agent-logs",
+		"RunDirectory":           "/run/agent",
 		"TokenPath":              "/tmp/token",
 	})
 	common.DieWithError(err)
 
 	token := GetToken(v.GetString("TokenPath"))
+	logsDirectory := v.GetString("LogsDirectory")
+	runDirectory := v.GetString("RunDirectory")
 	config := Config{
 		ResourceManagerAddress: v.GetString("ResourceManagerAddress"),
 		AgentDirectory:         v.GetString("AgentDirectory"),
-		LogsDirectory:          v.GetString("LogsDirectory"),
+		AgentLogFile:           path.Join(logsDirectory, "agent.log"),
+		HealthFile:             path.Join(runDirectory, "health.info"),
 		Token:                  token,
 	}
 
 	common.DieWithError(common.CreateDirectory(config.AgentDirectory, true))
-	common.DieWithError(common.CreateDirectory(config.LogsDirectory, false))
+	common.DieWithError(common.CreateDirectory(logsDirectory, false))
+	common.DieWithError(common.CreateDirectory(runDirectory, false))
 
 	fmt.Println(config)
 	return config

@@ -3,13 +3,14 @@ package network
 import (
 	"context"
 	"fmt"
-	rm "github.com/dc-lab/sky/api/proto/resource_manager"
-	"io"
-
 	common "github.com/dc-lab/sky/agent/src/common"
 	hardware "github.com/dc-lab/sky/agent/src/hardware"
 	parser "github.com/dc-lab/sky/agent/src/parser"
+	rm "github.com/dc-lab/sky/api/proto/resource_manager"
 	"google.golang.org/grpc"
+	"io"
+	"io/ioutil"
+	"time"
 )
 
 func CreateConnection(address string) (rm.ResourceManager_SendClient, context.Context) {
@@ -61,11 +62,20 @@ func ReceiveResourceManagerRequest(client rm.ResourceManager_SendClient) {
 	// err = stream.CloseSend()
 }
 
+func UpdateHealthFile(healthFilePath string) {
+	for ; ; time.Sleep(time.Millisecond * 500) {
+		tsString := common.CurrentTimestampMillisString()
+		err := ioutil.WriteFile(healthFilePath, []byte(tsString), 0644)
+		common.DieWithError(err)
+	}
+}
+
 func RunClient() {
 	stream, ctx := CreateConnection(parser.AgentConfig.ResourceManagerAddress)
 	go SendRegistrationData(stream, parser.AgentConfig.Token)
 	go ReceiveResourceManagerRequest(stream)
 	go SendHealthChecks(stream)
 	go UpdateTasksStatuses(stream)
+	go UpdateHealthFile(parser.AgentConfig.HealthFile)
 	<-ctx.Done()
 }

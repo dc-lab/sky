@@ -4,6 +4,8 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strconv"
+	"time"
 )
 
 func DealWithError(err error) {
@@ -69,4 +71,9 @@ func ConvertToRelativePath(rootDir string, file string) string {
 	newFile, err := filepath.Rel(rootDir, file)
 	DealWithError(err)
 	return newFile
+}
+
+func CurrentTimestampMillisString() string {
+	ts := time.Now().UnixNano() / int64(time.Millisecond)
+	return strconv.FormatInt(ts, 10)
 }
