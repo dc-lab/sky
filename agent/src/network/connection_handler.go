@@ -3,14 +3,15 @@ package network
 import (
 	"context"
 	"fmt"
+	"io"
+	"io/ioutil"
+	"time"
+
 	common "github.com/dc-lab/sky/agent/src/common"
 	hardware "github.com/dc-lab/sky/agent/src/hardware"
 	parser "github.com/dc-lab/sky/agent/src/parser"
 	rm "github.com/dc-lab/sky/api/proto/resource_manager"
 	"google.golang.org/grpc"
-	"io"
-	"io/ioutil"
-	"time"
 )
 
 func CreateConnection(address string) (rm.ResourceManager_SendClient, context.Context) {
