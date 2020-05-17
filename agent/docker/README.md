@@ -64,7 +64,14 @@ agent:agent                      RUNNING   pid 147, uptime 0:00:02
 /var/log/supervisor/children/agent.stdout.log.* -- stdout of agent
 /var/log/supervisor/children/agent.stderr.log.* -- stderr of agent
 
+/var/run/sky/agent/health.info -- timestamp in millis when agent was definitely alive for the last time
 /var/run/supervisord.pid -- PID of supervisord
 
 /var/tmp/sky/agent -- workdir for agent
 ```
+
+### Environment variables
+
+- `SKY_RM_TOKEN` -- agent resource-token for resource_manager
+- `SKY_AGENT_LOGS_STDOUT` -- 1 if agent logs should be written to stdout instead of agent.log.
+In particular used in AWS to integrate logs with CloudWatch.
