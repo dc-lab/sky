@@ -12,6 +12,8 @@ option go_package = "github.com/dc-lab/sky/api/proto/resource_manager";
 
 service ResourceManager {
     rpc Send (stream TFromAgentMessage) returns (stream TToAgentMessage) {}
+
+    rpc Update (stream TResourceRequest) returns (stream TResourceResponse) {}
 }
 
 message TTask {
@@ -23,6 +25,31 @@ message TTask {
 
 message TGreetings {
     string token = 1; // required
+}
+
+message TPermissions {
+    repeated string users = 1;
+    repeated string groups = 2;
+}
+
+message TResource {
+    string id = 1; // required
+    TType type = 2; // required
+    string ownerId = 3; // required
+    string token = 4; // required
+    TPermissions permissions = 5; // required
+    TState state = 6; // required
+
+    enum TType {
+        UNKNOWN = 0;
+        SINGLE = 1;
+        POOL = 2;
+    }
+
+    enum TState {
+        OFFLINE = 0;
+        ONLINE = 1;
+    }
 }
 
 message THardwareRequest {
@@ -74,6 +101,23 @@ message TDeleteTaskRequest {
     string task_id = 1; // required
 }
 
+message TCreateResourceRequest {
+    TResource resource = 1; // required
+}
+
+message TCreateResourceResponse {
+    action.TResult result = 1; // required
+}
+
+message TDeleteResourceRequest {
+    string resource_id = 1; // required
+    string user_id = 2; // required
+}
+
+message TDeleteResourceResponse {
+    action.TResult result = 1; // required
+}
+
 message TToAgentMessage {
     oneof Body {
         THardwareRequest hardware_request = 1;
@@ -92,5 +136,19 @@ message TFromAgentMessage {
         TTaskResponse task_response = 3;
         TStageInResponse stage_in_response = 4;
         TStageOutResponse stage_out_response = 5;
+    }
+}
+
+message TResourceRequest {
+    oneof Body {
+        TCreateResourceRequest create_resource_request = 1;
+        TDeleteResourceRequest delete_resource_request = 2;
+    }
+}
+
+message TResourceResponse {
+    oneof Body {
+        TCreateResourceResponse create_resource_response = 1;
+        TDeleteResourceResponse delete_resource_response = 2;
     }
 }
