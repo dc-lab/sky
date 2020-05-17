@@ -1,14 +1,10 @@
 package resources
 
 import (
-	"bytes"
-	"encoding/json"
-	"fmt"
+	"github.com/dc-lab/sky/cli/utils"
 	"github.com/spf13/cobra"
-	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 )
 
 const createUrlSuffix = "/resources"
@@ -22,40 +18,22 @@ Type: single or pool
 `,
 	Args: cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
-		url, _ := cmd.Flags().GetString("url")
-		userId, _ := cmd.Flags().GetString("user_id")
+		url := utils.GetSkyUrl(cmd)
+		userToken := utils.GetUserToken(cmd)
 		resourceName := args[0]
 		if resourceName == "" {
-			fmt.Println("Resource name cannot be empty")
-			os.Exit(1)
+			log.Fatal("Resource name cannot be empty")
 		}
 		resourceType := args[1]
 		if resourceType != "single" && resourceType != "pool" {
-			fmt.Println("Resource type must be either 'single' or 'pool'")
-			os.Exit(1)
+			log.Fatal("Resource type must be either 'single' or 'pool'")
 		}
+
 		req := map[string]string{"name": resourceName, "type": resourceType}
-		jsonRequest, _ := json.Marshal(req)
+		headers := map[string]string{"User-Token": userToken}
+		statusCode, body := utils.MakeRequest(http.MethodPost, url + createUrlSuffix, &req, &headers)
 
-		request, err := http.NewRequest(http.MethodPost, url + createUrlSuffix, bytes.NewBuffer(jsonRequest))
-		if err != nil {
-			log.Fatal(err)
-		}
-		request.Header.Set("User-Id", userId)
-		response, err := http.DefaultClient.Do(request)
-		if err != nil {
-			log.Printf("Something went wrong: %s", err)
-			os.Exit(1)
-		}
-		defer response.Body.Close()
-
-		body, err := ioutil.ReadAll(response.Body)
-		if err != nil {
-			log.Fatal(err)
-		}
-		println(string(body))
+		log.Println(statusCode)
+		log.Println(body)
 	},
-}
-
-func init() {
 }

@@ -15,7 +15,9 @@ var RootCmd = &cobra.Command{
 	Use:   "sky_cli",
 	Short: "CLI for sky project",
 	Long: `Command-line interface for Sky platform
-You can use it for any operations with your account`,
+You can use it for any operations with your account.
+Config values are priority for token and url.
+If they are empty command flags will be used.`,
 }
 
 func Execute() {
@@ -29,8 +31,11 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.sky_cli.yaml)")
-	RootCmd.PersistentFlags().StringP("user_id", "u", "123", "id of user")
-	RootCmd.PersistentFlags().String("url", "http://localhost:8090", "sky url")
+	RootCmd.PersistentFlags().StringP("token", "t", "", "user token")
+	RootCmd.PersistentFlags().StringP("url", "u", "http://localhost:4000", "sky url")
+
+	//RootCmd.PersistentFlags().StringP("user_id", "u", "123", "id of user")
+	//RootCmd.PersistentFlags().String("url", "http://localhost:8090", "sky url")
 }
 
 // initConfig reads in config file and ENV variables if set.
