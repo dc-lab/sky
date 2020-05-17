@@ -1,0 +1,18 @@
+{
+  "endpoints": [
+    {
+      "path_prefix": "/login",
+      "hostname": "localhost:6272",
+      "auth_optional": true
+    },
+    {
+      "path_prefix": "/register",
+      "hostname": "localhost:6272",
+      "auth_optional": true
+    },
+    {
+      "path_prefix": "/resource",
+      "hostname": "localhost:8090"
+    }
+  ]
+}
