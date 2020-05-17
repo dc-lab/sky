@@ -1,14 +1,10 @@
 package cmd
 
 import (
-	"bytes"
-	"encoding/json"
-	"fmt"
+	"github.com/dc-lab/sky/cli/utils"
 	"github.com/spf13/cobra"
-	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 )
 
 const registerUrlSuffix = "/register"
@@ -19,36 +15,23 @@ var registerCmd = &cobra.Command{
 	Long:  `Register in sky platform`,
 	Args:  cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
-		url, _ := cmd.Flags().GetString("url")
+		url := utils.GetSkyUrl(cmd)
+
 		login := args[0]
-		password := args[1]
 		if login == "" {
-			fmt.Println("Login cannot be empty")
-			os.Exit(1)
+			log.Fatal("Login cannot be empty")
 		}
+
+		password := args[1]
 		if password == "" {
-			fmt.Println("Password cannot be empty")
-			os.Exit(1)
+			log.Fatal("Password cannot be empty")
 		}
+
 		req := map[string]string{"login": login, "password": password}
-		jsonRequest, _ := json.Marshal(req)
+		statusCode, body := utils.MakeRequest(http.MethodPost, url + registerUrlSuffix, &req, nil)
 
-		request, err := http.NewRequest(http.MethodPost, url + registerUrlSuffix, bytes.NewBuffer(jsonRequest))
-		if err != nil {
-			log.Fatal(err)
-		}
-		response, err := http.DefaultClient.Do(request)
-		if err != nil {
-			log.Printf("Something went wrong: %s", err)
-			os.Exit(1)
-		}
-		defer response.Body.Close()
-
-		body, err := ioutil.ReadAll(response.Body)
-		if err != nil {
-			log.Fatal(err)
-		}
-		println(string(body))
+		log.Println(statusCode)
+		log.Println(body)
 	},
 }
 
