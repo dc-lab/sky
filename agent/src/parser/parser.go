@@ -44,10 +44,10 @@ func ParseArguments() Config {
 
 	v, err := readConfig(configPath, map[string]interface{}{
 		"ResourceManagerAddress": "localhost:5051",
-		"AgentDirectory":         "/tmp/agent",
-		"LogsDirectory":          "/tmp/agent-logs",
-		"RunDirectory":           "/run/agent",
-		"TokenPath":              "/tmp/token",
+		"AgentDirectory":         "/var/tmp/agent",
+		"LogsDirectory":          "/var/tmp/agent-logs",
+		"RunDirectory":           "/var/run/agent",
+		"TokenPath":              "/var/tmp/token",
 	})
 	common.DieWithError(err)
 
