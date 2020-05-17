@@ -73,5 +73,6 @@ agent:agent                      RUNNING   pid 147, uptime 0:00:02
 ### Environment variables
 
 - `SKY_RM_TOKEN` -- agent resource-token for resource_manager
+- `SKY_RM_ADDR` -- resource manager address in format `host:port`
 - `SKY_AGENT_LOGS_STDOUT` -- 1 if agent logs should be written to stdout instead of agent.log.
 In particular used in AWS to integrate logs with CloudWatch.

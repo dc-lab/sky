@@ -1,5 +1,5 @@
 {
-    "ResourceManagerAddress": "84.201.175.62:5051",
+    "ResourceManagerAddress": "RESOURCE_MANAGER_ADDRESS",
     "AgentDirectory": "/var/tmp/sky/agent",
     "LogsDirectory": "/var/log/sky/agent",
     "RunDirectory": "/var/run/sky/agent",
