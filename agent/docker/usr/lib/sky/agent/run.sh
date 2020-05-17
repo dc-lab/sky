@@ -3,7 +3,7 @@
 mkdir -p /var/log/supervisor/children
 mkdir -p /var/log/sky/agent
 
-cat /etc/sky/agent/config-template.json | sed "s#RM_ADDR#${SKY_RM_ADDR}#g" > /etc/sky/agent/config.json
+cat /etc/sky/agent/config-template.json | sed "s#RESOURCE_MANAGER_ADDRESS#${SKY_RM_ADDR}#g" > /etc/sky/agent/config.json
 
 echo "$SKY_RM_TOKEN" > /etc/sky/agent/token
 
