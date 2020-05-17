@@ -64,7 +64,7 @@ func ReceiveResourceManagerRequest(client rm.ResourceManager_SendClient) {
 }
 
 func UpdateHealthFile(healthFilePath string) {
-	for ; ; time.Sleep(time.Millisecond * 500) {
+	for ; ; time.Sleep(time.Millisecond * 200) {
 		tsString := common.CurrentTimestampMillisString()
 		err := ioutil.WriteFile(healthFilePath, []byte(tsString), 0644)
 		common.DieWithError(err)
