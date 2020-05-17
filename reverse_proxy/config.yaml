@@ -1,0 +1,9 @@
+Endpoints:
+  - PathPrefix: "/login"
+    Hostname: "localhost:6272"
+    AuthOptional: true
+  - PathPrefix: "/register"
+    Hostname: "localhost:6272"
+    AuthOptional: true
+  - PathPrefix: "/resource"
+    Hostname: "localhost:8090"
