@@ -37,10 +37,10 @@ func _() {
 	}
 	defer conn.Release()
 
-	_, err = conn.Exec(context.Background(), "CREATE TABLE IF NOT EXISTS users (id varchar(40) PRIMARY KEY, login varchar(256) NOT NULL UNIQUE, password varchar(256) NOT NULL, token varchar(256) NOT NULL);")
-	if err != nil {
-		log.Fatal(err)
-	}
+	//_, err = conn.Exec(context.Background(), "CREATE TABLE IF NOT EXISTS users (id varchar(40) PRIMARY KEY, login varchar(256) NOT NULL UNIQUE, password varchar(256) NOT NULL, token varchar(256) NOT NULL);")
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
 }
 
 func _() *pgxpool.Pool {
