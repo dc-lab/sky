@@ -11,7 +11,6 @@ import (
 
 	cm "github.com/dc-lab/sky/api/proto/cloud_manager"
 	"github.com/dc-lab/sky/cloud_manager/server/app"
-	"github.com/dc-lab/sky/cloud_manager/server/cmd"
 	"github.com/dc-lab/sky/cloud_manager/server/common"
 	"github.com/dc-lab/sky/cloud_manager/server/db"
 	"github.com/dc-lab/sky/cloud_manager/server/grpc_server"
@@ -21,7 +20,7 @@ func gRPCStarter(wg *sync.WaitGroup, address string) {
 	defer wg.Done()
 
 	// create listener
-	log.Printf("Start listening tcp on %d", cmd.GrpcPort)
+	log.Printf("Start listening tcp on %s", address)
 	lis, err := net.Listen("tcp", fmt.Sprintf("%s", address))
 	common.DieWithError("Failed to listen:", err)
 
