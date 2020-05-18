@@ -20,10 +20,10 @@ func DownloadFiles(taskId string, files []*resource_manager.TFile) resource_mana
 				err_str := err.Error()
 				result.ErrorText = err_str
 			}
-			defer body.Close()
 			out := utils.CreateFile(path.Join(task.ExecutionDir, file.GetAgentRelativeLocalPath()))
-			defer out.Close()
 			io.Copy(out, body)
+			body.Close()
+			out.Close()
 		}
 		if result.ResultCode != common.TResult_FAILED {
 			result.ResultCode = common.TResult_SUCCESS
