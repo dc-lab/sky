@@ -4,13 +4,13 @@ The main Agent container used for cloud integration lives here. Rebuild it with
 
 ```sh
 cd ~/sky/agent
-docker build -t sky/agent -f ./docker/Dockerfile .
+docker build -t sky-agent -f ./docker/Dockerfile .
 ```
 
 ### Running the docker container
 
 ```sh
-docker run -dit --rm --network=host --name sky-agent -e SKY_RM_TOKEN=docker-token -e SKY_RM_ADDR=localhost:5051 sky/agent
+docker run -dit --rm --network=host --name sky-agent -e SKY_RM_TOKEN=docker-token -e SKY_RM_ADDR=localhost:5051 sky-agent
 ```
 
 ### Attaching to the docker container
@@ -74,5 +74,6 @@ agent:agent                      RUNNING   pid 147, uptime 0:00:02
 
 - `SKY_RM_TOKEN` -- agent resource-token for resource_manager
 - `SKY_RM_ADDR` -- resource manager address in format `host:port`
-- `SKY_AGENT_LOGS_STDOUT` -- 1 if agent logs should be written to stdout instead of agent.log.
-In particular used in AWS to integrate logs with CloudWatch.
+- `SKY_NO_LOGFILES` -- by default agent logs to `stdout`/`stderr` are wrapped into files by supervisor.
+In some cases (e.g. using logging driver) it is necessary to output logs directly to streams.
+If `SKY_NO_LOGFILES` set to `1` all logs from container will be redirected to streams instead of supervisor files.
