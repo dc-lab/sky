@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"github.com/dc-lab/sky/user_manager/app"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 	"log"
@@ -16,12 +17,6 @@ type User struct {
 	Login    string `json:"login"`
 	Password string `json:"password"`
 	Token    string `json:"token"`
-}
-
-type UserNotFoundError struct {}
-
-func (e *UserNotFoundError) Error() string {
-	return "user not found"
 }
 
 func (user *User) Validate() (string, bool) {
@@ -59,15 +54,28 @@ func randString(n int) string {
 	return string(b)
 }
 
+func generateHashFromPassword(password string) string {
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	return string(hashedPassword)
+}
+
+func checkPassword(hash, raw string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(raw))
+	return !(err != nil && err == bcrypt.ErrMismatchedHashAndPassword)
+}
+
+func generateNewToken() string {
+	return randString(40)
+}
+
 func (user *User) Create() (string, bool) {
 	if resp, ok := user.Validate(); !ok {
 		return resp, ok
 	}
 
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
-	user.Password = string(hashedPassword)
+	user.Password = generateHashFromPassword(user.Password)
 	user.Id = uuid.New().String()
-	user.Token = randString(40)
+	user.Token = generateNewToken()
 
 	conn, err := pool.Acquire(context.Background())
 	if err != nil {
@@ -109,8 +117,7 @@ func (user *User) Get() (string, bool) {
 		return "Internal error", false
 	}
 
-	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
-	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword {
+	if !checkPassword(user.Password, password) {
 		log.Println("Wrong password")
 		return "Invalid login credentials. Please try again", false
 	}
@@ -120,27 +127,40 @@ func (user *User) Get() (string, bool) {
 	return "", true
 }
 
-func GetIdByToken(token string) (string, error) {
+func ChangePassword(userId, oldPassword, newPassword string) error {
 	conn, err := pool.Acquire(context.Background())
 	if err != nil {
-		return "", err
+		return err
 	}
 	defer conn.Release()
 
-	rows, err := conn.Query(context.Background(), "SELECT id FROM users WHERE token=$1", token)
+	rows, err := conn.Query(context.Background(), "SELECT password FROM users WHERE id=$1", userId)
 	if err != nil {
-		return "", err
+		return err
 	}
 	if !rows.Next() {
-		return "", &UserNotFoundError{}
+		return &app.UserNotFound{}
 	}
 
-	var id string
-	err = rows.Scan(&id)
+	var hashedOldPassword string
+	err = rows.Scan(&hashedOldPassword)
 	if err != nil {
-		return "", err
+		return err
 	}
-	return id, nil
+	rows.Close()
+
+	if !checkPassword(hashedOldPassword, oldPassword) {
+		return &app.WrongPassword{}
+	}
+
+	hashedNewPassword := generateHashFromPassword(newPassword)
+	newToken := generateNewToken()
+	_, err = conn.Exec(context.Background(), "UPDATE users SET password = $1, token = $2 WHERE id = $3", hashedNewPassword, newToken, userId)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func init() {

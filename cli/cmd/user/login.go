@@ -1,4 +1,4 @@
-package cmd
+package user
 
 import (
 	"github.com/dc-lab/sky/cli/utils"
@@ -7,12 +7,12 @@ import (
 	"net/http"
 )
 
-const registerUrlSuffix = "/register"
+const loginUrlSuffix = "/login"
 
-var registerCmd = &cobra.Command{
-	Use:   "register [login] [password]",
-	Short: "register in sky",
-	Long:  `Register in sky platform`,
+var LoginCmd = &cobra.Command{
+	Use:   "login [login] [password]",
+	Short: "login in sky",
+	Long:  `Login in sky platform`,
 	Args:  cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
 		url := utils.GetSkyUrl(cmd)
@@ -28,13 +28,9 @@ var registerCmd = &cobra.Command{
 		}
 
 		req := map[string]string{"login": login, "password": password}
-		statusCode, body := utils.MakeRequest(http.MethodPost, url + registerUrlSuffix, &req, nil)
+		statusCode, body := utils.MakeRequest(http.MethodPost, url+loginUrlSuffix, &req, nil)
 
 		log.Println(statusCode)
 		log.Println(body)
 	},
-}
-
-func init() {
-	RootCmd.AddCommand(registerCmd)
 }
