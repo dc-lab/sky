@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"fmt"
+	"github.com/dc-lab/sky/user_manager/app"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"log"
 	"os"
@@ -10,20 +11,28 @@ import (
 
 var pool *pgxpool.Pool
 
-func getEnv(key, fallback string) string {
-	if value, found := os.LookupEnv(key); found {
-		return value
+func initTables(conn *pgxpool.Conn) {
+	_, err := conn.Exec(context.Background(), "CREATE TABLE IF NOT EXISTS users (id varchar(40) PRIMARY KEY, login varchar(256) NOT NULL UNIQUE, password varchar(256) NOT NULL, token varchar(256) NOT NULL);")
+	if err != nil {
+		log.Fatal(err)
 	}
-	return fallback
+	_, err = conn.Exec(context.Background(), "CREATE TABLE IF NOT EXISTS groups (id varchar(40) PRIMARY KEY, name varchar(256) NOT NULL);")
+	if err != nil {
+		log.Fatal(err)
+	}
+	_, err = conn.Exec(context.Background(), "CREATE TABLE IF NOT EXISTS user_group_relations (group_id varchar(40) REFERENCES groups ON DELETE CASCADE, user_id varchar(40) REFERENCES users ON DELETE CASCADE);")
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
-func init() {
-	username := getEnv("DB_USER", "oleg")
-	password := os.Getenv("DB_PASSWORD")
-	host := getEnv("DB_HOST", "rc1b-6marivlovkr6pccx.mdb.yandexcloud.net:6432")
-	dbName := getEnv("DB_NAME", "sky_postgre")
-	ssl := getEnv("DB_SSL", "true")
-	dbUri := fmt.Sprintf("postgres://%s:%s@%s/%s?ssl=%s", username, password, host, dbName, ssl)
+func InitDB() {
+	username := app.Config.DBUser
+	password := os.Getenv(app.Config.DBPasswordEnv)
+	host := app.Config.DBHost
+	dbName := app.Config.DBName
+	ssl := app.Config.DBSsl
+	dbUri := fmt.Sprintf("postgres://%s:%s@%s/%s?ssl=%v", username, password, host, dbName, ssl)
 
 	var err error
 	pool, err = pgxpool.Connect(context.Background(), dbUri)
@@ -37,10 +46,7 @@ func init() {
 	}
 	defer conn.Release()
 
-	_, err = conn.Exec(context.Background(), "CREATE TABLE IF NOT EXISTS users (id varchar(40) PRIMARY KEY, login varchar(256) NOT NULL UNIQUE, password varchar(256) NOT NULL, token varchar(256) NOT NULL);")
-	if err != nil {
-		log.Fatal(err)
-	}
+	initTables(conn)
 }
 
 func GetPool() *pgxpool.Pool {

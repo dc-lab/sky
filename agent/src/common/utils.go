@@ -4,11 +4,19 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strconv"
+	"time"
 )
 
 func DealWithError(err error) {
 	if err != nil {
 		log.Println(err)
+	}
+}
+
+func DieWithError(err error) {
+	if err != nil {
+		log.Fatalln(err)
 	}
 }
 
@@ -47,6 +55,14 @@ func GetChildrenFilePaths(rootDir string) []string {
 	return files
 }
 
+func CreateDirectory(dirPath string, removeIfExist bool) error {
+	if exist, err := PathExists(dirPath, false); exist && removeIfExist {
+		DealWithError(err)
+		_ = RemoveDirectory(dirPath)
+	}
+	return os.MkdirAll(dirPath, 0755)
+}
+
 func RemoveDirectory(dirPath string) error {
 	return os.RemoveAll(dirPath)
 }
@@ -55,4 +71,9 @@ func ConvertToRelativePath(rootDir string, file string) string {
 	newFile, err := filepath.Rel(rootDir, file)
 	DealWithError(err)
 	return newFile
+}
+
+func CurrentTimestampMillisString() string {
+	ts := time.Now().UnixNano() / int64(time.Millisecond)
+	return strconv.FormatInt(ts, 10)
 }

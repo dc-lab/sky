@@ -1,0 +1,7 @@
+{
+    "ResourceManagerAddress": "RESOURCE_MANAGER_ADDRESS",
+    "AgentDirectory": "/var/tmp/sky/agent",
+    "LogsDirectory": "/var/log/sky/agent",
+    "RunDirectory": "/var/run/sky/agent",
+    "TokenPath": "/etc/sky/agent/token"
+}

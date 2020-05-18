@@ -1,5 +1,7 @@
 {
     "ResourceManagerAddress": "localhost:5051",
-    "AgentDirectory": "/tmp/agent",
-    "TokenPath": "/tmp/sample_token"
+    "AgentDirectory": "/var/tmp/agent",
+    "LogsDirectory": "/var/tmp/agent-logs",
+    "RunDirectory": "/var/run/agent",
+    "TokenPath": "/var/tmp/sample_token"
 }

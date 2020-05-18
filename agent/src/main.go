@@ -1,17 +1,22 @@
 package main
 
 import (
+	"github.com/dc-lab/sky/agent/src/common"
 	"github.com/dc-lab/sky/agent/src/network"
+	"github.com/dc-lab/sky/agent/src/parser"
 	"log"
 	"os"
 )
 
-func main() {
-	file, err := os.OpenFile("info.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
-	defer file.Close()
+func initLogs(logFilePath string) *os.File {
+	file, err := os.OpenFile(logFilePath, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+	common.DieWithError(err)
 	log.SetOutput(file)
-	if err != nil {
-		log.Fatal(err)
-	}
+	return file
+}
+
+func main() {
+	logFile := initLogs(parser.AgentConfig.AgentLogFile)
+	defer logFile.Close()
 	network.RunClient()
 }

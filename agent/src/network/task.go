@@ -6,7 +6,6 @@ import (
 	"github.com/dc-lab/sky/agent/src/parser"
 	pb "github.com/dc-lab/sky/api/proto/common"
 	rm "github.com/dc-lab/sky/api/proto/resource_manager"
-	"os"
 	"path"
 	"sync/atomic"
 	"time"
@@ -43,7 +42,7 @@ func (t *Task) Init(taskProto *rm.TTask) {
 	// May be move it to executors code
 	err := error(nil)
 	if val, err := common.PathExists(t.ExecutionDir, true); !val && err == nil {
-		err = os.Mkdir(t.ExecutionDir, 0777)
+		err = common.CreateDirectory(t.ExecutionDir, false)
 	}
 	common.DealWithError(err)
 }
