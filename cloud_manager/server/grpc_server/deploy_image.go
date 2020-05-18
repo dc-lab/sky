@@ -1,4 +1,4 @@
-package handlers
+package grpc_server
 
 import (
 	"log"
@@ -7,9 +7,9 @@ import (
 	"github.com/dc-lab/sky/api/proto/common"
 )
 
-func HandleStartVMRequest(req *cloud.TStartInstanceRequest) cloud.TStartInstanceResponse {
-	log.Printf("got Start Instance req: %s", req.InstanceUuid)
-	return cloud.TStartInstanceResponse{
+func HandleDeployImageRequest(req *cloud.TDeployImageRequest) cloud.TDeployImageResponse {
+	log.Printf("got Deploy Image req: %s, %s", req.InstanceUuid, req.DockerImage)
+	return cloud.TDeployImageResponse{
 		Result: &common.TResult{ResultCode: common.TResult_FAILED, ErrorCode: common.TResult_NOT_IMPLEMENTED},
 	}
 }
