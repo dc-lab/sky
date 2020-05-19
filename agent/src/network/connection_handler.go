@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
+	"os"
 	"time"
 
 	common "github.com/dc-lab/sky/agent/src/common"
@@ -73,7 +75,11 @@ func UpdateHealthFile(healthFilePath string) {
 
 func RunClient() {
 	stream, ctx := CreateConnection(parser.AgentConfig.ResourceManagerAddress)
-	go SendRegistrationData(stream, parser.AgentConfig.Token)
+	success := ResourceRegistration(stream, parser.AgentConfig.Token)
+	if !success {
+		log.Println("Failed resource registration. Invalid greetings")
+		os.Exit(1)
+	}
 	go ReceiveResourceManagerRequest(stream)
 	go SendHealthChecks(stream)
 	go UpdateTasksStatuses(stream)
