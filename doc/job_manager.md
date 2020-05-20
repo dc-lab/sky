@@ -74,7 +74,7 @@ REST
 ###### Data Params
 + Required
     * `tasks = [array of 
-       {command=[string] (required), input_files=[array of (uuid, path)], output_files=[array of string], ttl=[uint64]}
+       {command=[string] (required), input_files=[array of (uuid, path)], output_files=[array of string], time_limit=[uint64]}
 + Optional
     * `type=string`
   `
