@@ -239,6 +239,7 @@ func (*TAsyncCloudRequest_StopTaskRequest) isTAsyncCloudRequest_Body() {}
 func (*TAsyncCloudRequest_DeployImageRequest) isTAsyncCloudRequest_Body() {}
 
 // TODO: describe possible errors
+// TODO: use gRPC errors
 type TAsyncCloudResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -430,6 +431,7 @@ func (x *TPingTransactionRequest) GetTransactionId() string {
 }
 
 // TODO: describe possible errors
+// TODO: use gRPC errors
 type TPingTransactionResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
