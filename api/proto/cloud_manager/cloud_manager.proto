@@ -29,6 +29,7 @@ message TAsyncCloudRequest {
 }
 
 // TODO: describe possible errors
+// TODO: use gRPC errors
 message TAsyncCloudResponse {
   action.TResult result = 1;
   TTransaction transaction = 2;
@@ -48,6 +49,7 @@ message TPingTransactionRequest {
 }
 
 // TODO: describe possible errors
+// TODO: use gRPC errors
 message TPingTransactionResponse {
   action.TResult result = 1;
   ETransactionStatus status = 2;
