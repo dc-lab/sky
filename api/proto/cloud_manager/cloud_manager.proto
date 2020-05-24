@@ -11,121 +11,106 @@ import "api/proto/common/entity.proto";
 option go_package = "github.com/dc-lab/sky/api/proto/cloud_manager";
 
 service TCloudManager {
-  rpc DoAction (stream TCloudRequest) returns (stream TCloudResponse) {}
+  rpc DoAsync (TAsyncCloudRequest) returns (TAsyncCloudResponse) {}
+
+  rpc PingTransaction (TPingTransactionRequest) returns (TPingTransactionResponse) {}
 }
 
-message TCloudRequest {
+message TAsyncCloudRequest {
   oneof Body {
     TAllocateInstanceRequest allocate_instance_request = 1;
     TDeallocateInstanceRequest deallocate_instance_request = 2;
-    TConnectInstanceRequest connect_instance_request = 3;
-    TDisconnectInstanceRequest disconnect_instance_request = 4;
-    TStartInstanceRequest start_instance_request = 5;
-    TStopInstanceRequest stop_instance_request = 6;
+    TStartInstanceRequest start_instance_request = 3;
+    TStopInstanceRequest stop_instance_request = 4;
+    TStartTaskRequest start_task_request = 5;
+    TStopTaskRequest stop_task_request = 6;
     TDeployImageRequest deploy_image_request = 7;
   }
 }
 
-message TCloudResponse {
+// TODO: describe possible errors
+message TAsyncCloudResponse {
+  action.TResult result = 1;
+  TTransaction transaction = 2;
+  TAsyncResponseContent async_response_content = 3;
+}
+
+message TAsyncResponseContent {
+  reserved 2, 3, 4, 6, 7;
   oneof Body {
-    TAllocateInstanceResponse allocate_instance_response = 1;
-    TDeallocateInstanceResponse deallocate_instance_response = 2;
-    TConnectInstanceResponse connect_instance_response = 3;
-    TDisconnectInstanceResponse disconnect_instance_response = 4;
-    TStartInstanceResponse start_instance_response = 5;
-    TStopInstanceResponse stop_instance_response = 6;
-    TDeployImageResponse deploy_image_response = 7;
+    TAllocateInstanceResponseContent allocate_instance_response_content = 1;
+    TStartTaskResponseContent start_task_response_content = 5;
   }
 }
 
-// make API call to allocate new instance using quota of providing account
-// connect allocated instance with user account
-// in case of success returns instance UUID
+message TPingTransactionRequest {
+  string transaction_id = 1;
+}
+
 // TODO: describe possible errors
+message TPingTransactionResponse {
+  action.TResult result = 1;
+  ETransactionStatus status = 2;
+}
+
+message TTransaction {
+  string transaction_id = 1;
+}
+
+enum ETransactionStatus {
+  UNKNOWN = 0;
+  ACTIVE = 1;
+  COMPLETED = 2;
+  EXPIRED = 3;
+  CANCELLED = 4;
+}
+
 message TAllocateInstanceRequest {
-  TUserCredentials creds = 1;
-  TApiSettings settings = 2;
+  string user_id = 1;
+  string factory_id = 2;
   entity.THardwareData hardware_data = 3;
 }
 
-message TAllocateInstanceResponse {
-  action.TResult result = 1;
-  string instance_uuid = 2;
+message TAllocateInstanceResponseContent {
+  string instance_id = 1;
 }
 
-// make API call to deallocate existing instance for providing account
-// disconnect instance from user account
-// TODO: describe possible errors
 message TDeallocateInstanceRequest {
-  TUserCredentials creds = 1;
-  TApiSettings settings = 2;
-  string instance_uuid = 3;
+  string user_id = 1;
+  string instance_id = 2;
 }
 
-message TDeallocateInstanceResponse {
-  action.TResult result = 1;
+// make API call to start allocated instance associated with user account
+message TStartInstanceRequest {
+  string user_id = 1;
+  string instance_id = 2;
 }
 
-// make API call to ensure existence of instance and correctness of user permissions
-// associate instance with user account
-// TODO: describe possible errors
-message TConnectInstanceRequest {
-  TUserCredentials creds = 1;
-  TApiSettings settings = 2;
+message TStopInstanceRequest {
+  string user_id = 1;
+  string instance_id = 2;
+}
+
+// make API call to start task definition associated with user account
+message TStartTaskRequest {
+  string user_id = 1;
+  string factory_id = 2;
   entity.THardwareData hardware_data = 3;
 }
 
-message TConnectInstanceResponse {
-  action.TResult result = 1;
-  string instance_uuid = 2;
+message TStartTaskResponseContent {
+  string instance_id = 1;
 }
 
-// dissociate instance with user account
-// TODO: describe possible errors
-message TDisconnectInstanceRequest {
-  TUserCredentials creds = 1;
-  string instance_uuid = 2;
+message TStopTaskRequest {
+  string user_id = 1;
+  string instance_id = 2;
 }
 
-message TDisconnectInstanceResponse {
-  action.TResult result = 1;
-}
-
-// make API call to start instance connected with user account
-// TODO: describe possible errors
-message TStartInstanceRequest {
-  TUserCredentials creds = 1;
-  TApiSettings settings = 2;
-  string instance_uuid = 3;
-}
-
-message TStartInstanceResponse {
-  action.TResult result = 1;
-}
-
-// make API call to stop instance connected with user account
-// TODO: describe possible errors
-message TStopInstanceRequest {
-  TUserCredentials creds = 1;
-  TApiSettings settings = 2;
-  string instance_uuid = 3;
-}
-
-message TStopInstanceResponse {
-  action.TResult result = 1;
-}
-
-// make API call to deploy docker image on instance connected with user account
-// TODO: describe possible errors
 message TDeployImageRequest {
-  TUserCredentials creds = 1;
-  TApiSettings settings = 2;
-  string instance_uuid = 3;
-  TDockerImage docker_image = 4;
-}
-
-message TDeployImageResponse {
-  action.TResult result = 1;
+  string user_id = 1;
+  string instance_id = 2;
+  TDockerImage docker_image = 3;
 }
 
 message TDockerImage {
@@ -133,34 +118,4 @@ message TDockerImage {
   string repository = 2;
   string image = 3;
   string tag = 4;
-}
-
-// container for provider-specific user credentials
-message TUserCredentials {
-  oneof Body {
-    TAmazonCredentials amazon_credentials = 1;
-  }
-}
-
-message TAmazonCredentials {
-  string access_key_id = 1;
-  string secret_access_key = 2;
-}
-
-// container for provider-specific api settings
-message TApiSettings {
-  oneof Body {
-    TAmazonApiSettings amazon_settings = 1;
-  }
-}
-
-message TAmazonApiSettings {
-  enum EScheme {
-    NONE = 0;
-    HTTP = 1;
-    HTTPS = 2;
-  }
-
-  EScheme scheme = 1;
-  string region = 2;
 }
