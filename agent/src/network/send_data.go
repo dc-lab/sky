@@ -2,6 +2,7 @@ package network
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"time"
 
@@ -15,11 +16,22 @@ func printHardwareData(hwType string, hardwareData hardware.HardwareData) {
 	log.Printf("%s %.2fc %db %db\n", hwType, hardwareData.CpuCount, hardwareData.MemoryBytes, hardwareData.DiskBytes)
 }
 
-func SendRegistrationData(client rm.ResourceManager_SendClient, token string) {
+func ResourceRegistration(client rm.ResourceManager_SendClient, token string) bool {
 	request := rm.TGreetings{Token: token}
 	body := rm.TFromAgentMessage_Greetings{Greetings: &request}
 	err := client.Send(&rm.TFromAgentMessage{Body: &body})
 	common.DealWithError(err)
+	generalResponse, err := client.Recv()
+	if err == io.EOF {
+		return false
+	}
+	common.DealWithError(err)
+	switch response := generalResponse.Body.(type) {
+	case *rm.TToAgentMessage_GreetingsValidation:
+		return response.GreetingsValidation.GetResult().GetResultCode() == pb.TResult_SUCCESS
+	default:
+		return false
+	}
 }
 
 func SendHardwareData(client rm.ResourceManager_SendClient, totalHardwareData hardware.HardwareData, freeHardwareData hardware.HardwareData) {

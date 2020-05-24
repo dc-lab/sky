@@ -27,6 +27,10 @@ message TGreetings {
     string token = 1; // required
 }
 
+message TGreetingsValidation {
+    action.TResult result = 1; // required
+}
+
 message TPermissions {
     repeated string users = 1;
     repeated string groups = 2;
@@ -126,6 +130,7 @@ message TToAgentMessage {
         TStageOutRequest stage_out_request = 4;
         TCancelTaskRequest cancel_task_request = 5;
         TDeleteTaskRequest delete_task_request = 6;
+        TGreetingsValidation greetings_validation = 7;
     }
 }
 

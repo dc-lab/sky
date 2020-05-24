@@ -1,32 +1,19 @@
 package main
 
 import (
-	"encoding/json"
+	"github.com/gorilla/mux"
 	"log"
 	"net/http"
-	"time"
-
-	"github.com/gorilla/mux"
 )
 
 func main() {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/api/health", func(w http.ResponseWriter, r *http.Request) {
-		// an example API handler
-		err := json.NewEncoder(w).Encode(map[string]bool{"ok": true})
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-	})
+	router.HandleFunc("/jobs", startJob).Methods(http.MethodPost)
+	router.HandleFunc("/jobs/{job_id}", getJob).Methods(http.MethodGet)
+	router.HandleFunc("/jobs", getJobs).Methods(http.MethodGet)
+	router.HandleFunc("/jobs/{job_id}/cancel", cancelJob).Methods(http.MethodPost)
+	router.HandleFunc("/jobs/{job_id}", deleteJob).Methods(http.MethodDelete)
 
-	srv := &http.Server{
-		Handler: router,
-		Addr:    "127.0.0.1:8000",
-		// Good practice: enforce timeouts for servers you create!
-		WriteTimeout: 15 * time.Second,
-		ReadTimeout:  15 * time.Second,
-	}
-
-	log.Fatal(srv.ListenAndServe())
+	log.Fatal(http.ListenAndServe("127.0.0.1:8000", router))
 }
