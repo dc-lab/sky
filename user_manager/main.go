@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/dc-lab/sky/user_manager/app"
-	"github.com/dc-lab/sky/user_manager/handles"
 	"github.com/dc-lab/sky/user_manager/db"
+	"github.com/dc-lab/sky/user_manager/handles"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"

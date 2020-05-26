@@ -47,6 +47,102 @@ func randString(n int) string {
 	return string(b)
 }
 
+func AddUsersToResource(resourceId string, users []string) error {
+	if users == nil {
+		return nil
+	}
+
+	conn, err := pool.Acquire(context.Background())
+	if err != nil {
+		return err
+	}
+	defer conn.Release()
+
+	for _, user := range users {
+		_, err = conn.Exec(context.Background(), "INSERT INTO ur_permissions (user_id, resource_id) VALUES ($1, $2)  ON CONFLICT DO NOTHING;", user, resourceId)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func RemoveUsersFromResource(resourceId string, users []string) error {
+	if users == nil {
+		return nil
+	}
+
+	conn, err := pool.Acquire(context.Background())
+	if err != nil {
+		return err
+	}
+	defer conn.Release()
+
+	for _, user := range users {
+		_, err = conn.Exec(context.Background(), "DELETE FROM ur_permissions WHERE user_id = $1 AND resource_id = $2;", user, resourceId)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func AddGroupsToResource(resourceId string, groups []string) error {
+	if groups == nil {
+		return nil
+	}
+
+	conn, err := pool.Acquire(context.Background())
+	if err != nil {
+		return err
+	}
+	defer conn.Release()
+
+	for _, group := range groups {
+		_, err = conn.Exec(context.Background(), "INSERT INTO gr_permissions (group_id, resource_id) VALUES ($1, $2)  ON CONFLICT DO NOTHING;", group, resourceId)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func RemoveGroupsFromResource(resourceId string, groups []string) error {
+	if groups == nil {
+		return nil
+	}
+
+	conn, err := pool.Acquire(context.Background())
+	if err != nil {
+		return err
+	}
+	defer conn.Release()
+
+	for _, group := range groups {
+		_, err = conn.Exec(context.Background(), "DELETE FROM gr_permissions WHERE group_id = $1 AND resource_id = $2;", group, resourceId)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (resource *Resource) Modify(usersToAdd, usersToRemove, groupsToAdd, groupsToRemove []string) error {
+	if err := AddUsersToResource(resource.Id, usersToAdd); err != nil {
+		return err
+	}
+	if err := RemoveUsersFromResource(resource.Id, usersToRemove); err != nil {
+		return err
+	}
+	if err := AddGroupsToResource(resource.Id, groupsToAdd); err != nil {
+		return err
+	}
+	if err := RemoveGroupsFromResource(resource.Id, groupsToRemove); err != nil {
+		return err
+	}
+	return nil
+}
+
 func (resource *Resource) Create(userId string) (string, bool) {
 	if message, ok := resource.Validate(); !ok {
 		return message, false
@@ -95,6 +191,38 @@ func GetResource(userId, resourceId string) (string, *Resource) {
 		log.Println(err)
 		return "Internal error", nil
 	}
+	rows.Close()
+
+	rows, err = conn.Query(context.Background(), "SELECT user_id FROM ur_permissions WHERE resource_id = $1", resourceId)
+	if err != nil {
+		log.Println(err)
+		return "Internal error", nil
+	}
+	for rows.Next() {
+		var user string
+		err = rows.Scan(&user)
+		if err != nil {
+			log.Println(err)
+			return "Internal error", nil
+		}
+		resource.Permissions.Users = append(resource.Permissions.Users, user)
+	}
+
+	rows, err = conn.Query(context.Background(), "SELECT group_id FROM gr_permissions WHERE resource_id = $1", resourceId)
+	if err != nil {
+		log.Println(err)
+		return "Internal error", nil
+	}
+	for rows.Next() {
+		var group string
+		err = rows.Scan(&group)
+		if err != nil {
+			log.Println(err)
+			return "Internal error", nil
+		}
+		resource.Permissions.Groups = append(resource.Permissions.Groups, group)
+	}
+
 	return "", resource
 }
 
