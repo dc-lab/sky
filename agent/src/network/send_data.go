@@ -47,8 +47,10 @@ func SendHardwareData(client rm.ResourceManager_SendClient, totalHardwareData ha
 }
 
 func SendTaskData(client rm.ResourceManager_SendClient, taskId string, resultPtr *pb.TResult) {
+	task, _ := GlobalTasksStatuses.Load(taskId)
+	filePaths := common.GetChildrenFilePaths(task.ExecutionDir)
 	fmt.Println("Send task data")
-	request := rm.TTaskResponse{TaskId: taskId, Result: resultPtr}
+	request := rm.TTaskResponse{TaskId: taskId, Result: resultPtr, TaskFiles: filePaths}
 	body := rm.TFromAgentMessage_TaskResponse{TaskResponse: &request}
 	err := client.Send(&rm.TFromAgentMessage{Body: &body})
 	common.DealWithError(err)
@@ -63,8 +65,8 @@ func SendHealthChecks(client rm.ResourceManager_SendClient) {
 	}
 }
 
-func UpdateTasksStatuses(client rm.ResourceManager_SendClient) {
+func UpdateTasksInfo(client rm.ResourceManager_SendClient) {
 	for ; ; time.Sleep(time.Millisecond * 100) {
-		ConsumeTasksStatus(client, SendTaskData)
+		ConsumeTasksData(client, SendTaskData)
 	}
 }

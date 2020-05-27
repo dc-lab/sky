@@ -4,9 +4,11 @@ go 1.13
 
 require (
 	github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d // indirect
-	github.com/dc-lab/sky/api/proto/common v0.0.0-20200517171548-4aa307a2522c
-	github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200519132751-a52a6bb68f8a
+	github.com/containerd/ttrpc v1.0.1 // indirect
+	github.com/dc-lab/sky/api/proto/common v0.0.0-20200524150756-2184e08dcb44
+	github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200527185225-fc0b7a53f4ce
 	github.com/dc-lab/sky/data_manager v0.0.0-20200515020111-283a44d41b89
+	github.com/docker/distribution v2.7.1+incompatible
 	github.com/docker/docker v1.4.2-0.20200213202729-31a86c4ab209
 	github.com/go-ole/go-ole v1.2.4 // indirect
 	github.com/shirou/gopsutil v2.20.4+incompatible
