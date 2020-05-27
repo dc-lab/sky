@@ -73,6 +73,7 @@ message TTaskRequest {
 message TTaskResponse {
     string task_id = 1; // required
     action.TResult result = 2; // required
+    repeated string task_files = 3; // required
 }
 
 message TFile {
@@ -123,13 +124,6 @@ message TDeleteResourceRequest {
 message TDeleteResourceResponse {
 }
 
-message TTaskToFilesMapping {
-    message TFiles {
-        repeated TFile files = 1;
-    }
-    map<string, TFiles> mapping = 1;
-}
-
 message TToAgentMessage {
     oneof Body {
         THardwareRequest hardware_request = 1;
@@ -149,7 +143,6 @@ message TFromAgentMessage {
         TTaskResponse task_response = 3;
         TStageInResponse stage_in_response = 4;
         TStageOutResponse stage_out_response = 5;
-        TTaskToFilesMapping task_files_mapping = 6;
     }
 }
 
