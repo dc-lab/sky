@@ -98,7 +98,7 @@ message TStageOutRequest {
 
 message TStageOutResponse {
     string task_id = 1; // required
-    action.TResult result = 2; // required
+    TFile task_file = 2; // required
 }
 
 message TCancelTaskRequest {
