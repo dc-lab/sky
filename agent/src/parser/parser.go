@@ -12,6 +12,7 @@ import (
 type Config struct {
 	ResourceManagerAddress string
 	AgentDirectory         string
+	LocalCacheDirectory    string
 	AgentLogFile           string
 	HealthFile             string
 	Token                  string
@@ -67,6 +68,7 @@ func ParseArguments() Config {
 	common.DieWithError(common.CreateDirectory(runDirectory, false))
 
 	fmt.Println(config)
+	config.LocalCacheDirectory = path.Join(config.AgentDirectory, "local_cache")
 	return config
 }
 
