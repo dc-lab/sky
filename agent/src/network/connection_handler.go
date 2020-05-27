@@ -51,7 +51,8 @@ func ReceiveResourceManagerRequest(client rm.ResourceManager_SendClient) {
 		case *rm.TToAgentMessage_StageOutRequest:
 			fmt.Println("Stage out request")
 			taskId := response.StageOutRequest.GetTaskId()
-			go StageOutFiles(client, taskId)
+			localPath := response.StageOutRequest.GetAgentRelativeLocalPath()
+			go StageOutFiles(client, taskId, localPath)
 		case *rm.TToAgentMessage_CancelTaskRequest:
 			taskId := response.CancelTaskRequest.GetTaskId()
 			go CancelTask(taskId)
@@ -82,7 +83,7 @@ func RunClient() {
 	}
 	go ReceiveResourceManagerRequest(stream)
 	go SendHealthChecks(stream)
-	go UpdateTasksStatuses(stream)
+	go UpdateTasksInfo(stream)
 	go UpdateHealthFile(parser.AgentConfig.HealthFile)
 	<-ctx.Done()
 }
