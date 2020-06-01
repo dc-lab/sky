@@ -44,6 +44,7 @@ func MakeBlobsService(config *config.Config, storage storage.Storage) (*BlobsSer
 func (s *BlobsService) RunLoop() {
 	ticker := time.NewTicker(s.config.PushInterval)
 	for range ticker.C {
+		log.Info("Start loop")
 		status := &pb.NodeStatus{}
 		s.storage.ListBlobs(func(hash string) error {
 			status.BlobHashes = append(status.BlobHashes, hash)
@@ -56,11 +57,11 @@ func (s *BlobsService) RunLoop() {
 			continue
 		}
 
-		println("Got new target")
+		log.Info("Got new target")
 		for _, hash := range target.BlobHashes {
-			println("Hash: ", hash)
+			log.Info("Hash: ", hash)
 		}
-		println("Done")
+		log.Info("Done")
 	}
 }
 

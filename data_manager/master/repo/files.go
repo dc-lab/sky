@@ -228,16 +228,19 @@ func (s *FilesRepo) UpdateLocations(location string, blobs []string) error {
 
 	defer tx.Rollback()
 
-	tx.Exec(`DELETE FROM hash_locations WHERE location = $1`, location)
+	_, err = tx.Exec(`DELETE FROM hash_locations WHERE location = $1`, location)
+	if err != nil {
+		return err
+	}
 
 	stmt, err := tx.Prepare(`INSERT INTO hash_locations VALUES ($1, $2) ON CONFLICT DO NOTHING`)
 	if err != nil {
-		return nil
+		return err
 	}
 	defer stmt.Close()
 
 	for _, hash := range blobs {
-		_, err = stmt.Exec(location, hash)
+		_, err = stmt.Exec(hash, location)
 		if err != nil {
 			return err
 		}
@@ -305,7 +308,7 @@ func (s *FilesRepo) GetFileLocations(id string) ([]string, error) {
 	}
 
 	rows, err := s.Conn.Query(
-		`SELECT location FROM nodes WHERE hash=$1 ORDER BY report_time DESC LIMIT 5`, file.Hash,
+		`SELECT location FROM hash_locations WHERE hash=$1 ORDER BY report_time DESC LIMIT 5`, file.Hash,
 	)
 	if err != nil {
 		return nil, err

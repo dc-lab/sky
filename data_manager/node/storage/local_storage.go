@@ -42,9 +42,10 @@ func buildHashFromPath(root string, file string) (string, error) {
 	}
 
 	hash := ""
-	for file != "" {
+	for file != "." {
 		var comp string
-		file, comp = path.Split(file)
+		comp = path.Base(file)
+		file = path.Dir(file)
 		hash = comp + hash
 	}
 

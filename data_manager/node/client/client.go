@@ -27,7 +27,7 @@ func MakeClient(config *config.Config) (*Client, error) {
 
 func (c *Client) Loop(state *pb.NodeStatus) (*pb.NodeTarget, error) {
 	state.NodeId = c.nodeId
-	target, err := c.client.Loop(context.Background(), state)
+	target, err := c.client.Loop(context.Background(), state, grpc.FailFast(true))
 	return target, err
 }
 

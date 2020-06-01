@@ -61,7 +61,7 @@ func (s *FilesService) GetFileLocation(id string) ([]string, error) {
 
 	urls := make([]string, 0)
 	for _, loc := range locations {
-		locations = append(urls, makeFileDownloadUrl(loc, id))
+		urls = append(urls, makeFileDownloadUrl(loc, id))
 	}
 	return urls, err
 }
