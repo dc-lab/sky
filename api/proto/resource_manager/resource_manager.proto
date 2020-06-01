@@ -79,6 +79,7 @@ message TTaskResponse {
 message TFile {
     string id = 1; // required
     string agent_relative_local_path = 2; // required
+    string hash = 3; // required
 }
 
 message TStageInRequest {
