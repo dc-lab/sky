@@ -134,6 +134,55 @@ func (EResourceState) EnumDescriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_resource_manager_proto_rawDescGZIP(), []int{1}
 }
 
+type TRMResponse_TResultCode int32
+
+const (
+	TRMResponse_NONE      TRMResponse_TResultCode = 0
+	TRMResponse_OK        TRMResponse_TResultCode = 1
+	TRMResponse_NOT_FOUND TRMResponse_TResultCode = 2
+)
+
+// Enum value maps for TRMResponse_TResultCode.
+var (
+	TRMResponse_TResultCode_name = map[int32]string{
+		0: "NONE",
+		1: "OK",
+		2: "NOT_FOUND",
+	}
+	TRMResponse_TResultCode_value = map[string]int32{
+		"NONE":      0,
+		"OK":        1,
+		"NOT_FOUND": 2,
+	}
+)
+
+func (x TRMResponse_TResultCode) Enum() *TRMResponse_TResultCode {
+	p := new(TRMResponse_TResultCode)
+	*p = x
+	return p
+}
+
+func (x TRMResponse_TResultCode) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (TRMResponse_TResultCode) Descriptor() protoreflect.EnumDescriptor {
+	return file_api_proto_resource_manager_resource_manager_proto_enumTypes[2].Descriptor()
+}
+
+func (TRMResponse_TResultCode) Type() protoreflect.EnumType {
+	return &file_api_proto_resource_manager_resource_manager_proto_enumTypes[2]
+}
+
+func (x TRMResponse_TResultCode) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use TRMResponse_TResultCode.Descriptor instead.
+func (TRMResponse_TResultCode) EnumDescriptor() ([]byte, []int) {
+	return file_api_proto_resource_manager_resource_manager_proto_rawDescGZIP(), []int{25, 0}
+}
+
 type TTask struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1631,6 +1680,108 @@ func (*TResourceResponse_CreateResourceResponse) isTResourceResponse_Body() {}
 
 func (*TResourceResponse_DeleteResourceResponse) isTResourceResponse_Body() {}
 
+type TRMRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ResourceId  string           `protobuf:"bytes,1,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`    // required
+	RealMessage *TToAgentMessage `protobuf:"bytes,2,opt,name=real_message,json=realMessage,proto3" json:"real_message,omitempty"` //required
+}
+
+func (x *TRMRequest) Reset() {
+	*x = TRMRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_proto_resource_manager_resource_manager_proto_msgTypes[24]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *TRMRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TRMRequest) ProtoMessage() {}
+
+func (x *TRMRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_resource_manager_resource_manager_proto_msgTypes[24]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TRMRequest.ProtoReflect.Descriptor instead.
+func (*TRMRequest) Descriptor() ([]byte, []int) {
+	return file_api_proto_resource_manager_resource_manager_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *TRMRequest) GetResourceId() string {
+	if x != nil {
+		return x.ResourceId
+	}
+	return ""
+}
+
+func (x *TRMRequest) GetRealMessage() *TToAgentMessage {
+	if x != nil {
+		return x.RealMessage
+	}
+	return nil
+}
+
+type TRMResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ResultCode TRMResponse_TResultCode `protobuf:"varint,1,opt,name=result_code,json=resultCode,proto3,enum=resource_manager.TRMResponse_TResultCode" json:"result_code,omitempty"` // required
+}
+
+func (x *TRMResponse) Reset() {
+	*x = TRMResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_proto_resource_manager_resource_manager_proto_msgTypes[25]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *TRMResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TRMResponse) ProtoMessage() {}
+
+func (x *TRMResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_resource_manager_resource_manager_proto_msgTypes[25]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TRMResponse.ProtoReflect.Descriptor instead.
+func (*TRMResponse) Descriptor() ([]byte, []int) {
+	return file_api_proto_resource_manager_resource_manager_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *TRMResponse) GetResultCode() TRMResponse_TResultCode {
+	if x != nil {
+		return x.ResultCode
+	}
+	return TRMResponse_NONE
+}
+
 var File_api_proto_resource_manager_resource_manager_proto protoreflect.FileDescriptor
 
 var file_api_proto_resource_manager_resource_manager_proto_rawDesc = []byte{
@@ -1844,31 +1995,52 @@ var file_api_proto_resource_manager_resource_manager_proto_rawDesc = []byte{
 	0x72, 0x2e, 0x54, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63,
 	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x48, 0x00, 0x52, 0x16, 0x64, 0x65, 0x6c,
 	0x65, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x42, 0x06, 0x0a, 0x04, 0x42, 0x6f, 0x64, 0x79, 0x2a, 0x56, 0x0a, 0x0d, 0x45,
-	0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12, 0x0b, 0x0a, 0x07,
-	0x55, 0x4e, 0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x10, 0x00, 0x12, 0x0a, 0x0a, 0x06, 0x53, 0x49, 0x4e,
-	0x47, 0x4c, 0x45, 0x10, 0x01, 0x12, 0x08, 0x0a, 0x04, 0x50, 0x4f, 0x4f, 0x4c, 0x10, 0x02, 0x12,
-	0x12, 0x0a, 0x0e, 0x43, 0x4c, 0x4f, 0x55, 0x44, 0x5f, 0x49, 0x4e, 0x53, 0x54, 0x41, 0x4e, 0x43,
-	0x45, 0x10, 0x03, 0x12, 0x0e, 0x0a, 0x0a, 0x43, 0x4c, 0x4f, 0x55, 0x44, 0x5f, 0x54, 0x41, 0x53,
-	0x4b, 0x10, 0x04, 0x2a, 0x29, 0x0a, 0x0e, 0x45, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
-	0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x0b, 0x0a, 0x07, 0x4f, 0x46, 0x46, 0x4c, 0x49, 0x4e, 0x45,
-	0x10, 0x00, 0x12, 0x0a, 0x0a, 0x06, 0x4f, 0x4e, 0x4c, 0x49, 0x4e, 0x45, 0x10, 0x01, 0x32, 0xbc,
-	0x01, 0x0a, 0x0f, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x4d, 0x61, 0x6e, 0x61, 0x67,
-	0x65, 0x72, 0x12, 0x54, 0x0a, 0x04, 0x53, 0x65, 0x6e, 0x64, 0x12, 0x23, 0x2e, 0x72, 0x65, 0x73,
-	0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x72, 0x2e, 0x54, 0x46,
-	0x72, 0x6f, 0x6d, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x1a,
-	0x21, 0x2e, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67,
-	0x65, 0x72, 0x2e, 0x54, 0x54, 0x6f, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61,
-	0x67, 0x65, 0x22, 0x00, 0x28, 0x01, 0x30, 0x01, 0x12, 0x53, 0x0a, 0x06, 0x55, 0x70, 0x64, 0x61,
-	0x74, 0x65, 0x12, 0x22, 0x2e, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x6d, 0x61,
-	0x6e, 0x61, 0x67, 0x65, 0x72, 0x2e, 0x54, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x23, 0x2e, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63,
-	0x65, 0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x72, 0x2e, 0x54, 0x52, 0x65, 0x73, 0x6f, 0x75,
-	0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x32, 0x5a,
-	0x30, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x63, 0x2d, 0x6c,
-	0x61, 0x62, 0x2f, 0x73, 0x6b, 0x79, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x2f, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65,
-	0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6e, 0x73, 0x65, 0x42, 0x06, 0x0a, 0x04, 0x42, 0x6f, 0x64, 0x79, 0x22, 0x73, 0x0a, 0x0a, 0x54,
+	0x52, 0x4d, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x72, 0x65, 0x73,
+	0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a,
+	0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x49, 0x64, 0x12, 0x44, 0x0a, 0x0c, 0x72, 0x65,
+	0x61, 0x6c, 0x5f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x21, 0x2e, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x6d, 0x61, 0x6e, 0x61,
+	0x67, 0x65, 0x72, 0x2e, 0x54, 0x54, 0x6f, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x52, 0x0b, 0x72, 0x65, 0x61, 0x6c, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x22, 0x89, 0x01, 0x0a, 0x0b, 0x54, 0x52, 0x4d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x4a, 0x0a, 0x0b, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x5f, 0x63, 0x6f, 0x64, 0x65, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x29, 0x2e, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
+	0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x72, 0x2e, 0x54, 0x52, 0x4d, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x54, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x43, 0x6f, 0x64, 0x65,
+	0x52, 0x0a, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x43, 0x6f, 0x64, 0x65, 0x22, 0x2e, 0x0a, 0x0b,
+	0x54, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x08, 0x0a, 0x04, 0x4e,
+	0x4f, 0x4e, 0x45, 0x10, 0x00, 0x12, 0x06, 0x0a, 0x02, 0x4f, 0x4b, 0x10, 0x01, 0x12, 0x0d, 0x0a,
+	0x09, 0x4e, 0x4f, 0x54, 0x5f, 0x46, 0x4f, 0x55, 0x4e, 0x44, 0x10, 0x02, 0x2a, 0x56, 0x0a, 0x0d,
+	0x45, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12, 0x0b, 0x0a,
+	0x07, 0x55, 0x4e, 0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x10, 0x00, 0x12, 0x0a, 0x0a, 0x06, 0x53, 0x49,
+	0x4e, 0x47, 0x4c, 0x45, 0x10, 0x01, 0x12, 0x08, 0x0a, 0x04, 0x50, 0x4f, 0x4f, 0x4c, 0x10, 0x02,
+	0x12, 0x12, 0x0a, 0x0e, 0x43, 0x4c, 0x4f, 0x55, 0x44, 0x5f, 0x49, 0x4e, 0x53, 0x54, 0x41, 0x4e,
+	0x43, 0x45, 0x10, 0x03, 0x12, 0x0e, 0x0a, 0x0a, 0x43, 0x4c, 0x4f, 0x55, 0x44, 0x5f, 0x54, 0x41,
+	0x53, 0x4b, 0x10, 0x04, 0x2a, 0x29, 0x0a, 0x0e, 0x45, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63,
+	0x65, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x0b, 0x0a, 0x07, 0x4f, 0x46, 0x46, 0x4c, 0x49, 0x4e,
+	0x45, 0x10, 0x00, 0x12, 0x0a, 0x0a, 0x06, 0x4f, 0x4e, 0x4c, 0x49, 0x4e, 0x45, 0x10, 0x01, 0x32,
+	0x8a, 0x02, 0x0a, 0x0f, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x4d, 0x61, 0x6e, 0x61,
+	0x67, 0x65, 0x72, 0x12, 0x54, 0x0a, 0x04, 0x53, 0x65, 0x6e, 0x64, 0x12, 0x23, 0x2e, 0x72, 0x65,
+	0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x72, 0x2e, 0x54,
+	0x46, 0x72, 0x6f, 0x6d, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x1a, 0x21, 0x2e, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x6d, 0x61, 0x6e, 0x61,
+	0x67, 0x65, 0x72, 0x2e, 0x54, 0x54, 0x6f, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x22, 0x00, 0x28, 0x01, 0x30, 0x01, 0x12, 0x53, 0x0a, 0x06, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x12, 0x22, 0x2e, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x6d,
+	0x61, 0x6e, 0x61, 0x67, 0x65, 0x72, 0x2e, 0x54, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x23, 0x2e, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72,
+	0x63, 0x65, 0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x72, 0x2e, 0x54, 0x52, 0x65, 0x73, 0x6f,
+	0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x4c,
+	0x0a, 0x0b, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x41, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1c, 0x2e,
+	0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x72,
+	0x2e, 0x54, 0x52, 0x4d, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1d, 0x2e, 0x72, 0x65,
+	0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x72, 0x2e, 0x54,
+	0x52, 0x4d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x32, 0x5a, 0x30,
+	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x63, 0x2d, 0x6c, 0x61,
+	0x62, 0x2f, 0x73, 0x6b, 0x79, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f,
+	0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x72,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1883,76 +2055,83 @@ func file_api_proto_resource_manager_resource_manager_proto_rawDescGZIP() []byte
 	return file_api_proto_resource_manager_resource_manager_proto_rawDescData
 }
 
-var file_api_proto_resource_manager_resource_manager_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_api_proto_resource_manager_resource_manager_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
+var file_api_proto_resource_manager_resource_manager_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_api_proto_resource_manager_resource_manager_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
 var file_api_proto_resource_manager_resource_manager_proto_goTypes = []interface{}{
 	(EResourceType)(0),              // 0: resource_manager.EResourceType
 	(EResourceState)(0),             // 1: resource_manager.EResourceState
-	(*TTask)(nil),                   // 2: resource_manager.TTask
-	(*TGreetings)(nil),              // 3: resource_manager.TGreetings
-	(*TGreetingsValidation)(nil),    // 4: resource_manager.TGreetingsValidation
-	(*TPermissions)(nil),            // 5: resource_manager.TPermissions
-	(*TResource)(nil),               // 6: resource_manager.TResource
-	(*THardwareRequest)(nil),        // 7: resource_manager.THardwareRequest
-	(*THardwareResponse)(nil),       // 8: resource_manager.THardwareResponse
-	(*TTaskRequest)(nil),            // 9: resource_manager.TTaskRequest
-	(*TTaskResponse)(nil),           // 10: resource_manager.TTaskResponse
-	(*TFile)(nil),                   // 11: resource_manager.TFile
-	(*TStageInRequest)(nil),         // 12: resource_manager.TStageInRequest
-	(*TStageInResponse)(nil),        // 13: resource_manager.TStageInResponse
-	(*TStageOutRequest)(nil),        // 14: resource_manager.TStageOutRequest
-	(*TStageOutResponse)(nil),       // 15: resource_manager.TStageOutResponse
-	(*TCancelTaskRequest)(nil),      // 16: resource_manager.TCancelTaskRequest
-	(*TDeleteTaskRequest)(nil),      // 17: resource_manager.TDeleteTaskRequest
-	(*TCreateResourceRequest)(nil),  // 18: resource_manager.TCreateResourceRequest
-	(*TCreateResourceResponse)(nil), // 19: resource_manager.TCreateResourceResponse
-	(*TDeleteResourceRequest)(nil),  // 20: resource_manager.TDeleteResourceRequest
-	(*TDeleteResourceResponse)(nil), // 21: resource_manager.TDeleteResourceResponse
-	(*TToAgentMessage)(nil),         // 22: resource_manager.TToAgentMessage
-	(*TFromAgentMessage)(nil),       // 23: resource_manager.TFromAgentMessage
-	(*TResourceRequest)(nil),        // 24: resource_manager.TResourceRequest
-	(*TResourceResponse)(nil),       // 25: resource_manager.TResourceResponse
-	(*common.TResult)(nil),          // 26: action.TResult
-	(*common.THardwareData)(nil),    // 27: entity.THardwareData
+	(TRMResponse_TResultCode)(0),    // 2: resource_manager.TRMResponse.TResultCode
+	(*TTask)(nil),                   // 3: resource_manager.TTask
+	(*TGreetings)(nil),              // 4: resource_manager.TGreetings
+	(*TGreetingsValidation)(nil),    // 5: resource_manager.TGreetingsValidation
+	(*TPermissions)(nil),            // 6: resource_manager.TPermissions
+	(*TResource)(nil),               // 7: resource_manager.TResource
+	(*THardwareRequest)(nil),        // 8: resource_manager.THardwareRequest
+	(*THardwareResponse)(nil),       // 9: resource_manager.THardwareResponse
+	(*TTaskRequest)(nil),            // 10: resource_manager.TTaskRequest
+	(*TTaskResponse)(nil),           // 11: resource_manager.TTaskResponse
+	(*TFile)(nil),                   // 12: resource_manager.TFile
+	(*TStageInRequest)(nil),         // 13: resource_manager.TStageInRequest
+	(*TStageInResponse)(nil),        // 14: resource_manager.TStageInResponse
+	(*TStageOutRequest)(nil),        // 15: resource_manager.TStageOutRequest
+	(*TStageOutResponse)(nil),       // 16: resource_manager.TStageOutResponse
+	(*TCancelTaskRequest)(nil),      // 17: resource_manager.TCancelTaskRequest
+	(*TDeleteTaskRequest)(nil),      // 18: resource_manager.TDeleteTaskRequest
+	(*TCreateResourceRequest)(nil),  // 19: resource_manager.TCreateResourceRequest
+	(*TCreateResourceResponse)(nil), // 20: resource_manager.TCreateResourceResponse
+	(*TDeleteResourceRequest)(nil),  // 21: resource_manager.TDeleteResourceRequest
+	(*TDeleteResourceResponse)(nil), // 22: resource_manager.TDeleteResourceResponse
+	(*TToAgentMessage)(nil),         // 23: resource_manager.TToAgentMessage
+	(*TFromAgentMessage)(nil),       // 24: resource_manager.TFromAgentMessage
+	(*TResourceRequest)(nil),        // 25: resource_manager.TResourceRequest
+	(*TResourceResponse)(nil),       // 26: resource_manager.TResourceResponse
+	(*TRMRequest)(nil),              // 27: resource_manager.TRMRequest
+	(*TRMResponse)(nil),             // 28: resource_manager.TRMResponse
+	(*common.TResult)(nil),          // 29: action.TResult
+	(*common.THardwareData)(nil),    // 30: entity.THardwareData
 }
 var file_api_proto_resource_manager_resource_manager_proto_depIdxs = []int32{
-	26, // 0: resource_manager.TGreetingsValidation.result:type_name -> action.TResult
+	29, // 0: resource_manager.TGreetingsValidation.result:type_name -> action.TResult
 	0,  // 1: resource_manager.TResource.type:type_name -> resource_manager.EResourceType
-	5,  // 2: resource_manager.TResource.permissions:type_name -> resource_manager.TPermissions
+	6,  // 2: resource_manager.TResource.permissions:type_name -> resource_manager.TPermissions
 	1,  // 3: resource_manager.TResource.state:type_name -> resource_manager.EResourceState
-	27, // 4: resource_manager.THardwareResponse.total_hardware_data:type_name -> entity.THardwareData
-	27, // 5: resource_manager.THardwareResponse.free_hardware_data:type_name -> entity.THardwareData
-	2,  // 6: resource_manager.TTaskRequest.task:type_name -> resource_manager.TTask
-	26, // 7: resource_manager.TTaskResponse.result:type_name -> action.TResult
-	11, // 8: resource_manager.TStageInRequest.files:type_name -> resource_manager.TFile
-	26, // 9: resource_manager.TStageInResponse.result:type_name -> action.TResult
-	11, // 10: resource_manager.TStageOutResponse.task_file:type_name -> resource_manager.TFile
-	6,  // 11: resource_manager.TCreateResourceRequest.resource:type_name -> resource_manager.TResource
-	7,  // 12: resource_manager.TToAgentMessage.hardware_request:type_name -> resource_manager.THardwareRequest
-	9,  // 13: resource_manager.TToAgentMessage.task_request:type_name -> resource_manager.TTaskRequest
-	12, // 14: resource_manager.TToAgentMessage.stage_in_request:type_name -> resource_manager.TStageInRequest
-	14, // 15: resource_manager.TToAgentMessage.stage_out_request:type_name -> resource_manager.TStageOutRequest
-	16, // 16: resource_manager.TToAgentMessage.cancel_task_request:type_name -> resource_manager.TCancelTaskRequest
-	17, // 17: resource_manager.TToAgentMessage.delete_task_request:type_name -> resource_manager.TDeleteTaskRequest
-	4,  // 18: resource_manager.TToAgentMessage.greetings_validation:type_name -> resource_manager.TGreetingsValidation
-	8,  // 19: resource_manager.TFromAgentMessage.hardware_response:type_name -> resource_manager.THardwareResponse
-	3,  // 20: resource_manager.TFromAgentMessage.greetings:type_name -> resource_manager.TGreetings
-	10, // 21: resource_manager.TFromAgentMessage.task_response:type_name -> resource_manager.TTaskResponse
-	13, // 22: resource_manager.TFromAgentMessage.stage_in_response:type_name -> resource_manager.TStageInResponse
-	15, // 23: resource_manager.TFromAgentMessage.stage_out_response:type_name -> resource_manager.TStageOutResponse
-	18, // 24: resource_manager.TResourceRequest.create_resource_request:type_name -> resource_manager.TCreateResourceRequest
-	20, // 25: resource_manager.TResourceRequest.delete_resource_request:type_name -> resource_manager.TDeleteResourceRequest
-	19, // 26: resource_manager.TResourceResponse.create_resource_response:type_name -> resource_manager.TCreateResourceResponse
-	21, // 27: resource_manager.TResourceResponse.delete_resource_response:type_name -> resource_manager.TDeleteResourceResponse
-	23, // 28: resource_manager.ResourceManager.Send:input_type -> resource_manager.TFromAgentMessage
-	24, // 29: resource_manager.ResourceManager.Update:input_type -> resource_manager.TResourceRequest
-	22, // 30: resource_manager.ResourceManager.Send:output_type -> resource_manager.TToAgentMessage
-	25, // 31: resource_manager.ResourceManager.Update:output_type -> resource_manager.TResourceResponse
-	30, // [30:32] is the sub-list for method output_type
-	28, // [28:30] is the sub-list for method input_type
-	28, // [28:28] is the sub-list for extension type_name
-	28, // [28:28] is the sub-list for extension extendee
-	0,  // [0:28] is the sub-list for field type_name
+	30, // 4: resource_manager.THardwareResponse.total_hardware_data:type_name -> entity.THardwareData
+	30, // 5: resource_manager.THardwareResponse.free_hardware_data:type_name -> entity.THardwareData
+	3,  // 6: resource_manager.TTaskRequest.task:type_name -> resource_manager.TTask
+	29, // 7: resource_manager.TTaskResponse.result:type_name -> action.TResult
+	12, // 8: resource_manager.TStageInRequest.files:type_name -> resource_manager.TFile
+	29, // 9: resource_manager.TStageInResponse.result:type_name -> action.TResult
+	12, // 10: resource_manager.TStageOutResponse.task_file:type_name -> resource_manager.TFile
+	7,  // 11: resource_manager.TCreateResourceRequest.resource:type_name -> resource_manager.TResource
+	8,  // 12: resource_manager.TToAgentMessage.hardware_request:type_name -> resource_manager.THardwareRequest
+	10, // 13: resource_manager.TToAgentMessage.task_request:type_name -> resource_manager.TTaskRequest
+	13, // 14: resource_manager.TToAgentMessage.stage_in_request:type_name -> resource_manager.TStageInRequest
+	15, // 15: resource_manager.TToAgentMessage.stage_out_request:type_name -> resource_manager.TStageOutRequest
+	17, // 16: resource_manager.TToAgentMessage.cancel_task_request:type_name -> resource_manager.TCancelTaskRequest
+	18, // 17: resource_manager.TToAgentMessage.delete_task_request:type_name -> resource_manager.TDeleteTaskRequest
+	5,  // 18: resource_manager.TToAgentMessage.greetings_validation:type_name -> resource_manager.TGreetingsValidation
+	9,  // 19: resource_manager.TFromAgentMessage.hardware_response:type_name -> resource_manager.THardwareResponse
+	4,  // 20: resource_manager.TFromAgentMessage.greetings:type_name -> resource_manager.TGreetings
+	11, // 21: resource_manager.TFromAgentMessage.task_response:type_name -> resource_manager.TTaskResponse
+	14, // 22: resource_manager.TFromAgentMessage.stage_in_response:type_name -> resource_manager.TStageInResponse
+	16, // 23: resource_manager.TFromAgentMessage.stage_out_response:type_name -> resource_manager.TStageOutResponse
+	19, // 24: resource_manager.TResourceRequest.create_resource_request:type_name -> resource_manager.TCreateResourceRequest
+	21, // 25: resource_manager.TResourceRequest.delete_resource_request:type_name -> resource_manager.TDeleteResourceRequest
+	20, // 26: resource_manager.TResourceResponse.create_resource_response:type_name -> resource_manager.TCreateResourceResponse
+	22, // 27: resource_manager.TResourceResponse.delete_resource_response:type_name -> resource_manager.TDeleteResourceResponse
+	23, // 28: resource_manager.TRMRequest.real_message:type_name -> resource_manager.TToAgentMessage
+	2,  // 29: resource_manager.TRMResponse.result_code:type_name -> resource_manager.TRMResponse.TResultCode
+	24, // 30: resource_manager.ResourceManager.Send:input_type -> resource_manager.TFromAgentMessage
+	25, // 31: resource_manager.ResourceManager.Update:input_type -> resource_manager.TResourceRequest
+	27, // 32: resource_manager.ResourceManager.AgentAction:input_type -> resource_manager.TRMRequest
+	23, // 33: resource_manager.ResourceManager.Send:output_type -> resource_manager.TToAgentMessage
+	26, // 34: resource_manager.ResourceManager.Update:output_type -> resource_manager.TResourceResponse
+	28, // 35: resource_manager.ResourceManager.AgentAction:output_type -> resource_manager.TRMResponse
+	33, // [33:36] is the sub-list for method output_type
+	30, // [30:33] is the sub-list for method input_type
+	30, // [30:30] is the sub-list for extension type_name
+	30, // [30:30] is the sub-list for extension extendee
+	0,  // [0:30] is the sub-list for field type_name
 }
 
 func init() { file_api_proto_resource_manager_resource_manager_proto_init() }
@@ -2249,6 +2428,30 @@ func file_api_proto_resource_manager_resource_manager_proto_init() {
 				return nil
 			}
 		}
+		file_api_proto_resource_manager_resource_manager_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TRMRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_proto_resource_manager_resource_manager_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TRMResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	file_api_proto_resource_manager_resource_manager_proto_msgTypes[20].OneofWrappers = []interface{}{
 		(*TToAgentMessage_HardwareRequest)(nil),
@@ -2279,8 +2482,8 @@ func file_api_proto_resource_manager_resource_manager_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_api_proto_resource_manager_resource_manager_proto_rawDesc,
-			NumEnums:      2,
-			NumMessages:   24,
+			NumEnums:      3,
+			NumMessages:   26,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -2309,6 +2512,7 @@ const _ = grpc.SupportPackageIsVersion6
 type ResourceManagerClient interface {
 	Send(ctx context.Context, opts ...grpc.CallOption) (ResourceManager_SendClient, error)
 	Update(ctx context.Context, in *TResourceRequest, opts ...grpc.CallOption) (*TResourceResponse, error)
+	AgentAction(ctx context.Context, in *TRMRequest, opts ...grpc.CallOption) (*TRMResponse, error)
 }
 
 type resourceManagerClient struct {
@@ -2359,10 +2563,20 @@ func (c *resourceManagerClient) Update(ctx context.Context, in *TResourceRequest
 	return out, nil
 }
 
+func (c *resourceManagerClient) AgentAction(ctx context.Context, in *TRMRequest, opts ...grpc.CallOption) (*TRMResponse, error) {
+	out := new(TRMResponse)
+	err := c.cc.Invoke(ctx, "/resource_manager.ResourceManager/AgentAction", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ResourceManagerServer is the server API for ResourceManager service.
 type ResourceManagerServer interface {
 	Send(ResourceManager_SendServer) error
 	Update(context.Context, *TResourceRequest) (*TResourceResponse, error)
+	AgentAction(context.Context, *TRMRequest) (*TRMResponse, error)
 }
 
 // UnimplementedResourceManagerServer can be embedded to have forward compatible implementations.
@@ -2374,6 +2588,9 @@ func (*UnimplementedResourceManagerServer) Send(ResourceManager_SendServer) erro
 }
 func (*UnimplementedResourceManagerServer) Update(context.Context, *TResourceRequest) (*TResourceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
+}
+func (*UnimplementedResourceManagerServer) AgentAction(context.Context, *TRMRequest) (*TRMResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AgentAction not implemented")
 }
 
 func RegisterResourceManagerServer(s *grpc.Server, srv ResourceManagerServer) {
@@ -2424,6 +2641,24 @@ func _ResourceManager_Update_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ResourceManager_AgentAction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TRMRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ResourceManagerServer).AgentAction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/resource_manager.ResourceManager/AgentAction",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ResourceManagerServer).AgentAction(ctx, req.(*TRMRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _ResourceManager_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "resource_manager.ResourceManager",
 	HandlerType: (*ResourceManagerServer)(nil),
@@ -2431,6 +2666,10 @@ var _ResourceManager_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Update",
 			Handler:    _ResourceManager_Update_Handler,
+		},
+		{
+			MethodName: "AgentAction",
+			Handler:    _ResourceManager_AgentAction_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
