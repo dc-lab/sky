@@ -73,6 +73,7 @@ message TTaskRequest {
 message TTaskResponse {
     string task_id = 1; // required
     action.TResult result = 2; // required
+    repeated string task_files = 3; // required
 }
 
 message TFile {
@@ -92,11 +93,12 @@ message TStageInResponse {
 
 message TStageOutRequest {
     string task_id = 1; // required
+    string agent_relative_local_path = 2; // required
 }
 
 message TStageOutResponse {
     string task_id = 1; // required
-    repeated TFile task_files = 2;
+    TFile task_file = 2; // required
 }
 
 message TCancelTaskRequest {
