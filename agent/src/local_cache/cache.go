@@ -10,7 +10,7 @@ import (
 func GetCacheFileReader(filePath string) (io.Reader, error) {
 	err := errors.New("Cache file not found")
 	var reader io.Reader
-	if val, err := common.PathExists(filePath, false); val && err != nil {
+	if val, existsError := common.PathExists(filePath, false); val && existsError == nil {
 		reader, err = os.Open(filePath)
 	}
 	return reader, err

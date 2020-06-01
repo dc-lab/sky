@@ -20,6 +20,7 @@ func DownloadFile(localPath string, file *resource_manager.TFile) error {
 			out := utils.CreateFile(cachedFilePath)
 			_, err = io.Copy(out, reader)
 		}
+		reader, err = local_cache.GetCacheFileReader(cachedFilePath)
 	}
 	if err == nil {
 		out := utils.CreateFile(localPath)
@@ -29,21 +30,20 @@ func DownloadFile(localPath string, file *resource_manager.TFile) error {
 }
 
 func DownloadFiles(taskId string, files []*resource_manager.TFile) resource_manager.TStageInResponse {
-	task, flag := GlobalTasksStatuses.Load(taskId)
+	taskExecutionDir, err := GetTaskExecutionDir(taskId)
+	utils.DealWithError(err)
 	result := common.TResult{ResultCode: common.TResult_FAILED}
-	if flag {
-		for _, file := range files {
-			localPath := path.Join(task.ExecutionDir, file.GetAgentRelativeLocalPath())
-			err := DownloadFile(localPath, file)
-			if err != nil {
-				result.ResultCode = common.TResult_FAILED
-				err_str := err.Error()
-				result.ErrorText = err_str
-			}
+	for _, file := range files {
+		localPath := path.Join(taskExecutionDir, file.GetAgentRelativeLocalPath())
+		err := DownloadFile(localPath, file)
+		if err != nil {
+			result.ResultCode = common.TResult_FAILED
+			err_str := err.Error()
+			result.ErrorText = err_str
 		}
-		if result.ResultCode != common.TResult_FAILED {
-			result.ResultCode = common.TResult_SUCCESS
-		}
+	}
+	if result.ResultCode != common.TResult_FAILED {
+		result.ResultCode = common.TResult_SUCCESS
 	}
 	return resource_manager.TStageInResponse{TaskId: taskId, Result: &result}
 }
@@ -69,9 +69,9 @@ func UploadTaskFiles(taskId string) []*resource_manager.TFile {
 }
 
 func StageOutFiles(client resource_manager.ResourceManager_SendClient, taskId string) {
-	files := UploadTaskFiles(taskId)
-	response := resource_manager.TStageOutResponse{TaskId: taskId, TaskFiles: files}
-	body := resource_manager.TFromAgentMessage_StageOutResponse{StageOutResponse: &response}
-	err := client.Send(&resource_manager.TFromAgentMessage{Body: &body})
-	utils.DealWithError(err)
+	//files := UploadTaskFiles(taskId)
+	//response := resource_manager.TStageOutResponse{TaskId: taskId, TaskFile: files}
+	//body := resource_manager.TFromAgentMessage_StageOutResponse{StageOutResponse: &response}
+	//err := client.Send(&resource_manager.TFromAgentMessage{Body: &body})
+	//utils.DealWithError(err)
 }
