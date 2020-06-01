@@ -1,32 +1,40 @@
 package config
 
 import (
+	"time"
+
 	log "github.com/sirupsen/logrus"
 
 	"github.com/spf13/viper"
 )
 
 type Config struct {
-	BindAddress     string `mapstructure:"bind_address"`
+	HttpBindAddress string `mapstructure:"http_bind_address"`
+	AccessAddress   string `mapstructure:"access_address"`
 	LogFile         string `mapstructure:"log_file"`
-	StorageDir      string `mapstructure:"storage_dir"`
-	MaxFileSize     int64  `mapstructure:"max_file_size"`
-	PostgresAddress string `mapstructure:"postgres_address"`
+
+	MasterAddress string        `mapstructure:"master_address"`
+	PushInterval  time.Duration `mapstructure:"push_interval"`
+
+	StorageDir  string `mapstructure:"storage_dir"`
+	MaxFileSize int64  `mapstructure:"max_file_size"`
 }
 
 func LoadConfig() (*Config, error) {
-	viper.SetConfigName("data_manager")
-	viper.SetEnvPrefix("dm")
+	viper.SetConfigName("data_manager_node")
+	viper.SetEnvPrefix("dm_node")
 	viper.AddConfigPath(".")
 
-	viper.BindEnv("BIND_ADDRESS")
+	viper.BindEnv("HTTP_BIND_ADDRESS")
+	viper.BindEnv("ACCESS_ADDRESS")
 	viper.BindEnv("LOG_FILE")
+	viper.BindEnv("MASTER_ADDRESS")
+	viper.BindEnv("PUSH_INTERVAL")
 	viper.BindEnv("STORAGE_DIR")
 	viper.BindEnv("MAX_FILE_SIZE")
-	viper.BindEnv("POSTGRES_ADDRESS")
 
-	viper.SetDefault("bind_address", ":8080")
 	viper.SetDefault("max_file_size", 1*1024*1024*1024) // 1GiB
+	viper.SetDefault("push_interval", 10*time.Second)
 
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
