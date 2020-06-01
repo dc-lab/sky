@@ -3,31 +3,47 @@ package network
 import (
 	utils "github.com/dc-lab/sky/agent/src/common"
 	"github.com/dc-lab/sky/agent/src/data_manager"
+	"github.com/dc-lab/sky/agent/src/local_cache"
+	"github.com/dc-lab/sky/agent/src/parser"
 	"github.com/dc-lab/sky/api/proto/common"
 	"github.com/dc-lab/sky/api/proto/resource_manager"
 	"io"
 	"path"
 )
 
+func DownloadFile(localPath string, file *resource_manager.TFile) error {
+	cachedFilePath := path.Join(parser.AgentConfig.LocalCacheDirectory, file.GetHash())
+	reader, err := local_cache.GetCacheFileReader(cachedFilePath)
+	if err != nil {
+		err, reader = data_manager_api.GetFileBody(file.GetId())
+		if err == nil {
+			out := utils.CreateFile(cachedFilePath)
+			_, err = io.Copy(out, reader)
+		}
+		reader, err = local_cache.GetCacheFileReader(cachedFilePath)
+	}
+	if err == nil {
+		out := utils.CreateFile(localPath)
+		_, err = io.Copy(out, reader)
+	}
+	return err
+}
+
 func DownloadFiles(taskId string, files []*resource_manager.TFile) resource_manager.TStageInResponse {
-	task, flag := GlobalTasksStatuses.Load(taskId)
+	taskExecutionDir, err := GetTaskExecutionDir(taskId)
+	utils.DealWithError(err)
 	result := common.TResult{ResultCode: common.TResult_FAILED}
-	if flag {
-		for _, file := range files {
-			err, body := data_manager_api.GetFileBody(file.GetId())
-			if err != nil {
-				result.ResultCode = common.TResult_FAILED
-				err_str := err.Error()
-				result.ErrorText = err_str
-			}
-			out := utils.CreateFile(path.Join(task.ExecutionDir, file.GetAgentRelativeLocalPath()))
-			io.Copy(out, body)
-			body.Close()
-			out.Close()
+	for _, file := range files {
+		localPath := path.Join(taskExecutionDir, file.GetAgentRelativeLocalPath())
+		err := DownloadFile(localPath, file)
+		if err != nil {
+			result.ResultCode = common.TResult_FAILED
+			err_str := err.Error()
+			result.ErrorText = err_str
 		}
-		if result.ResultCode != common.TResult_FAILED {
-			result.ResultCode = common.TResult_SUCCESS
-		}
+	}
+	if result.ResultCode != common.TResult_FAILED {
+		result.ResultCode = common.TResult_SUCCESS
 	}
 	return resource_manager.TStageInResponse{TaskId: taskId, Result: &result}
 }
@@ -53,9 +69,9 @@ func UploadTaskFiles(taskId string) []*resource_manager.TFile {
 }
 
 func StageOutFiles(client resource_manager.ResourceManager_SendClient, taskId string) {
-	files := UploadTaskFiles(taskId)
-	response := resource_manager.TStageOutResponse{TaskId: taskId, TaskFiles: files}
-	body := resource_manager.TFromAgentMessage_StageOutResponse{StageOutResponse: &response}
-	err := client.Send(&resource_manager.TFromAgentMessage{Body: &body})
-	utils.DealWithError(err)
+	//files := UploadTaskFiles(taskId)
+	//response := resource_manager.TStageOutResponse{TaskId: taskId, TaskFile: files}
+	//body := resource_manager.TFromAgentMessage_StageOutResponse{StageOutResponse: &response}
+	//err := client.Send(&resource_manager.TFromAgentMessage{Body: &body})
+	//utils.DealWithError(err)
 }

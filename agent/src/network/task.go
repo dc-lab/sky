@@ -20,11 +20,22 @@ type Task struct {
 	QuitChanel   chan struct{}
 }
 
+func GetTaskExecutionDir(taskId string) (string, error) {
+	executionDir := path.Join(parser.AgentConfig.AgentDirectory, taskId)
+	err := error(nil)
+	if val, err := common.PathExists(executionDir, true); !val && err == nil {
+		err = common.CreateDirectory(executionDir, false)
+	}
+	return executionDir, err
+}
+
 func (t *Task) Init(taskProto *rm.TTask) {
 	t.QuitChanel = make(chan struct{}, 1)
 	t.IsFinished.Store(false)
 	t.TaskId = taskProto.GetId()
-	t.ExecutionDir = path.Join(parser.AgentConfig.AgentDirectory, t.TaskId)
+	var err error
+	t.ExecutionDir, err = GetTaskExecutionDir(taskProto.GetId())
+	common.DealWithError(err)
 	if taskProto.GetDockerImage() != "" {
 		t.Executor = &executors.DockerExecutor{
 			Image:                    taskProto.GetDockerImage(),
@@ -39,12 +50,6 @@ func (t *Task) Init(taskProto *rm.TTask) {
 			ExecutionDir:             t.ExecutionDir,
 		}
 	}
-	// May be move it to executors code
-	err := error(nil)
-	if val, err := common.PathExists(t.ExecutionDir, true); !val && err == nil {
-		err = common.CreateDirectory(t.ExecutionDir, false)
-	}
-	common.DealWithError(err)
 }
 
 func (t *Task) InstallRequirements() {

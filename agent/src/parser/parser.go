@@ -12,6 +12,7 @@ import (
 type Config struct {
 	ResourceManagerAddress string
 	AgentDirectory         string
+	LocalCacheDirectory    string
 	AgentLogFile           string
 	HealthFile             string
 	Token                  string
@@ -23,7 +24,7 @@ func GetToken(path string) string {
 	return string(bytes)
 }
 
-func readConfig(filename string, defaults map[string]interface{}) (*viper.Viper, error) {
+func ReadConfig(filename string, defaults map[string]interface{}) (*viper.Viper, error) {
 	v := viper.New()
 	for key, value := range defaults {
 		v.SetDefault(key, value)
@@ -42,7 +43,7 @@ func ParseArguments() Config {
 	flag.StringVar(&configPath, "config", "config.json", "Path to agent configuration file")
 	flag.Parse()
 
-	v, err := readConfig(configPath, map[string]interface{}{
+	v, err := ReadConfig(configPath, map[string]interface{}{
 		"ResourceManagerAddress": "localhost:5051",
 		"AgentDirectory":         "/var/tmp/agent",
 		"LogsDirectory":          "/var/tmp/agent-logs",
@@ -60,11 +61,13 @@ func ParseArguments() Config {
 		AgentLogFile:           path.Join(logsDirectory, "agent.log"),
 		HealthFile:             path.Join(runDirectory, "health.info"),
 		Token:                  token,
+		LocalCacheDirectory:    path.Join(v.GetString("AgentDirectory"), "local_cache"),
 	}
 
-	common.DieWithError(common.CreateDirectory(config.AgentDirectory, true))
+	common.DieWithError(common.CreateDirectory(config.AgentDirectory, false))
 	common.DieWithError(common.CreateDirectory(logsDirectory, false))
 	common.DieWithError(common.CreateDirectory(runDirectory, false))
+	common.DieWithError(common.CreateDirectory(config.LocalCacheDirectory, false))
 
 	fmt.Println(config)
 	return config
