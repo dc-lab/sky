@@ -1,0 +1,159 @@
+syntax = "proto3";
+
+// build *.pb.go from project root
+// protoc -I. --go_out=plugins=grpc,paths=source_relative:. api/proto/resource_manager/*.proto
+
+package resource_manager;
+
+import "api/proto/common/action.proto";
+import "api/proto/common/entity.proto";
+
+option go_package = "github.com/dc-lab/sky/api/proto/resource_manager";
+
+service ResourceManager {
+    rpc Send (stream TFromAgentMessage) returns (stream TToAgentMessage) {}
+
+    rpc Update (TResourceRequest) returns (TResourceResponse) {}
+}
+
+message TTask {
+    string id = 1; // required
+    string execution_shell_command = 2; // required
+    string requirements_shell_command = 3; // optional
+    string docker_image = 4; //optional
+}
+
+message TGreetings {
+    string token = 1; // required
+}
+
+message TGreetingsValidation {
+    action.TResult result = 1; // required
+}
+
+message TPermissions {
+    repeated string users = 1;
+    repeated string groups = 2;
+}
+
+enum EResourceType {
+    UNKNOWN = 0;
+    SINGLE = 1;
+    POOL = 2;
+    CLOUD_INSTANCE = 3;
+    CLOUD_TASK = 4;
+}
+
+enum EResourceState {
+    OFFLINE = 0;
+    ONLINE = 1;
+}
+
+message TResource {
+    string id = 1; // required
+    EResourceType type = 2; // required
+    string ownerId = 3; // required
+    string token = 4; // required
+    TPermissions permissions = 5; // required
+    EResourceState state = 6; // required
+}
+
+message THardwareRequest {
+}
+
+message THardwareResponse {
+    entity.THardwareData total_hardware_data = 1;
+    entity.THardwareData free_hardware_data = 2;
+}
+
+message TTaskRequest {
+    TTask task = 1; // required
+}
+
+message TTaskResponse {
+    string task_id = 1; // required
+    action.TResult result = 2; // required
+}
+
+message TFile {
+    string id = 1; // required
+    string agent_relative_local_path = 2; // required
+}
+
+message TStageInRequest {
+    string task_id = 1; // required
+    repeated TFile files = 2;
+}
+
+message TStageInResponse {
+    string task_id = 1; // required
+    action.TResult result = 2; // required
+}
+
+message TStageOutRequest {
+    string task_id = 1; // required
+}
+
+message TStageOutResponse {
+    string task_id = 1; // required
+    repeated TFile task_files = 2;
+}
+
+message TCancelTaskRequest {
+    string task_id = 1; // required
+}
+
+message TDeleteTaskRequest {
+    string task_id = 1; // required
+}
+
+message TCreateResourceRequest {
+    TResource resource = 1; // required
+}
+
+message TCreateResourceResponse {
+}
+
+message TDeleteResourceRequest {
+    string resource_id = 1; // required
+    string user_id = 2; // required
+}
+
+message TDeleteResourceResponse {
+}
+
+message TToAgentMessage {
+    oneof Body {
+        THardwareRequest hardware_request = 1;
+        TTaskRequest task_request = 2;
+        TStageInRequest stage_in_request = 3;
+        TStageOutRequest stage_out_request = 4;
+        TCancelTaskRequest cancel_task_request = 5;
+        TDeleteTaskRequest delete_task_request = 6;
+        TGreetingsValidation greetings_validation = 7;
+    }
+}
+
+message TFromAgentMessage {
+    oneof Body {
+        THardwareResponse hardware_response = 1;
+        TGreetings greetings = 2;
+        TTaskResponse task_response = 3;
+        TStageInResponse stage_in_response = 4;
+        TStageOutResponse stage_out_response = 5;
+    }
+}
+
+message TResourceRequest {
+    oneof Body {
+        TCreateResourceRequest create_resource_request = 1;
+        TDeleteResourceRequest delete_resource_request = 2;
+    }
+}
+
+message TResourceResponse {
+    oneof Body {
+        TCreateResourceResponse create_resource_response = 1;
+        TDeleteResourceResponse delete_resource_response = 2;
+    }
+}
