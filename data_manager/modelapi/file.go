@@ -1,6 +1,6 @@
 package modelapi
 
-import "github.com/dc-lab/sky/data_manager/modeldb"
+import "github.com/dc-lab/sky/data_manager/master/modeldb"
 
 type FileRequest struct {
 	*modeldb.File

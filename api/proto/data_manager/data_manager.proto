@@ -5,7 +5,6 @@ syntax = "proto3";
 
 package data_manager;
 
-import "api/proto/common/action.proto";
 import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
 
@@ -22,6 +21,18 @@ service DataManager {
     rpc GetFileInfo (GetFileInfoRequest) returns (GetFileInfoResponse) {
         option (google.api.http) = {
             get: "/v1/files/{id}"
+        };
+    }
+
+    rpc GetFileLocation (GetFileLocationRequest) returns (GetFileLocationResponse) {
+        option (google.api.http) = {
+            get: "/v1/files/{id}/location"
+        };
+    }
+
+    rpc GetTaskResults (GetTaskResultsRequest) returns (GetTaskResultsResponse) {
+        option (google.api.http) = {
+            get: "/v1/files/results/{task_id}/{path=**}"
         };
     }
 
@@ -45,6 +56,23 @@ message GetFileInfoResponse {
     File file = 1;
 }
 
+message GetFileLocationRequest {
+    string id = 1;
+}
+
+message GetFileLocationResponse {
+    repeated string download_urls = 1;
+}
+
+message GetTaskResultsRequest {
+    string task_id = 1;
+    string path = 2;
+}
+
+message GetTaskResultsResponse {
+    repeated File files = 1;
+}
+
 message File {
     // Output only.
     string id = 1;
@@ -53,8 +81,7 @@ message File {
     bool is_executable = 4;
     map<string, string> tags = 5;
 
-    string upload_url = 6; // Returned only once in CreateFileRequest
-    repeated string download_urls = 7; // There can be more than 1 mirror
+    repeated string upload_urls = 6; // Returned only once in CreateFileRequest
 }
 
 message UpdateTaskResultsRequest {
