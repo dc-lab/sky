@@ -12,6 +12,9 @@ import (
 
 type config struct {
 	GRPCAddress   string
+	HTTPAddress   string
+	ResourceManagerAddress string
+	ApplyMigrationsOnStart bool
 	LogsDir       string
 	LogsFile      string
 	DBUser        string
@@ -23,6 +26,9 @@ type config struct {
 
 var Config = config{
 	GRPCAddress:   ":5151",
+	HTTPAddress:   ":5150",
+	ResourceManagerAddress: ":5051",
+	ApplyMigrationsOnStart: true,
 	LogsDir:       "/var/tmp/cloud-manager",
 	DBUser:        "oleg",
 	DBPasswordEnv: "DB_PASSWORD",

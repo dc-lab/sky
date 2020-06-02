@@ -2,37 +2,63 @@ package db
 
 import (
 	"context"
-	"fmt"
-	"os"
+	"database/sql"
+	"time"
 
-	"github.com/jackc/pgx/v4/pgxpool"
-
-	"github.com/dc-lab/sky/cloud_manager/server/app"
-	"github.com/dc-lab/sky/cloud_manager/server/common"
+	"github.com/cenkalti/backoff/v4"
+	"github.com/golang-migrate/migrate/v4"
+	"github.com/golang-migrate/migrate/v4/database/postgres"
+	log "github.com/sirupsen/logrus"
 )
 
-var pool *pgxpool.Pool
-
-// TODO: migrations
-func InitDB() {
-	username := app.Config.DBUser
-	password := os.Getenv(app.Config.DBPasswordEnv)
-	host := app.Config.DBHost
-	dbName := app.Config.DBName
-	ssl := app.Config.DBSsl
-	dbUri := fmt.Sprintf("postgres://%s:%s@%s/%s?ssl=%v", username, password, host, dbName, ssl)
-
-	pool, err := pgxpool.Connect(context.Background(), dbUri)
-	common.DieWithError("Cannot connect to psql", err)
-
-	conn, err := pool.Acquire(context.Background())
-	common.DieWithError("Cannot perform basic db check on start", err)
-	defer conn.Release()
-
-	_, err = conn.Exec(context.Background(), "CREATE TABLE IF NOT EXISTS credentials (id varchar(40) PRIMARY KEY, owner_id varchar(40) NOT NULL, aws_access_key_id varchar(128) NOT NULL, aws_access_key varchar(128) NOT NULL);")
-	common.DieWithError("Unexpected error during db startup", err)
+type Client struct {
+	Conn *sql.DB
 }
 
-func GetPool() *pgxpool.Pool {
-	return pool
+func OpenConnection(connStr string, applyMigrations bool) (*Client, error) {
+	conn, err := sql.Open("postgres", connStr)
+	if err == nil {
+		ctx, cancel := context.WithTimeout(context.Background(), 10 * time.Second)
+		defer cancel()
+
+		pingOperation := func () error { return conn.PingContext(ctx) }
+		err = backoff.Retry(pingOperation, backoff.NewExponentialBackOff())
+	}
+
+	client := &Client{
+		Conn: conn,
+	}
+
+	if err != nil {
+		return client, err
+	}
+
+	if applyMigrations {
+		err = client.migrate()
+	}
+
+	if err != nil {
+		log.WithError(err).Fatalln("Failed to run migrations")
+	}
+
+	return client, err
+}
+
+func (c *Client) migrate() error {
+	driver, err := postgres.WithInstance(c.Conn, &postgres.Config{})
+	if err != nil {
+		return err
+	}
+
+	m, err := migrate.NewWithDatabaseInstance("file:///migrations", "postgres", driver)
+	if err != nil {
+		return err
+	}
+
+	err = m.Up()
+	if err == migrate.ErrNoChange {
+		err = nil
+	}
+
+	return err
 }

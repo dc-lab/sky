@@ -1,21 +1,6 @@
 package common
 
-import (
-	"log"
-	"os"
-)
-
-func DealWithError(msg string, err error) {
-	if err != nil {
-		log.Printf("%s\n%v", msg, err)
-	}
-}
-
-func DieWithError(msg string, err error) {
-	if err != nil {
-		log.Fatalf("%s\n%v", msg, err)
-	}
-}
+import "os"
 
 func PathExists(path string, shouldBeDir bool) (bool, error) {
 	stat, err := os.Stat(path)

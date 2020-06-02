@@ -1,12 +1,9 @@
 package async
 
 import (
-	"log"
-
+	cm "github.com/dc-lab/sky/api/proto/cloud_manager"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-
-	cm "github.com/dc-lab/sky/api/proto/cloud_manager"
 )
 
 func HandleDeployImageRequest(req *cm.TDeployImageRequest) (resp *cm.TAsyncCloudResponse, err error) {
