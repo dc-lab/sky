@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/dc-lab/sky/user_manager/app"
-	"github.com/dc-lab/sky/user_manager/controllers"
 	"github.com/dc-lab/sky/user_manager/db"
+	"github.com/dc-lab/sky/user_manager/handles"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
@@ -26,8 +26,11 @@ func main() {
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/register", controllers.RegisterHandle).Methods("POST")
-	router.HandleFunc("/login", controllers.LoginHandle).Methods("POST")
+	router.HandleFunc("/register", handles.Register).Methods(http.MethodPost)
+	router.HandleFunc("/login", handles.Login).Methods(http.MethodPost)
+	router.HandleFunc("/change_password", handles.ChangePassword).Methods(http.MethodPost)
+	router.HandleFunc("/groups", handles.Groups).Methods(http.MethodGet, http.MethodPost)
+	router.HandleFunc("/groups/{id}", handles.Group).Methods(http.MethodGet, http.MethodDelete, http.MethodPost)
 
 	log.Fatal(http.ListenAndServe(app.Config.HTTPAddress, router))
 }

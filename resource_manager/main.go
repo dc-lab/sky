@@ -20,8 +20,8 @@ func httpStarter(wg *sync.WaitGroup, addr string) {
 	defer wg.Done()
 	router := mux.NewRouter()
 
-	router.HandleFunc("/resources", http_handles.Resources).Methods("GET", "POST")
-	router.HandleFunc("/resources/{id}", http_handles.Resource).Methods("GET", "DELETE")
+	router.HandleFunc("/resources", http_handles.Resources).Methods(http.MethodGet, http.MethodPost)
+	router.HandleFunc("/resources/{id}", http_handles.Resource).Methods(http.MethodGet, http.MethodDelete, http.MethodPost)
 
 	log.Fatal(http.ListenAndServe(addr, router))
 }

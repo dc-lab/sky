@@ -73,6 +73,13 @@ func Resources(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
+type changeBody struct {
+	UsersToAdd     []string `json:"users_to_add"`
+	UsersToRemove  []string `json:"users_to_remove"`
+	GroupsToAdd    []string `json:"groups_to_add"`
+	GroupsToRemove []string `json:"groups_to_remove"`
+}
+
 func Resource(w http.ResponseWriter, req *http.Request) {
 	id := mux.Vars(req)["id"]
 	userId := req.Header.Get("User-Id")
@@ -114,5 +121,43 @@ func Resource(w http.ResponseWriter, req *http.Request) {
 			return
 		}
 		log.Println("Successfully handled resource delete request")
+	case http.MethodPost:
+		message, resource := db.GetResource(userId, id)
+		if resource == nil {
+			log.Println(message)
+			http.Error(w, message, http.StatusInternalServerError)
+			return
+		}
+
+		decoder := json.NewDecoder(req.Body)
+		changes := &changeBody{}
+		err := decoder.Decode(changes)
+		if err != nil {
+			app.HandleBaseError(w, err, http.StatusInternalServerError)
+			return
+		}
+		if err := resource.Modify(changes.UsersToAdd, changes.UsersToRemove, changes.GroupsToAdd, changes.GroupsToRemove); err != nil {
+			app.HandleBaseError(w, err, http.StatusInternalServerError)
+			return
+		}
+		message, resource = db.GetResource(userId, id)
+		if resource == nil {
+			log.Println(message)
+			http.Error(w, message, http.StatusInternalServerError)
+			return
+		}
+
+		resourceJson, err := json.Marshal(*resource)
+		if err != nil {
+			app.HandleBaseError(w, err, http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		if _, err := w.Write(resourceJson); err != nil {
+			log.Println(err)
+			return
+		}
+		log.Println("Successfully handled resource change request")
 	}
 }

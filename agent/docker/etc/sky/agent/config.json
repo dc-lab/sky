@@ -1,6 +1,0 @@
-{
-    "ResourceManagerAddress": "130.193.36.240:5051",
-    "AgentDirectory": "/var/tmp/sky/agent",
-    "LogsDirectory": "/var/log/sky/agent",
-    "TokenPath": "/etc/sky/agent/token"
-}

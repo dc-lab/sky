@@ -3,12 +3,16 @@ package network
 import (
 	"context"
 	"fmt"
-	rm "github.com/dc-lab/sky/api/proto/resource_manager"
 	"io"
+	"io/ioutil"
+	"log"
+	"os"
+	"time"
 
 	common "github.com/dc-lab/sky/agent/src/common"
 	hardware "github.com/dc-lab/sky/agent/src/hardware"
 	parser "github.com/dc-lab/sky/agent/src/parser"
+	rm "github.com/dc-lab/sky/api/proto/resource_manager"
 	"google.golang.org/grpc"
 )
 
@@ -61,11 +65,24 @@ func ReceiveResourceManagerRequest(client rm.ResourceManager_SendClient) {
 	// err = stream.CloseSend()
 }
 
+func UpdateHealthFile(healthFilePath string) {
+	for ; ; time.Sleep(time.Millisecond * 200) {
+		tsString := common.CurrentTimestampMillisString()
+		err := ioutil.WriteFile(healthFilePath, []byte(tsString), 0644)
+		common.DieWithError(err)
+	}
+}
+
 func RunClient() {
 	stream, ctx := CreateConnection(parser.AgentConfig.ResourceManagerAddress)
-	go SendRegistrationData(stream, parser.AgentConfig.Token)
+	success := ResourceRegistration(stream, parser.AgentConfig.Token)
+	if !success {
+		log.Println("Failed resource registration. Invalid greetings")
+		os.Exit(1)
+	}
 	go ReceiveResourceManagerRequest(stream)
 	go SendHealthChecks(stream)
 	go UpdateTasksStatuses(stream)
+	go UpdateHealthFile(parser.AgentConfig.HealthFile)
 	<-ctx.Done()
 }

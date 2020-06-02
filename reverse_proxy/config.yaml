@@ -5,5 +5,9 @@ Endpoints:
   - PathPrefix: "/register"
     Hostname: "localhost:6272"
     AuthOptional: true
+  - PathPrefix: "/change_password"
+    Hostname: "localhost:6272"
+  - PathPrefix: "/groups"
+    Hostname: "localhost:6272"
   - PathPrefix: "/resource"
     Hostname: "localhost:8090"

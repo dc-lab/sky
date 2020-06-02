@@ -1,5 +1,0 @@
-bind_address: ':12913'
-log_file: data_manager.log
-storage_dir: ./storage/
-max_file_size: 1073741824
-postgres_address: postgres://postgres:db_password@localhost/skyDataManagerFiles?sslmode=disable

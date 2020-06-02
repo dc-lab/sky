@@ -11,6 +11,21 @@ import (
 
 var pool *pgxpool.Pool
 
+func initTables(conn *pgxpool.Conn) {
+	_, err := conn.Exec(context.Background(), "CREATE TABLE IF NOT EXISTS resources (id varchar(40) PRIMARY KEY, owner_id varchar(40) NOT NULL, name varchar(256) NOT NULL, type varchar(20) NOT NULL, token varchar(40) NOT NULL UNIQUE);")
+	if err != nil {
+		log.Fatal(err)
+	}
+	_, err = conn.Exec(context.Background(), "CREATE TABLE IF NOT EXISTS ur_permissions (user_id varchar(40), resource_id varchar(40) REFERENCES resources ON DELETE CASCADE);")
+	if err != nil {
+		log.Fatal(err)
+	}
+	_, err = conn.Exec(context.Background(), "CREATE TABLE IF NOT EXISTS gr_permissions (group_id varchar(40), resource_id varchar(40) REFERENCES resources ON DELETE CASCADE);")
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 func InitDB() {
 	username := app.Config.DBUser
 	password := os.Getenv(app.Config.DBPasswordEnv)
@@ -31,10 +46,7 @@ func InitDB() {
 	}
 	defer conn.Release()
 
-	_, err = conn.Exec(context.Background(), "CREATE TABLE IF NOT EXISTS resources (id varchar(40) PRIMARY KEY, owner_id varchar(40) NOT NULL, name varchar(256) NOT NULL, type varchar(20) NOT NULL, token varchar(40) NOT NULL UNIQUE);")
-	if err != nil {
-		log.Fatal(err)
-	}
+	initTables(conn)
 }
 
 func GetPool() *pgxpool.Pool {

@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: DB_PASSWORD
+    volumes:
+      - "/mnt/ssd1tb/sky-dm-test/postgres:/var/lib/postgresql/data"
+    restart: always
+
+  app:
+    build: ..
+    ports:
+      - 12919:8080
+    environment:
+      DM_BIND_ADDRES: ":8080"
+      DM_POSTGRES_ADDRESS: "host=db port=5432 user=postgres password=DB_PASSWORD dbname=postgres sslmode=disable"
+      DM_LOG_FILE: "/dev/null"
+      DM_STORAGE_DIR: "/var/lib/data_manager/storage"
+      DM_MAX_FILE_SIZE: "1073741824"
+    depends_on:
+      - db
+    volumes:
+      - "/mnt/ssd1tb/sky-dm-test/storage:/var/lib/data_manager/storage"
+    restart: always

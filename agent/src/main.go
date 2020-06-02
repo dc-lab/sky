@@ -6,19 +6,17 @@ import (
 	"github.com/dc-lab/sky/agent/src/parser"
 	"log"
 	"os"
-	"path"
 )
 
-func initLogs() *os.File {
-	logPath := path.Join(parser.AgentConfig.LogsDirectory, "agent.log")
-	file, err := os.OpenFile(logPath, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+func initLogs(logFilePath string) *os.File {
+	file, err := os.OpenFile(logFilePath, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
 	common.DieWithError(err)
 	log.SetOutput(file)
 	return file
 }
 
 func main() {
-	logFile := initLogs()
+	logFile := initLogs(parser.AgentConfig.AgentLogFile)
 	defer logFile.Close()
 	network.RunClient()
 }

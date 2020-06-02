@@ -14,6 +14,8 @@ service ResourceManager {
     rpc Send (stream TFromAgentMessage) returns (stream TToAgentMessage) {}
 
     rpc Update (TResourceRequest) returns (TResourceResponse) {}
+
+    rpc AgentAction (TRMRequest) returns (TRMResponse) {}
 }
 
 message TTask {
@@ -27,29 +29,35 @@ message TGreetings {
     string token = 1; // required
 }
 
+message TGreetingsValidation {
+    action.TResult result = 1; // required
+}
+
 message TPermissions {
     repeated string users = 1;
     repeated string groups = 2;
 }
 
+enum EResourceType {
+    UNKNOWN = 0;
+    SINGLE = 1;
+    POOL = 2;
+    CLOUD_INSTANCE = 3;
+    CLOUD_TASK = 4;
+}
+
+enum EResourceState {
+    OFFLINE = 0;
+    ONLINE = 1;
+}
+
 message TResource {
     string id = 1; // required
-    TType type = 2; // required
+    EResourceType type = 2; // required
     string ownerId = 3; // required
     string token = 4; // required
     TPermissions permissions = 5; // required
-    TState state = 6; // required
-
-    enum TType {
-        UNKNOWN = 0;
-        SINGLE = 1;
-        POOL = 2;
-    }
-
-    enum TState {
-        OFFLINE = 0;
-        ONLINE = 1;
-    }
+    EResourceState state = 6; // required
 }
 
 message THardwareRequest {
@@ -67,11 +75,13 @@ message TTaskRequest {
 message TTaskResponse {
     string task_id = 1; // required
     action.TResult result = 2; // required
+    repeated string task_files = 3; // required
 }
 
 message TFile {
     string id = 1; // required
     string agent_relative_local_path = 2; // required
+    string hash = 3; // required
 }
 
 message TStageInRequest {
@@ -86,11 +96,12 @@ message TStageInResponse {
 
 message TStageOutRequest {
     string task_id = 1; // required
+    string agent_relative_local_path = 2; // required
 }
 
 message TStageOutResponse {
     string task_id = 1; // required
-    repeated TFile task_files = 2;
+    TFile task_file = 2; // required
 }
 
 message TCancelTaskRequest {
@@ -106,7 +117,6 @@ message TCreateResourceRequest {
 }
 
 message TCreateResourceResponse {
-    action.TResult result = 1; // required
 }
 
 message TDeleteResourceRequest {
@@ -115,7 +125,6 @@ message TDeleteResourceRequest {
 }
 
 message TDeleteResourceResponse {
-    action.TResult result = 1; // required
 }
 
 message TToAgentMessage {
@@ -126,6 +135,7 @@ message TToAgentMessage {
         TStageOutRequest stage_out_request = 4;
         TCancelTaskRequest cancel_task_request = 5;
         TDeleteTaskRequest delete_task_request = 6;
+        TGreetingsValidation greetings_validation = 7;
     }
 }
 
@@ -151,4 +161,18 @@ message TResourceResponse {
         TCreateResourceResponse create_resource_response = 1;
         TDeleteResourceResponse delete_resource_response = 2;
     }
+}
+
+message TRMRequest {
+    string resource_id = 1; // required
+    TToAgentMessage real_message = 2; //required
+}
+
+message TRMResponse {
+    enum TResultCode {
+        NONE = 0;
+        OK = 1;
+        NOT_FOUND = 2;
+    }
+    TResultCode result_code = 1; // required
 }
