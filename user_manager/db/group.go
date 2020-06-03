@@ -113,6 +113,24 @@ func GetGroups(userId string) ([]Group, error) {
 		}
 		groups = append(groups, group)
 	}
+	rows.Close()
+
+	for _, group := range groups {
+		rows, err = conn.Query(context.Background(), "SELECT user_id FROM user_group_relations WHERE group_id = $1", group.Id)
+		if err != nil {
+			return nil, err
+		}
+		for rows.Next() {
+			var user string
+			err = rows.Scan(&user)
+			if err != nil {
+				return nil, err
+			}
+			group.Users = append(group.Users, user)
+		}
+		rows.Close()
+	}
+
 	return groups, nil
 }
 
