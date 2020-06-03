@@ -46,18 +46,13 @@ enum EResourceType {
     CLOUD_TASK = 4;
 }
 
-enum EResourceState {
-    OFFLINE = 0;
-    ONLINE = 1;
-}
-
 message TResource {
     string id = 1; // required
     EResourceType type = 2; // required
     string ownerId = 3; // required
     string token = 4; // required
     TPermissions permissions = 5; // required
-    EResourceState state = 6; // required
+    string name = 6; // required
 }
 
 message THardwareRequest {
