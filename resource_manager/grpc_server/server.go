@@ -2,7 +2,6 @@ package grpc_server
 
 import (
 	"context"
-	"fmt"
 	"github.com/dc-lab/sky/api/proto/common"
 	pb "github.com/dc-lab/sky/api/proto/resource_manager"
 	"github.com/dc-lab/sky/resource_manager/app"
