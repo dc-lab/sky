@@ -34,7 +34,7 @@ func UploadFile(absolutePath string, fileDir string) rm.TFile {
 	relativePath := common.ConvertToRelativePath(fileDir, absolutePath)
 	metadata := UploadFileMetadata(relativePath)
 	fileId := metadata.Id
-	UploadFileContent(absolutePath, "https://"+metadata.UploadUrl)
+	UploadFileContent(absolutePath, metadata.UploadUrl)
 	return rm.TFile{Id: fileId, AgentRelativeLocalPath: relativePath}
 }
 

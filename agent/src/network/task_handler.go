@@ -6,7 +6,7 @@ import (
 	rm "github.com/dc-lab/sky/api/proto/resource_manager"
 )
 
-func ConsumeTasksStatus(client rm.ResourceManager_SendClient, consumer func(rm.ResourceManager_SendClient, string, *pb.TResult)) {
+func ConsumeTasksData(client rm.ResourceManager_SendClient, consumer func(rm.ResourceManager_SendClient, string, *pb.TResult)) {
 	GlobalTasksStatuses.Mutex.RLock()
 	defer GlobalTasksStatuses.Mutex.RUnlock()
 	for taskID, processInfo := range GlobalTasksStatuses.Data {
