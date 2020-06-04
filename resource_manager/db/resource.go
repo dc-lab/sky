@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	pb "github.com/dc-lab/sky/api/proto/resource_manager"
 	"github.com/dc-lab/sky/resource_manager/app"
 	"github.com/google/uuid"
 	"log"
@@ -25,6 +26,21 @@ type Resource struct {
 	Token       string      `json:"token"`
 	Permissions Permissions `json:"permissions"`
 	State       State       `json:"state"`
+}
+
+func GetStringTypeByEnum(enumType pb.EResourceType) string {
+	switch enumType {
+	case pb.EResourceType_SINGLE:
+		return "single"
+	case pb.EResourceType_POOL:
+		return "pool"
+	case pb.EResourceType_CLOUD_INSTANCE:
+		return "cloud_instance"
+	case pb.EResourceType_CLOUD_TASK:
+		return "cloud_task"
+	default:
+		return ""
+	}
 }
 
 func (resource *Resource) Validate() (string, bool) {
@@ -143,24 +159,31 @@ func (resource *Resource) Modify(usersToAdd, usersToRemove, groupsToAdd, groupsT
 	return nil
 }
 
+func (resource *Resource) CreateMe() error {
+	conn, err := pool.Acquire(context.Background())
+	if err != nil {
+		return err
+	}
+	defer conn.Release()
+
+	_, err = conn.Exec(context.Background(), "INSERT INTO resources(id, owner_id, name, type, token) VALUES ($1, $2, $3, $4, $5);", resource.Id, resource.Owner, resource.Name, resource.Type, resource.Token)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (resource *Resource) Create(userId string) (string, bool) {
 	if message, ok := resource.Validate(); !ok {
 		return message, false
 	}
-
-	conn, err := pool.Acquire(context.Background())
-	if err != nil {
-		log.Println(err)
-		return "Internal error", false
-	}
-	defer conn.Release()
 
 	resource.Id = uuid.New().String()
 	resource.Owner = userId
 	resource.Permissions = Permissions{}
 	resource.State = State{Status: "offline"}
 	resource.Token = randString(40)
-	_, err = conn.Exec(context.Background(), "INSERT INTO resources(id, owner_id, name, type, token) VALUES ($1, $2, $3, $4, $5);", resource.Id, resource.Owner, resource.Name, resource.Type, resource.Token)
+	err := resource.CreateMe()
 	if err != nil {
 		log.Println(err)
 		return "Something went wrong with db", false
@@ -226,24 +249,21 @@ func GetResource(userId, resourceId string) (string, *Resource) {
 	return "", resource
 }
 
-func DeleteResource(userId, resourceId string) (string, bool) {
+func DeleteResource(userId, resourceId string) error {
 	conn, err := pool.Acquire(context.Background())
 	if err != nil {
-		log.Println(err)
-		return "Internal error", false
+		return err
 	}
 	defer conn.Release()
 
 	ct, err := conn.Exec(context.Background(), "DELETE FROM resources WHERE id=$1 AND owner_id=$2", resourceId, userId)
 	if err != nil {
-		log.Println(err)
-		return "Internal error", false
+		return err
 	}
 	if ct.RowsAffected() == 0 {
-		log.Println("Resource not found")
-		return "Resource not found", false
+		return &app.ResourceNotFound{}
 	}
-	return "", true
+	return nil
 }
 
 func GetUserResources(userId string) (string, []Resource) {
