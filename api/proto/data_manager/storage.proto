@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+// build *.pb.go from project root
+// protoc -I. --go_out=plugins=grpc,paths=source_relative:. api/proto/data_manager/*.proto
+
+package data_manager;
+
+option go_package = "github.com/dc-lab/sky/api/proto/data_manager";
+
+service Master {
+    rpc ValidateUpload (ValidateUploadRequest) returns (ValidateUploadResponse) {
+    }
+
+    rpc SubmitFileHash (SubmitFileHashRequest) returns (SubmitFileHashResponse) {
+    }
+
+    rpc GetFileHash (GetFileHashRequest) returns (GetFileHashResponse) {
+    }
+
+    rpc Loop (NodeStatus) returns (NodeTarget) {
+    }
+
+    rpc ResolveBlobReplicas (ResolveBlobReplicasRequest) returns (ResolveBlobReplicasResponse) {
+    }
+}
+
+message ValidateUploadRequest {
+    string node_id = 1;
+    string file_id = 2;
+    string user_id = 3;
+    string upload_token = 4;
+}
+
+message ValidateUploadResponse {
+    bool allow = 1;
+}
+
+message SubmitFileHashRequest {
+    string node_id = 1;
+    string file_id = 2;
+    string user_id = 3;
+    string hash = 4;
+}
+
+message SubmitFileHashResponse {
+    bool allow = 1;
+}
+
+message GetFileHashRequest {
+    string node_id = 1;
+    string user_id = 2;
+    string file_id = 3;
+}
+
+message GetFileHashResponse {
+    bool allow = 1;
+    string hash = 2;
+}
+
+message NodeStatus {
+    string node_id = 1;
+    int64 free_space = 2;
+    repeated string blob_hashes = 3;
+}
+
+message NodeTarget {
+    repeated string blob_hashes = 1;
+}
+
+message ResolveBlobReplicasRequest {
+    string hash = 1;
+}
+
+message ResolveBlobReplicasResponse {
+    repeated string locations = 1;
+}

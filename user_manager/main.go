@@ -1,15 +1,48 @@
 package main
 
 import (
+	pb "github.com/dc-lab/sky/api/proto/user_manager"
 	"github.com/dc-lab/sky/user_manager/app"
 	"github.com/dc-lab/sky/user_manager/db"
+	"github.com/dc-lab/sky/user_manager/grpc_server"
 	"github.com/dc-lab/sky/user_manager/handles"
 	"github.com/gorilla/mux"
+	"google.golang.org/grpc"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"path"
+	"sync"
 )
+
+func httpStarter(wg *sync.WaitGroup, addr string) {
+	defer wg.Done()
+	router := mux.NewRouter()
+
+	router.HandleFunc("/register", handles.Register).Methods(http.MethodPost)
+	router.HandleFunc("/login", handles.Login).Methods(http.MethodPost)
+	router.HandleFunc("/change_password", handles.ChangePassword).Methods(http.MethodPost)
+	router.HandleFunc("/groups", handles.Groups).Methods(http.MethodGet, http.MethodPost)
+	router.HandleFunc("/groups/{id}", handles.Group).Methods(http.MethodGet, http.MethodDelete, http.MethodPost)
+
+	log.Fatal(http.ListenAndServe(addr, router))
+}
+
+func gRPCStarter(wg *sync.WaitGroup, addr string) {
+	defer wg.Done()
+	listener, err := net.Listen("tcp", addr)
+	if err != nil {
+		log.Fatalf("Failed to listen: %s", err)
+	}
+
+	server := grpc.NewServer()
+	pb.RegisterUserManagerServer(server, grpc_server.Server{})
+
+	if err := server.Serve(listener); err != nil {
+		log.Fatalf("Failed to serve: %s", err)
+	}
+}
 
 func main() {
 	app.ParseConfig()
@@ -24,13 +57,12 @@ func main() {
 
 	db.InitDB()
 
-	router := mux.NewRouter()
+	var wg sync.WaitGroup
 
-	router.HandleFunc("/register", handles.Register).Methods(http.MethodPost)
-	router.HandleFunc("/login", handles.Login).Methods(http.MethodPost)
-	router.HandleFunc("/change_password", handles.ChangePassword).Methods(http.MethodPost)
-	router.HandleFunc("/groups", handles.Groups).Methods(http.MethodGet, http.MethodPost)
-	router.HandleFunc("/groups/{id}", handles.Group).Methods(http.MethodGet, http.MethodDelete, http.MethodPost)
+	wg.Add(1)
+	go httpStarter(&wg, app.Config.HTTPAddress)
+	wg.Add(1)
+	go gRPCStarter(&wg, app.Config.GRPCAddress)
 
-	log.Fatal(http.ListenAndServe(app.Config.HTTPAddress, router))
+	wg.Wait()
 }

@@ -19,6 +19,8 @@ type File struct {
 	Hash        string `json:"-"`
 	UploadToken string `json:"-"`
 	ContentType string `json:"-"`
+
+	UploadUrls []string `json:"-"`
 }
 
 func (m TagsMap) Value() (driver.Value, error) {

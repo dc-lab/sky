@@ -1,24 +1,98 @@
 package grpc_server
 
 import (
+	"context"
+	"github.com/dc-lab/sky/api/proto/common"
 	pb "github.com/dc-lab/sky/api/proto/resource_manager"
 	"github.com/dc-lab/sky/resource_manager/app"
 	"github.com/dc-lab/sky/resource_manager/db"
 	"io"
 	"log"
+	"time"
 )
 
 type Server struct{}
 
-type AgentConnection struct {
-	resourceId string
+func HandleGreetings(greetings *pb.TGreetings) (*pb.TToAgentMessage, string) {
+	log.Println("Got greetings request")
+	var resultCode common.TResult_TResultCode
+	token := greetings.GetToken()
+	var resourceId, err = db.GetResourceIdByToken(token)
+	if err != nil {
+		resultCode = common.TResult_FAILED
+		switch err.(type) {
+		case *app.ResourceNotFound:
+			log.Printf("Can't find resource with token %s\n", token)
+		default:
+			log.Printf("Error while authorizing resource: %s\n", err)
+		}
+	} else {
+		connectedAgents.AddAgent(resourceId)
+		resultCode = common.TResult_SUCCESS
+		log.Printf("Agent for resource %s logged successfuly\n", resourceId)
+	}
+
+	result := common.TResult{ResultCode: resultCode}
+	greetingsValidation := pb.TGreetingsValidation{Result: &result}
+	return &pb.TToAgentMessage{Body: &pb.TToAgentMessage_GreetingsValidation{GreetingsValidation: &greetingsValidation}}, resourceId
+}
+
+func HandleHardware(resourceId string, hardware *pb.THardwareResponse) {
+	log.Println("Got hardware request")
+	if resourceId == "" {
+		log.Println("Resource was not registered, so skipping")
+		return
+	}
+	free := hardware.GetFreeHardwareData()
+	total := hardware.GetTotalHardwareData()
+	if err := connectedAgents.AddHardwareData(resourceId, total, free); err != nil {
+		log.Printf("Error while handling hardware request: %s\n", err)
+	}
+}
+
+func HandleTask(resourceId string, task *pb.TTaskResponse) {
+	log.Println("Got task request")
+	// todo: transfer data
+	log.Printf("Got task response: %s, %s, %s", task.GetTaskId(), task.GetResult().GetErrorCode(), task.GetResult().GetResultCode())
+}
+
+func HandleStageIn(resourceId string, stageIn *pb.TStageInResponse) {
+	log.Println("Got stage in")
+	// todo: transfer data
+	log.Printf("Got stage in response: %s, %s, %s", stageIn.GetTaskId(), stageIn.GetResult().GetErrorCode(), stageIn.GetResult().GetResultCode())
+}
+
+func HandleStageOut(resourceId string, stageOut *pb.TStageOutResponse) {
+	log.Println("Got stage in")
+	// todo: transfer data
+	log.Printf("Got stage in response: %s", stageOut.GetTaskId())
+}
+
+func Healthcheck(resourceId string) {
+	ticker := time.NewTicker(5 * time.Second)
+	for {
+		select {
+		case t := <-ticker.C:
+			lastUpdate := connectedAgents.GetLastUpdate(resourceId)
+			if lastUpdate == nil {
+				log.Printf("Stop checking %s\n", resourceId)
+				return
+			}
+			if time.Since(*lastUpdate).Seconds() > 10 {
+				log.Printf("Last update from %s was more than 10 seconds ago, so closing connection", resourceId)
+				connectedAgents.RemoveAgent(resourceId)
+				return
+			}
+			log.Printf("ResourceId: %s, tick at %s", resourceId, t)
+		}
+	}
 }
 
 func (s Server) Send(srv pb.ResourceManager_SendServer) error {
 	log.Println("start new server")
 	ctx := srv.Context()
 
-	var connection AgentConnection
+	var resourceId string
 
 	for {
 		select {
@@ -37,57 +111,92 @@ func (s Server) Send(srv pb.ResourceManager_SendServer) error {
 			continue
 		}
 
+		var response *pb.TToAgentMessage = nil
+
 		switch x := req.Body.(type) {
 		case *pb.TFromAgentMessage_Greetings:
-			greetings := req.GetGreetings()
-			log.Println("Got greeting request")
-			token := greetings.GetToken()
-			resourceId, err := db.GetResourceIdByToken(token)
-			if err != nil {
-				switch err.(type) {
-				case *app.ResourceNotFound:
-					log.Printf("Can't find resource with token %s", token)
-				default:
-					log.Printf("Error while authorizing resource")
-				}
-				continue
+			response, resourceId = HandleGreetings(req.GetGreetings())
+			if resourceId != "" {
+				go Healthcheck(resourceId)
 			}
-			connection.resourceId = resourceId
-			log.Printf("Successful authorization for resource %s", resourceId)
-
-			log.Println("Going to send TaskRequest")
-			taskId := "123"
-			shellCommand := "ls -la && sleep 0.5"
-			task := pb.TTask{
-				Id:                    taskId,
-				ExecutionShellCommand: shellCommand,
-			}
-			taskRequest := pb.TTaskRequest{Task: &task}
-			resp := pb.TToAgentMessage{Body: &pb.TToAgentMessage_TaskRequest{TaskRequest: &taskRequest}}
-			if err := srv.Send(&resp); err != nil {
-				log.Printf("send error %v\n", err)
-			}
-			log.Println("send new message")
 		case *pb.TFromAgentMessage_HardwareResponse:
-			hardwareResp := req.GetHardwareResponse()
-			freeHardwareData := hardwareResp.FreeHardwareData
-			totalHardwareData := hardwareResp.TotalHardwareData
-			log.Printf("Got hardware data: %.2f/%.2f, %d/%d, %d/%d\n",
-				freeHardwareData.CoresCount, totalHardwareData.CoresCount,
-				freeHardwareData.DiskBytes, totalHardwareData.DiskBytes,
-				freeHardwareData.MemoryBytes, totalHardwareData.MemoryBytes)
+			HandleHardware(resourceId, req.GetHardwareResponse())
 		case *pb.TFromAgentMessage_TaskResponse:
-			taskResponse := req.GetTaskResponse()
-			log.Printf("Got task response: %s, %s, %s", taskResponse.GetTaskId(), taskResponse.GetResult().GetErrorCode(), taskResponse.GetResult().GetResultCode())
-		case nil:
-			log.Println("The field is not set. And that's kind'a strange")
+			HandleTask(resourceId, req.GetTaskResponse())
+		case *pb.TFromAgentMessage_StageInResponse:
+			HandleStageIn(resourceId, req.GetStageInResponse())
+		case *pb.TFromAgentMessage_StageOutResponse:
+			HandleStageOut(resourceId, req.GetStageOutResponse())
 		default:
 			log.Printf("TFromAgentMessage.Body has unexpected type %T\n", x)
 		}
-		//resp := pb.TToAgentMessage{Body: &pb.TToAgentMessage_HardwareRequest{}}
-		//if err := srv.Send(&resp); err != nil {
-		//	log.Printf("send error %v\n", err)
-		//}
-		//log.Println("send new message")
+
+		if response != nil {
+			if err := srv.Send(response); err != nil {
+				log.Printf("Error while sending message to agent: %v\n", err)
+			}
+		}
+
+		if resourceId != "" {
+			message := connectedAgents.GetMessage(resourceId)
+			if message != nil {
+				if err := srv.Send(message); err != nil {
+					log.Printf("Error while sending message to agent: %v\n", err)
+				}
+			}
+		}
 	}
+}
+
+func (s Server) Update(ctx context.Context, request *pb.TResourceRequest) (*pb.TResourceResponse, error) {
+	switch x := request.Body.(type) {
+	case *pb.TResourceRequest_CreateResourceRequest:
+		pbResource := request.GetCreateResourceRequest().GetResource()
+		resourceId := pbResource.Id
+		resource := db.Resource{
+			Id:    resourceId,
+			Name:  pbResource.Id,
+			Type:  db.GetStringTypeByEnum(pbResource.Type),
+			Owner: pbResource.OwnerId,
+			Token: pbResource.Token,
+		}
+		err := resource.CreateMe()
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
+		err = db.AddUsersToResource(resourceId, pbResource.Permissions.GetUsers())
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
+		err = db.AddGroupsToResource(resourceId, pbResource.Permissions.GetGroups())
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
+		return &pb.TResourceResponse{Body: &pb.TResourceResponse_CreateResourceResponse{}}, nil
+	case *pb.TResourceRequest_DeleteResourceRequest:
+		resourceId := request.GetDeleteResourceRequest().ResourceId
+		userId := request.GetDeleteResourceRequest().UserId
+		if err := db.DeleteResource(userId, resourceId); err != nil {
+			log.Println(err)
+			return nil, err
+		}
+		return &pb.TResourceResponse{Body: &pb.TResourceResponse_DeleteResourceResponse{}}, nil
+	default:
+		log.Printf("TResourceRequest.Body has unexpected type %T\n", x)
+		return nil, nil
+	}
+}
+
+func (s Server) AgentAction(ctx context.Context, request *pb.TRMRequest) (*pb.TRMResponse, error) {
+	resourceId := request.GetResourceId()
+	body := request.GetRealMessage()
+	err := connectedAgents.AddMessage(resourceId, body)
+	if err != nil {
+		log.Printf("Error during adding message to resoure %s: %v\n", resourceId, err)
+		return &pb.TRMResponse{ResultCode: pb.TRMResponse_NOT_FOUND}, err
+	}
+	return &pb.TRMResponse{ResultCode: pb.TRMResponse_OK}, err
 }
