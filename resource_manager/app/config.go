@@ -8,6 +8,7 @@ import (
 type config struct {
 	HTTPAddress   string `mapstructure:"http_address"`
 	GRPCAddress   string `mapstructure:"grpc_address"`
+	DMAddress     string `mapstructure:"dm_address"`
 	LogsDir       string `mapstructure:"logs_dir"`
 	DBUser        string `mapstructure:"db_user"`
 	DBPasswordEnv string
@@ -39,6 +40,7 @@ func ParseConfig() {
 	viper.SetEnvPrefix("RM")
 	viper.BindEnv("HTTP_ADDRESS")
 	viper.BindEnv("GRPC_ADDRESS")
+	viper.BindEnv("DM_ADDRESS")
 	viper.BindEnv("LOGS_DIR")
 	viper.BindEnv("DB_USER")
 	viper.BindEnv("DB_HOST")
