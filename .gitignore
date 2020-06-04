@@ -8,3 +8,4 @@
 /user_manager/user_manager
 /reverse_proxy/reverse_proxy
 *.log
+/logs

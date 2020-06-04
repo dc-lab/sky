@@ -5,7 +5,7 @@ go 1.14
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/cenkalti/backoff/v4 v4.0.2
-	github.com/dc-lab/sky/api/proto/data_manager v0.0.0
+	github.com/dc-lab/sky/api/proto/data_manager v0.0.0-20200604001358-fe0c1b64fb3b
 	github.com/go-chi/render v1.0.1
 	github.com/go-openapi/spec v0.19.7 // indirect
 	github.com/go-openapi/swag v0.19.9 // indirect
@@ -22,5 +22,3 @@ require (
 	google.golang.org/grpc v1.27.1
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 )
-
-replace github.com/dc-lab/sky/api/proto/data_manager => /home/sergey/hse/third/sky/sky/api/proto/data_manager
