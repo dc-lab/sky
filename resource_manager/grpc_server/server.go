@@ -72,7 +72,7 @@ func Healthcheck(resourceId string) {
 	ticker := time.NewTicker(5 * time.Second)
 	for {
 		select {
-		case t := <- ticker.C:
+		case t := <-ticker.C:
 			lastUpdate := connectedAgents.GetLastUpdate(resourceId)
 			if lastUpdate == nil {
 				log.Printf("Stop checking %s\n", resourceId)
@@ -149,7 +149,45 @@ func (s Server) Send(srv pb.ResourceManager_SendServer) error {
 }
 
 func (s Server) Update(ctx context.Context, request *pb.TResourceRequest) (*pb.TResourceResponse, error) {
-	panic("implement me")
+	switch x := request.Body.(type) {
+	case *pb.TResourceRequest_CreateResourceRequest:
+		pbResource := request.GetCreateResourceRequest().GetResource()
+		resourceId := pbResource.Id
+		resource := db.Resource{
+			Id:    resourceId,
+			Name:  pbResource.Id,
+			Type:  db.GetStringTypeByEnum(pbResource.Type),
+			Owner: pbResource.OwnerId,
+			Token: pbResource.Token,
+		}
+		err := resource.CreateMe()
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
+		err = db.AddUsersToResource(resourceId, pbResource.Permissions.GetUsers())
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
+		err = db.AddGroupsToResource(resourceId, pbResource.Permissions.GetGroups())
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
+		return &pb.TResourceResponse{Body: &pb.TResourceResponse_CreateResourceResponse{}}, nil
+	case *pb.TResourceRequest_DeleteResourceRequest:
+		resourceId := request.GetDeleteResourceRequest().ResourceId
+		userId := request.GetDeleteResourceRequest().UserId
+		if err := db.DeleteResource(userId, resourceId); err != nil {
+			log.Println(err)
+			return nil, err
+		}
+		return &pb.TResourceResponse{Body: &pb.TResourceResponse_DeleteResourceResponse{}}, nil
+	default:
+		log.Printf("TResourceRequest.Body has unexpected type %T\n", x)
+		return nil, nil
+	}
 }
 
 func (s Server) AgentAction(ctx context.Context, request *pb.TRMRequest) (*pb.TRMResponse, error) {

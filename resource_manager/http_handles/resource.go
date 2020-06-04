@@ -110,9 +110,9 @@ func Resource(w http.ResponseWriter, req *http.Request) {
 		}
 		log.Println("Successfully handled resource get request")
 	case http.MethodDelete:
-		if message, ok := db.DeleteResource(userId, id); !ok {
-			log.Println(message)
-			http.Error(w, message, http.StatusInternalServerError)
+		if err := db.DeleteResource(userId, id); err != nil {
+			log.Println(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
