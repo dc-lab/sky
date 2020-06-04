@@ -60,7 +60,7 @@ func runNodeLoop(wg *sync.WaitGroup, srv *service.BlobsService, conf *config.Con
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.WithError(err).Fatal("Error loading .env file")
+		log.WithError(err).Info("Failed to load config from .env file")
 	}
 
 	conf, err := config.LoadConfig()

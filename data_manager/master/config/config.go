@@ -19,15 +19,13 @@ func LoadConfig() (*Config, error) {
 	viper.SetEnvPrefix("dm_master")
 	viper.AddConfigPath(".")
 
-	viper.BindEnv("BIND_ADDRESS")
+	viper.BindEnv("GRPC_BIND_ADDRESS")
+	viper.BindEnv("HTTP_BIND_ADDRESS")
 	viper.BindEnv("LOG_FILE")
-	viper.BindEnv("STORAGE_DIR")
-	viper.BindEnv("MAX_FILE_SIZE")
 	viper.BindEnv("POSTGRES_ADDRESS")
 
 	viper.SetDefault("http_bind_address", ":8080")
 	viper.SetDefault("grpc_bind_address", ":8081")
-	viper.SetDefault("max_file_size", 1*1024*1024*1024) // 1GiB
 
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {

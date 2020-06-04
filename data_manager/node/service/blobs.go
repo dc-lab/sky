@@ -13,9 +13,9 @@ import (
 	"github.com/go-chi/render"
 
 	pb "github.com/dc-lab/sky/api/proto/data_manager"
-	errs "github.com/dc-lab/sky/data_manager/common/errors"
 	"github.com/dc-lab/sky/data_manager/node/client"
 	"github.com/dc-lab/sky/data_manager/node/config"
+	errs "github.com/dc-lab/sky/data_manager/node/errors"
 	"github.com/dc-lab/sky/data_manager/node/storage"
 )
 

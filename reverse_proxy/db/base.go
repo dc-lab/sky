@@ -16,8 +16,11 @@ func InitDB() {
 	password := os.Getenv(app.Config.DBPasswordEnv)
 	host := app.Config.DBHost
 	dbName := app.Config.DBName
-	ssl := app.Config.DBSsl
-	dbUri := fmt.Sprintf("postgres://%s:%s@%s/%s?ssl=%v", username, password, host, dbName, ssl)
+	ssl := "disable"
+	if app.Config.DBSsl {
+		ssl = "require"
+	}
+	dbUri := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=%v", username, password, host, dbName, ssl)
 
 	var err error
 	pool, err = pgxpool.Connect(context.Background(), dbUri)

@@ -3,8 +3,7 @@ module github.com/dc-lab/sky/data_manager/node
 go 1.14
 
 require (
-	github.com/dc-lab/sky/api/proto/data_manager v0.0.0-20200511235702-bae58568a911
-	github.com/dc-lab/sky/data_manager/common v0.0.0-00010101000000-000000000000
+	github.com/dc-lab/sky/api/proto/data_manager v0.0.0-20200604001358-fe0c1b64fb3b
 	github.com/go-chi/chi v4.1.1+incompatible
 	github.com/go-chi/render v1.0.1
 	github.com/joho/godotenv v1.3.0
@@ -17,7 +16,3 @@ require (
 	google.golang.org/grpc v1.27.1
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 )
-
-replace github.com/dc-lab/sky/api/proto/data_manager => /home/sergey/hse/third/sky/sky/api/proto/data_manager
-
-replace github.com/dc-lab/sky/data_manager/common => /home/sergey/hse/third/sky/sky/data_manager/common
