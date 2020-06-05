@@ -44,10 +44,16 @@ github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/dc-lab/sky/api/proto/common v0.0.0-20200603210013-af271507ba56/go.mod h1:EiaE6Rab1Sn4ImZ60upy3SF8UG4AuTdeBb3RXZjlATI=
 github.com/dc-lab/sky/api/proto/common v0.0.0-20200605032955-45cb9231ea31 h1:G4yzMDjbW65epm1tBTXSsT5YDJgKegaRRSMnau4bJuQ=
 github.com/dc-lab/sky/api/proto/common v0.0.0-20200605032955-45cb9231ea31/go.mod h1:EiaE6Rab1Sn4ImZ60upy3SF8UG4AuTdeBb3RXZjlATI=
+github.com/dc-lab/sky/api/proto/common v0.0.0-20200605035819-85d768e90bb8 h1:9eKfrDqN8kOvdOeXc7qmQmM0YH45vqaZYO0Cvb3Ojl0=
+github.com/dc-lab/sky/api/proto/common v0.0.0-20200605035819-85d768e90bb8/go.mod h1:EiaE6Rab1Sn4ImZ60upy3SF8UG4AuTdeBb3RXZjlATI=
 github.com/dc-lab/sky/api/proto/data_manager v0.0.0-20200605032955-45cb9231ea31 h1:emAHVrTPP1jRsc6BVGANptOnL0zP9N+OGPIpVGXQESE=
 github.com/dc-lab/sky/api/proto/data_manager v0.0.0-20200605032955-45cb9231ea31/go.mod h1:GrXJ4XLcddPFrZIp5C1KALYUwFZCamGPzmQAhOuij9E=
+github.com/dc-lab/sky/api/proto/data_manager v0.0.0-20200605041006-548b8446dc85 h1:QYzhss3jcXsokvhMXgMv0BvpN8FcfYenji9ESo/rV1I=
+github.com/dc-lab/sky/api/proto/data_manager v0.0.0-20200605041006-548b8446dc85/go.mod h1:GrXJ4XLcddPFrZIp5C1KALYUwFZCamGPzmQAhOuij9E=
 github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200605032955-45cb9231ea31 h1:jhja+L2MZieQg9KPZ5hNtxwk7QL1Pxr/DKNBvw6Hyfg=
 github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200605032955-45cb9231ea31/go.mod h1:vFmvJH0KnbU+gvKUAVCaOhjJpPMe70k549l7+ptYRM4=
+github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200605035819-85d768e90bb8 h1:Baf3DHvjOvPRoU8O6zw9fJ/gM/i079NKFxTCp691Z5E=
+github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200605035819-85d768e90bb8/go.mod h1:vFmvJH0KnbU+gvKUAVCaOhjJpPMe70k549l7+ptYRM4=
 github.com/dgrijalva/jwt-go v3.2.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZmtrrCbhqsmaPHjLKYnJCaQ=
 github.com/dgryski/go-sip13 v0.0.0-20181026042036-e10d5fee7954/go.mod h1:vAd38F8PWV+bWy6jNmig1y/TA+kYO4g3RSRF0IAv0no=
 github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=

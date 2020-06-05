@@ -65,9 +65,17 @@ func HandleHardware(resourceId string, hardware *pb.THardwareResponse) {
 	}
 }
 
-func HandleTask(resourceId string, task *pb.TTaskResponse, dmClient *dm.DataManagerClient) {
+func HandleTask(resourceId string, task *pb.TTaskResponse, dmClient dm.DataManagerClient) {
 	log.Println("Got task request")
-	// todo: transfer data
+	result := &dm.UpdateTaskResultsRequest{
+		Files:   task.TaskFiles,
+		TaskId:  task.TaskId,
+		AgentId: resourceId,
+	}
+	_, err := dmClient.UpdateTaskResults(context.Background(), result)
+	if err != nil {
+		log.Printf("UpdateTaskResults request failed: %e", err)
+	}
 	log.Printf("Got task response: %s, %s, %s", task.GetTaskId(), task.GetResult().GetErrorCode(), task.GetResult().GetResultCode())
 }
 
