@@ -7,6 +7,7 @@ package resource_manager;
 
 import "api/proto/common/action.proto";
 import "api/proto/common/entity.proto";
+import "api/proto/common/task_results.proto";
 
 option go_package = "github.com/dc-lab/sky/api/proto/resource_manager";
 
@@ -70,7 +71,7 @@ message TTaskRequest {
 message TTaskResponse {
     string task_id = 1; // required
     action.TResult result = 2; // required
-    repeated string task_files = 3; // required
+    repeated common.TaskFile task_files = 3; // required
 }
 
 message TFile {
