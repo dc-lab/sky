@@ -59,7 +59,7 @@ func gatherTaskResults(root string) ([]*pb.TaskFile, error) {
 		// TODO Calculate hash here?
 		files = append(files, &pb.TaskFile{
 			Path:             path,
-			Size:             uint64(info.Size()), // FIXME int64 size
+			Size:             info.Size(),
 			ModificationTime: mtime,
 		})
 		return nil
