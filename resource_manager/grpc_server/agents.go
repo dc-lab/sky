@@ -16,17 +16,23 @@ type HardwareData struct {
 }
 
 type AgentConnection struct {
-	Status string
-	MessageQueue chan pb.TToAgentMessage
+	Status        string
+	MessageQueue  chan pb.TToAgentMessage
 	TotalHardware HardwareData
-	FreeHardware HardwareData
-	LastUpdate time.Time
+	FreeHardware  HardwareData
+	LastUpdate    time.Time
 }
 
 type AgentMap struct {
-	mu sync.Mutex
-	agents map[string]AgentConnection
+	mu         sync.Mutex
+	agents     map[string]AgentConnection
 	lastUpdate time.Time
+}
+
+func NewAgentMap() *AgentMap {
+	return &AgentMap{
+		agents: make(map[string]AgentConnection),
+	}
 }
 
 func (am *AgentMap) AddAgent(resourceId string) {
@@ -93,4 +99,4 @@ func (am *AgentMap) AddHardwareData(resourceId string, total, free *common.THard
 	return &app.ResourceNotFound{}
 }
 
-var connectedAgents = AgentMap{}
+var connectedAgents = NewAgentMap()
