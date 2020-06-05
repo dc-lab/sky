@@ -36,7 +36,7 @@ service DataManager {
         };
     }
 
-    rpc UpdateTaskResults (stream UpdateTaskResultsRequest) returns (UpdateTaskResultsResponse) {
+    rpc UpdateTaskResults (UpdateTaskResultsRequest) returns (UpdateTaskResultsResponse) {
     }
 }
 
