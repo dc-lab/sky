@@ -26,15 +26,20 @@ func httpStarter(wg *sync.WaitGroup, addr string) {
 	log.Fatal(http.ListenAndServe(addr, router))
 }
 
-func gRPCStarter(wg *sync.WaitGroup, addr string) {
+func gRPCStarter(wg *sync.WaitGroup, addr string, dmAddress string) {
 	defer wg.Done()
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 
+	server, err := grpc_server.NewServer(dmAddress)
+	if err != nil {
+		log.Fatalf("Failed to setup connection with data manager: %v", err)
+	}
+
 	s := grpc.NewServer()
-	pb.RegisterResourceManagerServer(s, grpc_server.Server{})
+	pb.RegisterResourceManagerServer(s, server)
 
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
@@ -59,7 +64,7 @@ func main() {
 	wg.Add(1)
 	go httpStarter(&wg, app.Config.HTTPAddress)
 	wg.Add(1)
-	go gRPCStarter(&wg, app.Config.GRPCAddress)
+	go gRPCStarter(&wg, app.Config.GRPCAddress, app.Config.DMAddress)
 
 	wg.Wait()
 }

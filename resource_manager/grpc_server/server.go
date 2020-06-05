@@ -3,15 +3,30 @@ package grpc_server
 import (
 	"context"
 	"github.com/dc-lab/sky/api/proto/common"
+	dm "github.com/dc-lab/sky/api/proto/data_manager"
 	pb "github.com/dc-lab/sky/api/proto/resource_manager"
 	"github.com/dc-lab/sky/resource_manager/app"
 	"github.com/dc-lab/sky/resource_manager/db"
+	"google.golang.org/grpc"
 	"io"
 	"log"
 	"time"
 )
 
-type Server struct{}
+type Server struct {
+	// FIXME: We should not push rm -> dm
+	// just cache agents responses on rm and pull them from dm
+	dmClient dm.DataManagerClient
+}
+
+func NewServer(dmAddress string) (*Server, error) {
+	conn, err := grpc.Dial(dmAddress, grpc.WithInsecure(), grpc.WithBackoffMaxDelay(time.Second*10))
+	if err != nil {
+		return nil, err
+	}
+	client := dm.NewDataManagerClient(conn)
+	return &Server{client}, nil
+}
 
 func HandleGreetings(greetings *pb.TGreetings) (*pb.TToAgentMessage, string) {
 	log.Println("Got greetings request")
@@ -50,9 +65,17 @@ func HandleHardware(resourceId string, hardware *pb.THardwareResponse) {
 	}
 }
 
-func HandleTask(resourceId string, task *pb.TTaskResponse) {
+func HandleTask(resourceId string, task *pb.TTaskResponse, dmClient dm.DataManagerClient) {
 	log.Println("Got task request")
-	// todo: transfer data
+	result := &dm.UpdateTaskResultsRequest{
+		Files:   task.TaskFiles,
+		TaskId:  task.TaskId,
+		AgentId: resourceId,
+	}
+	_, err := dmClient.UpdateTaskResults(context.Background(), result)
+	if err != nil {
+		log.Printf("UpdateTaskResults request failed: %e", err)
+	}
 	log.Printf("Got task response: %s, %s, %s", task.GetTaskId(), task.GetResult().GetErrorCode(), task.GetResult().GetResultCode())
 }
 
@@ -88,7 +111,7 @@ func Healthcheck(resourceId string) {
 	}
 }
 
-func (s Server) Send(srv pb.ResourceManager_SendServer) error {
+func (s *Server) Send(srv pb.ResourceManager_SendServer) error {
 	log.Println("start new server")
 	ctx := srv.Context()
 
@@ -122,7 +145,7 @@ func (s Server) Send(srv pb.ResourceManager_SendServer) error {
 		case *pb.TFromAgentMessage_HardwareResponse:
 			HandleHardware(resourceId, req.GetHardwareResponse())
 		case *pb.TFromAgentMessage_TaskResponse:
-			HandleTask(resourceId, req.GetTaskResponse())
+			HandleTask(resourceId, req.GetTaskResponse(), s.dmClient)
 		case *pb.TFromAgentMessage_StageInResponse:
 			HandleStageIn(resourceId, req.GetStageInResponse())
 		case *pb.TFromAgentMessage_StageOutResponse:
@@ -148,7 +171,7 @@ func (s Server) Send(srv pb.ResourceManager_SendServer) error {
 	}
 }
 
-func (s Server) Update(ctx context.Context, request *pb.TResourceRequest) (*pb.TResourceResponse, error) {
+func (s *Server) Update(ctx context.Context, request *pb.TResourceRequest) (*pb.TResourceResponse, error) {
 	switch x := request.Body.(type) {
 	case *pb.TResourceRequest_CreateResourceRequest:
 		pbResource := request.GetCreateResourceRequest().GetResource()
@@ -190,7 +213,7 @@ func (s Server) Update(ctx context.Context, request *pb.TResourceRequest) (*pb.T
 	}
 }
 
-func (s Server) AgentAction(ctx context.Context, request *pb.TRMRequest) (*pb.TRMResponse, error) {
+func (s *Server) AgentAction(ctx context.Context, request *pb.TRMRequest) (*pb.TRMResponse, error) {
 	resourceId := request.GetResourceId()
 	body := request.GetRealMessage()
 	err := connectedAgents.AddMessage(resourceId, body)
