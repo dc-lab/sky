@@ -4,7 +4,10 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"os"
 	"time"
+
+	"github.com/golang/protobuf/ptypes"
 
 	common "github.com/dc-lab/sky/agent/src/common"
 	hardware "github.com/dc-lab/sky/agent/src/hardware"
@@ -46,13 +49,33 @@ func SendHardwareData(client rm.ResourceManager_SendClient, totalHardwareData ha
 	common.DealWithError(err)
 }
 
+func gatherTaskResults(root string) ([]*pb.TaskFile, error) {
+	var files []*pb.TaskFile
+	err := common.ListChildrenFiles(root, func(path string, info os.FileInfo) error {
+		mtime, err := ptypes.TimestampProto(info.ModTime())
+		if err != nil {
+			return err
+		}
+		// TODO Calculate hash here?
+		files = append(files, &pb.TaskFile{
+			Path:             path,
+			Size:             uint64(info.Size()), // FIXME int64 size
+			ModificationTime: mtime,
+		})
+		return nil
+	})
+
+	return files, err
+}
+
 func SendTaskData(client rm.ResourceManager_SendClient, taskId string, resultPtr *pb.TResult) {
 	task, _ := GlobalTasksStatuses.Load(taskId)
-	filePaths := common.GetChildrenFilePaths(task.ExecutionDir)
+	files, err := gatherTaskResults(task.ExecutionDir)
+	common.DealWithError(err)
 	fmt.Println("Send task data")
-	request := rm.TTaskResponse{TaskId: taskId, Result: resultPtr, TaskFiles: filePaths}
+	request := rm.TTaskResponse{TaskId: taskId, Result: resultPtr, TaskFiles: files}
 	body := rm.TFromAgentMessage_TaskResponse{TaskResponse: &request}
-	err := client.Send(&rm.TFromAgentMessage{Body: &body})
+	err = client.Send(&rm.TFromAgentMessage{Body: &body})
 	common.DealWithError(err)
 	//if resultPtr.ResultCode == pb.TResult_FAILED || resultPtr.ResultCode == pb.TResult_SUCCESS {
 	//	GlobalTasksStatuses.Delete(taskId)
