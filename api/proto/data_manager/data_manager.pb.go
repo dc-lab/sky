@@ -671,7 +671,7 @@ var file_api_proto_data_manager_data_manager_proto_rawDesc = []byte{
 	0x67, 0x65, 0x6e, 0x74, 0x49, 0x64, 0x12, 0x17, 0x0a, 0x07, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x69,
 	0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x74, 0x61, 0x73, 0x6b, 0x49, 0x64, 0x22,
 	0x1b, 0x0a, 0x19, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x73,
-	0x75, 0x6c, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0xd8, 0x04, 0x0a,
+	0x75, 0x6c, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0xd6, 0x04, 0x0a,
 	0x0b, 0x44, 0x61, 0x74, 0x61, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x72, 0x12, 0x65, 0x0a, 0x0a,
 	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x46, 0x69, 0x6c, 0x65, 0x12, 0x1f, 0x2e, 0x64, 0x61, 0x74,
 	0x61, 0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x72, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
@@ -702,17 +702,17 @@ var file_api_proto_data_manager_data_manager_proto_rawDesc = []byte{
 	0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2d,
 	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x27, 0x12, 0x25, 0x2f, 0x76, 0x31, 0x2f, 0x66, 0x69, 0x6c, 0x65,
 	0x73, 0x2f, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x2f, 0x7b, 0x74, 0x61, 0x73, 0x6b, 0x5f,
-	0x69, 0x64, 0x7d, 0x2f, 0x7b, 0x70, 0x61, 0x74, 0x68, 0x3d, 0x2a, 0x2a, 0x7d, 0x12, 0x68, 0x0a,
+	0x69, 0x64, 0x7d, 0x2f, 0x7b, 0x70, 0x61, 0x74, 0x68, 0x3d, 0x2a, 0x2a, 0x7d, 0x12, 0x66, 0x0a,
 	0x11, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x73, 0x75, 0x6c,
 	0x74, 0x73, 0x12, 0x26, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65,
 	0x72, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x73, 0x75,
 	0x6c, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x27, 0x2e, 0x64, 0x61, 0x74,
 	0x61, 0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x72, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
 	0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x00, 0x28, 0x01, 0x42, 0x2e, 0x5a, 0x2c, 0x67, 0x69, 0x74, 0x68, 0x75,
-	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x63, 0x2d, 0x6c, 0x61, 0x62, 0x2f, 0x73, 0x6b, 0x79,
-	0x2f, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x64, 0x61, 0x74, 0x61, 0x5f,
-	0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x2e, 0x5a, 0x2c, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
+	0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x63, 0x2d, 0x6c, 0x61, 0x62, 0x2f, 0x73, 0x6b, 0x79, 0x2f, 0x61,
+	0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x64, 0x61, 0x74, 0x61, 0x5f, 0x6d, 0x61,
+	0x6e, 0x61, 0x67, 0x65, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -942,7 +942,7 @@ type DataManagerClient interface {
 	GetFileInfo(ctx context.Context, in *GetFileInfoRequest, opts ...grpc.CallOption) (*GetFileInfoResponse, error)
 	GetFileLocation(ctx context.Context, in *GetFileLocationRequest, opts ...grpc.CallOption) (*GetFileLocationResponse, error)
 	GetTaskResults(ctx context.Context, in *GetTaskResultsRequest, opts ...grpc.CallOption) (*GetTaskResultsResponse, error)
-	UpdateTaskResults(ctx context.Context, opts ...grpc.CallOption) (DataManager_UpdateTaskResultsClient, error)
+	UpdateTaskResults(ctx context.Context, in *UpdateTaskResultsRequest, opts ...grpc.CallOption) (*UpdateTaskResultsResponse, error)
 }
 
 type dataManagerClient struct {
@@ -989,38 +989,13 @@ func (c *dataManagerClient) GetTaskResults(ctx context.Context, in *GetTaskResul
 	return out, nil
 }
 
-func (c *dataManagerClient) UpdateTaskResults(ctx context.Context, opts ...grpc.CallOption) (DataManager_UpdateTaskResultsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_DataManager_serviceDesc.Streams[0], "/data_manager.DataManager/UpdateTaskResults", opts...)
+func (c *dataManagerClient) UpdateTaskResults(ctx context.Context, in *UpdateTaskResultsRequest, opts ...grpc.CallOption) (*UpdateTaskResultsResponse, error) {
+	out := new(UpdateTaskResultsResponse)
+	err := c.cc.Invoke(ctx, "/data_manager.DataManager/UpdateTaskResults", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &dataManagerUpdateTaskResultsClient{stream}
-	return x, nil
-}
-
-type DataManager_UpdateTaskResultsClient interface {
-	Send(*UpdateTaskResultsRequest) error
-	CloseAndRecv() (*UpdateTaskResultsResponse, error)
-	grpc.ClientStream
-}
-
-type dataManagerUpdateTaskResultsClient struct {
-	grpc.ClientStream
-}
-
-func (x *dataManagerUpdateTaskResultsClient) Send(m *UpdateTaskResultsRequest) error {
-	return x.ClientStream.SendMsg(m)
-}
-
-func (x *dataManagerUpdateTaskResultsClient) CloseAndRecv() (*UpdateTaskResultsResponse, error) {
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	m := new(UpdateTaskResultsResponse)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
+	return out, nil
 }
 
 // DataManagerServer is the server API for DataManager service.
@@ -1029,7 +1004,7 @@ type DataManagerServer interface {
 	GetFileInfo(context.Context, *GetFileInfoRequest) (*GetFileInfoResponse, error)
 	GetFileLocation(context.Context, *GetFileLocationRequest) (*GetFileLocationResponse, error)
 	GetTaskResults(context.Context, *GetTaskResultsRequest) (*GetTaskResultsResponse, error)
-	UpdateTaskResults(DataManager_UpdateTaskResultsServer) error
+	UpdateTaskResults(context.Context, *UpdateTaskResultsRequest) (*UpdateTaskResultsResponse, error)
 }
 
 // UnimplementedDataManagerServer can be embedded to have forward compatible implementations.
@@ -1048,8 +1023,8 @@ func (*UnimplementedDataManagerServer) GetFileLocation(context.Context, *GetFile
 func (*UnimplementedDataManagerServer) GetTaskResults(context.Context, *GetTaskResultsRequest) (*GetTaskResultsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTaskResults not implemented")
 }
-func (*UnimplementedDataManagerServer) UpdateTaskResults(DataManager_UpdateTaskResultsServer) error {
-	return status.Errorf(codes.Unimplemented, "method UpdateTaskResults not implemented")
+func (*UnimplementedDataManagerServer) UpdateTaskResults(context.Context, *UpdateTaskResultsRequest) (*UpdateTaskResultsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTaskResults not implemented")
 }
 
 func RegisterDataManagerServer(s *grpc.Server, srv DataManagerServer) {
@@ -1128,30 +1103,22 @@ func _DataManager_GetTaskResults_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DataManager_UpdateTaskResults_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(DataManagerServer).UpdateTaskResults(&dataManagerUpdateTaskResultsServer{stream})
-}
-
-type DataManager_UpdateTaskResultsServer interface {
-	SendAndClose(*UpdateTaskResultsResponse) error
-	Recv() (*UpdateTaskResultsRequest, error)
-	grpc.ServerStream
-}
-
-type dataManagerUpdateTaskResultsServer struct {
-	grpc.ServerStream
-}
-
-func (x *dataManagerUpdateTaskResultsServer) SendAndClose(m *UpdateTaskResultsResponse) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func (x *dataManagerUpdateTaskResultsServer) Recv() (*UpdateTaskResultsRequest, error) {
-	m := new(UpdateTaskResultsRequest)
-	if err := x.ServerStream.RecvMsg(m); err != nil {
+func _DataManager_UpdateTaskResults_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTaskResultsRequest)
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	return m, nil
+	if interceptor == nil {
+		return srv.(DataManagerServer).UpdateTaskResults(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/data_manager.DataManager/UpdateTaskResults",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DataManagerServer).UpdateTaskResults(ctx, req.(*UpdateTaskResultsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 var _DataManager_serviceDesc = grpc.ServiceDesc{
@@ -1174,13 +1141,11 @@ var _DataManager_serviceDesc = grpc.ServiceDesc{
 			MethodName: "GetTaskResults",
 			Handler:    _DataManager_GetTaskResults_Handler,
 		},
-	},
-	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "UpdateTaskResults",
-			Handler:       _DataManager_UpdateTaskResults_Handler,
-			ClientStreams: true,
+			MethodName: "UpdateTaskResults",
+			Handler:    _DataManager_UpdateTaskResults_Handler,
 		},
 	},
+	Streams:  []grpc.StreamDesc{},
 	Metadata: "api/proto/data_manager/data_manager.proto",
 }
