@@ -10,14 +10,13 @@ import (
 	"net/url"
 	"os"
 	"path"
-	"strings"
 )
 
 func handlerProxy(w http.ResponseWriter, r *http.Request) {
 	var host string
 	var authOptional bool
 	for _, endpoint := range app.Config.Endpoints {
-		if strings.HasPrefix(r.URL.String(), endpoint.PathPrefix) {
+		if endpoint.PathRegex.MatchString(r.URL.String()) {
 			host = endpoint.Hostname
 			authOptional = endpoint.AuthOptional
 			break

@@ -6,7 +6,7 @@ COPY    go.sum .
 RUN     go mod download
 COPY    . .
 RUN     go build -o /app .
-RUN     cp config.yaml /
+RUN     cp config-docker.yaml /config.yaml
 
 FROM alpine:3.11 AS production
 RUN  apk update && apk add ca-certificates libc6-compat && rm -rf /var/cache/apk/*
