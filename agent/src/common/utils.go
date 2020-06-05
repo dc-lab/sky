@@ -39,18 +39,26 @@ func PathExists(path string, directoryFlag bool) (bool, error) {
 	return true, err
 }
 
-func GetChildrenFilePaths(rootDir string) []string {
-	var files []string
-	err := filepath.Walk(rootDir,
+func ListChildrenFiles(dir string, visitor func(string, os.FileInfo) error) error {
+	return filepath.Walk(dir,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
 			}
-			if !info.IsDir() {
-				files = append(files, path)
+			if info.IsDir() {
+				return nil
 			}
-			return nil
+
+			return visitor(path, info)
 		})
+}
+
+func GetChildrenFilePaths(rootDir string) []string {
+	var files []string
+	err := ListChildrenFiles(rootDir, func(path string, _ os.FileInfo) error {
+		files = append(files, path)
+		return nil
+	})
 	DealWithError(err)
 	return files
 }

@@ -81,11 +81,13 @@ github.com/cznic/mathutil v0.0.0-20180504122225-ca4c9f2c1369/go.mod h1:e6NPNENfs
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/dc-lab/sky v0.0.0-20200605024616-5f2072001a8f h1:Vaw2ShU6LslLEzXHrzcd7WC1QSWdtVNx1+/XFWVy4do=
+github.com/dc-lab/sky/api/proto v0.0.0-20200510174228-57410b278681 h1:WG8ImDqiislbHyrOzfaYw3cmYjoQSqoYLixJReaUbJY=
 github.com/dc-lab/sky/api/proto/common v0.0.0-20200603210013-af271507ba56/go.mod h1:EiaE6Rab1Sn4ImZ60upy3SF8UG4AuTdeBb3RXZjlATI=
-github.com/dc-lab/sky/api/proto/common v0.0.0-20200604001358-fe0c1b64fb3b h1:zAYRunELepXwQyAFQA+lxvEw/28MxjGUKffCfg3Jf4Y=
-github.com/dc-lab/sky/api/proto/common v0.0.0-20200604001358-fe0c1b64fb3b/go.mod h1:EiaE6Rab1Sn4ImZ60upy3SF8UG4AuTdeBb3RXZjlATI=
-github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200604001358-fe0c1b64fb3b h1:4N+R20XdGChw15nfuW0GPCebZ61ndhudgZWc/zxuF+U=
-github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200604001358-fe0c1b64fb3b/go.mod h1:vFmvJH0KnbU+gvKUAVCaOhjJpPMe70k549l7+ptYRM4=
+github.com/dc-lab/sky/api/proto/common v0.0.0-20200605024616-5f2072001a8f h1:3xaOBcuYxl1gjzDfbzyF9VQDmatW93qf4LsJMEXBHkI=
+github.com/dc-lab/sky/api/proto/common v0.0.0-20200605024616-5f2072001a8f/go.mod h1:EiaE6Rab1Sn4ImZ60upy3SF8UG4AuTdeBb3RXZjlATI=
+github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200605024616-5f2072001a8f h1:3qq6sL/xwCepU8qFvBUBQy5EFYTFOQ/Wi4waNl1V4aM=
+github.com/dc-lab/sky/api/proto/resource_manager v0.0.0-20200605024616-5f2072001a8f/go.mod h1:vFmvJH0KnbU+gvKUAVCaOhjJpPMe70k549l7+ptYRM4=
 github.com/dc-lab/sky/data_manager v0.0.0-20200601233338-f7fc6bb6420c h1:Q4bXBZRMK6aiFxhU0V61BtbVj1DicH68rAdCVj7TmjU=
 github.com/dc-lab/sky/data_manager v0.0.0-20200601233338-f7fc6bb6420c/go.mod h1:FxtWCsSmp/5vZMQ0FMZRkpc2dEn8qPMGuCGhHkX7hKQ=
 github.com/denisenkom/go-mssqldb v0.0.0-20190515213511-eb9f6a1743f3/go.mod h1:zAg7JM8CkOJ43xKXIj7eRO9kmWm/TW578qo+oDO6tuM=
@@ -97,8 +99,6 @@ github.com/docker/distribution v2.7.1+incompatible h1:a5mlkVzth6W5A4fOsS3D2EO5BU
 github.com/docker/distribution v2.7.1+incompatible/go.mod h1:J2gT2udsDAN96Uj4KfcMRqY0/ypR+oyYUYmja8H+y+w=
 github.com/docker/docker v1.4.2-0.20200213202729-31a86c4ab209 h1:tmV+YbYOUAYDmAiamzhRKqQXaAUyUY2xVt27Rv7rCzA=
 github.com/docker/docker v1.4.2-0.20200213202729-31a86c4ab209/go.mod h1:eEKB0N0r5NX/I1kEveEz05bcu8tLC/8azJZsviup8Sk=
-github.com/docker/docker v1.13.1 h1:IkZjBSIc8hBjLpqeAbeE5mca5mNgeatLHBy3GO78BWo=
-github.com/docker/docker v1.13.1/go.mod h1:eEKB0N0r5NX/I1kEveEz05bcu8tLC/8azJZsviup8Sk=
 github.com/docker/go-connections v0.4.0 h1:El9xVISelRB7BuFusrZozjnkIM5YnzCViNKohAFqRJQ=
 github.com/docker/go-connections v0.4.0/go.mod h1:Gbd7IOopHjR8Iph03tsViu4nIes5XhDvyHbTtUxmeec=
 github.com/docker/go-units v0.3.3/go.mod h1:fgPhTUdO+D/Jk86RDLlptpiXQzgHJF7gydDDbaIK4Dk=
