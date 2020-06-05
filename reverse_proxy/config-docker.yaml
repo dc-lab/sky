@@ -1,0 +1,17 @@
+Endpoints:
+  - PathPattern: "/login"
+    Hostname: "localhost:8081"
+    AuthOptional: true
+  - PathPattern: "/register"
+    Hostname: "localhost:8081"
+    AuthOptional: true
+  - PathPattern: "/change_password"
+    Hostname: "localhost:8081"
+  - PathPattern: "/groups"
+    Hostname: "localhost:8081"
+  - PathPattern: "/resource"
+    Hostname: "localhost:8083"
+  - PathPattern: "/files/.*/data$"
+    Hostname: "localhost:8087"
+  - PathPattern: "/files/"
+    Hostname: "localhost:8085"

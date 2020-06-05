@@ -1,13 +1,13 @@
 Endpoints:
-  - PathPrefix: "/login"
+  - PathPattern: "/login"
     Hostname: "localhost:6272"
     AuthOptional: true
-  - PathPrefix: "/register"
+  - PathPattern: "/register"
     Hostname: "localhost:6272"
     AuthOptional: true
-  - PathPrefix: "/change_password"
+  - PathPattern: "/change_password"
     Hostname: "localhost:6272"
-  - PathPrefix: "/groups"
+  - PathPattern: "/groups"
     Hostname: "localhost:6272"
-  - PathPrefix: "/resource"
+  - PathPattern: "/resource"
     Hostname: "localhost:8090"

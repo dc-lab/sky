@@ -2,13 +2,16 @@ package app
 
 import (
 	"flag"
+	"regexp"
+
 	"github.com/spf13/viper"
 )
 
 type Endpoint struct {
-	PathPrefix   string
+	PathPattern  string
 	Hostname     string
 	AuthOptional bool
+	PathRegex    *regexp.Regexp
 }
 
 type config struct {
@@ -58,4 +61,24 @@ func ParseConfig() {
 	if err != nil {
 		panic(err)
 	}
+
+	err = compileRegexps()
+	if err != nil {
+		panic(err)
+	}
+}
+
+func compileRegexps() error {
+	for i, endpoint := range Config.Endpoints {
+		if endpoint.PathPattern[0] != '^' {
+			endpoint.PathPattern = "^" + endpoint.PathPattern
+		}
+		regex, err := regexp.Compile(endpoint.PathPattern)
+		if err != nil {
+			return err
+		}
+
+		Config.Endpoints[i].PathRegex = regex
+	}
+	return nil
 }
