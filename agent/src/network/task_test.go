@@ -14,10 +14,10 @@ import (
 
 func InitializeAgentConfig() {
 	parser.InitializeAgentConfigFromCustomFields(map[string]interface{}{
-		"LogsDirectory":          "/tmp/agent-logs",
-		"RunDirectory":           "/tmp/agent/",
+		"LogsDirectory":          "/tmp/agent-logs-test",
+		"RunDirectory":           "/tmp/agent_test/",
 		"ResourceManagerAddress": "localhost:5051",
-		"AgentDirectory":         "/tmp/agent",
+		"AgentDirectory":         "/tmp/agent_test",
 		"TokenPath":              "/tmp/sample_token",
 	})
 }

@@ -65,6 +65,10 @@ func GetFreeDisk() uint64 {
 	return GetDiskStat(parser.AgentConfig.AgentDirectory).Free
 }
 
+func GetDiskUsage(path string) uint64 {
+	return GetDiskStat(path).Used
+}
+
 //////////////////BEGIN DISK////////////////
 
 func GetTotalHardwareData() HardwareData {
