@@ -18,6 +18,10 @@ type Config struct {
 	Token                  string
 }
 
+type CmdOptions struct {
+	ConfigPath string
+}
+
 func GetToken(path string) string {
 	bytes, err := ioutil.ReadFile(path)
 	common.DieWithError(err)
@@ -30,20 +34,28 @@ func ReadConfig(filename string, defaults map[string]interface{}) (*viper.Viper,
 		v.SetDefault(key, value)
 	}
 
-	v.SetConfigType("json")
-	v.SetConfigName(filename)
-	v.AddConfigPath(".")
-	v.AutomaticEnv()
-	err := v.ReadInConfig()
+	var err error
+	if val, err := common.PathExists(filename, false); val && err == nil {
+		v.SetConfigType("json")
+		v.SetConfigName(filename)
+		v.AddConfigPath(".")
+		v.AutomaticEnv()
+		err = v.ReadInConfig()
+	}
 	return v, err
 }
 
-func ParseArguments() Config {
-	var configPath string
-	flag.StringVar(&configPath, "config", "config.json", "Path to agent configuration file")
-	flag.Parse()
+var AgentConfig Config
 
-	v, err := ReadConfig(configPath, map[string]interface{}{
+func ParseArguments() CmdOptions {
+	var options CmdOptions
+	flag.StringVar(&options.ConfigPath, "config", "config.json", "Path to agent configuration file")
+	flag.Parse()
+	return options
+}
+
+func InitializeAgentConfigFromOptions(options *CmdOptions) {
+	viperObject, err := ReadConfig(options.ConfigPath, map[string]interface{}{
 		"ResourceManagerAddress": "localhost:5051",
 		"AgentDirectory":         "/var/tmp/agent",
 		"LogsDirectory":          "/var/tmp/agent-logs",
@@ -51,7 +63,16 @@ func ParseArguments() Config {
 		"TokenPath":              "/var/tmp/token",
 	})
 	common.DieWithError(err)
+	InitializeAgentConfig(viperObject)
+}
 
+func InitializeAgentConfigFromCustomFields(customFields map[string]interface{}) {
+	viperObject, err := ReadConfig("", customFields)
+	common.DieWithError(err)
+	InitializeAgentConfig(viperObject)
+}
+
+func InitializeAgentConfig(v *viper.Viper) {
 	token := GetToken(v.GetString("TokenPath"))
 	logsDirectory := v.GetString("LogsDirectory")
 	runDirectory := v.GetString("RunDirectory")
@@ -70,7 +91,5 @@ func ParseArguments() Config {
 	common.DieWithError(common.CreateDirectory(config.LocalCacheDirectory, false))
 
 	fmt.Println(config)
-	return config
+	AgentConfig = config
 }
-
-var AgentConfig = ParseArguments()

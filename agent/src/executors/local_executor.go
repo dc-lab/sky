@@ -9,7 +9,7 @@ import (
 )
 
 type TaskExecutor interface {
-	Prepare()
+	Prepare(func(err error))
 	Run(<-chan struct{}, func(result *pb.TResult), func(err error))
 }
 
@@ -20,7 +20,7 @@ type LocalExecutor struct {
 	ProcessID                int64  // use atomic
 }
 
-func (e *LocalExecutor) Prepare() {
+func (e *LocalExecutor) Prepare(afterExecution func(err error)) {
 	if e.RequirementsShellCommand != "" {
 		e.RunShellCommand(
 			e.RequirementsShellCommand,
@@ -28,7 +28,7 @@ func (e *LocalExecutor) Prepare() {
 			path.Join(e.ExecutionDir, "requirements_out"),
 			path.Join(e.ExecutionDir, "requirements_err"),
 			nil,
-			nil,
+			afterExecution,
 			nil)
 	}
 }
