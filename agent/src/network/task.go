@@ -53,7 +53,14 @@ func (t *Task) Init(taskProto *rm.TTask) {
 }
 
 func (t *Task) InstallRequirements() {
-	t.Executor.Prepare()
+	updateFinalResultFunc := func(err error) {
+		if err != nil {
+			result := pb.TResult{ResultCode: pb.TResult_FAILED, ErrorCode: pb.TResult_INTERNAL}
+			common.DealWithError(err)
+			GlobalTasksStatuses.SetTaskResult(t.TaskId, &result)
+		}
+	}
+	t.Executor.Prepare(updateFinalResultFunc)
 }
 
 func (t *Task) Run() {

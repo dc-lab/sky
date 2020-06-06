@@ -34,13 +34,14 @@ func ReadConfig(filename string, defaults map[string]interface{}) (*viper.Viper,
 		v.SetDefault(key, value)
 	}
 
+	var err error
 	if val, err := common.PathExists(filename, false); val && err == nil {
 		v.SetConfigType("json")
 		v.SetConfigName(filename)
 		v.AddConfigPath(".")
+		v.AutomaticEnv()
+		err = v.ReadInConfig()
 	}
-	v.AutomaticEnv()
-	err := v.ReadInConfig()
 	return v, err
 }
 

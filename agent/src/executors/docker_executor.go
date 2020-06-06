@@ -31,16 +31,18 @@ func (e *DockerExecutor) GetContainerID() string {
 	return e.ContainerID.Load().(string)
 }
 
-func (e *DockerExecutor) Prepare() {
+func (e *DockerExecutor) Prepare(afterExecution func(err error)) {
 	ctx := context.Background()
 	var err error
 	e.DockerClient, err = client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
 	if err != nil {
+		afterExecution(err)
 		panic(err)
 	}
 
 	reader, err := e.DockerClient.ImagePull(ctx, e.Image, types.ImagePullOptions{})
 	if err != nil {
+		afterExecution(err)
 		panic(err)
 	}
 	io.Copy(os.Stdout, reader)
@@ -56,6 +58,7 @@ func (e *DockerExecutor) Prepare() {
 		Mounts: []mount.Mount{{Type: mount.TypeBind, Source: e.ExecutionDir, Target: e.ExecutionDir}},
 	}, nil, "")
 	if err != nil {
+		afterExecution(err)
 		panic(err)
 	}
 	e.SetContainerID(resp.ID)
