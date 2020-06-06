@@ -4,7 +4,6 @@ import (
 	utils "github.com/dc-lab/sky/agent/src/common"
 	"github.com/dc-lab/sky/agent/src/data_manager"
 	"github.com/dc-lab/sky/agent/src/local_cache"
-	"github.com/dc-lab/sky/agent/src/parser"
 	"github.com/dc-lab/sky/api/proto/common"
 	"github.com/dc-lab/sky/api/proto/resource_manager"
 	"io"
@@ -12,15 +11,16 @@ import (
 )
 
 func DownloadFile(localPath string, file *resource_manager.TFile) error {
-	cachedFilePath := path.Join(parser.AgentConfig.LocalCacheDirectory, file.GetHash())
-	reader, err := local_cache.GetCacheFileReader(cachedFilePath)
+	reader, err := local_cache.GetCacheFileReader(file.GetHash())
 	if err != nil {
 		err, reader = data_manager_api.GetFileBody(file.GetId())
 		if err == nil {
-			out := utils.CreateFile(cachedFilePath)
-			_, err = io.Copy(out, reader)
+			out, err := local_cache.NewCacheFileWriter(file.GetHash())
+			if err == nil {
+				_, err = io.Copy(out, reader)
+			}
 		}
-		reader, err = local_cache.GetCacheFileReader(cachedFilePath)
+		reader, err = local_cache.GetCacheFileReader(file.GetHash())
 	}
 	if err == nil {
 		out := utils.CreateFile(localPath)

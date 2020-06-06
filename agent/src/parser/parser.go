@@ -14,6 +14,7 @@ type Config struct {
 	AgentDirectory         string
 	LocalCacheDirectory    string
 	AgentLogFile           string
+	MaxCacheSize           uint64
 	HealthFile             string
 	Token                  string
 }
@@ -61,6 +62,7 @@ func InitializeAgentConfigFromOptions(options *CmdOptions) {
 		"LogsDirectory":          "/var/tmp/agent-logs",
 		"RunDirectory":           "/var/run/agent",
 		"TokenPath":              "/var/tmp/token",
+		"MaxCacheSize":           1024 * 1024,
 	})
 	common.DieWithError(err)
 	InitializeAgentConfig(viperObject)
@@ -83,6 +85,7 @@ func InitializeAgentConfig(v *viper.Viper) {
 		HealthFile:             path.Join(runDirectory, "health.info"),
 		Token:                  token,
 		LocalCacheDirectory:    path.Join(v.GetString("AgentDirectory"), "local_cache"),
+		MaxCacheSize:           v.GetUint64("MaxCacheSize"),
 	}
 
 	common.DieWithError(common.CreateDirectory(config.AgentDirectory, false))

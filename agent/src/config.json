@@ -3,5 +3,6 @@
     "AgentDirectory": "/var/tmp/agent",
     "LogsDirectory": "/var/tmp/agent-logs",
     "RunDirectory": "/var/run/agent",
-    "TokenPath": "/var/tmp/sample_token"
+    "TokenPath": "/var/tmp/sample_token",
+    "MaxCacheSize": 20971520
 }
