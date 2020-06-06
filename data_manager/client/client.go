@@ -6,28 +6,30 @@ import (
 	"errors"
 	"io"
 	"io/ioutil"
+	"mime/multipart"
 	"net/http"
-	"path"
+
+	_ "google.golang.org/grpc"
 
 	pb "github.com/dc-lab/sky/api/proto/data_manager"
 )
 
-type File pb.File
-
 type Client struct {
 	masterAddress string
-	userId        string
+	token         string
 }
 
-func MakeClient(masterAddress string, userId string) (*Client, error) {
+type File pb.File
+
+func MakeClient(masterAddress string, token string) (*Client, error) {
 	return &Client{
 		masterAddress: masterAddress,
-		userId:        userId,
+		token:         token,
 	}, nil
 }
 
 func (c *Client) makeRoute(route string) string {
-	return path.Join(c.masterAddress, route)
+	return c.masterAddress + route
 }
 
 func (c *Client) makeRequest(method string, route string, body io.Reader) (*http.Request, error) {
@@ -37,13 +39,14 @@ func (c *Client) makeRequest(method string, route string, body io.Reader) (*http
 		return nil, err
 	}
 
-	req.Header.Add("User-Id", c.userId)
+	req.Header.Add("User-Token", c.token)
 
 	return req, nil
 }
 
 func (c *Client) CreateFile(file *File) (*File, error) {
-	encoded, err := json.Marshal(file)
+	request := &pb.CreateFileRequest{File: (*pb.File)(file)}
+	encoded, err := json.Marshal(request)
 	if err != nil {
 		return nil, err
 	}
@@ -63,9 +66,13 @@ func (c *Client) CreateFile(file *File) (*File, error) {
 		return nil, err
 	}
 
-	resultFile := &File{}
-	err = json.Unmarshal(body, &resultFile)
-	return resultFile, err
+	if !(res.StatusCode >= 200 && res.StatusCode < 400) {
+		return nil, errors.New("File creation failed: " + res.Status + ", message: " + string(body))
+	}
+
+	result := &pb.CreateFileResponse{}
+	err = json.Unmarshal(body, &result)
+	return (*File)(result.File), err
 }
 
 func (c *Client) CreateFileWithContents(file *File, body io.Reader) (*File, error) {
@@ -106,27 +113,45 @@ func (c *Client) UploadFileContents(file *File, body io.Reader) error {
 	return lastError
 }
 
-func (c *Client) tryUploadFileContents(url string, body io.Reader) error {
+func (c *Client) tryUploadFileContents(url string, contents io.Reader) error {
+	body := &bytes.Buffer{}
+	writer := multipart.NewWriter(body)
+	part, _ := writer.CreateFormFile("file", "")
+	_, err := io.Copy(part, contents)
+	if err != nil {
+		return err
+	}
+	err = writer.Close()
+	if err != nil {
+		return err
+	}
+
 	req, err := http.NewRequest("POST", url, body)
 	if err != nil {
 		return err
 	}
 
-	req.Header.Add("User-Id", c.userId)
+	req.Header.Add("User-Token", c.token)
+	req.Header.Add("Content-Type", writer.FormDataContentType())
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return err
 	}
 
+	resp, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return err
+	}
+
 	if !(res.StatusCode >= 200 && res.StatusCode < 400) {
-		return errors.New("File upload failed: " + res.Status)
+		return errors.New("File upload failed: " + res.Status + res.Status + ", message: " + string(resp))
 	}
 
 	return nil
 }
 
-func (c *Client) GetFile(id string) (*File, error) {
+func (c *Client) GetFile(id string) (*pb.File, error) {
 	req, err := c.makeRequest("GET", "/v1/files/"+id, nil)
 	if err != nil {
 		return nil, err
@@ -142,7 +167,7 @@ func (c *Client) GetFile(id string) (*File, error) {
 		return nil, err
 	}
 
-	resultFile := &File{}
+	resultFile := &pb.File{}
 	err = json.Unmarshal(body, &resultFile)
 	return resultFile, err
 }
@@ -163,7 +188,7 @@ func (c *Client) GetFileContents(id string, writer io.Writer) error {
 		return err
 	}
 
-	var urls []string = nil
+	urls := &pb.GetFileLocationResponse{}
 	err = json.Unmarshal(body, &urls)
 	if err != nil {
 		return err
@@ -172,7 +197,7 @@ func (c *Client) GetFileContents(id string, writer io.Writer) error {
 	var lastError error = nil
 	counter := &coutingReadWriter{0}
 	w := io.MultiWriter(writer, counter)
-	for _, url := range urls {
+	for _, url := range urls.DownloadUrls {
 		lastError = c.tryDownloadFileContents(url, w)
 		if lastError != nil || counter.Count != 0 {
 			return lastError
@@ -188,7 +213,7 @@ func (c *Client) tryDownloadFileContents(url string, writer io.Writer) error {
 		return err
 	}
 
-	req.Header.Add("User-Id", c.userId)
+	req.Header.Add("User-Token", c.token)
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
