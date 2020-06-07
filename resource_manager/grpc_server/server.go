@@ -42,7 +42,7 @@ func HandleGreetings(greetings *pb.TGreetings) (*pb.TToAgentMessage, string) {
 			log.Printf("Error while authorizing resource: %s\n", err)
 		}
 	} else {
-		connectedAgents.AddAgent(resourceId)
+		db.ConnectedAgents.AddAgent(resourceId)
 		resultCode = common.TResult_SUCCESS
 		log.Printf("Agent for resource %s logged successfuly\n", resourceId)
 	}
@@ -60,7 +60,7 @@ func HandleHardware(resourceId string, hardware *pb.THardwareResponse) {
 	}
 	free := hardware.GetFreeHardwareData()
 	total := hardware.GetTotalHardwareData()
-	if err := connectedAgents.AddHardwareData(resourceId, total, free); err != nil {
+	if err := db.ConnectedAgents.AddHardwareData(resourceId, total, free); err != nil {
 		log.Printf("Error while handling hardware request: %s\n", err)
 	}
 }
@@ -96,14 +96,14 @@ func Healthcheck(resourceId string) {
 	for {
 		select {
 		case t := <-ticker.C:
-			lastUpdate := connectedAgents.GetLastUpdate(resourceId)
+			lastUpdate := db.ConnectedAgents.GetLastUpdate(resourceId)
 			if lastUpdate == nil {
 				log.Printf("Stop checking %s\n", resourceId)
 				return
 			}
 			if time.Since(*lastUpdate).Seconds() > 10 {
 				log.Printf("Last update from %s was more than 10 seconds ago, so closing connection", resourceId)
-				connectedAgents.RemoveAgent(resourceId)
+				db.ConnectedAgents.RemoveAgent(resourceId)
 				return
 			}
 			log.Printf("ResourceId: %s, tick at %s", resourceId, t)
@@ -161,7 +161,7 @@ func (s *Server) Send(srv pb.ResourceManager_SendServer) error {
 		}
 
 		if resourceId != "" {
-			message := connectedAgents.GetMessage(resourceId)
+			message := db.ConnectedAgents.GetMessage(resourceId)
 			if message != nil {
 				if err := srv.Send(message); err != nil {
 					log.Printf("Error while sending message to agent: %v\n", err)
@@ -216,7 +216,7 @@ func (s *Server) Update(ctx context.Context, request *pb.TResourceRequest) (*pb.
 func (s *Server) AgentAction(ctx context.Context, request *pb.TRMRequest) (*pb.TRMResponse, error) {
 	resourceId := request.GetResourceId()
 	body := request.GetRealMessage()
-	err := connectedAgents.AddMessage(resourceId, body)
+	err := db.ConnectedAgents.AddMessage(resourceId, body)
 	if err != nil {
 		log.Printf("Error during adding message to resoure %s: %v\n", resourceId, err)
 		return &pb.TRMResponse{ResultCode: pb.TRMResponse_NOT_FOUND}, err

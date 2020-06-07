@@ -1,4 +1,4 @@
-package grpc_server
+package db
 
 import (
 	"github.com/dc-lab/sky/api/proto/common"
@@ -82,6 +82,17 @@ func (am *AgentMap) GetLastUpdate(resourceId string) *time.Time {
 	return nil
 }
 
+func (am *AgentMap) GetResourceStatus(resourceId string) string {
+	am.mu.Lock()
+	defer am.mu.Unlock()
+	if connection, ok := am.agents[resourceId]; ok {
+		if time.Since(connection.LastUpdate).Seconds() < 10 {
+			return "online"
+		}
+	}
+	return "offline"
+}
+
 func (am *AgentMap) AddHardwareData(resourceId string, total, free *common.THardwareData) error {
 	am.mu.Lock()
 	defer am.mu.Unlock()
@@ -99,4 +110,4 @@ func (am *AgentMap) AddHardwareData(resourceId string, total, free *common.THard
 	return &app.ResourceNotFound{}
 }
 
-var connectedAgents = NewAgentMap()
+var ConnectedAgents = NewAgentMap()

@@ -215,6 +215,7 @@ func GetResource(userId, resourceId string) (string, *Resource) {
 		return "Internal error", nil
 	}
 	rows.Close()
+	resource.State = State{Status: ConnectedAgents.GetResourceStatus(resourceId)}
 
 	rows, err = conn.Query(context.Background(), "SELECT user_id FROM ur_permissions WHERE resource_id = $1", resourceId)
 	if err != nil {
@@ -288,6 +289,7 @@ func GetUserResources(userId string) (string, []Resource) {
 			log.Println(err)
 			return "Internal error", nil
 		}
+		resource.State = State{Status: ConnectedAgents.GetResourceStatus(resource.Id)}
 		resources = append(resources, resource)
 	}
 	return "", resources
