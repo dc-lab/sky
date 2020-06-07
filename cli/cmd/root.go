@@ -33,9 +33,6 @@ func init() {
 	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.sky_cli.yaml)")
 	RootCmd.PersistentFlags().StringP("token", "t", "", "user token")
 	RootCmd.PersistentFlags().StringP("url", "u", "http://localhost:4000", "sky url")
-
-	//RootCmd.PersistentFlags().StringP("user_id", "u", "123", "id of user")
-	//RootCmd.PersistentFlags().String("url", "http://localhost:8090", "sky url")
 }
 
 // initConfig reads in config file and ENV variables if set.
