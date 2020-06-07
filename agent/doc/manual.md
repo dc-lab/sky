@@ -62,7 +62,7 @@ Path to the configuration file must be specified via a command line option `-c (
 ### Running Agent
 
 To start the agent run the following command in agent sources directory:
-`go run`
+`go run main.go`
 
 The following optional command-line parameters are supported:
 
