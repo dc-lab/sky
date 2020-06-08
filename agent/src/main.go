@@ -16,6 +16,8 @@ func initLogs(logFilePath string) *os.File {
 }
 
 func main() {
+	options := parser.ParseArguments()
+	parser.InitializeAgentConfigFromOptions(&options)
 	logFile := initLogs(parser.AgentConfig.AgentLogFile)
 	defer logFile.Close()
 	network.RunClient()
