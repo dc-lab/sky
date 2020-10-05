@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+// build *.pb.go from project root
+// protoc -I. --go_out=plugins=grpc,paths=source_relative:. api/proto/user_manager/*.proto
+
+package pb;
+
+option go_package = "github.com/dc-lab/sky/api/proto";
+
+service UserManager {
+    rpc GetUserGroups (TUser) returns (stream TGroup) {}
+}
+
+message TUser {
+    string id = 1; // required
+}
+
+message TGroup {
+    string id = 1; // required
+    string name = 2; // required
+    repeated string users = 3; // required
+}

@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+// build *.pb.go from project root
+// protoc -I. --go_out=plugins=grpc,paths=source_relative:. api/proto/data_manager/*.proto
+
+package pb;
+
+import "api/proto/action.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/dc-lab/sky/api/proto";
+
+service JobManager {
+    rpc StartJob (StartJobRequest) returns (StartJobResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/jobs"
+            body: "*"
+        };
+    }
+
+    rpc GetJob (GetJobRequest) returns (GetJobResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/jobs/{id}"
+        };
+    }
+}
+
+message StartJobRequest {
+    string name = 1;
+    repeated TaskSpec tasks = 2;
+}
+
+message TaskSpec {
+    string name = 1;
+    repeated string command = 2; 
+    repeated string files = 3;
+    repeated string dependencies = 4;
+}
+
+message StartJobResponse {
+    string id = 1;
+}
+
+
+message GetJobRequest {
+    string id = 1;
+}
+
+message GetJobResponse {
+    string id = 1;
+    TResult.TResultCode status = 2;
+    repeated TaskStatus tasks = 3;
+}
+
+message TaskStatus {
+    string id = 1;
+    TaskSpec spec = 2;
+    TResult.TResultCode status = 3;
+    repeated string pending_dependencies = 4;
+    google.protobuf.Timestamp start_time = 5; // optional
+    google.protobuf.Timestamp finish_time = 6; // optional
+}

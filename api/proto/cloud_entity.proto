@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+// build *.pb.go from project root
+// protoc -I. --go_out=plugins=grpc,paths=source_relative:. api/proto/cloud_manager/*.proto
+
+package pb;
+
+option go_package = "github.com/dc-lab/sky/api/proto";
+
+message TTransaction {
+    string transaction_id = 1;
+}
+
+enum ETransactionStatus {
+    UNKNOWN = 0;
+    ACTIVE = 1;
+    COMPLETED = 2;
+    EXPIRED = 3;
+    CANCELLED = 4;
+}
+
+message TDockerImage {
+    string registry = 1;
+    string repository = 2;
+    string image = 3;
+    string tag = 4;
+}

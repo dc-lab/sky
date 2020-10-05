@@ -2,7 +2,8 @@ version: "3"
 services:
   reverse_proxy:
     build:
-      context: ./reverse_proxy
+      args:
+        executable: reverse_proxy
     environment:
       RP_HTTP_ADDRESS: ":8080"
       RP_LOGS_DIR: "/logs"
@@ -22,7 +23,8 @@ services:
 
   user_manager:
     build:
-      context: ./user_manager
+      args:
+        executable: user_manager
     environment:
       UM_HTTP_ADDRESS: ":8081"
       UM_GRPC_ADDRESS: ":8082"
@@ -53,7 +55,8 @@ services:
 
   resource_manager:
     build:
-      context: ./resource_manager
+      args:
+        executable: resource_manager
     environment:
       RM_HTTP_ADDRESS: ":8083"
       RM_GRPC_ADDRESS: ":8084"
@@ -84,8 +87,8 @@ services:
 
   agent:
     build:
-      context: ./agent
-      dockerfile: ./docker/Dockerfile
+      context: ./docker
+      dockerfile: ./agent/Dockerfile
     environment:
         SKY_NO_LOGFILES: 1
         SKY_RM_ADDR: "resource_manager:8084"
