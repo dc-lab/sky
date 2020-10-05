@@ -1,0 +1,1149 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "api/proto/action.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/jobs": {
+      "post": {
+        "operationId": "JobManager_StartJob",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbStartJobResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbStartJobRequest"
+            }
+          }
+        ],
+        "tags": [
+          "JobManager"
+        ]
+      }
+    },
+    "/api/v1/jobs/{id}": {
+      "get": {
+        "operationId": "JobManager_GetJob",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetJobResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "JobManager"
+        ]
+      }
+    },
+    "/api/v1/resources": {
+      "get": {
+        "operationId": "ResourceManager_GetResources",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetResourcesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "requirements.cores_count",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "requirements.memory_bytes",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "requirements.disk_bytes",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "ResourceManager"
+        ]
+      }
+    },
+    "/v1/files": {
+      "post": {
+        "operationId": "DataManager_CreateFile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbCreateFileResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbCreateFileRequest"
+            }
+          }
+        ],
+        "tags": [
+          "DataManager"
+        ]
+      }
+    },
+    "/v1/files/results/{task_id}/{path}": {
+      "get": {
+        "operationId": "DataManager_GetTaskResults",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetTaskResultsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "DataManager"
+        ]
+      }
+    },
+    "/v1/files/{id}": {
+      "get": {
+        "operationId": "DataManager_GetFileInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetFileInfoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "DataManager"
+        ]
+      }
+    },
+    "/v1/files/{id}/location": {
+      "get": {
+        "operationId": "DataManager_GetFileLocation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetFileLocationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "DataManager"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "ResultErrorCode": {
+      "type": "string",
+      "enum": [
+        "ERROR_UNKNOWN",
+        "INTERNAL",
+        "INVALID_ARGUMENT",
+        "UNAUTHENTICATED",
+        "UNAUTHORIZED",
+        "NOT_IMPLEMENTED"
+      ],
+      "default": "ERROR_UNKNOWN"
+    },
+    "pbAllocateInstanceRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "factory_id": {
+          "type": "string"
+        },
+        "hardware_data": {
+          "$ref": "#/definitions/pbHardwareData"
+        }
+      }
+    },
+    "pbAllocateInstanceResponseContent": {
+      "type": "object",
+      "properties": {
+        "instance_id": {
+          "type": "string"
+        }
+      }
+    },
+    "pbAsyncCloudResponse": {
+      "type": "object",
+      "properties": {
+        "transaction": {
+          "$ref": "#/definitions/pbTransaction"
+        },
+        "async_response_content": {
+          "$ref": "#/definitions/pbAsyncResponseContent"
+        }
+      }
+    },
+    "pbAsyncResponseContent": {
+      "type": "object",
+      "properties": {
+        "allocate_instance_response_content": {
+          "$ref": "#/definitions/pbAllocateInstanceResponseContent"
+        },
+        "deallocate_instance_response_content": {
+          "$ref": "#/definitions/pbDeallocateInstanceResponseContent"
+        },
+        "start_instance_response_content": {
+          "$ref": "#/definitions/pbStartInstanceResponseContent"
+        },
+        "stop_instance_response_content": {
+          "$ref": "#/definitions/pbStopInstanceResponseContent"
+        },
+        "start_task_response_content": {
+          "$ref": "#/definitions/pbStartTaskResponseContent"
+        },
+        "stop_task_response_content": {
+          "$ref": "#/definitions/pbStopTaskResponseContent"
+        },
+        "deploy_image_response_content": {
+          "$ref": "#/definitions/pbDeployImageResponseContent"
+        }
+      }
+    },
+    "pbCancelTaskRequest": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string"
+        }
+      }
+    },
+    "pbCreateFileRequest": {
+      "type": "object",
+      "properties": {
+        "file": {
+          "$ref": "#/definitions/pbFile"
+        }
+      }
+    },
+    "pbCreateFileResponse": {
+      "type": "object",
+      "properties": {
+        "file": {
+          "$ref": "#/definitions/pbFile"
+        }
+      }
+    },
+    "pbCreateResourceRequest": {
+      "type": "object",
+      "properties": {
+        "resource": {
+          "$ref": "#/definitions/pbResource"
+        }
+      }
+    },
+    "pbCreateResourceResponse": {
+      "type": "object"
+    },
+    "pbDeallocateInstanceRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "instance_id": {
+          "type": "string"
+        }
+      }
+    },
+    "pbDeallocateInstanceResponseContent": {
+      "type": "object"
+    },
+    "pbDeleteResourceRequest": {
+      "type": "object",
+      "properties": {
+        "resource_id": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        }
+      }
+    },
+    "pbDeleteResourceResponse": {
+      "type": "object"
+    },
+    "pbDeleteTaskRequest": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string"
+        }
+      }
+    },
+    "pbDeployImageRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "instance_id": {
+          "type": "string"
+        },
+        "docker_image": {
+          "$ref": "#/definitions/pbDockerImage"
+        }
+      }
+    },
+    "pbDeployImageResponseContent": {
+      "type": "object"
+    },
+    "pbDockerImage": {
+      "type": "object",
+      "properties": {
+        "registry": {
+          "type": "string"
+        },
+        "repository": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "string"
+        }
+      }
+    },
+    "pbEResourceType": {
+      "type": "string",
+      "enum": [
+        "RESOURCE_UNKNOWN",
+        "SINGLE",
+        "POOL",
+        "CLOUD_INSTANCE",
+        "CLOUD_TASK"
+      ],
+      "default": "RESOURCE_UNKNOWN"
+    },
+    "pbFile": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Output only.",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "task_id": {
+          "type": "string"
+        },
+        "is_executable": {
+          "type": "boolean"
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "upload_urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "pbFileOnAgent": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "agent_relative_local_path": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string"
+        }
+      }
+    },
+    "pbGetFileHashResponse": {
+      "type": "object",
+      "properties": {
+        "allow": {
+          "type": "boolean"
+        },
+        "hash": {
+          "type": "string"
+        }
+      }
+    },
+    "pbGetFileInfoResponse": {
+      "type": "object",
+      "properties": {
+        "file": {
+          "$ref": "#/definitions/pbFile"
+        }
+      }
+    },
+    "pbGetFileLocationResponse": {
+      "type": "object",
+      "properties": {
+        "download_urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "pbGetJobResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/pbJobStatus"
+        },
+        "tasks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbTaskStatus"
+          }
+        }
+      }
+    },
+    "pbGetResourcesResponse": {
+      "type": "object",
+      "properties": {
+        "resources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbResource"
+          }
+        }
+      }
+    },
+    "pbGetTaskResultsResponse": {
+      "type": "object",
+      "properties": {
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbFile"
+          }
+        }
+      }
+    },
+    "pbGreetings": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "pbGreetingsValidation": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/pbResult"
+        }
+      }
+    },
+    "pbGroup": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "pbHardwareData": {
+      "type": "object",
+      "properties": {
+        "cores_count": {
+          "type": "number",
+          "format": "double"
+        },
+        "memory_bytes": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "disk_bytes": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "pbHardwareRequest": {
+      "type": "object"
+    },
+    "pbHardwareResponse": {
+      "type": "object",
+      "properties": {
+        "total_hardware_data": {
+          "$ref": "#/definitions/pbHardwareData"
+        },
+        "free_hardware_data": {
+          "$ref": "#/definitions/pbHardwareData"
+        }
+      }
+    },
+    "pbJobStatus": {
+      "type": "string",
+      "enum": [
+        "JOB_UNSPECIFIED",
+        "JOB_CREATED",
+        "JOB_WAITING",
+        "JOB_SCHEDULED",
+        "JOB_EXECUTING",
+        "JOB_FINISHED",
+        "JOB_FAILED",
+        "JOB_CANCELLED"
+      ],
+      "default": "JOB_UNSPECIFIED"
+    },
+    "pbNodeTarget": {
+      "type": "object",
+      "properties": {
+        "blob_hashes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "pbPermissions": {
+      "type": "object",
+      "properties": {
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "pbPingTransactionResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/pbTransactionStatus"
+        }
+      }
+    },
+    "pbRMResponse": {
+      "type": "object",
+      "properties": {
+        "result_code": {
+          "$ref": "#/definitions/pbRMResponseResultCode"
+        }
+      },
+      "title": "FIXME(BigRedEye) WTF?"
+    },
+    "pbRMResponseResultCode": {
+      "type": "string",
+      "enum": [
+        "NONE",
+        "OK",
+        "NOT_FOUND"
+      ],
+      "default": "NONE"
+    },
+    "pbResolveBlobReplicasResponse": {
+      "type": "object",
+      "properties": {
+        "locations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "pbResource": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/pbEResourceType"
+        },
+        "ownerId": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        },
+        "permissions": {
+          "$ref": "#/definitions/pbPermissions"
+        },
+        "name": {
+          "type": "string"
+        },
+        "total_resources": {
+          "$ref": "#/definitions/pbHardwareData"
+        },
+        "available_resources": {
+          "$ref": "#/definitions/pbHardwareData"
+        }
+      }
+    },
+    "pbResourceResponse": {
+      "type": "object",
+      "properties": {
+        "create_resource_response": {
+          "$ref": "#/definitions/pbCreateResourceResponse"
+        },
+        "delete_resource_response": {
+          "$ref": "#/definitions/pbDeleteResourceResponse"
+        }
+      },
+      "description": "FIXME(BigRedEye) ........."
+    },
+    "pbResult": {
+      "type": "object",
+      "properties": {
+        "result_code": {
+          "$ref": "#/definitions/pbResultResultCode"
+        },
+        "error_code": {
+          "$ref": "#/definitions/ResultErrorCode"
+        },
+        "error_text": {
+          "type": "string"
+        }
+      },
+      "title": "FIXME: WTF?"
+    },
+    "pbResultResultCode": {
+      "type": "string",
+      "enum": [
+        "NONE",
+        "WAIT",
+        "RUN",
+        "FAILED",
+        "CANCELED",
+        "DELETED",
+        "SUCCESS"
+      ],
+      "default": "NONE"
+    },
+    "pbStageInRequest": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbFileOnAgent"
+          }
+        }
+      }
+    },
+    "pbStageInResponse": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string"
+        },
+        "result": {
+          "$ref": "#/definitions/pbResult"
+        }
+      }
+    },
+    "pbStageOutRequest": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string"
+        },
+        "agent_relative_local_path": {
+          "type": "string"
+        }
+      }
+    },
+    "pbStageOutResponse": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string"
+        },
+        "task_file": {
+          "$ref": "#/definitions/pbFileOnAgent"
+        }
+      }
+    },
+    "pbStartInstanceRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "instance_id": {
+          "type": "string"
+        }
+      },
+      "title": "make API call to start allocated instance associated with user account"
+    },
+    "pbStartInstanceResponseContent": {
+      "type": "object"
+    },
+    "pbStartJobRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "tasks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbTaskSpec"
+          }
+        }
+      }
+    },
+    "pbStartJobResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "pbStartTaskRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "factory_id": {
+          "type": "string"
+        },
+        "hardware_data": {
+          "$ref": "#/definitions/pbHardwareData"
+        }
+      },
+      "title": "make API call to start task definition associated with user account"
+    },
+    "pbStartTaskResponseContent": {
+      "type": "object",
+      "properties": {
+        "instance_id": {
+          "type": "string"
+        }
+      }
+    },
+    "pbStopInstanceRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "instance_id": {
+          "type": "string"
+        }
+      }
+    },
+    "pbStopInstanceResponseContent": {
+      "type": "object"
+    },
+    "pbStopTaskRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "instance_id": {
+          "type": "string"
+        }
+      }
+    },
+    "pbStopTaskResponseContent": {
+      "type": "object"
+    },
+    "pbSubmitFileHashResponse": {
+      "type": "object",
+      "properties": {
+        "allow": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pbTask": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "execution_shell_command": {
+          "type": "string"
+        },
+        "requirements_shell_command": {
+          "type": "string"
+        },
+        "docker_image": {
+          "type": "string"
+        }
+      }
+    },
+    "pbTaskFile": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "size": {
+          "type": "string",
+          "format": "int64"
+        },
+        "hash": {
+          "type": "string"
+        },
+        "creation_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "modification_time": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbTaskRequest": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "$ref": "#/definitions/pbTask"
+        }
+      }
+    },
+    "pbTaskResponse": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string"
+        },
+        "result": {
+          "$ref": "#/definitions/pbResult"
+        },
+        "task_files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbTaskFile"
+          }
+        }
+      }
+    },
+    "pbTaskSpec": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "command": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "pbTaskStatus": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "spec": {
+          "$ref": "#/definitions/pbTaskSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/pbJobStatus"
+        },
+        "pending_dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "start_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "finish_time": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbToAgentMessage": {
+      "type": "object",
+      "properties": {
+        "hardware_request": {
+          "$ref": "#/definitions/pbHardwareRequest"
+        },
+        "task_request": {
+          "$ref": "#/definitions/pbTaskRequest"
+        },
+        "stage_in_request": {
+          "$ref": "#/definitions/pbStageInRequest"
+        },
+        "stage_out_request": {
+          "$ref": "#/definitions/pbStageOutRequest"
+        },
+        "cancel_task_request": {
+          "$ref": "#/definitions/pbCancelTaskRequest"
+        },
+        "delete_task_request": {
+          "$ref": "#/definitions/pbDeleteTaskRequest"
+        },
+        "greetings_validation": {
+          "$ref": "#/definitions/pbGreetingsValidation"
+        }
+      },
+      "description": "FIXME(BigRedEye) ..."
+    },
+    "pbTransaction": {
+      "type": "object",
+      "properties": {
+        "transaction_id": {
+          "type": "string"
+        }
+      }
+    },
+    "pbTransactionStatus": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "ACTIVE",
+        "COMPLETED",
+        "EXPIRED",
+        "CANCELLED"
+      ],
+      "default": "UNKNOWN"
+    },
+    "pbUpdateTaskResultsResponse": {
+      "type": "object"
+    },
+    "pbValidateUploadResponse": {
+      "type": "object",
+      "properties": {
+        "allow": {
+          "type": "boolean"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "runtimeStreamError": {
+      "type": "object",
+      "properties": {
+        "grpc_code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "http_code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "http_status": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

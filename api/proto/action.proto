@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+// build *.pb.go from project root
+// protoc -I. --go_out=plugins=grpc,paths=source_relative:. api/proto/common/*.proto
+
+package pb;
+
+option go_package = "github.com/dc-lab/sky/api/proto";
+
+// FIXME: WTF?
+message Result {
+    enum ResultCode {
+        NONE = 0;
+        WAIT = 1;
+        RUN = 2;
+        FAILED = 3;
+        CANCELED = 4;
+        DELETED = 5;
+        SUCCESS = 6;
+    }
+
+    enum ErrorCode {
+        ERROR_UNKNOWN = 0;
+        INTERNAL = 1;
+        INVALID_ARGUMENT = 2;
+        UNAUTHENTICATED = 3;
+        UNAUTHORIZED = 4;
+        NOT_IMPLEMENTED = 5;
+    }
+
+    ResultCode result_code = 1; // required
+    ErrorCode error_code = 2; // optional
+    string error_text = 3; // optional
+}

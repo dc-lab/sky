@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+// build *.pb.go from project root
+// protoc -I. --go_out=plugins=grpc,paths=source_relative:. api/proto/data_manager/*.proto
+
+package pb;
+
+import "google/api/annotations.proto";
+import "api/proto/task_results.proto";
+
+option go_package = "github.com/dc-lab/sky/api/proto";
+
+service DataManager {
+    rpc CreateFile (CreateFileRequest) returns (CreateFileResponse) {
+        option (google.api.http) = {
+            post: "/v1/files"
+            body: "*"
+        };
+    }
+
+    rpc GetFileInfo (GetFileInfoRequest) returns (GetFileInfoResponse) {
+        option (google.api.http) = {
+            get: "/v1/files/{id}"
+        };
+    }
+
+    rpc GetFileLocation (GetFileLocationRequest) returns (GetFileLocationResponse) {
+        option (google.api.http) = {
+            get: "/v1/files/{id}/location"
+        };
+    }
+
+    rpc GetTaskResults (GetTaskResultsRequest) returns (GetTaskResultsResponse) {
+        option (google.api.http) = {
+            get: "/v1/files/results/{task_id}/{path=**}"
+        };
+    }
+
+    rpc UpdateTaskResults (UpdateTaskResultsRequest) returns (UpdateTaskResultsResponse) {
+    }
+}
+
+message CreateFileRequest {
+    File file = 1;
+}
+
+message CreateFileResponse {
+    File file = 1;
+}
+
+message GetFileInfoRequest {
+    string id = 1;
+}
+
+message GetFileInfoResponse {
+    File file = 1;
+}
+
+message GetFileLocationRequest {
+    string id = 1;
+}
+
+message GetFileLocationResponse {
+    repeated string download_urls = 1;
+}
+
+message GetTaskResultsRequest {
+    string task_id = 1;
+    string path = 2;
+}
+
+message GetTaskResultsResponse {
+    repeated File files = 1;
+}
+
+message File {
+    // Output only.
+    string id = 1;
+    string name = 2;
+    string task_id = 3;
+    bool is_executable = 4;
+    map<string, string> tags = 5;
+
+    repeated string upload_urls = 6; // Returned only once in CreateFileRequest
+}
+
+message UpdateTaskResultsRequest {
+    repeated TaskFile files = 1;
+    string agent_id = 2;
+    string task_id = 3;
+}
+
+message UpdateTaskResultsResponse {
+}

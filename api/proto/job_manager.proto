@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+// build *.pb.go from project root
+// protoc -I. --go_out=plugins=grpc,paths=source_relative:. api/proto/data_manager/*.proto
+
+package pb;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/dc-lab/sky/api/proto";
+
+service JobManager {
+    rpc StartJob (StartJobRequest) returns (StartJobResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/jobs"
+            body: "*"
+        };
+    }
+
+    rpc GetJob (GetJobRequest) returns (GetJobResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/jobs/{id}"
+        };
+    }
+}
+
+enum JobStatus {
+    JOB_UNSPECIFIED = 0;
+    JOB_CREATED = 1;
+    JOB_WAITING = 2;
+    JOB_SCHEDULED = 3;
+    JOB_EXECUTING = 4;
+    JOB_FINISHED = 5;
+    JOB_FAILED = 6;
+    JOB_CANCELLED = 7;
+}
+
+message StartJobRequest {
+    string name = 1;
+    repeated TaskSpec tasks = 2;
+}
+
+message TaskSpec {
+    string name = 1;
+    repeated string command = 2; 
+    repeated string files = 3;
+    repeated string dependencies = 4;
+}
+
+message StartJobResponse {
+    string id = 1;
+}
+
+
+message GetJobRequest {
+    string id = 1;
+}
+
+message GetJobResponse {
+    string id = 1;
+    JobStatus status = 2;
+    repeated TaskStatus tasks = 3;
+}
+
+message TaskStatus {
+    string id = 1;
+    TaskSpec spec = 2;
+    JobStatus status = 3;
+    repeated string pending_dependencies = 4;
+    google.protobuf.Timestamp start_time = 5; // optional
+    google.protobuf.Timestamp finish_time = 6; // optional
+}

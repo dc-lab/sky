@@ -1,0 +1,19 @@
+FROM    golang:1.14.2-alpine3.11 AS builder
+RUN     apk update && apk add ca-certificates git libc-dev
+WORKDIR /usr/src/sky/
+COPY    go.mod .
+COPY    go.sum .
+RUN     go mod download
+COPY    . .
+RUN     go build -o /sky-agent ./cmd/agent
+
+FROM    alpine:3.11 AS production
+RUN     apk update && apk add ca-certificates libc6-compat && rm -rf /var/cache/apk/*
+COPY    docker/agent/etc /etc
+COPY    docker/agent/usr /usr
+COPY    --from=builder /sky-agent /usr/bin/sky-agent
+COPY    --from=ochinchina/supervisord:latest /usr/local/bin/supervisord /usr/bin/supervisord
+CMD     ["/usr/lib/sky/agent/run.sh"]
+
+HEALTHCHECK --interval=10s --timeout=1s --start-period=10s --retries=1 \
+    CMD /usr/lib/sky/agent/check-agent-health.sh || exit 1

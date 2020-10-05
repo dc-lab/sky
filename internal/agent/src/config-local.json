@@ -1,0 +1,7 @@
+{
+    "ResourceManagerAddress": "localhost:18084",
+    "AgentDirectory": "/tmp/agent/",
+    "LogsDirectory": "/tmp/agent/logs",
+    "RunDirectory": "/tmp/agent/run",
+    "TokenPath": "/tmp/agent/token"
+}

@@ -1,0 +1,25 @@
+{
+    "tasks": [
+        {
+            "command": ["echo", "Hello"],
+            "name": "EchoHello",
+            "depenencies": [
+                "EchoKek"
+            ]
+        },
+        {
+            "command": ["echo", "World"],
+            "name": "EchoWorld",
+            "depenencies": [
+                "EchoHello"
+            ]
+        }
+        {
+            "command": ["echo", "Kek"],
+            "name": "EchoKek",
+            "depenencies": [
+                "EchoWorld"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+// build *.pb.go from project root
+// protoc -I. --go_out=plugins=grpc,paths=source_relative:. api/proto/cloud_manager/*.proto
+
+package pb;
+
+import "api/proto/cloud_entity.proto";
+import "api/proto/hardware_data.proto";
+
+option go_package = "github.com/dc-lab/sky/api/proto";
+
+service CloudManager {
+    rpc DoAsync (AsyncCloudRequest) returns (AsyncCloudResponse) {}
+
+    rpc PingTransaction (PingTransactionRequest) returns (PingTransactionResponse) {}
+}
+
+// TODO: describe possible errors
+message AsyncCloudRequest {
+    oneof Body {
+        AllocateInstanceRequest allocate_instance_request = 1;
+        DeallocateInstanceRequest deallocate_instance_request = 2;
+        StartInstanceRequest start_instance_request = 3;
+        StopInstanceRequest stop_instance_request = 4;
+        StartTaskRequest start_task_request = 5;
+        StopTaskRequest stop_task_request = 6;
+        DeployImageRequest deploy_image_request = 7;
+    }
+}
+
+message AsyncCloudResponse {
+    Transaction transaction = 1;
+    AsyncResponseContent async_response_content = 2;
+}
+
+message AsyncResponseContent {
+    oneof Body {
+        AllocateInstanceResponseContent allocate_instance_response_content = 1;
+        DeallocateInstanceResponseContent deallocate_instance_response_content = 2;
+        StartInstanceResponseContent start_instance_response_content = 3;
+        StopInstanceResponseContent stop_instance_response_content = 4;
+        StartTaskResponseContent start_task_response_content = 5;
+        StopTaskResponseContent stop_task_response_content = 6;
+        DeployImageResponseContent deploy_image_response_content = 7;
+    }
+}
+
+// TODO: describe possible errors
+message PingTransactionRequest {
+    string transaction_id = 1;
+}
+
+message PingTransactionResponse {
+    TransactionStatus status = 1;
+}
+
+message AllocateInstanceRequest {
+    string user_id = 1;
+    string factory_id = 2;
+    HardwareData hardware_data = 3;
+}
+
+message AllocateInstanceResponseContent {
+    string instance_id = 1;
+}
+
+message DeallocateInstanceRequest {
+    string user_id = 1;
+    string instance_id = 2;
+}
+
+message DeallocateInstanceResponseContent {
+}
+
+// make API call to start allocated instance associated with user account
+message StartInstanceRequest {
+    string user_id = 1;
+    string instance_id = 2;
+}
+
+message StartInstanceResponseContent {
+}
+
+message StopInstanceRequest {
+    string user_id = 1;
+    string instance_id = 2;
+}
+
+message StopInstanceResponseContent {
+}
+
+// make API call to start task definition associated with user account
+message StartTaskRequest {
+    string user_id = 1;
+    string factory_id = 2;
+    HardwareData hardware_data = 3;
+}
+
+message StartTaskResponseContent {
+    string instance_id = 1;
+}
+
+message StopTaskRequest {
+    string user_id = 1;
+    string instance_id = 2;
+}
+
+message StopTaskResponseContent {
+}
+
+message DeployImageRequest {
+    string user_id = 1;
+    string instance_id = 2;
+    DockerImage docker_image = 3;
+}
+
+message DeployImageResponseContent {
+}

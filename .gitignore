@@ -1,11 +1,4 @@
 .idea
-/cli/cli
-/data_manager/data_manager
-/data_manager/node/node
-/data_manager/master/master
-/resource_manager/resource_manager
-/resource_manager_grpc/resource_manager_grpc
-/user_manager/user_manager
-/reverse_proxy/reverse_proxy
 *.log
+/build
 /logs

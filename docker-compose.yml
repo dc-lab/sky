@@ -2,7 +2,9 @@ version: "3"
 services:
   reverse_proxy:
     build:
-      context: ./reverse_proxy
+      context: .
+      args:
+        executable: reverse_proxy
     environment:
       RP_HTTP_ADDRESS: ":8080"
       RP_LOGS_DIR: "/logs"
@@ -22,7 +24,9 @@ services:
 
   user_manager:
     build:
-      context: ./user_manager
+      context: .
+      args:
+        executable: user_manager
     environment:
       UM_HTTP_ADDRESS: ":8081"
       UM_GRPC_ADDRESS: ":8082"
@@ -53,16 +57,15 @@ services:
 
   resource_manager:
     build:
-      context: ./resource_manager
+      context: .
+      args:
+        executable: resource_manager
     environment:
-      RM_HTTP_ADDRESS: ":8083"
-      RM_GRPC_ADDRESS: ":8084"
-      RM_LOGS_DIR: "/logs"
-      RM_DB_USER: "user"
-      RM_DB_PASSWORD: "password"
-      RM_DB_HOST: "db_resource_manager:5432"
-      RM_DB_NAME: "postgres"
-      RM_DB_SSL: "false"
+      RM_HTTP_BIND_ADDRESS: ":8083"
+      RM_GRPC_BIND_ADDRESS: ":8084"
+      RM_DM_ADDRESS: ":8085"
+      RM_POSTGRES_ADDRESS: "host=db_resource_manager port=5432 user=user password=password dbname=postgres sslmode=disable"
+      RM_LOG_FILE: "./logs/rm.log"
     volumes:
       - "./logs:/logs"
     ports:
@@ -78,24 +81,31 @@ services:
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: user
+    ports:
+      - "55432:5432"
     volumes:
       - "data-resource-manager:/var/lib/postgresql/data"
 
 
   agent:
     build:
-      context: ./agent
-      dockerfile: ./docker/Dockerfile
+      context: .
+      dockerfile: ./Dockerfile.agent
     environment:
+        LogsDirectory: "./logs/"
         SKY_NO_LOGFILES: 1
         SKY_RM_ADDR: "resource_manager:8084"
         SKY_RM_TOKEN: "ABCD"
+    volumes:
+      - "./logs:/logs"
     restart: always
 
 
   data_manager_master:
     build:
-      context: ./data_manager/master
+      context: .
+      args:
+        executable: master
     environment:
       DM_MASTER_HTTP_BIND_ADDRESS: ":8085"
       DM_MASTER_GRPC_BIND_ADDRESS: ":8086"
@@ -118,7 +128,9 @@ services:
 
   data_manager_node:
     build:
-      context: ./data_manager/node
+      context: .
+      args:
+        executable: node
     environment:
       DM_NODE_HTTP_BIND_ADDRESS: ":8087"
       DM_NODE_ACCESS_ADDRESS: "localhost:8080"
@@ -132,8 +144,54 @@ services:
     restart: always
 
 
+  job_manager:
+    build:
+      context: .
+      args:
+        executable: job_manager
+    environment:
+      JM_LOG_FILE: "./logs/job_manager.log"
+      JM_GRPC_BIND_ADDRESS: ":8088"
+      JM_POSTGRES_ADDRESS: "host=db_job_manager port=5432 user=user password=password dbname=postgres sslmode=disable"
+    volumes:
+      - "./logs:/logs"
+    ports:
+      - "8088:8088"
+    depends_on:
+      - db_job_manager
+    restart: always
+
+  db_job_manager:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
+    volumes:
+      - "data-job-manager:/var/lib/postgresql/data"
+
+
+  gateway:
+    build:
+      context: .
+      args:
+        executable: gateway
+    environment:
+      GW_LOG_FILE: "./logs/gateway.log"
+      GW_BIND_ADDRESS: ":8089"
+      GW_BIND_ADDRESS: ":8089"
+      GW_JM_ADDRESS: "job_manager:8088"
+      GW_RM_ADDRESS: "data_manager:8086"
+    ports:
+      - "8089:8089"
+    volumes:
+      - "./logs:/logs"
+    restart: always
+
+
 volumes:
   data-users:
   data-resource-manager:
   data-data-manager:
+  data-job-manager:
   storage-data-manager:

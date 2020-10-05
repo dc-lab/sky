@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+// build *.pb.go from project root
+// protoc -I. --go_out=plugins=grpc,paths=source_relative:. api/proto/common/*.proto
+
+package pb;
+
+option go_package = "github.com/dc-lab/sky/api/proto";
+
+message HardwareData {
+  double cores_count = 1; // required
+  uint64 memory_bytes = 2; // required
+  uint64 disk_bytes = 3; // required
+}
