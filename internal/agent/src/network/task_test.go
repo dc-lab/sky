@@ -35,10 +35,10 @@ func TestGetTaskExecutionDir(t *testing.T) {
 	assert.Equal(t, existFlag, true)
 }
 
-func GetLocalTaskProto(taskId string) *rm.TTask {
+func GetLocalTaskProto(taskId string) *rm.Task {
 	requirementsCommand := "apt-get install python"
 	executionShellCommand := "python -c 'print(5)'"
-	taskProto := rm.TTask{
+	taskProto := rm.Task{
 		Id:                       taskId,
 		RequirementsShellCommand: requirementsCommand,
 		ExecutionShellCommand:    executionShellCommand,
@@ -46,7 +46,7 @@ func GetLocalTaskProto(taskId string) *rm.TTask {
 	return &taskProto
 }
 
-func GetDockerTask(taskId string) *rm.TTask {
+func GetDockerTask(taskId string) *rm.Task {
 	taskProto := GetLocalTaskProto(taskId)
 	taskProto.DockerImage = "image"
 	return taskProto
@@ -79,7 +79,7 @@ func TestTask_InstallRequirements(t *testing.T) {
 	assert.NotNil(t, config)
 
 	taskId := uuid.Generate().String()
-	result := pb.TResult{ResultCode: pb.TResult_WAIT}
+	result := pb.Result{ResultCode: pb.Result_WAIT}
 	task := Task{Result: &result}
 	taskProto := GetLocalTaskProto(taskId)
 	task.Init(taskProto, config)

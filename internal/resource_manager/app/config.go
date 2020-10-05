@@ -1,58 +1,55 @@
 package app
 
 import (
-	"flag"
+	log "github.com/sirupsen/logrus"
+
+	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )
 
 type config struct {
-	HTTPAddress   string `mapstructure:"http_address"`
-	GRPCAddress   string `mapstructure:"grpc_address"`
-	DMAddress     string `mapstructure:"dm_address"`
-	LogsDir       string `mapstructure:"logs_dir"`
-	DBUser        string `mapstructure:"db_user"`
-	DBPasswordEnv string
-	DBHost        string `mapstructure:"db_host"`
-	DBName        string `mapstructure:"db_name"`
-	DBSsl         bool   `mapstructure:"db_ssl"`
+	HttpBindAddress string `mapstructure:"http_bind_address"`
+	GrpcBindAddress string `mapstructure:"grpc_bind_address"`
+	LogFile         string `mapstructure:"log_file"`
+	PostgresAddress string `mapstructure:"postgres_address"`
+
+	DataManagerAddress string `mapstructure:"dm_address"`
 }
 
-var Config = config{
-	HTTPAddress:   ":8090",
-	GRPCAddress:   ":5051",
-	LogsDir:       ".",
-	DBUser:        "oleg",
-	DBPasswordEnv: "RM_DB_PASSWORD",
-	DBHost:        "rc1b-6marivlovkr6pccx.mdb.yandexcloud.net:6432",
-	DBName:        "sky_postgre",
-	DBSsl:         true,
-}
+var Config = config{}
 
-func ParseConfig() {
-	var configPath string
-	flag.StringVar(&configPath, "config", "config.yaml", "Path to resource manager configuration")
-	flag.Parse()
-
-	viper.SetConfigFile(configPath)
-
-	// See https://github.com/spf13/viper/issues/188
-	viper.AutomaticEnv()
+func LoadConfig() error {
+	viper.SetConfigName("mm")
 	viper.SetEnvPrefix("RM")
-	viper.BindEnv("HTTP_ADDRESS")
-	viper.BindEnv("GRPC_ADDRESS")
-	viper.BindEnv("DM_ADDRESS")
-	viper.BindEnv("LOGS_DIR")
-	viper.BindEnv("DB_USER")
-	viper.BindEnv("DB_HOST")
-	viper.BindEnv("DB_NAME")
-	viper.BindEnv("DB_SSL")
+	viper.AddConfigPath(".")
+	viper.AutomaticEnv()
 
-	err := viper.ReadInConfig()
-	if err != nil {
-		panic(err)
+	pflag.String("log_file", "", "Log file path")
+	pflag.String("http_bind_address", "", "Http bind address")
+	pflag.String("grpc_bind_address", "", "Grpc bind address")
+	pflag.String("dm_address", "", "Data manager address")
+	pflag.String("postgres_address", "", "Database address")
+	pflag.Parse()
+	viper.BindPFlags(pflag.CommandLine)
+
+	if err := viper.ReadInConfig(); err != nil {
+		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+			log.Warn("Config file not found")
+		} else {
+			return err
+		}
 	}
-	err = viper.Unmarshal(&Config)
-	if err != nil {
-		panic(err)
+
+	// Viper does not fill env from AutomaticEnv() in Unmarshal()
+	// See https://github.com/spf13/viper/issues/188
+	for _, key := range viper.AllKeys() {
+		val := viper.Get(key)
+		viper.Set(key, val)
 	}
+
+	if err := viper.Unmarshal(&Config); err != nil {
+		return err
+	}
+
+	return nil
 }

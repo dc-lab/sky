@@ -28,11 +28,12 @@ service JobManager {
 enum JobStatus {
     JOB_UNSPECIFIED = 0;
     JOB_CREATED = 1;
-    JOB_SCHEDULED = 2;
-    JOB_EXECUTING = 3;
-    JOB_FINISHED = 4;
-    JOB_FAILED = 5;
-    JOB_CANCELLED = 6;
+    JOB_WAITING = 2;
+    JOB_SCHEDULED = 3;
+    JOB_EXECUTING = 4;
+    JOB_FINISHED = 5;
+    JOB_FAILED = 6;
+    JOB_CANCELLED = 7;
 }
 
 message StartJobRequest {

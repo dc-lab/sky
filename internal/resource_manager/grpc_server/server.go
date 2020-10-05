@@ -226,5 +226,30 @@ func (s *Server) AgentAction(ctx context.Context, request *pb.RMRequest) (*pb.RM
 }
 
 func (s *Server) GetResources(ctx context.Context, request *pb.GetResourcesRequest) (*pb.GetResourcesResponse, error) {
-	return nil, grpc.Errorf(codes.Unimplemented, "method is not implemented")
+	resources, err := db.GetResources()
+	if err != nil {
+		return nil, grpc.Errorf(codes.Internal, "failed to get resources: %w", err)
+	}
+	if resources == nil {
+		return nil, grpc.Errorf(codes.NotFound, "no resources found")
+	}
+
+	res := &pb.GetResourcesResponse{
+		Resources: make([]*pb.Resource, len(*resources)),
+	}
+
+	for i, r := range *resources {
+		totalHardware, freeHardware := db.ConnectedAgents.GetHardwareData(r.Id)
+
+		res.Resources[i] = &pb.Resource{
+			Id:                 r.Id,
+			OwnerId:            r.Owner,
+			Name:               r.Name,
+			Type:               db.GetPbTypeByString(r.Type),
+			TotalResources:     totalHardware,
+			AvailableResources: freeHardware,
+		}
+	}
+
+	return res, nil
 }

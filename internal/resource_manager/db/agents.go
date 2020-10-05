@@ -109,4 +109,23 @@ func (am *AgentMap) AddHardwareData(resourceId string, total, free *pb.HardwareD
 	return &app.ResourceNotFound{}
 }
 
+func makeProtoHardwareData(data *HardwareData) *pb.HardwareData {
+	return &pb.HardwareData{
+		CoresCount:  data.CoresCount,
+		MemoryBytes: data.MemoryBytes,
+		DiskBytes:   data.DiskBytes,
+	}
+}
+
+func (am *AgentMap) GetHardwareData(resourceId string) (*pb.HardwareData, *pb.HardwareData) {
+	am.mu.Lock()
+	defer am.mu.Unlock()
+
+	if connection, ok := am.agents[resourceId]; ok {
+		return makeProtoHardwareData(&connection.TotalHardware), makeProtoHardwareData(&connection.FreeHardware)
+	}
+
+	return nil, nil
+}
+
 var ConnectedAgents = NewAgentMap()

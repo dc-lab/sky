@@ -79,6 +79,7 @@ func InitializeAgentConfigFromCustomFields(customFields map[string]interface{}) 
 }
 
 func InitializeAgentConfig(v *viper.Viper) (*Config, error) {
+	v.BindEnv("LogsDirectory")
 	token := GetToken(v.GetString("TokenPath"))
 	logsDirectory := v.GetString("LogsDirectory")
 	runDirectory := v.GetString("RunDirectory")

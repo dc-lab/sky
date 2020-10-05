@@ -2,11 +2,12 @@ package db
 
 import (
 	"context"
+	"math/rand"
+
 	pb "github.com/dc-lab/sky/api/proto"
 	"github.com/dc-lab/sky/internal/resource_manager/app"
 	"github.com/google/uuid"
 	log "github.com/sirupsen/logrus"
-	"math/rand"
 )
 
 type Permissions struct {
@@ -40,6 +41,21 @@ func GetStringTypeByEnum(enumType pb.EResourceType) string {
 		return "cloud_task"
 	default:
 		return ""
+	}
+}
+
+func GetPbTypeByString(enumType string) pb.EResourceType {
+	switch enumType {
+	case "single":
+		return pb.EResourceType_SINGLE
+	case "pool":
+		return pb.EResourceType_POOL
+	case "cloud_instance":
+		return pb.EResourceType_CLOUD_INSTANCE
+	case "cloud_task":
+		return pb.EResourceType_CLOUD_TASK
+	default:
+		return pb.EResourceType_RESOURCE_UNKNOWN
 	}
 }
 
@@ -248,6 +264,39 @@ func GetResource(userId, resourceId string) (string, *Resource) {
 	}
 
 	return "", resource
+}
+
+func GetResources() (*[]Resource, error) {
+	conn, err := pool.Acquire(context.Background())
+	if err != nil {
+		log.WithError(err).Error("Internal error")
+		return nil, err
+	}
+	defer conn.Release()
+
+	rows, err := conn.Query(context.Background(), "SELECT id, owner_id, name, type, token FROM resources")
+	if err != nil {
+		log.WithError(err).Error("Internal error")
+		return nil, err
+	}
+
+	res := make([]Resource, 0)
+
+	for rows.Next() {
+		var resource = Resource{}
+		err = rows.Scan(&resource.Id, &resource.Owner, &resource.Name, &resource.Type, &resource.Token)
+		if err != nil {
+			log.WithError(err).Println("Internal error")
+			return nil, err
+		}
+
+		resource.State = State{Status: ConnectedAgents.GetResourceStatus(resource.Id)}
+		res = append(res, resource)
+	}
+
+	rows.Close()
+
+	return &res, nil
 }
 
 func DeleteResource(userId, resourceId string) error {

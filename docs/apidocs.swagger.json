@@ -625,6 +625,7 @@
       "enum": [
         "JOB_UNSPECIFIED",
         "JOB_CREATED",
+        "JOB_WAITING",
         "JOB_SCHEDULED",
         "JOB_EXECUTING",
         "JOB_FINISHED",

@@ -15,8 +15,8 @@ type Config struct {
 }
 
 func LoadConfig() (*Config, error) {
-	viper.SetConfigName("jmm")
-	viper.SetEnvPrefix("JM")
+	viper.SetConfigName("GW")
+	viper.SetEnvPrefix("GW")
 	viper.AddConfigPath(".")
 	viper.AutomaticEnv()
 

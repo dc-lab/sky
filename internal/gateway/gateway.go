@@ -4,12 +4,14 @@ import (
 	"context"
 	"io"
 	"net/http"
+	"time"
 
 	gw "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	gw_runtime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/markbates/pkger"
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/backoff"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -55,7 +57,14 @@ func (a *App) makeGrpcGatewayMux(ctx context.Context) (http.Handler, error) {
 			}
 		}),
 	)
-	opts := []grpc.DialOption{grpc.WithInsecure()}
+	opts := []grpc.DialOption{grpc.WithInsecure(), grpc.WithConnectParams(grpc.ConnectParams{
+		Backoff: backoff.Config{
+			BaseDelay:  time.Millisecond * 100,
+			Multiplier: 1.6,
+			Jitter:     0.2,
+			MaxDelay:   time.Second * 2,
+		},
+	})}
 
 	var err error
 	err = pb.RegisterDataManagerHandlerFromEndpoint(ctx, mux, a.config.DataManagerAddress, opts)
