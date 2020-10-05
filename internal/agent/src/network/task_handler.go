@@ -4,11 +4,10 @@ import (
 	"fmt"
 
 	pb "github.com/dc-lab/sky/api/proto"
-	rm "github.com/dc-lab/sky/api/proto"
 	"github.com/dc-lab/sky/internal/agent/src/parser"
 )
 
-func ConsumeTasksData(client rm.ResourceManager_SendClient, consumer func(rm.ResourceManager_SendClient, string, *pb.TResult)) {
+func ConsumeTasksData(client pb.ResourceManager_SendClient, consumer func(pb.ResourceManager_SendClient, string, *pb.Result)) {
 	GlobalTasksStatuses.Mutex.RLock()
 	defer GlobalTasksStatuses.Mutex.RUnlock()
 	for taskID, processInfo := range GlobalTasksStatuses.Data {
@@ -17,8 +16,8 @@ func ConsumeTasksData(client rm.ResourceManager_SendClient, consumer func(rm.Res
 	}
 }
 
-func StartTask(taskProto *rm.TTask, config *parser.Config) {
-	result := pb.TResult{ResultCode: pb.TResult_WAIT}
+func StartTask(taskProto *pb.Task, config *parser.Config) {
+	result := pb.Result{ResultCode: pb.Result_WAIT}
 	task := Task{Result: &result}
 	task.Init(taskProto, config)
 	GlobalTasksStatuses.Store(task.TaskId, &task)

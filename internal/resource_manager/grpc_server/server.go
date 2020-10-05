@@ -2,14 +2,16 @@ package grpc_server
 
 import (
 	"context"
+	"io"
+	"time"
+
 	dm "github.com/dc-lab/sky/api/proto"
 	pb "github.com/dc-lab/sky/api/proto"
 	"github.com/dc-lab/sky/internal/resource_manager/app"
 	"github.com/dc-lab/sky/internal/resource_manager/db"
-	"google.golang.org/grpc"
-	"io"
 	log "github.com/sirupsen/logrus"
-	"time"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 )
 
 type Server struct {
@@ -27,13 +29,13 @@ func NewServer(dmAddress string) (*Server, error) {
 	return &Server{client}, nil
 }
 
-func HandleGreetings(greetings *pb.TGreetings) (*pb.TToAgentMessage, string) {
+func HandleGreetings(greetings *pb.Greetings) (*pb.ToAgentMessage, string) {
 	log.Println("Got greetings request")
-	var resultCode pb.TResult_TResultCode
+	var resultCode pb.Result_ResultCode
 	token := greetings.GetToken()
 	var resourceId, err = db.GetResourceIdByToken(token)
 	if err != nil {
-		resultCode = pb.TResult_FAILED
+		resultCode = pb.Result_FAILED
 		switch err.(type) {
 		case *app.ResourceNotFound:
 			log.Printf("Can't find resource with token %s\n", token)
@@ -42,16 +44,16 @@ func HandleGreetings(greetings *pb.TGreetings) (*pb.TToAgentMessage, string) {
 		}
 	} else {
 		db.ConnectedAgents.AddAgent(resourceId)
-		resultCode = pb.TResult_SUCCESS
+		resultCode = pb.Result_SUCCESS
 		log.Printf("Agent for resource %s logged successfuly\n", resourceId)
 	}
 
-	result := pb.TResult{ResultCode: resultCode}
-	greetingsValidation := pb.TGreetingsValidation{Result: &result}
-	return &pb.TToAgentMessage{Body: &pb.TToAgentMessage_GreetingsValidation{GreetingsValidation: &greetingsValidation}}, resourceId
+	result := pb.Result{ResultCode: resultCode}
+	greetingsValidation := pb.GreetingsValidation{Result: &result}
+	return &pb.ToAgentMessage{Body: &pb.ToAgentMessage_GreetingsValidation{GreetingsValidation: &greetingsValidation}}, resourceId
 }
 
-func HandleHardware(resourceId string, hardware *pb.THardwareResponse) {
+func HandleHardware(resourceId string, hardware *pb.HardwareResponse) {
 	log.Println("Got hardware request")
 	if resourceId == "" {
 		log.Println("Resource was not registered, so skipping")
@@ -64,7 +66,7 @@ func HandleHardware(resourceId string, hardware *pb.THardwareResponse) {
 	}
 }
 
-func HandleTask(resourceId string, task *pb.TTaskResponse, dmClient dm.DataManagerClient) {
+func HandleTask(resourceId string, task *pb.TaskResponse, dmClient dm.DataManagerClient) {
 	log.Println("Got task request")
 	result := &dm.UpdateTaskResultsRequest{
 		Files:   task.TaskFiles,
@@ -78,13 +80,13 @@ func HandleTask(resourceId string, task *pb.TTaskResponse, dmClient dm.DataManag
 	log.Printf("Got task response: %s, %s, %s", task.GetTaskId(), task.GetResult().GetErrorCode(), task.GetResult().GetResultCode())
 }
 
-func HandleStageIn(resourceId string, stageIn *pb.TStageInResponse) {
+func HandleStageIn(resourceId string, stageIn *pb.StageInResponse) {
 	log.Println("Got stage in")
 	// todo: transfer data
 	log.Printf("Got stage in response: %s, %s, %s", stageIn.GetTaskId(), stageIn.GetResult().GetErrorCode(), stageIn.GetResult().GetResultCode())
 }
 
-func HandleStageOut(resourceId string, stageOut *pb.TStageOutResponse) {
+func HandleStageOut(resourceId string, stageOut *pb.StageOutResponse) {
 	log.Println("Got stage in")
 	// todo: transfer data
 	log.Printf("Got stage in response: %s", stageOut.GetTaskId())
@@ -133,21 +135,21 @@ func (s *Server) Send(srv pb.ResourceManager_SendServer) error {
 			continue
 		}
 
-		var response *pb.TToAgentMessage = nil
+		var response *pb.ToAgentMessage = nil
 
 		switch x := req.Body.(type) {
-		case *pb.TFromAgentMessage_Greetings:
+		case *pb.FromAgentMessage_Greetings:
 			response, resourceId = HandleGreetings(req.GetGreetings())
 			if resourceId != "" {
 				go Healthcheck(resourceId)
 			}
-		case *pb.TFromAgentMessage_HardwareResponse:
+		case *pb.FromAgentMessage_HardwareResponse:
 			HandleHardware(resourceId, req.GetHardwareResponse())
-		case *pb.TFromAgentMessage_TaskResponse:
+		case *pb.FromAgentMessage_TaskResponse:
 			HandleTask(resourceId, req.GetTaskResponse(), s.dmClient)
-		case *pb.TFromAgentMessage_StageInResponse:
+		case *pb.FromAgentMessage_StageInResponse:
 			HandleStageIn(resourceId, req.GetStageInResponse())
-		case *pb.TFromAgentMessage_StageOutResponse:
+		case *pb.FromAgentMessage_StageOutResponse:
 			HandleStageOut(resourceId, req.GetStageOutResponse())
 		default:
 			log.Printf("TFromAgentMessage.Body has unexpected type %T\n", x)
@@ -170,9 +172,9 @@ func (s *Server) Send(srv pb.ResourceManager_SendServer) error {
 	}
 }
 
-func (s *Server) Update(ctx context.Context, request *pb.TResourceRequest) (*pb.TResourceResponse, error) {
+func (s *Server) Update(ctx context.Context, request *pb.ResourceRequest) (*pb.ResourceResponse, error) {
 	switch x := request.Body.(type) {
-	case *pb.TResourceRequest_CreateResourceRequest:
+	case *pb.ResourceRequest_CreateResourceRequest:
 		pbResource := request.GetCreateResourceRequest().GetResource()
 		resourceId := pbResource.Id
 		resource := db.Resource{
@@ -197,28 +199,32 @@ func (s *Server) Update(ctx context.Context, request *pb.TResourceRequest) (*pb.
 			log.Println(err)
 			return nil, err
 		}
-		return &pb.TResourceResponse{Body: &pb.TResourceResponse_CreateResourceResponse{}}, nil
-	case *pb.TResourceRequest_DeleteResourceRequest:
+		return &pb.ResourceResponse{Body: &pb.ResourceResponse_CreateResourceResponse{}}, nil
+	case *pb.ResourceRequest_DeleteResourceRequest:
 		resourceId := request.GetDeleteResourceRequest().ResourceId
 		userId := request.GetDeleteResourceRequest().UserId
 		if err := db.DeleteResource(userId, resourceId); err != nil {
 			log.Println(err)
 			return nil, err
 		}
-		return &pb.TResourceResponse{Body: &pb.TResourceResponse_DeleteResourceResponse{}}, nil
+		return &pb.ResourceResponse{Body: &pb.ResourceResponse_DeleteResourceResponse{}}, nil
 	default:
 		log.Printf("TResourceRequest.Body has unexpected type %T\n", x)
 		return nil, nil
 	}
 }
 
-func (s *Server) AgentAction(ctx context.Context, request *pb.TRMRequest) (*pb.TRMResponse, error) {
+func (s *Server) AgentAction(ctx context.Context, request *pb.RMRequest) (*pb.RMResponse, error) {
 	resourceId := request.GetResourceId()
 	body := request.GetRealMessage()
 	err := db.ConnectedAgents.AddMessage(resourceId, body)
 	if err != nil {
 		log.Printf("Error during adding message to resoure %s: %v\n", resourceId, err)
-		return &pb.TRMResponse{ResultCode: pb.TRMResponse_NOT_FOUND}, err
+		return &pb.RMResponse{ResultCode: pb.RMResponse_NOT_FOUND}, err
 	}
-	return &pb.TRMResponse{ResultCode: pb.TRMResponse_OK}, err
+	return &pb.RMResponse{ResultCode: pb.RMResponse_OK}, err
+}
+
+func (s *Server) GetResources(ctx context.Context, request *pb.GetResourcesRequest) (*pb.GetResourcesResponse, error) {
+	return nil, grpc.Errorf(codes.Unimplemented, "method is not implemented")
 }

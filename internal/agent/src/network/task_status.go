@@ -32,13 +32,13 @@ func (info *TasksInfo) Delete(key string) {
 	}
 }
 
-func (info *TasksInfo) SetTaskResult(key string, result *pb.TResult) {
+func (info *TasksInfo) SetTaskResult(key string, result *pb.Result) {
 	info.Mutex.Lock()
 	defer info.Mutex.Unlock()
 	info.Data[key].Result = result
 }
 
-func (info *TasksInfo) GetTaskResult(key string) *pb.TResult {
+func (info *TasksInfo) GetTaskResult(key string) *pb.Result {
 	info.Mutex.RLock()
 	defer info.Mutex.RUnlock()
 	return info.Data[key].Result

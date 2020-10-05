@@ -7,7 +7,7 @@ package pb;
 
 option go_package = "github.com/dc-lab/sky/api/proto";
 
-message THardwareData {
+message HardwareData {
   double cores_count = 1; // required
   uint64 memory_bytes = 2; // required
   uint64 disk_bytes = 3; // required

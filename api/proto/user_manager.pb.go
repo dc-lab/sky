@@ -32,7 +32,7 @@ const (
 // of the legacy proto package is being used.
 const _ = proto.ProtoPackageIsVersion4
 
-type TUser struct {
+type User struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -40,8 +40,8 @@ type TUser struct {
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` // required
 }
 
-func (x *TUser) Reset() {
-	*x = TUser{}
+func (x *User) Reset() {
+	*x = User{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_user_manager_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -49,13 +49,13 @@ func (x *TUser) Reset() {
 	}
 }
 
-func (x *TUser) String() string {
+func (x *User) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TUser) ProtoMessage() {}
+func (*User) ProtoMessage() {}
 
-func (x *TUser) ProtoReflect() protoreflect.Message {
+func (x *User) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_user_manager_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -67,19 +67,19 @@ func (x *TUser) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TUser.ProtoReflect.Descriptor instead.
-func (*TUser) Descriptor() ([]byte, []int) {
+// Deprecated: Use User.ProtoReflect.Descriptor instead.
+func (*User) Descriptor() ([]byte, []int) {
 	return file_api_proto_user_manager_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *TUser) GetId() string {
+func (x *User) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-type TGroup struct {
+type Group struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -89,8 +89,8 @@ type TGroup struct {
 	Users []string `protobuf:"bytes,3,rep,name=users,proto3" json:"users,omitempty"` // required
 }
 
-func (x *TGroup) Reset() {
-	*x = TGroup{}
+func (x *Group) Reset() {
+	*x = Group{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_user_manager_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -98,13 +98,13 @@ func (x *TGroup) Reset() {
 	}
 }
 
-func (x *TGroup) String() string {
+func (x *Group) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TGroup) ProtoMessage() {}
+func (*Group) ProtoMessage() {}
 
-func (x *TGroup) ProtoReflect() protoreflect.Message {
+func (x *Group) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_user_manager_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -116,26 +116,26 @@ func (x *TGroup) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TGroup.ProtoReflect.Descriptor instead.
-func (*TGroup) Descriptor() ([]byte, []int) {
+// Deprecated: Use Group.ProtoReflect.Descriptor instead.
+func (*Group) Descriptor() ([]byte, []int) {
 	return file_api_proto_user_manager_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *TGroup) GetId() string {
+func (x *Group) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-func (x *TGroup) GetName() string {
+func (x *Group) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *TGroup) GetUsers() []string {
+func (x *Group) GetUsers() []string {
 	if x != nil {
 		return x.Users
 	}
@@ -147,19 +147,19 @@ var File_api_proto_user_manager_proto protoreflect.FileDescriptor
 var file_api_proto_user_manager_proto_rawDesc = []byte{
 	0x0a, 0x1c, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x75, 0x73, 0x65, 0x72,
 	0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x72, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x02,
-	0x70, 0x62, 0x22, 0x17, 0x0a, 0x05, 0x54, 0x55, 0x73, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x69,
-	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x42, 0x0a, 0x06, 0x54,
-	0x47, 0x72, 0x6f, 0x75, 0x70, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x75, 0x73, 0x65,
-	0x72, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x09, 0x52, 0x05, 0x75, 0x73, 0x65, 0x72, 0x73, 0x32,
-	0x39, 0x0a, 0x0b, 0x55, 0x73, 0x65, 0x72, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x72, 0x12, 0x2a,
-	0x0a, 0x0d, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x73, 0x12,
-	0x09, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x55, 0x73, 0x65, 0x72, 0x1a, 0x0a, 0x2e, 0x70, 0x62, 0x2e,
-	0x54, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x22, 0x00, 0x30, 0x01, 0x42, 0x21, 0x5a, 0x1f, 0x67, 0x69,
-	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x63, 0x2d, 0x6c, 0x61, 0x62, 0x2f,
-	0x73, 0x6b, 0x79, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x70, 0x62, 0x22, 0x16, 0x0a, 0x04, 0x55, 0x73, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x41, 0x0a, 0x05, 0x47, 0x72,
+	0x6f, 0x75, 0x70, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x75, 0x73, 0x65, 0x72, 0x73,
+	0x18, 0x03, 0x20, 0x03, 0x28, 0x09, 0x52, 0x05, 0x75, 0x73, 0x65, 0x72, 0x73, 0x32, 0x37, 0x0a,
+	0x0b, 0x55, 0x73, 0x65, 0x72, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x72, 0x12, 0x28, 0x0a, 0x0d,
+	0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x73, 0x12, 0x08, 0x2e,
+	0x70, 0x62, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x1a, 0x09, 0x2e, 0x70, 0x62, 0x2e, 0x47, 0x72, 0x6f,
+	0x75, 0x70, 0x22, 0x00, 0x30, 0x01, 0x42, 0x21, 0x5a, 0x1f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62,
+	0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x63, 0x2d, 0x6c, 0x61, 0x62, 0x2f, 0x73, 0x6b, 0x79, 0x2f,
+	0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x33,
 }
 
 var (
@@ -176,12 +176,12 @@ func file_api_proto_user_manager_proto_rawDescGZIP() []byte {
 
 var file_api_proto_user_manager_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_api_proto_user_manager_proto_goTypes = []interface{}{
-	(*TUser)(nil),  // 0: pb.TUser
-	(*TGroup)(nil), // 1: pb.TGroup
+	(*User)(nil),  // 0: pb.User
+	(*Group)(nil), // 1: pb.Group
 }
 var file_api_proto_user_manager_proto_depIdxs = []int32{
-	0, // 0: pb.UserManager.GetUserGroups:input_type -> pb.TUser
-	1, // 1: pb.UserManager.GetUserGroups:output_type -> pb.TGroup
+	0, // 0: pb.UserManager.GetUserGroups:input_type -> pb.User
+	1, // 1: pb.UserManager.GetUserGroups:output_type -> pb.Group
 	1, // [1:2] is the sub-list for method output_type
 	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -196,7 +196,7 @@ func file_api_proto_user_manager_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_api_proto_user_manager_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TUser); i {
+			switch v := v.(*User); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -208,7 +208,7 @@ func file_api_proto_user_manager_proto_init() {
 			}
 		}
 		file_api_proto_user_manager_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TGroup); i {
+			switch v := v.(*Group); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -252,7 +252,7 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type UserManagerClient interface {
-	GetUserGroups(ctx context.Context, in *TUser, opts ...grpc.CallOption) (UserManager_GetUserGroupsClient, error)
+	GetUserGroups(ctx context.Context, in *User, opts ...grpc.CallOption) (UserManager_GetUserGroupsClient, error)
 }
 
 type userManagerClient struct {
@@ -263,7 +263,7 @@ func NewUserManagerClient(cc grpc.ClientConnInterface) UserManagerClient {
 	return &userManagerClient{cc}
 }
 
-func (c *userManagerClient) GetUserGroups(ctx context.Context, in *TUser, opts ...grpc.CallOption) (UserManager_GetUserGroupsClient, error) {
+func (c *userManagerClient) GetUserGroups(ctx context.Context, in *User, opts ...grpc.CallOption) (UserManager_GetUserGroupsClient, error) {
 	stream, err := c.cc.NewStream(ctx, &_UserManager_serviceDesc.Streams[0], "/pb.UserManager/GetUserGroups", opts...)
 	if err != nil {
 		return nil, err
@@ -279,7 +279,7 @@ func (c *userManagerClient) GetUserGroups(ctx context.Context, in *TUser, opts .
 }
 
 type UserManager_GetUserGroupsClient interface {
-	Recv() (*TGroup, error)
+	Recv() (*Group, error)
 	grpc.ClientStream
 }
 
@@ -287,8 +287,8 @@ type userManagerGetUserGroupsClient struct {
 	grpc.ClientStream
 }
 
-func (x *userManagerGetUserGroupsClient) Recv() (*TGroup, error) {
-	m := new(TGroup)
+func (x *userManagerGetUserGroupsClient) Recv() (*Group, error) {
+	m := new(Group)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -297,14 +297,14 @@ func (x *userManagerGetUserGroupsClient) Recv() (*TGroup, error) {
 
 // UserManagerServer is the server API for UserManager service.
 type UserManagerServer interface {
-	GetUserGroups(*TUser, UserManager_GetUserGroupsServer) error
+	GetUserGroups(*User, UserManager_GetUserGroupsServer) error
 }
 
 // UnimplementedUserManagerServer can be embedded to have forward compatible implementations.
 type UnimplementedUserManagerServer struct {
 }
 
-func (*UnimplementedUserManagerServer) GetUserGroups(*TUser, UserManager_GetUserGroupsServer) error {
+func (*UnimplementedUserManagerServer) GetUserGroups(*User, UserManager_GetUserGroupsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetUserGroups not implemented")
 }
 
@@ -313,7 +313,7 @@ func RegisterUserManagerServer(s *grpc.Server, srv UserManagerServer) {
 }
 
 func _UserManager_GetUserGroups_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(TUser)
+	m := new(User)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
@@ -321,7 +321,7 @@ func _UserManager_GetUserGroups_Handler(srv interface{}, stream grpc.ServerStrea
 }
 
 type UserManager_GetUserGroupsServer interface {
-	Send(*TGroup) error
+	Send(*Group) error
 	grpc.ServerStream
 }
 
@@ -329,7 +329,7 @@ type userManagerGetUserGroupsServer struct {
 	grpc.ServerStream
 }
 
-func (x *userManagerGetUserGroupsServer) Send(m *TGroup) error {
+func (x *userManagerGetUserGroupsServer) Send(m *Group) error {
 	return x.ServerStream.SendMsg(m)
 }
 

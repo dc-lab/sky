@@ -7,11 +7,11 @@ package pb;
 
 option go_package = "github.com/dc-lab/sky/api/proto";
 
-message TTransaction {
+message Transaction {
     string transaction_id = 1;
 }
 
-enum ETransactionStatus {
+enum TransactionStatus {
     UNKNOWN = 0;
     ACTIVE = 1;
     COMPLETED = 2;
@@ -19,7 +19,7 @@ enum ETransactionStatus {
     CANCELLED = 4;
 }
 
-message TDockerImage {
+message DockerImage {
     string registry = 1;
     string repository = 2;
     string image = 3;

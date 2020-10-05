@@ -66,7 +66,7 @@ func (e *DockerExecutor) Prepare(afterExecution func(err error)) {
 
 func (e *DockerExecutor) Run(
 	quiteChannel <-chan struct{},
-	beforeExecution func(result *pb.TResult),
+	beforeExecution func(result *pb.Result),
 	afterExecution func(err error),
 ) {
 	ctx := context.Background()
@@ -74,7 +74,7 @@ func (e *DockerExecutor) Run(
 	if err := e.DockerClient.ContainerStart(ctx, containerID, types.ContainerStartOptions{}); err != nil {
 		panic(err)
 	}
-	result := pb.TResult{ResultCode: pb.TResult_RUN}
+	result := pb.Result{ResultCode: pb.Result_RUN}
 	if beforeExecution != nil {
 		beforeExecution(&result)
 	}

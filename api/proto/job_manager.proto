@@ -5,7 +5,6 @@ syntax = "proto3";
 
 package pb;
 
-import "api/proto/action.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -24,6 +23,16 @@ service JobManager {
             get: "/api/v1/jobs/{id}"
         };
     }
+}
+
+enum JobStatus {
+    JOB_UNSPECIFIED = 0;
+    JOB_CREATED = 1;
+    JOB_SCHEDULED = 2;
+    JOB_EXECUTING = 3;
+    JOB_FINISHED = 4;
+    JOB_FAILED = 5;
+    JOB_CANCELLED = 6;
 }
 
 message StartJobRequest {
@@ -49,14 +58,14 @@ message GetJobRequest {
 
 message GetJobResponse {
     string id = 1;
-    TResult.TResultCode status = 2;
+    JobStatus status = 2;
     repeated TaskStatus tasks = 3;
 }
 
 message TaskStatus {
     string id = 1;
     TaskSpec spec = 2;
-    TResult.TResultCode status = 3;
+    JobStatus status = 3;
     repeated string pending_dependencies = 4;
     google.protobuf.Timestamp start_time = 5; // optional
     google.protobuf.Timestamp finish_time = 6; // optional

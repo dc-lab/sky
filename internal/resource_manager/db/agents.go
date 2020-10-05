@@ -16,7 +16,7 @@ type HardwareData struct {
 
 type AgentConnection struct {
 	Status        string
-	MessageQueue  chan pb.TToAgentMessage
+	MessageQueue  chan pb.ToAgentMessage
 	TotalHardware HardwareData
 	FreeHardware  HardwareData
 	LastUpdate    time.Time
@@ -37,7 +37,7 @@ func NewAgentMap() *AgentMap {
 func (am *AgentMap) AddAgent(resourceId string) {
 	am.mu.Lock()
 	defer am.mu.Unlock()
-	am.agents[resourceId] = AgentConnection{Status: "online", MessageQueue: make(chan pb.TToAgentMessage)}
+	am.agents[resourceId] = AgentConnection{Status: "online", MessageQueue: make(chan pb.ToAgentMessage)}
 }
 
 func (am *AgentMap) RemoveAgent(resourceId string) {
@@ -46,7 +46,7 @@ func (am *AgentMap) RemoveAgent(resourceId string) {
 	delete(am.agents, resourceId)
 }
 
-func (am *AgentMap) AddMessage(resourceId string, message *pb.TToAgentMessage) error {
+func (am *AgentMap) AddMessage(resourceId string, message *pb.ToAgentMessage) error {
 	am.mu.Lock()
 	defer am.mu.Unlock()
 	if connection, ok := am.agents[resourceId]; ok {
@@ -56,12 +56,12 @@ func (am *AgentMap) AddMessage(resourceId string, message *pb.TToAgentMessage) e
 	return &app.ResourceNotFound{}
 }
 
-func (am *AgentMap) GetMessage(resourceId string) *pb.TToAgentMessage {
+func (am *AgentMap) GetMessage(resourceId string) *pb.ToAgentMessage {
 	am.mu.Lock()
 	defer am.mu.Unlock()
-	var message *pb.TToAgentMessage = nil
+	var message *pb.ToAgentMessage = nil
 	if connection, ok := am.agents[resourceId]; ok {
-		var x pb.TToAgentMessage
+		var x pb.ToAgentMessage
 		select {
 		case x = <-connection.MessageQueue:
 			log.Printf("Got one message from channel for resource %s\n", resourceId)
@@ -92,7 +92,7 @@ func (am *AgentMap) GetResourceStatus(resourceId string) string {
 	return "offline"
 }
 
-func (am *AgentMap) AddHardwareData(resourceId string, total, free *pb.THardwareData) error {
+func (am *AgentMap) AddHardwareData(resourceId string, total, free *pb.HardwareData) error {
 	am.mu.Lock()
 	defer am.mu.Unlock()
 	if connection, ok := am.agents[resourceId]; ok {

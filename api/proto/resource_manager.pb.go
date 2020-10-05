@@ -12,6 +12,7 @@ package proto
 import (
 	context "context"
 	proto "github.com/golang/protobuf/proto"
+	_ "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -87,56 +88,56 @@ func (EResourceType) EnumDescriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{0}
 }
 
-type TRMResponse_TResultCode int32
+type RMResponse_ResultCode int32
 
 const (
-	TRMResponse_NONE      TRMResponse_TResultCode = 0
-	TRMResponse_OK        TRMResponse_TResultCode = 1
-	TRMResponse_NOT_FOUND TRMResponse_TResultCode = 2
+	RMResponse_NONE      RMResponse_ResultCode = 0
+	RMResponse_OK        RMResponse_ResultCode = 1
+	RMResponse_NOT_FOUND RMResponse_ResultCode = 2
 )
 
-// Enum value maps for TRMResponse_TResultCode.
+// Enum value maps for RMResponse_ResultCode.
 var (
-	TRMResponse_TResultCode_name = map[int32]string{
+	RMResponse_ResultCode_name = map[int32]string{
 		0: "NONE",
 		1: "OK",
 		2: "NOT_FOUND",
 	}
-	TRMResponse_TResultCode_value = map[string]int32{
+	RMResponse_ResultCode_value = map[string]int32{
 		"NONE":      0,
 		"OK":        1,
 		"NOT_FOUND": 2,
 	}
 )
 
-func (x TRMResponse_TResultCode) Enum() *TRMResponse_TResultCode {
-	p := new(TRMResponse_TResultCode)
+func (x RMResponse_ResultCode) Enum() *RMResponse_ResultCode {
+	p := new(RMResponse_ResultCode)
 	*p = x
 	return p
 }
 
-func (x TRMResponse_TResultCode) String() string {
+func (x RMResponse_ResultCode) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (TRMResponse_TResultCode) Descriptor() protoreflect.EnumDescriptor {
+func (RMResponse_ResultCode) Descriptor() protoreflect.EnumDescriptor {
 	return file_api_proto_resource_manager_proto_enumTypes[1].Descriptor()
 }
 
-func (TRMResponse_TResultCode) Type() protoreflect.EnumType {
+func (RMResponse_ResultCode) Type() protoreflect.EnumType {
 	return &file_api_proto_resource_manager_proto_enumTypes[1]
 }
 
-func (x TRMResponse_TResultCode) Number() protoreflect.EnumNumber {
+func (x RMResponse_ResultCode) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use TRMResponse_TResultCode.Descriptor instead.
-func (TRMResponse_TResultCode) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use RMResponse_ResultCode.Descriptor instead.
+func (RMResponse_ResultCode) EnumDescriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{25, 0}
 }
 
-type TTask struct {
+type Task struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -147,8 +148,8 @@ type TTask struct {
 	DockerImage              string `protobuf:"bytes,4,opt,name=docker_image,json=dockerImage,proto3" json:"docker_image,omitempty"`                                          //optional
 }
 
-func (x *TTask) Reset() {
-	*x = TTask{}
+func (x *Task) Reset() {
+	*x = Task{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -156,13 +157,13 @@ func (x *TTask) Reset() {
 	}
 }
 
-func (x *TTask) String() string {
+func (x *Task) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TTask) ProtoMessage() {}
+func (*Task) ProtoMessage() {}
 
-func (x *TTask) ProtoReflect() protoreflect.Message {
+func (x *Task) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -174,40 +175,40 @@ func (x *TTask) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TTask.ProtoReflect.Descriptor instead.
-func (*TTask) Descriptor() ([]byte, []int) {
+// Deprecated: Use Task.ProtoReflect.Descriptor instead.
+func (*Task) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *TTask) GetId() string {
+func (x *Task) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-func (x *TTask) GetExecutionShellCommand() string {
+func (x *Task) GetExecutionShellCommand() string {
 	if x != nil {
 		return x.ExecutionShellCommand
 	}
 	return ""
 }
 
-func (x *TTask) GetRequirementsShellCommand() string {
+func (x *Task) GetRequirementsShellCommand() string {
 	if x != nil {
 		return x.RequirementsShellCommand
 	}
 	return ""
 }
 
-func (x *TTask) GetDockerImage() string {
+func (x *Task) GetDockerImage() string {
 	if x != nil {
 		return x.DockerImage
 	}
 	return ""
 }
 
-type TGreetings struct {
+type Greetings struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -215,8 +216,8 @@ type TGreetings struct {
 	Token string `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"` // required
 }
 
-func (x *TGreetings) Reset() {
-	*x = TGreetings{}
+func (x *Greetings) Reset() {
+	*x = Greetings{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -224,13 +225,13 @@ func (x *TGreetings) Reset() {
 	}
 }
 
-func (x *TGreetings) String() string {
+func (x *Greetings) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TGreetings) ProtoMessage() {}
+func (*Greetings) ProtoMessage() {}
 
-func (x *TGreetings) ProtoReflect() protoreflect.Message {
+func (x *Greetings) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -242,28 +243,28 @@ func (x *TGreetings) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TGreetings.ProtoReflect.Descriptor instead.
-func (*TGreetings) Descriptor() ([]byte, []int) {
+// Deprecated: Use Greetings.ProtoReflect.Descriptor instead.
+func (*Greetings) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *TGreetings) GetToken() string {
+func (x *Greetings) GetToken() string {
 	if x != nil {
 		return x.Token
 	}
 	return ""
 }
 
-type TGreetingsValidation struct {
+type GreetingsValidation struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Result *TResult `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"` // required
+	Result *Result `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"` // required
 }
 
-func (x *TGreetingsValidation) Reset() {
-	*x = TGreetingsValidation{}
+func (x *GreetingsValidation) Reset() {
+	*x = GreetingsValidation{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -271,13 +272,13 @@ func (x *TGreetingsValidation) Reset() {
 	}
 }
 
-func (x *TGreetingsValidation) String() string {
+func (x *GreetingsValidation) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TGreetingsValidation) ProtoMessage() {}
+func (*GreetingsValidation) ProtoMessage() {}
 
-func (x *TGreetingsValidation) ProtoReflect() protoreflect.Message {
+func (x *GreetingsValidation) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -289,19 +290,19 @@ func (x *TGreetingsValidation) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TGreetingsValidation.ProtoReflect.Descriptor instead.
-func (*TGreetingsValidation) Descriptor() ([]byte, []int) {
+// Deprecated: Use GreetingsValidation.ProtoReflect.Descriptor instead.
+func (*GreetingsValidation) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *TGreetingsValidation) GetResult() *TResult {
+func (x *GreetingsValidation) GetResult() *Result {
 	if x != nil {
 		return x.Result
 	}
 	return nil
 }
 
-type TPermissions struct {
+type Permissions struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -310,8 +311,8 @@ type TPermissions struct {
 	Groups []string `protobuf:"bytes,2,rep,name=groups,proto3" json:"groups,omitempty"`
 }
 
-func (x *TPermissions) Reset() {
-	*x = TPermissions{}
+func (x *Permissions) Reset() {
+	*x = Permissions{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -319,13 +320,13 @@ func (x *TPermissions) Reset() {
 	}
 }
 
-func (x *TPermissions) String() string {
+func (x *Permissions) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TPermissions) ProtoMessage() {}
+func (*Permissions) ProtoMessage() {}
 
-func (x *TPermissions) ProtoReflect() protoreflect.Message {
+func (x *Permissions) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -337,40 +338,42 @@ func (x *TPermissions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TPermissions.ProtoReflect.Descriptor instead.
-func (*TPermissions) Descriptor() ([]byte, []int) {
+// Deprecated: Use Permissions.ProtoReflect.Descriptor instead.
+func (*Permissions) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *TPermissions) GetUsers() []string {
+func (x *Permissions) GetUsers() []string {
 	if x != nil {
 		return x.Users
 	}
 	return nil
 }
 
-func (x *TPermissions) GetGroups() []string {
+func (x *Permissions) GetGroups() []string {
 	if x != nil {
 		return x.Groups
 	}
 	return nil
 }
 
-type TResource struct {
+type Resource struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          string        `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                            // required
-	Type        EResourceType `protobuf:"varint,2,opt,name=type,proto3,enum=pb.EResourceType" json:"type,omitempty"` // required
-	OwnerId     string        `protobuf:"bytes,3,opt,name=ownerId,proto3" json:"ownerId,omitempty"`                  // required
-	Token       string        `protobuf:"bytes,4,opt,name=token,proto3" json:"token,omitempty"`                      // required
-	Permissions *TPermissions `protobuf:"bytes,5,opt,name=permissions,proto3" json:"permissions,omitempty"`          // required
-	Name        string        `protobuf:"bytes,6,opt,name=name,proto3" json:"name,omitempty"`                        // required
+	Id                 string        `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                                           // required
+	Type               EResourceType `protobuf:"varint,2,opt,name=type,proto3,enum=pb.EResourceType" json:"type,omitempty"`                                // required
+	OwnerId            string        `protobuf:"bytes,3,opt,name=ownerId,proto3" json:"ownerId,omitempty"`                                                 // required
+	Token              string        `protobuf:"bytes,4,opt,name=token,proto3" json:"token,omitempty"`                                                     // required
+	Permissions        *Permissions  `protobuf:"bytes,5,opt,name=permissions,proto3" json:"permissions,omitempty"`                                         // required
+	Name               string        `protobuf:"bytes,6,opt,name=name,proto3" json:"name,omitempty"`                                                       // required
+	TotalResources     *HardwareData `protobuf:"bytes,7,opt,name=total_resources,json=totalResources,proto3" json:"total_resources,omitempty"`             // optional
+	AvailableResources *HardwareData `protobuf:"bytes,8,opt,name=available_resources,json=availableResources,proto3" json:"available_resources,omitempty"` // optional
 }
 
-func (x *TResource) Reset() {
-	*x = TResource{}
+func (x *Resource) Reset() {
+	*x = Resource{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -378,13 +381,13 @@ func (x *TResource) Reset() {
 	}
 }
 
-func (x *TResource) String() string {
+func (x *Resource) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TResource) ProtoMessage() {}
+func (*Resource) ProtoMessage() {}
 
-func (x *TResource) ProtoReflect() protoreflect.Message {
+func (x *Resource) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -396,61 +399,75 @@ func (x *TResource) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TResource.ProtoReflect.Descriptor instead.
-func (*TResource) Descriptor() ([]byte, []int) {
+// Deprecated: Use Resource.ProtoReflect.Descriptor instead.
+func (*Resource) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *TResource) GetId() string {
+func (x *Resource) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-func (x *TResource) GetType() EResourceType {
+func (x *Resource) GetType() EResourceType {
 	if x != nil {
 		return x.Type
 	}
 	return EResourceType_RESOURCE_UNKNOWN
 }
 
-func (x *TResource) GetOwnerId() string {
+func (x *Resource) GetOwnerId() string {
 	if x != nil {
 		return x.OwnerId
 	}
 	return ""
 }
 
-func (x *TResource) GetToken() string {
+func (x *Resource) GetToken() string {
 	if x != nil {
 		return x.Token
 	}
 	return ""
 }
 
-func (x *TResource) GetPermissions() *TPermissions {
+func (x *Resource) GetPermissions() *Permissions {
 	if x != nil {
 		return x.Permissions
 	}
 	return nil
 }
 
-func (x *TResource) GetName() string {
+func (x *Resource) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-type THardwareRequest struct {
+func (x *Resource) GetTotalResources() *HardwareData {
+	if x != nil {
+		return x.TotalResources
+	}
+	return nil
+}
+
+func (x *Resource) GetAvailableResources() *HardwareData {
+	if x != nil {
+		return x.AvailableResources
+	}
+	return nil
+}
+
+type HardwareRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *THardwareRequest) Reset() {
-	*x = THardwareRequest{}
+func (x *HardwareRequest) Reset() {
+	*x = HardwareRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -458,13 +475,13 @@ func (x *THardwareRequest) Reset() {
 	}
 }
 
-func (x *THardwareRequest) String() string {
+func (x *HardwareRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*THardwareRequest) ProtoMessage() {}
+func (*HardwareRequest) ProtoMessage() {}
 
-func (x *THardwareRequest) ProtoReflect() protoreflect.Message {
+func (x *HardwareRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -476,22 +493,22 @@ func (x *THardwareRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use THardwareRequest.ProtoReflect.Descriptor instead.
-func (*THardwareRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use HardwareRequest.ProtoReflect.Descriptor instead.
+func (*HardwareRequest) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{5}
 }
 
-type THardwareResponse struct {
+type HardwareResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TotalHardwareData *THardwareData `protobuf:"bytes,1,opt,name=total_hardware_data,json=totalHardwareData,proto3" json:"total_hardware_data,omitempty"`
-	FreeHardwareData  *THardwareData `protobuf:"bytes,2,opt,name=free_hardware_data,json=freeHardwareData,proto3" json:"free_hardware_data,omitempty"`
+	TotalHardwareData *HardwareData `protobuf:"bytes,1,opt,name=total_hardware_data,json=totalHardwareData,proto3" json:"total_hardware_data,omitempty"`
+	FreeHardwareData  *HardwareData `protobuf:"bytes,2,opt,name=free_hardware_data,json=freeHardwareData,proto3" json:"free_hardware_data,omitempty"`
 }
 
-func (x *THardwareResponse) Reset() {
-	*x = THardwareResponse{}
+func (x *HardwareResponse) Reset() {
+	*x = HardwareResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -499,13 +516,13 @@ func (x *THardwareResponse) Reset() {
 	}
 }
 
-func (x *THardwareResponse) String() string {
+func (x *HardwareResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*THardwareResponse) ProtoMessage() {}
+func (*HardwareResponse) ProtoMessage() {}
 
-func (x *THardwareResponse) ProtoReflect() protoreflect.Message {
+func (x *HardwareResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -517,35 +534,35 @@ func (x *THardwareResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use THardwareResponse.ProtoReflect.Descriptor instead.
-func (*THardwareResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use HardwareResponse.ProtoReflect.Descriptor instead.
+func (*HardwareResponse) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *THardwareResponse) GetTotalHardwareData() *THardwareData {
+func (x *HardwareResponse) GetTotalHardwareData() *HardwareData {
 	if x != nil {
 		return x.TotalHardwareData
 	}
 	return nil
 }
 
-func (x *THardwareResponse) GetFreeHardwareData() *THardwareData {
+func (x *HardwareResponse) GetFreeHardwareData() *HardwareData {
 	if x != nil {
 		return x.FreeHardwareData
 	}
 	return nil
 }
 
-type TTaskRequest struct {
+type TaskRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Task *TTask `protobuf:"bytes,1,opt,name=task,proto3" json:"task,omitempty"` // required
+	Task *Task `protobuf:"bytes,1,opt,name=task,proto3" json:"task,omitempty"` // required
 }
 
-func (x *TTaskRequest) Reset() {
-	*x = TTaskRequest{}
+func (x *TaskRequest) Reset() {
+	*x = TaskRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -553,13 +570,13 @@ func (x *TTaskRequest) Reset() {
 	}
 }
 
-func (x *TTaskRequest) String() string {
+func (x *TaskRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TTaskRequest) ProtoMessage() {}
+func (*TaskRequest) ProtoMessage() {}
 
-func (x *TTaskRequest) ProtoReflect() protoreflect.Message {
+func (x *TaskRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -571,30 +588,30 @@ func (x *TTaskRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TTaskRequest.ProtoReflect.Descriptor instead.
-func (*TTaskRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use TaskRequest.ProtoReflect.Descriptor instead.
+func (*TaskRequest) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *TTaskRequest) GetTask() *TTask {
+func (x *TaskRequest) GetTask() *Task {
 	if x != nil {
 		return x.Task
 	}
 	return nil
 }
 
-type TTaskResponse struct {
+type TaskResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	TaskId    string      `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`          // required
-	Result    *TResult    `protobuf:"bytes,2,opt,name=result,proto3" json:"result,omitempty"`                        // required
+	Result    *Result     `protobuf:"bytes,2,opt,name=result,proto3" json:"result,omitempty"`                        // required
 	TaskFiles []*TaskFile `protobuf:"bytes,3,rep,name=task_files,json=taskFiles,proto3" json:"task_files,omitempty"` // required
 }
 
-func (x *TTaskResponse) Reset() {
-	*x = TTaskResponse{}
+func (x *TaskResponse) Reset() {
+	*x = TaskResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -602,13 +619,13 @@ func (x *TTaskResponse) Reset() {
 	}
 }
 
-func (x *TTaskResponse) String() string {
+func (x *TaskResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TTaskResponse) ProtoMessage() {}
+func (*TaskResponse) ProtoMessage() {}
 
-func (x *TTaskResponse) ProtoReflect() protoreflect.Message {
+func (x *TaskResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -620,33 +637,33 @@ func (x *TTaskResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TTaskResponse.ProtoReflect.Descriptor instead.
-func (*TTaskResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use TaskResponse.ProtoReflect.Descriptor instead.
+func (*TaskResponse) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *TTaskResponse) GetTaskId() string {
+func (x *TaskResponse) GetTaskId() string {
 	if x != nil {
 		return x.TaskId
 	}
 	return ""
 }
 
-func (x *TTaskResponse) GetResult() *TResult {
+func (x *TaskResponse) GetResult() *Result {
 	if x != nil {
 		return x.Result
 	}
 	return nil
 }
 
-func (x *TTaskResponse) GetTaskFiles() []*TaskFile {
+func (x *TaskResponse) GetTaskFiles() []*TaskFile {
 	if x != nil {
 		return x.TaskFiles
 	}
 	return nil
 }
 
-type TFile struct {
+type FileOnAgent struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -656,8 +673,8 @@ type TFile struct {
 	Hash                   string `protobuf:"bytes,3,opt,name=hash,proto3" json:"hash,omitempty"`                                                                       // required
 }
 
-func (x *TFile) Reset() {
-	*x = TFile{}
+func (x *FileOnAgent) Reset() {
+	*x = FileOnAgent{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -665,13 +682,13 @@ func (x *TFile) Reset() {
 	}
 }
 
-func (x *TFile) String() string {
+func (x *FileOnAgent) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TFile) ProtoMessage() {}
+func (*FileOnAgent) ProtoMessage() {}
 
-func (x *TFile) ProtoReflect() protoreflect.Message {
+func (x *FileOnAgent) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -683,43 +700,43 @@ func (x *TFile) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TFile.ProtoReflect.Descriptor instead.
-func (*TFile) Descriptor() ([]byte, []int) {
+// Deprecated: Use FileOnAgent.ProtoReflect.Descriptor instead.
+func (*FileOnAgent) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *TFile) GetId() string {
+func (x *FileOnAgent) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-func (x *TFile) GetAgentRelativeLocalPath() string {
+func (x *FileOnAgent) GetAgentRelativeLocalPath() string {
 	if x != nil {
 		return x.AgentRelativeLocalPath
 	}
 	return ""
 }
 
-func (x *TFile) GetHash() string {
+func (x *FileOnAgent) GetHash() string {
 	if x != nil {
 		return x.Hash
 	}
 	return ""
 }
 
-type TStageInRequest struct {
+type StageInRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TaskId string   `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"` // required
-	Files  []*TFile `protobuf:"bytes,2,rep,name=files,proto3" json:"files,omitempty"`
+	TaskId string         `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"` // required
+	Files  []*FileOnAgent `protobuf:"bytes,2,rep,name=files,proto3" json:"files,omitempty"`
 }
 
-func (x *TStageInRequest) Reset() {
-	*x = TStageInRequest{}
+func (x *StageInRequest) Reset() {
+	*x = StageInRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -727,13 +744,13 @@ func (x *TStageInRequest) Reset() {
 	}
 }
 
-func (x *TStageInRequest) String() string {
+func (x *StageInRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TStageInRequest) ProtoMessage() {}
+func (*StageInRequest) ProtoMessage() {}
 
-func (x *TStageInRequest) ProtoReflect() protoreflect.Message {
+func (x *StageInRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -745,36 +762,36 @@ func (x *TStageInRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TStageInRequest.ProtoReflect.Descriptor instead.
-func (*TStageInRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use StageInRequest.ProtoReflect.Descriptor instead.
+func (*StageInRequest) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *TStageInRequest) GetTaskId() string {
+func (x *StageInRequest) GetTaskId() string {
 	if x != nil {
 		return x.TaskId
 	}
 	return ""
 }
 
-func (x *TStageInRequest) GetFiles() []*TFile {
+func (x *StageInRequest) GetFiles() []*FileOnAgent {
 	if x != nil {
 		return x.Files
 	}
 	return nil
 }
 
-type TStageInResponse struct {
+type StageInResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TaskId string   `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"` // required
-	Result *TResult `protobuf:"bytes,2,opt,name=result,proto3" json:"result,omitempty"`               // required
+	TaskId string  `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"` // required
+	Result *Result `protobuf:"bytes,2,opt,name=result,proto3" json:"result,omitempty"`               // required
 }
 
-func (x *TStageInResponse) Reset() {
-	*x = TStageInResponse{}
+func (x *StageInResponse) Reset() {
+	*x = StageInResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -782,13 +799,13 @@ func (x *TStageInResponse) Reset() {
 	}
 }
 
-func (x *TStageInResponse) String() string {
+func (x *StageInResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TStageInResponse) ProtoMessage() {}
+func (*StageInResponse) ProtoMessage() {}
 
-func (x *TStageInResponse) ProtoReflect() protoreflect.Message {
+func (x *StageInResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -800,26 +817,26 @@ func (x *TStageInResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TStageInResponse.ProtoReflect.Descriptor instead.
-func (*TStageInResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use StageInResponse.ProtoReflect.Descriptor instead.
+func (*StageInResponse) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *TStageInResponse) GetTaskId() string {
+func (x *StageInResponse) GetTaskId() string {
 	if x != nil {
 		return x.TaskId
 	}
 	return ""
 }
 
-func (x *TStageInResponse) GetResult() *TResult {
+func (x *StageInResponse) GetResult() *Result {
 	if x != nil {
 		return x.Result
 	}
 	return nil
 }
 
-type TStageOutRequest struct {
+type StageOutRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -828,8 +845,8 @@ type TStageOutRequest struct {
 	AgentRelativeLocalPath string `protobuf:"bytes,2,opt,name=agent_relative_local_path,json=agentRelativeLocalPath,proto3" json:"agent_relative_local_path,omitempty"` // required
 }
 
-func (x *TStageOutRequest) Reset() {
-	*x = TStageOutRequest{}
+func (x *StageOutRequest) Reset() {
+	*x = StageOutRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -837,13 +854,13 @@ func (x *TStageOutRequest) Reset() {
 	}
 }
 
-func (x *TStageOutRequest) String() string {
+func (x *StageOutRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TStageOutRequest) ProtoMessage() {}
+func (*StageOutRequest) ProtoMessage() {}
 
-func (x *TStageOutRequest) ProtoReflect() protoreflect.Message {
+func (x *StageOutRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -855,36 +872,36 @@ func (x *TStageOutRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TStageOutRequest.ProtoReflect.Descriptor instead.
-func (*TStageOutRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use StageOutRequest.ProtoReflect.Descriptor instead.
+func (*StageOutRequest) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{12}
 }
 
-func (x *TStageOutRequest) GetTaskId() string {
+func (x *StageOutRequest) GetTaskId() string {
 	if x != nil {
 		return x.TaskId
 	}
 	return ""
 }
 
-func (x *TStageOutRequest) GetAgentRelativeLocalPath() string {
+func (x *StageOutRequest) GetAgentRelativeLocalPath() string {
 	if x != nil {
 		return x.AgentRelativeLocalPath
 	}
 	return ""
 }
 
-type TStageOutResponse struct {
+type StageOutResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TaskId   string `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`       // required
-	TaskFile *TFile `protobuf:"bytes,2,opt,name=task_file,json=taskFile,proto3" json:"task_file,omitempty"` // required
+	TaskId   string       `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`       // required
+	TaskFile *FileOnAgent `protobuf:"bytes,2,opt,name=task_file,json=taskFile,proto3" json:"task_file,omitempty"` // required
 }
 
-func (x *TStageOutResponse) Reset() {
-	*x = TStageOutResponse{}
+func (x *StageOutResponse) Reset() {
+	*x = StageOutResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -892,13 +909,13 @@ func (x *TStageOutResponse) Reset() {
 	}
 }
 
-func (x *TStageOutResponse) String() string {
+func (x *StageOutResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TStageOutResponse) ProtoMessage() {}
+func (*StageOutResponse) ProtoMessage() {}
 
-func (x *TStageOutResponse) ProtoReflect() protoreflect.Message {
+func (x *StageOutResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -910,26 +927,26 @@ func (x *TStageOutResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TStageOutResponse.ProtoReflect.Descriptor instead.
-func (*TStageOutResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use StageOutResponse.ProtoReflect.Descriptor instead.
+func (*StageOutResponse) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *TStageOutResponse) GetTaskId() string {
+func (x *StageOutResponse) GetTaskId() string {
 	if x != nil {
 		return x.TaskId
 	}
 	return ""
 }
 
-func (x *TStageOutResponse) GetTaskFile() *TFile {
+func (x *StageOutResponse) GetTaskFile() *FileOnAgent {
 	if x != nil {
 		return x.TaskFile
 	}
 	return nil
 }
 
-type TCancelTaskRequest struct {
+type CancelTaskRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -937,8 +954,8 @@ type TCancelTaskRequest struct {
 	TaskId string `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"` // required
 }
 
-func (x *TCancelTaskRequest) Reset() {
-	*x = TCancelTaskRequest{}
+func (x *CancelTaskRequest) Reset() {
+	*x = CancelTaskRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -946,13 +963,13 @@ func (x *TCancelTaskRequest) Reset() {
 	}
 }
 
-func (x *TCancelTaskRequest) String() string {
+func (x *CancelTaskRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TCancelTaskRequest) ProtoMessage() {}
+func (*CancelTaskRequest) ProtoMessage() {}
 
-func (x *TCancelTaskRequest) ProtoReflect() protoreflect.Message {
+func (x *CancelTaskRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -964,19 +981,19 @@ func (x *TCancelTaskRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TCancelTaskRequest.ProtoReflect.Descriptor instead.
-func (*TCancelTaskRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use CancelTaskRequest.ProtoReflect.Descriptor instead.
+func (*CancelTaskRequest) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{14}
 }
 
-func (x *TCancelTaskRequest) GetTaskId() string {
+func (x *CancelTaskRequest) GetTaskId() string {
 	if x != nil {
 		return x.TaskId
 	}
 	return ""
 }
 
-type TDeleteTaskRequest struct {
+type DeleteTaskRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -984,8 +1001,8 @@ type TDeleteTaskRequest struct {
 	TaskId string `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"` // required
 }
 
-func (x *TDeleteTaskRequest) Reset() {
-	*x = TDeleteTaskRequest{}
+func (x *DeleteTaskRequest) Reset() {
+	*x = DeleteTaskRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -993,13 +1010,13 @@ func (x *TDeleteTaskRequest) Reset() {
 	}
 }
 
-func (x *TDeleteTaskRequest) String() string {
+func (x *DeleteTaskRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TDeleteTaskRequest) ProtoMessage() {}
+func (*DeleteTaskRequest) ProtoMessage() {}
 
-func (x *TDeleteTaskRequest) ProtoReflect() protoreflect.Message {
+func (x *DeleteTaskRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1011,28 +1028,28 @@ func (x *TDeleteTaskRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TDeleteTaskRequest.ProtoReflect.Descriptor instead.
-func (*TDeleteTaskRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeleteTaskRequest.ProtoReflect.Descriptor instead.
+func (*DeleteTaskRequest) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{15}
 }
 
-func (x *TDeleteTaskRequest) GetTaskId() string {
+func (x *DeleteTaskRequest) GetTaskId() string {
 	if x != nil {
 		return x.TaskId
 	}
 	return ""
 }
 
-type TCreateResourceRequest struct {
+type CreateResourceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Resource *TResource `protobuf:"bytes,1,opt,name=resource,proto3" json:"resource,omitempty"` // required
+	Resource *Resource `protobuf:"bytes,1,opt,name=resource,proto3" json:"resource,omitempty"` // required
 }
 
-func (x *TCreateResourceRequest) Reset() {
-	*x = TCreateResourceRequest{}
+func (x *CreateResourceRequest) Reset() {
+	*x = CreateResourceRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1040,13 +1057,13 @@ func (x *TCreateResourceRequest) Reset() {
 	}
 }
 
-func (x *TCreateResourceRequest) String() string {
+func (x *CreateResourceRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TCreateResourceRequest) ProtoMessage() {}
+func (*CreateResourceRequest) ProtoMessage() {}
 
-func (x *TCreateResourceRequest) ProtoReflect() protoreflect.Message {
+func (x *CreateResourceRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1058,26 +1075,26 @@ func (x *TCreateResourceRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TCreateResourceRequest.ProtoReflect.Descriptor instead.
-func (*TCreateResourceRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateResourceRequest.ProtoReflect.Descriptor instead.
+func (*CreateResourceRequest) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{16}
 }
 
-func (x *TCreateResourceRequest) GetResource() *TResource {
+func (x *CreateResourceRequest) GetResource() *Resource {
 	if x != nil {
 		return x.Resource
 	}
 	return nil
 }
 
-type TCreateResourceResponse struct {
+type CreateResourceResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *TCreateResourceResponse) Reset() {
-	*x = TCreateResourceResponse{}
+func (x *CreateResourceResponse) Reset() {
+	*x = CreateResourceResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1085,13 +1102,13 @@ func (x *TCreateResourceResponse) Reset() {
 	}
 }
 
-func (x *TCreateResourceResponse) String() string {
+func (x *CreateResourceResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TCreateResourceResponse) ProtoMessage() {}
+func (*CreateResourceResponse) ProtoMessage() {}
 
-func (x *TCreateResourceResponse) ProtoReflect() protoreflect.Message {
+func (x *CreateResourceResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1103,12 +1120,12 @@ func (x *TCreateResourceResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TCreateResourceResponse.ProtoReflect.Descriptor instead.
-func (*TCreateResourceResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateResourceResponse.ProtoReflect.Descriptor instead.
+func (*CreateResourceResponse) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{17}
 }
 
-type TDeleteResourceRequest struct {
+type DeleteResourceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -1117,8 +1134,8 @@ type TDeleteResourceRequest struct {
 	UserId     string `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`             // required
 }
 
-func (x *TDeleteResourceRequest) Reset() {
-	*x = TDeleteResourceRequest{}
+func (x *DeleteResourceRequest) Reset() {
+	*x = DeleteResourceRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1126,13 +1143,13 @@ func (x *TDeleteResourceRequest) Reset() {
 	}
 }
 
-func (x *TDeleteResourceRequest) String() string {
+func (x *DeleteResourceRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TDeleteResourceRequest) ProtoMessage() {}
+func (*DeleteResourceRequest) ProtoMessage() {}
 
-func (x *TDeleteResourceRequest) ProtoReflect() protoreflect.Message {
+func (x *DeleteResourceRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1144,33 +1161,33 @@ func (x *TDeleteResourceRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TDeleteResourceRequest.ProtoReflect.Descriptor instead.
-func (*TDeleteResourceRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeleteResourceRequest.ProtoReflect.Descriptor instead.
+func (*DeleteResourceRequest) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{18}
 }
 
-func (x *TDeleteResourceRequest) GetResourceId() string {
+func (x *DeleteResourceRequest) GetResourceId() string {
 	if x != nil {
 		return x.ResourceId
 	}
 	return ""
 }
 
-func (x *TDeleteResourceRequest) GetUserId() string {
+func (x *DeleteResourceRequest) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
 	return ""
 }
 
-type TDeleteResourceResponse struct {
+type DeleteResourceResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *TDeleteResourceResponse) Reset() {
-	*x = TDeleteResourceResponse{}
+func (x *DeleteResourceResponse) Reset() {
+	*x = DeleteResourceResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1178,13 +1195,13 @@ func (x *TDeleteResourceResponse) Reset() {
 	}
 }
 
-func (x *TDeleteResourceResponse) String() string {
+func (x *DeleteResourceResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TDeleteResourceResponse) ProtoMessage() {}
+func (*DeleteResourceResponse) ProtoMessage() {}
 
-func (x *TDeleteResourceResponse) ProtoReflect() protoreflect.Message {
+func (x *DeleteResourceResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1196,29 +1213,30 @@ func (x *TDeleteResourceResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TDeleteResourceResponse.ProtoReflect.Descriptor instead.
-func (*TDeleteResourceResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeleteResourceResponse.ProtoReflect.Descriptor instead.
+func (*DeleteResourceResponse) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{19}
 }
 
-type TToAgentMessage struct {
+// FIXME(BigRedEye) ...
+type ToAgentMessage struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Body:
-	//	*TToAgentMessage_HardwareRequest
-	//	*TToAgentMessage_TaskRequest
-	//	*TToAgentMessage_StageInRequest
-	//	*TToAgentMessage_StageOutRequest
-	//	*TToAgentMessage_CancelTaskRequest
-	//	*TToAgentMessage_DeleteTaskRequest
-	//	*TToAgentMessage_GreetingsValidation
-	Body isTToAgentMessage_Body `protobuf_oneof:"Body"`
+	//	*ToAgentMessage_HardwareRequest
+	//	*ToAgentMessage_TaskRequest
+	//	*ToAgentMessage_StageInRequest
+	//	*ToAgentMessage_StageOutRequest
+	//	*ToAgentMessage_CancelTaskRequest
+	//	*ToAgentMessage_DeleteTaskRequest
+	//	*ToAgentMessage_GreetingsValidation
+	Body isToAgentMessage_Body `protobuf_oneof:"Body"`
 }
 
-func (x *TToAgentMessage) Reset() {
-	*x = TToAgentMessage{}
+func (x *ToAgentMessage) Reset() {
+	*x = ToAgentMessage{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1226,13 +1244,13 @@ func (x *TToAgentMessage) Reset() {
 	}
 }
 
-func (x *TToAgentMessage) String() string {
+func (x *ToAgentMessage) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TToAgentMessage) ProtoMessage() {}
+func (*ToAgentMessage) ProtoMessage() {}
 
-func (x *TToAgentMessage) ProtoReflect() protoreflect.Message {
+func (x *ToAgentMessage) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1244,129 +1262,130 @@ func (x *TToAgentMessage) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TToAgentMessage.ProtoReflect.Descriptor instead.
-func (*TToAgentMessage) Descriptor() ([]byte, []int) {
+// Deprecated: Use ToAgentMessage.ProtoReflect.Descriptor instead.
+func (*ToAgentMessage) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{20}
 }
 
-func (m *TToAgentMessage) GetBody() isTToAgentMessage_Body {
+func (m *ToAgentMessage) GetBody() isToAgentMessage_Body {
 	if m != nil {
 		return m.Body
 	}
 	return nil
 }
 
-func (x *TToAgentMessage) GetHardwareRequest() *THardwareRequest {
-	if x, ok := x.GetBody().(*TToAgentMessage_HardwareRequest); ok {
+func (x *ToAgentMessage) GetHardwareRequest() *HardwareRequest {
+	if x, ok := x.GetBody().(*ToAgentMessage_HardwareRequest); ok {
 		return x.HardwareRequest
 	}
 	return nil
 }
 
-func (x *TToAgentMessage) GetTaskRequest() *TTaskRequest {
-	if x, ok := x.GetBody().(*TToAgentMessage_TaskRequest); ok {
+func (x *ToAgentMessage) GetTaskRequest() *TaskRequest {
+	if x, ok := x.GetBody().(*ToAgentMessage_TaskRequest); ok {
 		return x.TaskRequest
 	}
 	return nil
 }
 
-func (x *TToAgentMessage) GetStageInRequest() *TStageInRequest {
-	if x, ok := x.GetBody().(*TToAgentMessage_StageInRequest); ok {
+func (x *ToAgentMessage) GetStageInRequest() *StageInRequest {
+	if x, ok := x.GetBody().(*ToAgentMessage_StageInRequest); ok {
 		return x.StageInRequest
 	}
 	return nil
 }
 
-func (x *TToAgentMessage) GetStageOutRequest() *TStageOutRequest {
-	if x, ok := x.GetBody().(*TToAgentMessage_StageOutRequest); ok {
+func (x *ToAgentMessage) GetStageOutRequest() *StageOutRequest {
+	if x, ok := x.GetBody().(*ToAgentMessage_StageOutRequest); ok {
 		return x.StageOutRequest
 	}
 	return nil
 }
 
-func (x *TToAgentMessage) GetCancelTaskRequest() *TCancelTaskRequest {
-	if x, ok := x.GetBody().(*TToAgentMessage_CancelTaskRequest); ok {
+func (x *ToAgentMessage) GetCancelTaskRequest() *CancelTaskRequest {
+	if x, ok := x.GetBody().(*ToAgentMessage_CancelTaskRequest); ok {
 		return x.CancelTaskRequest
 	}
 	return nil
 }
 
-func (x *TToAgentMessage) GetDeleteTaskRequest() *TDeleteTaskRequest {
-	if x, ok := x.GetBody().(*TToAgentMessage_DeleteTaskRequest); ok {
+func (x *ToAgentMessage) GetDeleteTaskRequest() *DeleteTaskRequest {
+	if x, ok := x.GetBody().(*ToAgentMessage_DeleteTaskRequest); ok {
 		return x.DeleteTaskRequest
 	}
 	return nil
 }
 
-func (x *TToAgentMessage) GetGreetingsValidation() *TGreetingsValidation {
-	if x, ok := x.GetBody().(*TToAgentMessage_GreetingsValidation); ok {
+func (x *ToAgentMessage) GetGreetingsValidation() *GreetingsValidation {
+	if x, ok := x.GetBody().(*ToAgentMessage_GreetingsValidation); ok {
 		return x.GreetingsValidation
 	}
 	return nil
 }
 
-type isTToAgentMessage_Body interface {
-	isTToAgentMessage_Body()
+type isToAgentMessage_Body interface {
+	isToAgentMessage_Body()
 }
 
-type TToAgentMessage_HardwareRequest struct {
-	HardwareRequest *THardwareRequest `protobuf:"bytes,1,opt,name=hardware_request,json=hardwareRequest,proto3,oneof"`
+type ToAgentMessage_HardwareRequest struct {
+	HardwareRequest *HardwareRequest `protobuf:"bytes,1,opt,name=hardware_request,json=hardwareRequest,proto3,oneof"`
 }
 
-type TToAgentMessage_TaskRequest struct {
-	TaskRequest *TTaskRequest `protobuf:"bytes,2,opt,name=task_request,json=taskRequest,proto3,oneof"`
+type ToAgentMessage_TaskRequest struct {
+	TaskRequest *TaskRequest `protobuf:"bytes,2,opt,name=task_request,json=taskRequest,proto3,oneof"`
 }
 
-type TToAgentMessage_StageInRequest struct {
-	StageInRequest *TStageInRequest `protobuf:"bytes,3,opt,name=stage_in_request,json=stageInRequest,proto3,oneof"`
+type ToAgentMessage_StageInRequest struct {
+	StageInRequest *StageInRequest `protobuf:"bytes,3,opt,name=stage_in_request,json=stageInRequest,proto3,oneof"`
 }
 
-type TToAgentMessage_StageOutRequest struct {
-	StageOutRequest *TStageOutRequest `protobuf:"bytes,4,opt,name=stage_out_request,json=stageOutRequest,proto3,oneof"`
+type ToAgentMessage_StageOutRequest struct {
+	StageOutRequest *StageOutRequest `protobuf:"bytes,4,opt,name=stage_out_request,json=stageOutRequest,proto3,oneof"`
 }
 
-type TToAgentMessage_CancelTaskRequest struct {
-	CancelTaskRequest *TCancelTaskRequest `protobuf:"bytes,5,opt,name=cancel_task_request,json=cancelTaskRequest,proto3,oneof"`
+type ToAgentMessage_CancelTaskRequest struct {
+	CancelTaskRequest *CancelTaskRequest `protobuf:"bytes,5,opt,name=cancel_task_request,json=cancelTaskRequest,proto3,oneof"`
 }
 
-type TToAgentMessage_DeleteTaskRequest struct {
-	DeleteTaskRequest *TDeleteTaskRequest `protobuf:"bytes,6,opt,name=delete_task_request,json=deleteTaskRequest,proto3,oneof"`
+type ToAgentMessage_DeleteTaskRequest struct {
+	DeleteTaskRequest *DeleteTaskRequest `protobuf:"bytes,6,opt,name=delete_task_request,json=deleteTaskRequest,proto3,oneof"`
 }
 
-type TToAgentMessage_GreetingsValidation struct {
-	GreetingsValidation *TGreetingsValidation `protobuf:"bytes,7,opt,name=greetings_validation,json=greetingsValidation,proto3,oneof"`
+type ToAgentMessage_GreetingsValidation struct {
+	GreetingsValidation *GreetingsValidation `protobuf:"bytes,7,opt,name=greetings_validation,json=greetingsValidation,proto3,oneof"`
 }
 
-func (*TToAgentMessage_HardwareRequest) isTToAgentMessage_Body() {}
+func (*ToAgentMessage_HardwareRequest) isToAgentMessage_Body() {}
 
-func (*TToAgentMessage_TaskRequest) isTToAgentMessage_Body() {}
+func (*ToAgentMessage_TaskRequest) isToAgentMessage_Body() {}
 
-func (*TToAgentMessage_StageInRequest) isTToAgentMessage_Body() {}
+func (*ToAgentMessage_StageInRequest) isToAgentMessage_Body() {}
 
-func (*TToAgentMessage_StageOutRequest) isTToAgentMessage_Body() {}
+func (*ToAgentMessage_StageOutRequest) isToAgentMessage_Body() {}
 
-func (*TToAgentMessage_CancelTaskRequest) isTToAgentMessage_Body() {}
+func (*ToAgentMessage_CancelTaskRequest) isToAgentMessage_Body() {}
 
-func (*TToAgentMessage_DeleteTaskRequest) isTToAgentMessage_Body() {}
+func (*ToAgentMessage_DeleteTaskRequest) isToAgentMessage_Body() {}
 
-func (*TToAgentMessage_GreetingsValidation) isTToAgentMessage_Body() {}
+func (*ToAgentMessage_GreetingsValidation) isToAgentMessage_Body() {}
 
-type TFromAgentMessage struct {
+// FIXME(BigRedEye) .....
+type FromAgentMessage struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Body:
-	//	*TFromAgentMessage_HardwareResponse
-	//	*TFromAgentMessage_Greetings
-	//	*TFromAgentMessage_TaskResponse
-	//	*TFromAgentMessage_StageInResponse
-	//	*TFromAgentMessage_StageOutResponse
-	Body isTFromAgentMessage_Body `protobuf_oneof:"Body"`
+	//	*FromAgentMessage_HardwareResponse
+	//	*FromAgentMessage_Greetings
+	//	*FromAgentMessage_TaskResponse
+	//	*FromAgentMessage_StageInResponse
+	//	*FromAgentMessage_StageOutResponse
+	Body isFromAgentMessage_Body `protobuf_oneof:"Body"`
 }
 
-func (x *TFromAgentMessage) Reset() {
-	*x = TFromAgentMessage{}
+func (x *FromAgentMessage) Reset() {
+	*x = FromAgentMessage{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1374,13 +1393,13 @@ func (x *TFromAgentMessage) Reset() {
 	}
 }
 
-func (x *TFromAgentMessage) String() string {
+func (x *FromAgentMessage) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TFromAgentMessage) ProtoMessage() {}
+func (*FromAgentMessage) ProtoMessage() {}
 
-func (x *TFromAgentMessage) ProtoReflect() protoreflect.Message {
+func (x *FromAgentMessage) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1392,100 +1411,101 @@ func (x *TFromAgentMessage) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TFromAgentMessage.ProtoReflect.Descriptor instead.
-func (*TFromAgentMessage) Descriptor() ([]byte, []int) {
+// Deprecated: Use FromAgentMessage.ProtoReflect.Descriptor instead.
+func (*FromAgentMessage) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{21}
 }
 
-func (m *TFromAgentMessage) GetBody() isTFromAgentMessage_Body {
+func (m *FromAgentMessage) GetBody() isFromAgentMessage_Body {
 	if m != nil {
 		return m.Body
 	}
 	return nil
 }
 
-func (x *TFromAgentMessage) GetHardwareResponse() *THardwareResponse {
-	if x, ok := x.GetBody().(*TFromAgentMessage_HardwareResponse); ok {
+func (x *FromAgentMessage) GetHardwareResponse() *HardwareResponse {
+	if x, ok := x.GetBody().(*FromAgentMessage_HardwareResponse); ok {
 		return x.HardwareResponse
 	}
 	return nil
 }
 
-func (x *TFromAgentMessage) GetGreetings() *TGreetings {
-	if x, ok := x.GetBody().(*TFromAgentMessage_Greetings); ok {
+func (x *FromAgentMessage) GetGreetings() *Greetings {
+	if x, ok := x.GetBody().(*FromAgentMessage_Greetings); ok {
 		return x.Greetings
 	}
 	return nil
 }
 
-func (x *TFromAgentMessage) GetTaskResponse() *TTaskResponse {
-	if x, ok := x.GetBody().(*TFromAgentMessage_TaskResponse); ok {
+func (x *FromAgentMessage) GetTaskResponse() *TaskResponse {
+	if x, ok := x.GetBody().(*FromAgentMessage_TaskResponse); ok {
 		return x.TaskResponse
 	}
 	return nil
 }
 
-func (x *TFromAgentMessage) GetStageInResponse() *TStageInResponse {
-	if x, ok := x.GetBody().(*TFromAgentMessage_StageInResponse); ok {
+func (x *FromAgentMessage) GetStageInResponse() *StageInResponse {
+	if x, ok := x.GetBody().(*FromAgentMessage_StageInResponse); ok {
 		return x.StageInResponse
 	}
 	return nil
 }
 
-func (x *TFromAgentMessage) GetStageOutResponse() *TStageOutResponse {
-	if x, ok := x.GetBody().(*TFromAgentMessage_StageOutResponse); ok {
+func (x *FromAgentMessage) GetStageOutResponse() *StageOutResponse {
+	if x, ok := x.GetBody().(*FromAgentMessage_StageOutResponse); ok {
 		return x.StageOutResponse
 	}
 	return nil
 }
 
-type isTFromAgentMessage_Body interface {
-	isTFromAgentMessage_Body()
+type isFromAgentMessage_Body interface {
+	isFromAgentMessage_Body()
 }
 
-type TFromAgentMessage_HardwareResponse struct {
-	HardwareResponse *THardwareResponse `protobuf:"bytes,1,opt,name=hardware_response,json=hardwareResponse,proto3,oneof"`
+type FromAgentMessage_HardwareResponse struct {
+	HardwareResponse *HardwareResponse `protobuf:"bytes,1,opt,name=hardware_response,json=hardwareResponse,proto3,oneof"`
 }
 
-type TFromAgentMessage_Greetings struct {
-	Greetings *TGreetings `protobuf:"bytes,2,opt,name=greetings,proto3,oneof"`
+type FromAgentMessage_Greetings struct {
+	Greetings *Greetings `protobuf:"bytes,2,opt,name=greetings,proto3,oneof"`
 }
 
-type TFromAgentMessage_TaskResponse struct {
-	TaskResponse *TTaskResponse `protobuf:"bytes,3,opt,name=task_response,json=taskResponse,proto3,oneof"`
+type FromAgentMessage_TaskResponse struct {
+	TaskResponse *TaskResponse `protobuf:"bytes,3,opt,name=task_response,json=taskResponse,proto3,oneof"`
 }
 
-type TFromAgentMessage_StageInResponse struct {
-	StageInResponse *TStageInResponse `protobuf:"bytes,4,opt,name=stage_in_response,json=stageInResponse,proto3,oneof"`
+type FromAgentMessage_StageInResponse struct {
+	StageInResponse *StageInResponse `protobuf:"bytes,4,opt,name=stage_in_response,json=stageInResponse,proto3,oneof"`
 }
 
-type TFromAgentMessage_StageOutResponse struct {
-	StageOutResponse *TStageOutResponse `protobuf:"bytes,5,opt,name=stage_out_response,json=stageOutResponse,proto3,oneof"`
+type FromAgentMessage_StageOutResponse struct {
+	StageOutResponse *StageOutResponse `protobuf:"bytes,5,opt,name=stage_out_response,json=stageOutResponse,proto3,oneof"`
 }
 
-func (*TFromAgentMessage_HardwareResponse) isTFromAgentMessage_Body() {}
+func (*FromAgentMessage_HardwareResponse) isFromAgentMessage_Body() {}
 
-func (*TFromAgentMessage_Greetings) isTFromAgentMessage_Body() {}
+func (*FromAgentMessage_Greetings) isFromAgentMessage_Body() {}
 
-func (*TFromAgentMessage_TaskResponse) isTFromAgentMessage_Body() {}
+func (*FromAgentMessage_TaskResponse) isFromAgentMessage_Body() {}
 
-func (*TFromAgentMessage_StageInResponse) isTFromAgentMessage_Body() {}
+func (*FromAgentMessage_StageInResponse) isFromAgentMessage_Body() {}
 
-func (*TFromAgentMessage_StageOutResponse) isTFromAgentMessage_Body() {}
+func (*FromAgentMessage_StageOutResponse) isFromAgentMessage_Body() {}
 
-type TResourceRequest struct {
+// FIXME(BigRedEye) .......
+type ResourceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Body:
-	//	*TResourceRequest_CreateResourceRequest
-	//	*TResourceRequest_DeleteResourceRequest
-	Body isTResourceRequest_Body `protobuf_oneof:"Body"`
+	//	*ResourceRequest_CreateResourceRequest
+	//	*ResourceRequest_DeleteResourceRequest
+	Body isResourceRequest_Body `protobuf_oneof:"Body"`
 }
 
-func (x *TResourceRequest) Reset() {
-	*x = TResourceRequest{}
+func (x *ResourceRequest) Reset() {
+	*x = ResourceRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1493,13 +1513,13 @@ func (x *TResourceRequest) Reset() {
 	}
 }
 
-func (x *TResourceRequest) String() string {
+func (x *ResourceRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TResourceRequest) ProtoMessage() {}
+func (*ResourceRequest) ProtoMessage() {}
 
-func (x *TResourceRequest) ProtoReflect() protoreflect.Message {
+func (x *ResourceRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1511,61 +1531,62 @@ func (x *TResourceRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TResourceRequest.ProtoReflect.Descriptor instead.
-func (*TResourceRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use ResourceRequest.ProtoReflect.Descriptor instead.
+func (*ResourceRequest) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{22}
 }
 
-func (m *TResourceRequest) GetBody() isTResourceRequest_Body {
+func (m *ResourceRequest) GetBody() isResourceRequest_Body {
 	if m != nil {
 		return m.Body
 	}
 	return nil
 }
 
-func (x *TResourceRequest) GetCreateResourceRequest() *TCreateResourceRequest {
-	if x, ok := x.GetBody().(*TResourceRequest_CreateResourceRequest); ok {
+func (x *ResourceRequest) GetCreateResourceRequest() *CreateResourceRequest {
+	if x, ok := x.GetBody().(*ResourceRequest_CreateResourceRequest); ok {
 		return x.CreateResourceRequest
 	}
 	return nil
 }
 
-func (x *TResourceRequest) GetDeleteResourceRequest() *TDeleteResourceRequest {
-	if x, ok := x.GetBody().(*TResourceRequest_DeleteResourceRequest); ok {
+func (x *ResourceRequest) GetDeleteResourceRequest() *DeleteResourceRequest {
+	if x, ok := x.GetBody().(*ResourceRequest_DeleteResourceRequest); ok {
 		return x.DeleteResourceRequest
 	}
 	return nil
 }
 
-type isTResourceRequest_Body interface {
-	isTResourceRequest_Body()
+type isResourceRequest_Body interface {
+	isResourceRequest_Body()
 }
 
-type TResourceRequest_CreateResourceRequest struct {
-	CreateResourceRequest *TCreateResourceRequest `protobuf:"bytes,1,opt,name=create_resource_request,json=createResourceRequest,proto3,oneof"`
+type ResourceRequest_CreateResourceRequest struct {
+	CreateResourceRequest *CreateResourceRequest `protobuf:"bytes,1,opt,name=create_resource_request,json=createResourceRequest,proto3,oneof"`
 }
 
-type TResourceRequest_DeleteResourceRequest struct {
-	DeleteResourceRequest *TDeleteResourceRequest `protobuf:"bytes,2,opt,name=delete_resource_request,json=deleteResourceRequest,proto3,oneof"`
+type ResourceRequest_DeleteResourceRequest struct {
+	DeleteResourceRequest *DeleteResourceRequest `protobuf:"bytes,2,opt,name=delete_resource_request,json=deleteResourceRequest,proto3,oneof"`
 }
 
-func (*TResourceRequest_CreateResourceRequest) isTResourceRequest_Body() {}
+func (*ResourceRequest_CreateResourceRequest) isResourceRequest_Body() {}
 
-func (*TResourceRequest_DeleteResourceRequest) isTResourceRequest_Body() {}
+func (*ResourceRequest_DeleteResourceRequest) isResourceRequest_Body() {}
 
-type TResourceResponse struct {
+// FIXME(BigRedEye) .........
+type ResourceResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Body:
-	//	*TResourceResponse_CreateResourceResponse
-	//	*TResourceResponse_DeleteResourceResponse
-	Body isTResourceResponse_Body `protobuf_oneof:"Body"`
+	//	*ResourceResponse_CreateResourceResponse
+	//	*ResourceResponse_DeleteResourceResponse
+	Body isResourceResponse_Body `protobuf_oneof:"Body"`
 }
 
-func (x *TResourceResponse) Reset() {
-	*x = TResourceResponse{}
+func (x *ResourceResponse) Reset() {
+	*x = ResourceResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1573,13 +1594,13 @@ func (x *TResourceResponse) Reset() {
 	}
 }
 
-func (x *TResourceResponse) String() string {
+func (x *ResourceResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TResourceResponse) ProtoMessage() {}
+func (*ResourceResponse) ProtoMessage() {}
 
-func (x *TResourceResponse) ProtoReflect() protoreflect.Message {
+func (x *ResourceResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1591,59 +1612,59 @@ func (x *TResourceResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TResourceResponse.ProtoReflect.Descriptor instead.
-func (*TResourceResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use ResourceResponse.ProtoReflect.Descriptor instead.
+func (*ResourceResponse) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{23}
 }
 
-func (m *TResourceResponse) GetBody() isTResourceResponse_Body {
+func (m *ResourceResponse) GetBody() isResourceResponse_Body {
 	if m != nil {
 		return m.Body
 	}
 	return nil
 }
 
-func (x *TResourceResponse) GetCreateResourceResponse() *TCreateResourceResponse {
-	if x, ok := x.GetBody().(*TResourceResponse_CreateResourceResponse); ok {
+func (x *ResourceResponse) GetCreateResourceResponse() *CreateResourceResponse {
+	if x, ok := x.GetBody().(*ResourceResponse_CreateResourceResponse); ok {
 		return x.CreateResourceResponse
 	}
 	return nil
 }
 
-func (x *TResourceResponse) GetDeleteResourceResponse() *TDeleteResourceResponse {
-	if x, ok := x.GetBody().(*TResourceResponse_DeleteResourceResponse); ok {
+func (x *ResourceResponse) GetDeleteResourceResponse() *DeleteResourceResponse {
+	if x, ok := x.GetBody().(*ResourceResponse_DeleteResourceResponse); ok {
 		return x.DeleteResourceResponse
 	}
 	return nil
 }
 
-type isTResourceResponse_Body interface {
-	isTResourceResponse_Body()
+type isResourceResponse_Body interface {
+	isResourceResponse_Body()
 }
 
-type TResourceResponse_CreateResourceResponse struct {
-	CreateResourceResponse *TCreateResourceResponse `protobuf:"bytes,1,opt,name=create_resource_response,json=createResourceResponse,proto3,oneof"`
+type ResourceResponse_CreateResourceResponse struct {
+	CreateResourceResponse *CreateResourceResponse `protobuf:"bytes,1,opt,name=create_resource_response,json=createResourceResponse,proto3,oneof"`
 }
 
-type TResourceResponse_DeleteResourceResponse struct {
-	DeleteResourceResponse *TDeleteResourceResponse `protobuf:"bytes,2,opt,name=delete_resource_response,json=deleteResourceResponse,proto3,oneof"`
+type ResourceResponse_DeleteResourceResponse struct {
+	DeleteResourceResponse *DeleteResourceResponse `protobuf:"bytes,2,opt,name=delete_resource_response,json=deleteResourceResponse,proto3,oneof"`
 }
 
-func (*TResourceResponse_CreateResourceResponse) isTResourceResponse_Body() {}
+func (*ResourceResponse_CreateResourceResponse) isResourceResponse_Body() {}
 
-func (*TResourceResponse_DeleteResourceResponse) isTResourceResponse_Body() {}
+func (*ResourceResponse_DeleteResourceResponse) isResourceResponse_Body() {}
 
-type TRMRequest struct {
+type RMRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ResourceId  string           `protobuf:"bytes,1,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`    // required
-	RealMessage *TToAgentMessage `protobuf:"bytes,2,opt,name=real_message,json=realMessage,proto3" json:"real_message,omitempty"` //required
+	ResourceId  string          `protobuf:"bytes,1,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`    // required
+	RealMessage *ToAgentMessage `protobuf:"bytes,2,opt,name=real_message,json=realMessage,proto3" json:"real_message,omitempty"` //required
 }
 
-func (x *TRMRequest) Reset() {
-	*x = TRMRequest{}
+func (x *RMRequest) Reset() {
+	*x = RMRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[24]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1651,13 +1672,13 @@ func (x *TRMRequest) Reset() {
 	}
 }
 
-func (x *TRMRequest) String() string {
+func (x *RMRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TRMRequest) ProtoMessage() {}
+func (*RMRequest) ProtoMessage() {}
 
-func (x *TRMRequest) ProtoReflect() protoreflect.Message {
+func (x *RMRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[24]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1669,35 +1690,36 @@ func (x *TRMRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TRMRequest.ProtoReflect.Descriptor instead.
-func (*TRMRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use RMRequest.ProtoReflect.Descriptor instead.
+func (*RMRequest) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{24}
 }
 
-func (x *TRMRequest) GetResourceId() string {
+func (x *RMRequest) GetResourceId() string {
 	if x != nil {
 		return x.ResourceId
 	}
 	return ""
 }
 
-func (x *TRMRequest) GetRealMessage() *TToAgentMessage {
+func (x *RMRequest) GetRealMessage() *ToAgentMessage {
 	if x != nil {
 		return x.RealMessage
 	}
 	return nil
 }
 
-type TRMResponse struct {
+// FIXME(BigRedEye) WTF?
+type RMResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ResultCode TRMResponse_TResultCode `protobuf:"varint,1,opt,name=result_code,json=resultCode,proto3,enum=pb.TRMResponse_TResultCode" json:"result_code,omitempty"` // required
+	ResultCode RMResponse_ResultCode `protobuf:"varint,1,opt,name=result_code,json=resultCode,proto3,enum=pb.RMResponse_ResultCode" json:"result_code,omitempty"` // required
 }
 
-func (x *TRMResponse) Reset() {
-	*x = TRMResponse{}
+func (x *RMResponse) Reset() {
+	*x = RMResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_resource_manager_proto_msgTypes[25]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1705,13 +1727,13 @@ func (x *TRMResponse) Reset() {
 	}
 }
 
-func (x *TRMResponse) String() string {
+func (x *RMResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TRMResponse) ProtoMessage() {}
+func (*RMResponse) ProtoMessage() {}
 
-func (x *TRMResponse) ProtoReflect() protoreflect.Message {
+func (x *RMResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_resource_manager_proto_msgTypes[25]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1723,16 +1745,118 @@ func (x *TRMResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TRMResponse.ProtoReflect.Descriptor instead.
-func (*TRMResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use RMResponse.ProtoReflect.Descriptor instead.
+func (*RMResponse) Descriptor() ([]byte, []int) {
 	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{25}
 }
 
-func (x *TRMResponse) GetResultCode() TRMResponse_TResultCode {
+func (x *RMResponse) GetResultCode() RMResponse_ResultCode {
 	if x != nil {
 		return x.ResultCode
 	}
-	return TRMResponse_NONE
+	return RMResponse_NONE
+}
+
+type GetResourcesRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Requirements *HardwareData `protobuf:"bytes,1,opt,name=requirements,proto3" json:"requirements,omitempty"` // optional
+	Limit        uint32        `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`              // optional
+}
+
+func (x *GetResourcesRequest) Reset() {
+	*x = GetResourcesRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_proto_resource_manager_proto_msgTypes[26]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetResourcesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetResourcesRequest) ProtoMessage() {}
+
+func (x *GetResourcesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_resource_manager_proto_msgTypes[26]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetResourcesRequest.ProtoReflect.Descriptor instead.
+func (*GetResourcesRequest) Descriptor() ([]byte, []int) {
+	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *GetResourcesRequest) GetRequirements() *HardwareData {
+	if x != nil {
+		return x.Requirements
+	}
+	return nil
+}
+
+func (x *GetResourcesRequest) GetLimit() uint32 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+type GetResourcesResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Resources []*Resource `protobuf:"bytes,1,rep,name=resources,proto3" json:"resources,omitempty"`
+}
+
+func (x *GetResourcesResponse) Reset() {
+	*x = GetResourcesResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_proto_resource_manager_proto_msgTypes[27]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetResourcesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetResourcesResponse) ProtoMessage() {}
+
+func (x *GetResourcesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_resource_manager_proto_msgTypes[27]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetResourcesResponse.ProtoReflect.Descriptor instead.
+func (*GetResourcesResponse) Descriptor() ([]byte, []int) {
+	return file_api_proto_resource_manager_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *GetResourcesResponse) GetResources() []*Resource {
+	if x != nil {
+		return x.Resources
+	}
+	return nil
 }
 
 var File_api_proto_resource_manager_proto protoreflect.FileDescriptor
@@ -1740,227 +1864,251 @@ var File_api_proto_resource_manager_proto protoreflect.FileDescriptor
 var file_api_proto_resource_manager_proto_rawDesc = []byte{
 	0x0a, 0x20, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x72, 0x65, 0x73, 0x6f,
 	0x75, 0x72, 0x63, 0x65, 0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x72, 0x2e, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x12, 0x02, 0x70, 0x62, 0x1a, 0x16, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x2f, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x16,
-	0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79,
-	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1c, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x2f, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x2e, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x22, 0xb0, 0x01, 0x0a, 0x05, 0x54, 0x54, 0x61, 0x73, 0x6b, 0x12, 0x0e,
-	0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x36,
-	0x0a, 0x17, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x73, 0x68, 0x65, 0x6c,
-	0x6c, 0x5f, 0x63, 0x6f, 0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x15, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x68, 0x65, 0x6c, 0x6c, 0x43,
-	0x6f, 0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x12, 0x3c, 0x0a, 0x1a, 0x72, 0x65, 0x71, 0x75, 0x69, 0x72,
-	0x65, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x5f, 0x73, 0x68, 0x65, 0x6c, 0x6c, 0x5f, 0x63, 0x6f, 0x6d,
-	0x6d, 0x61, 0x6e, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x18, 0x72, 0x65, 0x71, 0x75,
-	0x69, 0x72, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x53, 0x68, 0x65, 0x6c, 0x6c, 0x43, 0x6f, 0x6d,
-	0x6d, 0x61, 0x6e, 0x64, 0x12, 0x21, 0x0a, 0x0c, 0x64, 0x6f, 0x63, 0x6b, 0x65, 0x72, 0x5f, 0x69,
-	0x6d, 0x61, 0x67, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x64, 0x6f, 0x63, 0x6b,
-	0x65, 0x72, 0x49, 0x6d, 0x61, 0x67, 0x65, 0x22, 0x22, 0x0a, 0x0a, 0x54, 0x47, 0x72, 0x65, 0x65,
-	0x74, 0x69, 0x6e, 0x67, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x3b, 0x0a, 0x14, 0x54,
-	0x47, 0x72, 0x65, 0x65, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x12, 0x23, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x0b, 0x32, 0x0b, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74,
-	0x52, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x22, 0x3c, 0x0a, 0x0c, 0x54, 0x50, 0x65, 0x72,
+	0x74, 0x6f, 0x12, 0x02, 0x70, 0x62, 0x1a, 0x1c, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x61,
+	0x70, 0x69, 0x2f, 0x61, 0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x16, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f,
+	0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1d, 0x61, 0x70,
+	0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x68, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65,
+	0x5f, 0x64, 0x61, 0x74, 0x61, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1c, 0x61, 0x70, 0x69,
+	0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x72, 0x65, 0x73, 0x75,
+	0x6c, 0x74, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xaf, 0x01, 0x0a, 0x04, 0x54, 0x61,
+	0x73, 0x6b, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02,
+	0x69, 0x64, 0x12, 0x36, 0x0a, 0x17, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x5f,
+	0x73, 0x68, 0x65, 0x6c, 0x6c, 0x5f, 0x63, 0x6f, 0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x15, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x68,
+	0x65, 0x6c, 0x6c, 0x43, 0x6f, 0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x12, 0x3c, 0x0a, 0x1a, 0x72, 0x65,
+	0x71, 0x75, 0x69, 0x72, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x5f, 0x73, 0x68, 0x65, 0x6c, 0x6c,
+	0x5f, 0x63, 0x6f, 0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x18,
+	0x72, 0x65, 0x71, 0x75, 0x69, 0x72, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x53, 0x68, 0x65, 0x6c,
+	0x6c, 0x43, 0x6f, 0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x12, 0x21, 0x0a, 0x0c, 0x64, 0x6f, 0x63, 0x6b,
+	0x65, 0x72, 0x5f, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b,
+	0x64, 0x6f, 0x63, 0x6b, 0x65, 0x72, 0x49, 0x6d, 0x61, 0x67, 0x65, 0x22, 0x21, 0x0a, 0x09, 0x47,
+	0x72, 0x65, 0x65, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65,
+	0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x39,
+	0x0a, 0x13, 0x47, 0x72, 0x65, 0x65, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x56, 0x61, 0x6c, 0x69, 0x64,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x22, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0a, 0x2e, 0x70, 0x62, 0x2e, 0x52, 0x65, 0x73, 0x75, 0x6c,
+	0x74, 0x52, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x22, 0x3b, 0x0a, 0x0b, 0x50, 0x65, 0x72,
 	0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x75, 0x73, 0x65, 0x72,
 	0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x05, 0x75, 0x73, 0x65, 0x72, 0x73, 0x12, 0x16,
 	0x0a, 0x06, 0x67, 0x72, 0x6f, 0x75, 0x70, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x06,
-	0x67, 0x72, 0x6f, 0x75, 0x70, 0x73, 0x22, 0xba, 0x01, 0x0a, 0x09, 0x54, 0x52, 0x65, 0x73, 0x6f,
-	0x75, 0x72, 0x63, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x02, 0x69, 0x64, 0x12, 0x25, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x0e, 0x32, 0x11, 0x2e, 0x70, 0x62, 0x2e, 0x45, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63,
-	0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6f,
-	0x77, 0x6e, 0x65, 0x72, 0x49, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6f, 0x77,
-	0x6e, 0x65, 0x72, 0x49, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x04,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x32, 0x0a, 0x0b, 0x70,
-	0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x10, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f,
-	0x6e, 0x73, 0x52, 0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12,
-	0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e,
-	0x61, 0x6d, 0x65, 0x22, 0x12, 0x0a, 0x10, 0x54, 0x48, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x97, 0x01, 0x0a, 0x11, 0x54, 0x48, 0x61, 0x72,
-	0x64, 0x77, 0x61, 0x72, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x41, 0x0a,
-	0x13, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x5f, 0x68, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x5f,
-	0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x70, 0x62, 0x2e,
-	0x54, 0x48, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x44, 0x61, 0x74, 0x61, 0x52, 0x11, 0x74,
-	0x6f, 0x74, 0x61, 0x6c, 0x48, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x44, 0x61, 0x74, 0x61,
-	0x12, 0x3f, 0x0a, 0x12, 0x66, 0x72, 0x65, 0x65, 0x5f, 0x68, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72,
-	0x65, 0x5f, 0x64, 0x61, 0x74, 0x61, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x70,
-	0x62, 0x2e, 0x54, 0x48, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x44, 0x61, 0x74, 0x61, 0x52,
-	0x10, 0x66, 0x72, 0x65, 0x65, 0x48, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x44, 0x61, 0x74,
-	0x61, 0x22, 0x2d, 0x0a, 0x0c, 0x54, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x12, 0x1d, 0x0a, 0x04, 0x74, 0x61, 0x73, 0x6b, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x09, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x04, 0x74, 0x61, 0x73, 0x6b,
-	0x22, 0x7a, 0x0a, 0x0d, 0x54, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x12, 0x17, 0x0a, 0x07, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x06, 0x74, 0x61, 0x73, 0x6b, 0x49, 0x64, 0x12, 0x23, 0x0a, 0x06, 0x72, 0x65,
-	0x73, 0x75, 0x6c, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0b, 0x2e, 0x70, 0x62, 0x2e,
-	0x54, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12,
-	0x2b, 0x0a, 0x0a, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x18, 0x03, 0x20,
-	0x03, 0x28, 0x0b, 0x32, 0x0c, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x61, 0x73, 0x6b, 0x46, 0x69, 0x6c,
-	0x65, 0x52, 0x09, 0x74, 0x61, 0x73, 0x6b, 0x46, 0x69, 0x6c, 0x65, 0x73, 0x22, 0x66, 0x0a, 0x05,
-	0x54, 0x46, 0x69, 0x6c, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x39, 0x0a, 0x19, 0x61, 0x67, 0x65, 0x6e, 0x74, 0x5f, 0x72,
-	0x65, 0x6c, 0x61, 0x74, 0x69, 0x76, 0x65, 0x5f, 0x6c, 0x6f, 0x63, 0x61, 0x6c, 0x5f, 0x70, 0x61,
-	0x74, 0x68, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x16, 0x61, 0x67, 0x65, 0x6e, 0x74, 0x52,
-	0x65, 0x6c, 0x61, 0x74, 0x69, 0x76, 0x65, 0x4c, 0x6f, 0x63, 0x61, 0x6c, 0x50, 0x61, 0x74, 0x68,
-	0x12, 0x12, 0x0a, 0x04, 0x68, 0x61, 0x73, 0x68, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04,
-	0x68, 0x61, 0x73, 0x68, 0x22, 0x4b, 0x0a, 0x0f, 0x54, 0x53, 0x74, 0x61, 0x67, 0x65, 0x49, 0x6e,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x74, 0x61, 0x73, 0x6b, 0x5f,
-	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x74, 0x61, 0x73, 0x6b, 0x49, 0x64,
-	0x12, 0x1f, 0x0a, 0x05, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32,
-	0x09, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x05, 0x66, 0x69, 0x6c, 0x65,
-	0x73, 0x22, 0x50, 0x0a, 0x10, 0x54, 0x53, 0x74, 0x61, 0x67, 0x65, 0x49, 0x6e, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x17, 0x0a, 0x07, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x69, 0x64,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x74, 0x61, 0x73, 0x6b, 0x49, 0x64, 0x12, 0x23,
-	0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0b,
-	0x2e, 0x70, 0x62, 0x2e, 0x54, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x06, 0x72, 0x65, 0x73,
-	0x75, 0x6c, 0x74, 0x22, 0x66, 0x0a, 0x10, 0x54, 0x53, 0x74, 0x61, 0x67, 0x65, 0x4f, 0x75, 0x74,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x74, 0x61, 0x73, 0x6b, 0x5f,
-	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x74, 0x61, 0x73, 0x6b, 0x49, 0x64,
-	0x12, 0x39, 0x0a, 0x19, 0x61, 0x67, 0x65, 0x6e, 0x74, 0x5f, 0x72, 0x65, 0x6c, 0x61, 0x74, 0x69,
-	0x76, 0x65, 0x5f, 0x6c, 0x6f, 0x63, 0x61, 0x6c, 0x5f, 0x70, 0x61, 0x74, 0x68, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x16, 0x61, 0x67, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69,
-	0x76, 0x65, 0x4c, 0x6f, 0x63, 0x61, 0x6c, 0x50, 0x61, 0x74, 0x68, 0x22, 0x54, 0x0a, 0x11, 0x54,
-	0x53, 0x74, 0x61, 0x67, 0x65, 0x4f, 0x75, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x67, 0x72, 0x6f, 0x75, 0x70, 0x73, 0x22, 0xb6, 0x02, 0x0a, 0x08, 0x52, 0x65, 0x73, 0x6f, 0x75,
+	0x72, 0x63, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x02, 0x69, 0x64, 0x12, 0x25, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0e, 0x32, 0x11, 0x2e, 0x70, 0x62, 0x2e, 0x45, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
+	0x54, 0x79, 0x70, 0x65, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6f, 0x77,
+	0x6e, 0x65, 0x72, 0x49, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6f, 0x77, 0x6e,
+	0x65, 0x72, 0x49, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x04, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x31, 0x0a, 0x0b, 0x70, 0x65,
+	0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x0f, 0x2e, 0x70, 0x62, 0x2e, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73,
+	0x52, 0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x12, 0x0a,
+	0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d,
+	0x65, 0x12, 0x39, 0x0a, 0x0f, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x5f, 0x72, 0x65, 0x73, 0x6f, 0x75,
+	0x72, 0x63, 0x65, 0x73, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x70, 0x62, 0x2e,
+	0x48, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x44, 0x61, 0x74, 0x61, 0x52, 0x0e, 0x74, 0x6f,
+	0x74, 0x61, 0x6c, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x12, 0x41, 0x0a, 0x13,
+	0x61, 0x76, 0x61, 0x69, 0x6c, 0x61, 0x62, 0x6c, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72,
+	0x63, 0x65, 0x73, 0x18, 0x08, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x70, 0x62, 0x2e, 0x48,
+	0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x44, 0x61, 0x74, 0x61, 0x52, 0x12, 0x61, 0x76, 0x61,
+	0x69, 0x6c, 0x61, 0x62, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x22,
+	0x11, 0x0a, 0x0f, 0x48, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x22, 0x94, 0x01, 0x0a, 0x10, 0x48, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x40, 0x0a, 0x13, 0x74, 0x6f, 0x74, 0x61, 0x6c,
+	0x5f, 0x68, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x5f, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x70, 0x62, 0x2e, 0x48, 0x61, 0x72, 0x64, 0x77, 0x61,
+	0x72, 0x65, 0x44, 0x61, 0x74, 0x61, 0x52, 0x11, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x48, 0x61, 0x72,
+	0x64, 0x77, 0x61, 0x72, 0x65, 0x44, 0x61, 0x74, 0x61, 0x12, 0x3e, 0x0a, 0x12, 0x66, 0x72, 0x65,
+	0x65, 0x5f, 0x68, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x5f, 0x64, 0x61, 0x74, 0x61, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x70, 0x62, 0x2e, 0x48, 0x61, 0x72, 0x64, 0x77,
+	0x61, 0x72, 0x65, 0x44, 0x61, 0x74, 0x61, 0x52, 0x10, 0x66, 0x72, 0x65, 0x65, 0x48, 0x61, 0x72,
+	0x64, 0x77, 0x61, 0x72, 0x65, 0x44, 0x61, 0x74, 0x61, 0x22, 0x2b, 0x0a, 0x0b, 0x54, 0x61, 0x73,
+	0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x04, 0x74, 0x61, 0x73, 0x6b,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x08, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x61, 0x73, 0x6b,
+	0x52, 0x04, 0x74, 0x61, 0x73, 0x6b, 0x22, 0x78, 0x0a, 0x0c, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x17, 0x0a, 0x07, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x69,
+	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x74, 0x61, 0x73, 0x6b, 0x49, 0x64, 0x12,
+	0x22, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x0a, 0x2e, 0x70, 0x62, 0x2e, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x06, 0x72, 0x65, 0x73,
+	0x75, 0x6c, 0x74, 0x12, 0x2b, 0x0a, 0x0a, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x66, 0x69, 0x6c, 0x65,
+	0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0c, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x61, 0x73,
+	0x6b, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x09, 0x74, 0x61, 0x73, 0x6b, 0x46, 0x69, 0x6c, 0x65, 0x73,
+	0x22, 0x6c, 0x0a, 0x0b, 0x46, 0x69, 0x6c, 0x65, 0x4f, 0x6e, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x12,
+	0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12,
+	0x39, 0x0a, 0x19, 0x61, 0x67, 0x65, 0x6e, 0x74, 0x5f, 0x72, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x76,
+	0x65, 0x5f, 0x6c, 0x6f, 0x63, 0x61, 0x6c, 0x5f, 0x70, 0x61, 0x74, 0x68, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x16, 0x61, 0x67, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x76,
+	0x65, 0x4c, 0x6f, 0x63, 0x61, 0x6c, 0x50, 0x61, 0x74, 0x68, 0x12, 0x12, 0x0a, 0x04, 0x68, 0x61,
+	0x73, 0x68, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x68, 0x61, 0x73, 0x68, 0x22, 0x50,
+	0x0a, 0x0e, 0x53, 0x74, 0x61, 0x67, 0x65, 0x49, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
 	0x12, 0x17, 0x0a, 0x07, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x06, 0x74, 0x61, 0x73, 0x6b, 0x49, 0x64, 0x12, 0x26, 0x0a, 0x09, 0x74, 0x61, 0x73,
-	0x6b, 0x5f, 0x66, 0x69, 0x6c, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x09, 0x2e, 0x70,
-	0x62, 0x2e, 0x54, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x08, 0x74, 0x61, 0x73, 0x6b, 0x46, 0x69, 0x6c,
-	0x65, 0x22, 0x2d, 0x0a, 0x12, 0x54, 0x43, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x54, 0x61, 0x73, 0x6b,
+	0x09, 0x52, 0x06, 0x74, 0x61, 0x73, 0x6b, 0x49, 0x64, 0x12, 0x25, 0x0a, 0x05, 0x66, 0x69, 0x6c,
+	0x65, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x70, 0x62, 0x2e, 0x46, 0x69,
+	0x6c, 0x65, 0x4f, 0x6e, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x52, 0x05, 0x66, 0x69, 0x6c, 0x65, 0x73,
+	0x22, 0x4e, 0x0a, 0x0f, 0x53, 0x74, 0x61, 0x67, 0x65, 0x49, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x17, 0x0a, 0x07, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x69, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x74, 0x61, 0x73, 0x6b, 0x49, 0x64, 0x12, 0x22, 0x0a, 0x06,
+	0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0a, 0x2e, 0x70,
+	0x62, 0x2e, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74,
+	0x22, 0x65, 0x0a, 0x0f, 0x53, 0x74, 0x61, 0x67, 0x65, 0x4f, 0x75, 0x74, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x69, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x74, 0x61, 0x73, 0x6b, 0x49, 0x64, 0x12, 0x39, 0x0a, 0x19,
+	0x61, 0x67, 0x65, 0x6e, 0x74, 0x5f, 0x72, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x76, 0x65, 0x5f, 0x6c,
+	0x6f, 0x63, 0x61, 0x6c, 0x5f, 0x70, 0x61, 0x74, 0x68, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x16, 0x61, 0x67, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x76, 0x65, 0x4c, 0x6f,
+	0x63, 0x61, 0x6c, 0x50, 0x61, 0x74, 0x68, 0x22, 0x59, 0x0a, 0x10, 0x53, 0x74, 0x61, 0x67, 0x65,
+	0x4f, 0x75, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x17, 0x0a, 0x07, 0x74,
+	0x61, 0x73, 0x6b, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x74, 0x61,
+	0x73, 0x6b, 0x49, 0x64, 0x12, 0x2c, 0x0a, 0x09, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x66, 0x69, 0x6c,
+	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x70, 0x62, 0x2e, 0x46, 0x69, 0x6c,
+	0x65, 0x4f, 0x6e, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x52, 0x08, 0x74, 0x61, 0x73, 0x6b, 0x46, 0x69,
+	0x6c, 0x65, 0x22, 0x2c, 0x0a, 0x11, 0x43, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x54, 0x61, 0x73, 0x6b,
 	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x74, 0x61, 0x73, 0x6b, 0x5f,
 	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x74, 0x61, 0x73, 0x6b, 0x49, 0x64,
-	0x22, 0x2d, 0x0a, 0x12, 0x54, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x54, 0x61, 0x73, 0x6b, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x69,
-	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x74, 0x61, 0x73, 0x6b, 0x49, 0x64, 0x22,
-	0x43, 0x0a, 0x16, 0x54, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72,
-	0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x29, 0x0a, 0x08, 0x72, 0x65, 0x73,
-	0x6f, 0x75, 0x72, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x70, 0x62,
-	0x2e, 0x54, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x08, 0x72, 0x65, 0x73, 0x6f,
-	0x75, 0x72, 0x63, 0x65, 0x22, 0x19, 0x0a, 0x17, 0x54, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52,
-	0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
-	0x52, 0x0a, 0x16, 0x54, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72,
-	0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x72, 0x65, 0x73,
-	0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a,
-	0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x49, 0x64, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73,
-	0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x75, 0x73, 0x65,
-	0x72, 0x49, 0x64, 0x22, 0x19, 0x0a, 0x17, 0x54, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65,
-	0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xfb,
-	0x03, 0x0a, 0x0f, 0x54, 0x54, 0x6f, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61,
-	0x67, 0x65, 0x12, 0x41, 0x0a, 0x10, 0x68, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x5f, 0x72,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x70,
-	0x62, 0x2e, 0x54, 0x48, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x48, 0x00, 0x52, 0x0f, 0x68, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x35, 0x0a, 0x0c, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x72, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x70, 0x62,
-	0x2e, 0x54, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52,
-	0x0b, 0x74, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x3f, 0x0a, 0x10,
-	0x73, 0x74, 0x61, 0x67, 0x65, 0x5f, 0x69, 0x6e, 0x5f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x53, 0x74, 0x61,
-	0x67, 0x65, 0x49, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x0e, 0x73,
-	0x74, 0x61, 0x67, 0x65, 0x49, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x42, 0x0a,
-	0x11, 0x73, 0x74, 0x61, 0x67, 0x65, 0x5f, 0x6f, 0x75, 0x74, 0x5f, 0x72, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x53,
-	0x74, 0x61, 0x67, 0x65, 0x4f, 0x75, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x00,
-	0x52, 0x0f, 0x73, 0x74, 0x61, 0x67, 0x65, 0x4f, 0x75, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x12, 0x48, 0x0a, 0x13, 0x63, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x5f, 0x74, 0x61, 0x73, 0x6b,
-	0x5f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16,
-	0x2e, 0x70, 0x62, 0x2e, 0x54, 0x43, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x54, 0x61, 0x73, 0x6b, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x11, 0x63, 0x61, 0x6e, 0x63, 0x65, 0x6c,
-	0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x48, 0x0a, 0x13, 0x64,
-	0x65, 0x6c, 0x65, 0x74, 0x65, 0x5f, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x72, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x44,
-	0x65, 0x6c, 0x65, 0x74, 0x65, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x48, 0x00, 0x52, 0x11, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x4d, 0x0a, 0x14, 0x67, 0x72, 0x65, 0x65, 0x74, 0x69, 0x6e,
-	0x67, 0x73, 0x5f, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x07, 0x20,
-	0x01, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x47, 0x72, 0x65, 0x65, 0x74, 0x69,
-	0x6e, 0x67, 0x73, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x00, 0x52,
-	0x13, 0x67, 0x72, 0x65, 0x65, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x42, 0x06, 0x0a, 0x04, 0x42, 0x6f, 0x64, 0x79, 0x22, 0xd6, 0x02, 0x0a,
-	0x11, 0x54, 0x46, 0x72, 0x6f, 0x6d, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61,
-	0x67, 0x65, 0x12, 0x44, 0x0a, 0x11, 0x68, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x5f, 0x72,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e,
-	0x70, 0x62, 0x2e, 0x54, 0x48, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x52, 0x65, 0x73, 0x70,
+	0x22, 0x2c, 0x0a, 0x11, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x69, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x74, 0x61, 0x73, 0x6b, 0x49, 0x64, 0x22, 0x41,
+	0x0a, 0x15, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x28, 0x0a, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x75,
+	0x72, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0c, 0x2e, 0x70, 0x62, 0x2e, 0x52,
+	0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63,
+	0x65, 0x22, 0x18, 0x0a, 0x16, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75,
+	0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x51, 0x0a, 0x15, 0x44,
+	0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
+	0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x72, 0x65, 0x73, 0x6f, 0x75,
+	0x72, 0x63, 0x65, 0x49, 0x64, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x22, 0x18,
+	0x0a, 0x16, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xf3, 0x03, 0x0a, 0x0e, 0x54, 0x6f, 0x41,
+	0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x40, 0x0a, 0x10, 0x68,
+	0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x5f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x70, 0x62, 0x2e, 0x48, 0x61, 0x72, 0x64, 0x77,
+	0x61, 0x72, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x0f, 0x68, 0x61,
+	0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x34, 0x0a,
+	0x0c, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x0b, 0x74, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x12, 0x3e, 0x0a, 0x10, 0x73, 0x74, 0x61, 0x67, 0x65, 0x5f, 0x69, 0x6e, 0x5f,
+	0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x12, 0x2e,
+	0x70, 0x62, 0x2e, 0x53, 0x74, 0x61, 0x67, 0x65, 0x49, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x48, 0x00, 0x52, 0x0e, 0x73, 0x74, 0x61, 0x67, 0x65, 0x49, 0x6e, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x12, 0x41, 0x0a, 0x11, 0x73, 0x74, 0x61, 0x67, 0x65, 0x5f, 0x6f, 0x75, 0x74,
+	0x5f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x13,
+	0x2e, 0x70, 0x62, 0x2e, 0x53, 0x74, 0x61, 0x67, 0x65, 0x4f, 0x75, 0x74, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x0f, 0x73, 0x74, 0x61, 0x67, 0x65, 0x4f, 0x75, 0x74, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x47, 0x0a, 0x13, 0x63, 0x61, 0x6e, 0x63, 0x65, 0x6c,
+	0x5f, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x05, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x70, 0x62, 0x2e, 0x43, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x54,
+	0x61, 0x73, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x11, 0x63, 0x61,
+	0x6e, 0x63, 0x65, 0x6c, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x47, 0x0a, 0x13, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x5f, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x72,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x70,
+	0x62, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x11, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x54, 0x61, 0x73,
+	0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x4c, 0x0a, 0x14, 0x67, 0x72, 0x65, 0x65,
+	0x74, 0x69, 0x6e, 0x67, 0x73, 0x5f, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x18, 0x07, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x70, 0x62, 0x2e, 0x47, 0x72, 0x65, 0x65,
+	0x74, 0x69, 0x6e, 0x67, 0x73, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48,
+	0x00, 0x52, 0x13, 0x67, 0x72, 0x65, 0x65, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x56, 0x61, 0x6c, 0x69,
+	0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x06, 0x0a, 0x04, 0x42, 0x6f, 0x64, 0x79, 0x22, 0xd0,
+	0x02, 0x0a, 0x10, 0x46, 0x72, 0x6f, 0x6d, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x12, 0x43, 0x0a, 0x11, 0x68, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x5f,
+	0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x14,
+	0x2e, 0x70, 0x62, 0x2e, 0x48, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x52, 0x65, 0x73, 0x70,
 	0x6f, 0x6e, 0x73, 0x65, 0x48, 0x00, 0x52, 0x10, 0x68, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2e, 0x0a, 0x09, 0x67, 0x72, 0x65, 0x65,
-	0x74, 0x69, 0x6e, 0x67, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0e, 0x2e, 0x70, 0x62,
-	0x2e, 0x54, 0x47, 0x72, 0x65, 0x65, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x48, 0x00, 0x52, 0x09, 0x67,
-	0x72, 0x65, 0x65, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x12, 0x38, 0x0a, 0x0d, 0x74, 0x61, 0x73, 0x6b,
-	0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x11, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x48, 0x00, 0x52, 0x0c, 0x74, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x12, 0x42, 0x0a, 0x11, 0x73, 0x74, 0x61, 0x67, 0x65, 0x5f, 0x69, 0x6e, 0x5f, 0x72,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x14, 0x2e,
-	0x70, 0x62, 0x2e, 0x54, 0x53, 0x74, 0x61, 0x67, 0x65, 0x49, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x48, 0x00, 0x52, 0x0f, 0x73, 0x74, 0x61, 0x67, 0x65, 0x49, 0x6e, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x45, 0x0a, 0x12, 0x73, 0x74, 0x61, 0x67, 0x65, 0x5f,
-	0x6f, 0x75, 0x74, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x18, 0x05, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x15, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x53, 0x74, 0x61, 0x67, 0x65, 0x4f, 0x75,
-	0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x48, 0x00, 0x52, 0x10, 0x73, 0x74, 0x61,
-	0x67, 0x65, 0x4f, 0x75, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x06, 0x0a,
-	0x04, 0x42, 0x6f, 0x64, 0x79, 0x22, 0xc6, 0x01, 0x0a, 0x10, 0x54, 0x52, 0x65, 0x73, 0x6f, 0x75,
-	0x72, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x54, 0x0a, 0x17, 0x63, 0x72,
-	0x65, 0x61, 0x74, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x72, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x70, 0x62,
-	0x2e, 0x54, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x15, 0x63, 0x72, 0x65, 0x61, 0x74,
-	0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x12, 0x54, 0x0a, 0x17, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x6f, 0x75,
-	0x72, 0x63, 0x65, 0x5f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x1a, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65,
-	0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52,
-	0x15, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x42, 0x06, 0x0a, 0x04, 0x42, 0x6f, 0x64, 0x79, 0x22, 0xcd,
-	0x01, 0x0a, 0x11, 0x54, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x57, 0x0a, 0x18, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x5f, 0x72,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2d, 0x0a, 0x09, 0x67, 0x72, 0x65, 0x65,
+	0x74, 0x69, 0x6e, 0x67, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x70, 0x62,
+	0x2e, 0x47, 0x72, 0x65, 0x65, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x48, 0x00, 0x52, 0x09, 0x67, 0x72,
+	0x65, 0x65, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x12, 0x37, 0x0a, 0x0d, 0x74, 0x61, 0x73, 0x6b, 0x5f,
+	0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10,
+	0x2e, 0x70, 0x62, 0x2e, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x48, 0x00, 0x52, 0x0c, 0x74, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x41, 0x0a, 0x11, 0x73, 0x74, 0x61, 0x67, 0x65, 0x5f, 0x69, 0x6e, 0x5f, 0x72, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x70, 0x62,
+	0x2e, 0x53, 0x74, 0x61, 0x67, 0x65, 0x49, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x48, 0x00, 0x52, 0x0f, 0x73, 0x74, 0x61, 0x67, 0x65, 0x49, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x44, 0x0a, 0x12, 0x73, 0x74, 0x61, 0x67, 0x65, 0x5f, 0x6f, 0x75, 0x74,
+	0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x14, 0x2e, 0x70, 0x62, 0x2e, 0x53, 0x74, 0x61, 0x67, 0x65, 0x4f, 0x75, 0x74, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x48, 0x00, 0x52, 0x10, 0x73, 0x74, 0x61, 0x67, 0x65, 0x4f, 0x75,
+	0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x06, 0x0a, 0x04, 0x42, 0x6f, 0x64,
+	0x79, 0x22, 0xc3, 0x01, 0x0a, 0x0f, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x53, 0x0a, 0x17, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x5f,
+	0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x70, 0x62, 0x2e, 0x43, 0x72, 0x65, 0x61,
+	0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x48, 0x00, 0x52, 0x15, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75,
+	0x72, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x53, 0x0a, 0x17, 0x64, 0x65,
+	0x6c, 0x65, 0x74, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x72, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x70, 0x62,
+	0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x15, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x65,
+	0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x42,
+	0x06, 0x0a, 0x04, 0x42, 0x6f, 0x64, 0x79, 0x22, 0xca, 0x01, 0x0a, 0x10, 0x52, 0x65, 0x73, 0x6f,
+	0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x56, 0x0a, 0x18,
+	0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f,
+	0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a,
+	0x2e, 0x70, 0x62, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72,
+	0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x48, 0x00, 0x52, 0x16, 0x63, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x56, 0x0a, 0x18, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x5f, 0x72,
 	0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x43, 0x72, 0x65,
-	0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x48, 0x00, 0x52, 0x16, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73,
-	0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x57, 0x0a,
-	0x18, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
-	0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x1b, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f,
-	0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x48, 0x00, 0x52, 0x16,
-	0x64, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x06, 0x0a, 0x04, 0x42, 0x6f, 0x64, 0x79, 0x22, 0x65,
-	0x0a, 0x0a, 0x54, 0x52, 0x4d, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1f, 0x0a, 0x0b,
-	0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x0a, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x49, 0x64, 0x12, 0x36, 0x0a,
-	0x0c, 0x72, 0x65, 0x61, 0x6c, 0x5f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x54, 0x6f, 0x41, 0x67, 0x65, 0x6e,
-	0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x0b, 0x72, 0x65, 0x61, 0x6c, 0x4d, 0x65,
-	0x73, 0x73, 0x61, 0x67, 0x65, 0x22, 0x7b, 0x0a, 0x0b, 0x54, 0x52, 0x4d, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3c, 0x0a, 0x0b, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x5f, 0x63,
-	0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1b, 0x2e, 0x70, 0x62, 0x2e, 0x54,
-	0x52, 0x4d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x54, 0x52, 0x65, 0x73, 0x75,
-	0x6c, 0x74, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x0a, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x43, 0x6f,
-	0x64, 0x65, 0x22, 0x2e, 0x0a, 0x0b, 0x54, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x43, 0x6f, 0x64,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x70, 0x62, 0x2e, 0x44, 0x65, 0x6c, 0x65,
+	0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x48, 0x00, 0x52, 0x16, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f,
+	0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x06, 0x0a, 0x04,
+	0x42, 0x6f, 0x64, 0x79, 0x22, 0x63, 0x0a, 0x09, 0x52, 0x4d, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x69, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
+	0x49, 0x64, 0x12, 0x35, 0x0a, 0x0c, 0x72, 0x65, 0x61, 0x6c, 0x5f, 0x6d, 0x65, 0x73, 0x73, 0x61,
+	0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x6f,
+	0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x0b, 0x72, 0x65,
+	0x61, 0x6c, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x22, 0x77, 0x0a, 0x0a, 0x52, 0x4d, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3a, 0x0a, 0x0b, 0x72, 0x65, 0x73, 0x75, 0x6c,
+	0x74, 0x5f, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x19, 0x2e, 0x70,
+	0x62, 0x2e, 0x52, 0x4d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x52, 0x65, 0x73,
+	0x75, 0x6c, 0x74, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x0a, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x43,
+	0x6f, 0x64, 0x65, 0x22, 0x2d, 0x0a, 0x0a, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x43, 0x6f, 0x64,
 	0x65, 0x12, 0x08, 0x0a, 0x04, 0x4e, 0x4f, 0x4e, 0x45, 0x10, 0x00, 0x12, 0x06, 0x0a, 0x02, 0x4f,
 	0x4b, 0x10, 0x01, 0x12, 0x0d, 0x0a, 0x09, 0x4e, 0x4f, 0x54, 0x5f, 0x46, 0x4f, 0x55, 0x4e, 0x44,
-	0x10, 0x02, 0x2a, 0x5f, 0x0a, 0x0d, 0x45, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x54,
-	0x79, 0x70, 0x65, 0x12, 0x14, 0x0a, 0x10, 0x52, 0x45, 0x53, 0x4f, 0x55, 0x52, 0x43, 0x45, 0x5f,
-	0x55, 0x4e, 0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x10, 0x00, 0x12, 0x0a, 0x0a, 0x06, 0x53, 0x49, 0x4e,
-	0x47, 0x4c, 0x45, 0x10, 0x01, 0x12, 0x08, 0x0a, 0x04, 0x50, 0x4f, 0x4f, 0x4c, 0x10, 0x02, 0x12,
-	0x12, 0x0a, 0x0e, 0x43, 0x4c, 0x4f, 0x55, 0x44, 0x5f, 0x49, 0x4e, 0x53, 0x54, 0x41, 0x4e, 0x43,
-	0x45, 0x10, 0x03, 0x12, 0x0e, 0x0a, 0x0a, 0x43, 0x4c, 0x4f, 0x55, 0x44, 0x5f, 0x54, 0x41, 0x53,
-	0x4b, 0x10, 0x04, 0x32, 0xb6, 0x01, 0x0a, 0x0f, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
-	0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x72, 0x12, 0x38, 0x0a, 0x04, 0x53, 0x65, 0x6e, 0x64, 0x12,
-	0x15, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x46, 0x72, 0x6f, 0x6d, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d,
-	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x1a, 0x13, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x54, 0x6f, 0x41,
-	0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x22, 0x00, 0x28, 0x01, 0x30,
-	0x01, 0x12, 0x37, 0x0a, 0x06, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x12, 0x14, 0x2e, 0x70, 0x62,
-	0x2e, 0x54, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x1a, 0x15, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x30, 0x0a, 0x0b, 0x41, 0x67,
-	0x65, 0x6e, 0x74, 0x41, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x0e, 0x2e, 0x70, 0x62, 0x2e, 0x54,
-	0x52, 0x4d, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0f, 0x2e, 0x70, 0x62, 0x2e, 0x54,
-	0x52, 0x4d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x21, 0x5a, 0x1f,
-	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x63, 0x2d, 0x6c, 0x61,
-	0x62, 0x2f, 0x73, 0x6b, 0x79, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x10, 0x02, 0x22, 0x61, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63,
+	0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x34, 0x0a, 0x0c, 0x72, 0x65, 0x71,
+	0x75, 0x69, 0x72, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x10, 0x2e, 0x70, 0x62, 0x2e, 0x48, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x44, 0x61, 0x74,
+	0x61, 0x52, 0x0c, 0x72, 0x65, 0x71, 0x75, 0x69, 0x72, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x12,
+	0x14, 0x0a, 0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x05,
+	0x6c, 0x69, 0x6d, 0x69, 0x74, 0x22, 0x42, 0x0a, 0x14, 0x47, 0x65, 0x74, 0x52, 0x65, 0x73, 0x6f,
+	0x75, 0x72, 0x63, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2a, 0x0a,
+	0x09, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
+	0x32, 0x0c, 0x2e, 0x70, 0x62, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x09,
+	0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x2a, 0x5f, 0x0a, 0x0d, 0x45, 0x52, 0x65,
+	0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12, 0x14, 0x0a, 0x10, 0x52, 0x45,
+	0x53, 0x4f, 0x55, 0x52, 0x43, 0x45, 0x5f, 0x55, 0x4e, 0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x10, 0x00,
+	0x12, 0x0a, 0x0a, 0x06, 0x53, 0x49, 0x4e, 0x47, 0x4c, 0x45, 0x10, 0x01, 0x12, 0x08, 0x0a, 0x04,
+	0x50, 0x4f, 0x4f, 0x4c, 0x10, 0x02, 0x12, 0x12, 0x0a, 0x0e, 0x43, 0x4c, 0x4f, 0x55, 0x44, 0x5f,
+	0x49, 0x4e, 0x53, 0x54, 0x41, 0x4e, 0x43, 0x45, 0x10, 0x03, 0x12, 0x0e, 0x0a, 0x0a, 0x43, 0x4c,
+	0x4f, 0x55, 0x44, 0x5f, 0x54, 0x41, 0x53, 0x4b, 0x10, 0x04, 0x32, 0x8e, 0x02, 0x0a, 0x0f, 0x52,
+	0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x72, 0x12, 0x36,
+	0x0a, 0x04, 0x53, 0x65, 0x6e, 0x64, 0x12, 0x14, 0x2e, 0x70, 0x62, 0x2e, 0x46, 0x72, 0x6f, 0x6d,
+	0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x1a, 0x12, 0x2e, 0x70,
+	0x62, 0x2e, 0x54, 0x6f, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x22, 0x00, 0x28, 0x01, 0x30, 0x01, 0x12, 0x35, 0x0a, 0x06, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x12, 0x13, 0x2e, 0x70, 0x62, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x14, 0x2e, 0x70, 0x62, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x75,
+	0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x2e, 0x0a,
+	0x0b, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x41, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x0d, 0x2e, 0x70,
+	0x62, 0x2e, 0x52, 0x4d, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0e, 0x2e, 0x70, 0x62,
+	0x2e, 0x52, 0x4d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x5c, 0x0a,
+	0x0c, 0x47, 0x65, 0x74, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x12, 0x17, 0x2e,
+	0x70, 0x62, 0x2e, 0x47, 0x65, 0x74, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x18, 0x2e, 0x70, 0x62, 0x2e, 0x47, 0x65, 0x74, 0x52,
+	0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x19, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x13, 0x12, 0x11, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76,
+	0x31, 0x2f, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x42, 0x21, 0x5a, 0x1f, 0x67,
+	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x63, 0x2d, 0x6c, 0x61, 0x62,
+	0x2f, 0x73, 0x6b, 0x79, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1976,82 +2124,90 @@ func file_api_proto_resource_manager_proto_rawDescGZIP() []byte {
 }
 
 var file_api_proto_resource_manager_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_api_proto_resource_manager_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
+var file_api_proto_resource_manager_proto_msgTypes = make([]protoimpl.MessageInfo, 28)
 var file_api_proto_resource_manager_proto_goTypes = []interface{}{
-	(EResourceType)(0),              // 0: pb.EResourceType
-	(TRMResponse_TResultCode)(0),    // 1: pb.TRMResponse.TResultCode
-	(*TTask)(nil),                   // 2: pb.TTask
-	(*TGreetings)(nil),              // 3: pb.TGreetings
-	(*TGreetingsValidation)(nil),    // 4: pb.TGreetingsValidation
-	(*TPermissions)(nil),            // 5: pb.TPermissions
-	(*TResource)(nil),               // 6: pb.TResource
-	(*THardwareRequest)(nil),        // 7: pb.THardwareRequest
-	(*THardwareResponse)(nil),       // 8: pb.THardwareResponse
-	(*TTaskRequest)(nil),            // 9: pb.TTaskRequest
-	(*TTaskResponse)(nil),           // 10: pb.TTaskResponse
-	(*TFile)(nil),                   // 11: pb.TFile
-	(*TStageInRequest)(nil),         // 12: pb.TStageInRequest
-	(*TStageInResponse)(nil),        // 13: pb.TStageInResponse
-	(*TStageOutRequest)(nil),        // 14: pb.TStageOutRequest
-	(*TStageOutResponse)(nil),       // 15: pb.TStageOutResponse
-	(*TCancelTaskRequest)(nil),      // 16: pb.TCancelTaskRequest
-	(*TDeleteTaskRequest)(nil),      // 17: pb.TDeleteTaskRequest
-	(*TCreateResourceRequest)(nil),  // 18: pb.TCreateResourceRequest
-	(*TCreateResourceResponse)(nil), // 19: pb.TCreateResourceResponse
-	(*TDeleteResourceRequest)(nil),  // 20: pb.TDeleteResourceRequest
-	(*TDeleteResourceResponse)(nil), // 21: pb.TDeleteResourceResponse
-	(*TToAgentMessage)(nil),         // 22: pb.TToAgentMessage
-	(*TFromAgentMessage)(nil),       // 23: pb.TFromAgentMessage
-	(*TResourceRequest)(nil),        // 24: pb.TResourceRequest
-	(*TResourceResponse)(nil),       // 25: pb.TResourceResponse
-	(*TRMRequest)(nil),              // 26: pb.TRMRequest
-	(*TRMResponse)(nil),             // 27: pb.TRMResponse
-	(*TResult)(nil),                 // 28: pb.TResult
-	(*THardwareData)(nil),           // 29: pb.THardwareData
-	(*TaskFile)(nil),                // 30: pb.TaskFile
+	(EResourceType)(0),             // 0: pb.EResourceType
+	(RMResponse_ResultCode)(0),     // 1: pb.RMResponse.ResultCode
+	(*Task)(nil),                   // 2: pb.Task
+	(*Greetings)(nil),              // 3: pb.Greetings
+	(*GreetingsValidation)(nil),    // 4: pb.GreetingsValidation
+	(*Permissions)(nil),            // 5: pb.Permissions
+	(*Resource)(nil),               // 6: pb.Resource
+	(*HardwareRequest)(nil),        // 7: pb.HardwareRequest
+	(*HardwareResponse)(nil),       // 8: pb.HardwareResponse
+	(*TaskRequest)(nil),            // 9: pb.TaskRequest
+	(*TaskResponse)(nil),           // 10: pb.TaskResponse
+	(*FileOnAgent)(nil),            // 11: pb.FileOnAgent
+	(*StageInRequest)(nil),         // 12: pb.StageInRequest
+	(*StageInResponse)(nil),        // 13: pb.StageInResponse
+	(*StageOutRequest)(nil),        // 14: pb.StageOutRequest
+	(*StageOutResponse)(nil),       // 15: pb.StageOutResponse
+	(*CancelTaskRequest)(nil),      // 16: pb.CancelTaskRequest
+	(*DeleteTaskRequest)(nil),      // 17: pb.DeleteTaskRequest
+	(*CreateResourceRequest)(nil),  // 18: pb.CreateResourceRequest
+	(*CreateResourceResponse)(nil), // 19: pb.CreateResourceResponse
+	(*DeleteResourceRequest)(nil),  // 20: pb.DeleteResourceRequest
+	(*DeleteResourceResponse)(nil), // 21: pb.DeleteResourceResponse
+	(*ToAgentMessage)(nil),         // 22: pb.ToAgentMessage
+	(*FromAgentMessage)(nil),       // 23: pb.FromAgentMessage
+	(*ResourceRequest)(nil),        // 24: pb.ResourceRequest
+	(*ResourceResponse)(nil),       // 25: pb.ResourceResponse
+	(*RMRequest)(nil),              // 26: pb.RMRequest
+	(*RMResponse)(nil),             // 27: pb.RMResponse
+	(*GetResourcesRequest)(nil),    // 28: pb.GetResourcesRequest
+	(*GetResourcesResponse)(nil),   // 29: pb.GetResourcesResponse
+	(*Result)(nil),                 // 30: pb.Result
+	(*HardwareData)(nil),           // 31: pb.HardwareData
+	(*TaskFile)(nil),               // 32: pb.TaskFile
 }
 var file_api_proto_resource_manager_proto_depIdxs = []int32{
-	28, // 0: pb.TGreetingsValidation.result:type_name -> pb.TResult
-	0,  // 1: pb.TResource.type:type_name -> pb.EResourceType
-	5,  // 2: pb.TResource.permissions:type_name -> pb.TPermissions
-	29, // 3: pb.THardwareResponse.total_hardware_data:type_name -> pb.THardwareData
-	29, // 4: pb.THardwareResponse.free_hardware_data:type_name -> pb.THardwareData
-	2,  // 5: pb.TTaskRequest.task:type_name -> pb.TTask
-	28, // 6: pb.TTaskResponse.result:type_name -> pb.TResult
-	30, // 7: pb.TTaskResponse.task_files:type_name -> pb.TaskFile
-	11, // 8: pb.TStageInRequest.files:type_name -> pb.TFile
-	28, // 9: pb.TStageInResponse.result:type_name -> pb.TResult
-	11, // 10: pb.TStageOutResponse.task_file:type_name -> pb.TFile
-	6,  // 11: pb.TCreateResourceRequest.resource:type_name -> pb.TResource
-	7,  // 12: pb.TToAgentMessage.hardware_request:type_name -> pb.THardwareRequest
-	9,  // 13: pb.TToAgentMessage.task_request:type_name -> pb.TTaskRequest
-	12, // 14: pb.TToAgentMessage.stage_in_request:type_name -> pb.TStageInRequest
-	14, // 15: pb.TToAgentMessage.stage_out_request:type_name -> pb.TStageOutRequest
-	16, // 16: pb.TToAgentMessage.cancel_task_request:type_name -> pb.TCancelTaskRequest
-	17, // 17: pb.TToAgentMessage.delete_task_request:type_name -> pb.TDeleteTaskRequest
-	4,  // 18: pb.TToAgentMessage.greetings_validation:type_name -> pb.TGreetingsValidation
-	8,  // 19: pb.TFromAgentMessage.hardware_response:type_name -> pb.THardwareResponse
-	3,  // 20: pb.TFromAgentMessage.greetings:type_name -> pb.TGreetings
-	10, // 21: pb.TFromAgentMessage.task_response:type_name -> pb.TTaskResponse
-	13, // 22: pb.TFromAgentMessage.stage_in_response:type_name -> pb.TStageInResponse
-	15, // 23: pb.TFromAgentMessage.stage_out_response:type_name -> pb.TStageOutResponse
-	18, // 24: pb.TResourceRequest.create_resource_request:type_name -> pb.TCreateResourceRequest
-	20, // 25: pb.TResourceRequest.delete_resource_request:type_name -> pb.TDeleteResourceRequest
-	19, // 26: pb.TResourceResponse.create_resource_response:type_name -> pb.TCreateResourceResponse
-	21, // 27: pb.TResourceResponse.delete_resource_response:type_name -> pb.TDeleteResourceResponse
-	22, // 28: pb.TRMRequest.real_message:type_name -> pb.TToAgentMessage
-	1,  // 29: pb.TRMResponse.result_code:type_name -> pb.TRMResponse.TResultCode
-	23, // 30: pb.ResourceManager.Send:input_type -> pb.TFromAgentMessage
-	24, // 31: pb.ResourceManager.Update:input_type -> pb.TResourceRequest
-	26, // 32: pb.ResourceManager.AgentAction:input_type -> pb.TRMRequest
-	22, // 33: pb.ResourceManager.Send:output_type -> pb.TToAgentMessage
-	25, // 34: pb.ResourceManager.Update:output_type -> pb.TResourceResponse
-	27, // 35: pb.ResourceManager.AgentAction:output_type -> pb.TRMResponse
-	33, // [33:36] is the sub-list for method output_type
-	30, // [30:33] is the sub-list for method input_type
-	30, // [30:30] is the sub-list for extension type_name
-	30, // [30:30] is the sub-list for extension extendee
-	0,  // [0:30] is the sub-list for field type_name
+	30, // 0: pb.GreetingsValidation.result:type_name -> pb.Result
+	0,  // 1: pb.Resource.type:type_name -> pb.EResourceType
+	5,  // 2: pb.Resource.permissions:type_name -> pb.Permissions
+	31, // 3: pb.Resource.total_resources:type_name -> pb.HardwareData
+	31, // 4: pb.Resource.available_resources:type_name -> pb.HardwareData
+	31, // 5: pb.HardwareResponse.total_hardware_data:type_name -> pb.HardwareData
+	31, // 6: pb.HardwareResponse.free_hardware_data:type_name -> pb.HardwareData
+	2,  // 7: pb.TaskRequest.task:type_name -> pb.Task
+	30, // 8: pb.TaskResponse.result:type_name -> pb.Result
+	32, // 9: pb.TaskResponse.task_files:type_name -> pb.TaskFile
+	11, // 10: pb.StageInRequest.files:type_name -> pb.FileOnAgent
+	30, // 11: pb.StageInResponse.result:type_name -> pb.Result
+	11, // 12: pb.StageOutResponse.task_file:type_name -> pb.FileOnAgent
+	6,  // 13: pb.CreateResourceRequest.resource:type_name -> pb.Resource
+	7,  // 14: pb.ToAgentMessage.hardware_request:type_name -> pb.HardwareRequest
+	9,  // 15: pb.ToAgentMessage.task_request:type_name -> pb.TaskRequest
+	12, // 16: pb.ToAgentMessage.stage_in_request:type_name -> pb.StageInRequest
+	14, // 17: pb.ToAgentMessage.stage_out_request:type_name -> pb.StageOutRequest
+	16, // 18: pb.ToAgentMessage.cancel_task_request:type_name -> pb.CancelTaskRequest
+	17, // 19: pb.ToAgentMessage.delete_task_request:type_name -> pb.DeleteTaskRequest
+	4,  // 20: pb.ToAgentMessage.greetings_validation:type_name -> pb.GreetingsValidation
+	8,  // 21: pb.FromAgentMessage.hardware_response:type_name -> pb.HardwareResponse
+	3,  // 22: pb.FromAgentMessage.greetings:type_name -> pb.Greetings
+	10, // 23: pb.FromAgentMessage.task_response:type_name -> pb.TaskResponse
+	13, // 24: pb.FromAgentMessage.stage_in_response:type_name -> pb.StageInResponse
+	15, // 25: pb.FromAgentMessage.stage_out_response:type_name -> pb.StageOutResponse
+	18, // 26: pb.ResourceRequest.create_resource_request:type_name -> pb.CreateResourceRequest
+	20, // 27: pb.ResourceRequest.delete_resource_request:type_name -> pb.DeleteResourceRequest
+	19, // 28: pb.ResourceResponse.create_resource_response:type_name -> pb.CreateResourceResponse
+	21, // 29: pb.ResourceResponse.delete_resource_response:type_name -> pb.DeleteResourceResponse
+	22, // 30: pb.RMRequest.real_message:type_name -> pb.ToAgentMessage
+	1,  // 31: pb.RMResponse.result_code:type_name -> pb.RMResponse.ResultCode
+	31, // 32: pb.GetResourcesRequest.requirements:type_name -> pb.HardwareData
+	6,  // 33: pb.GetResourcesResponse.resources:type_name -> pb.Resource
+	23, // 34: pb.ResourceManager.Send:input_type -> pb.FromAgentMessage
+	24, // 35: pb.ResourceManager.Update:input_type -> pb.ResourceRequest
+	26, // 36: pb.ResourceManager.AgentAction:input_type -> pb.RMRequest
+	28, // 37: pb.ResourceManager.GetResources:input_type -> pb.GetResourcesRequest
+	22, // 38: pb.ResourceManager.Send:output_type -> pb.ToAgentMessage
+	25, // 39: pb.ResourceManager.Update:output_type -> pb.ResourceResponse
+	27, // 40: pb.ResourceManager.AgentAction:output_type -> pb.RMResponse
+	29, // 41: pb.ResourceManager.GetResources:output_type -> pb.GetResourcesResponse
+	38, // [38:42] is the sub-list for method output_type
+	34, // [34:38] is the sub-list for method input_type
+	34, // [34:34] is the sub-list for extension type_name
+	34, // [34:34] is the sub-list for extension extendee
+	0,  // [0:34] is the sub-list for field type_name
 }
 
 func init() { file_api_proto_resource_manager_proto_init() }
@@ -2060,11 +2216,11 @@ func file_api_proto_resource_manager_proto_init() {
 		return
 	}
 	file_api_proto_action_proto_init()
-	file_api_proto_entity_proto_init()
+	file_api_proto_hardware_data_proto_init()
 	file_api_proto_task_results_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_api_proto_resource_manager_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TTask); i {
+			switch v := v.(*Task); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2076,7 +2232,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TGreetings); i {
+			switch v := v.(*Greetings); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2088,7 +2244,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TGreetingsValidation); i {
+			switch v := v.(*GreetingsValidation); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2100,7 +2256,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TPermissions); i {
+			switch v := v.(*Permissions); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2112,7 +2268,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TResource); i {
+			switch v := v.(*Resource); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2124,7 +2280,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*THardwareRequest); i {
+			switch v := v.(*HardwareRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2136,7 +2292,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*THardwareResponse); i {
+			switch v := v.(*HardwareResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2148,7 +2304,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TTaskRequest); i {
+			switch v := v.(*TaskRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2160,7 +2316,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TTaskResponse); i {
+			switch v := v.(*TaskResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2172,7 +2328,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TFile); i {
+			switch v := v.(*FileOnAgent); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2184,7 +2340,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TStageInRequest); i {
+			switch v := v.(*StageInRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2196,7 +2352,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TStageInResponse); i {
+			switch v := v.(*StageInResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2208,7 +2364,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TStageOutRequest); i {
+			switch v := v.(*StageOutRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2220,7 +2376,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TStageOutResponse); i {
+			switch v := v.(*StageOutResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2232,7 +2388,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TCancelTaskRequest); i {
+			switch v := v.(*CancelTaskRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2244,7 +2400,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TDeleteTaskRequest); i {
+			switch v := v.(*DeleteTaskRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2256,7 +2412,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TCreateResourceRequest); i {
+			switch v := v.(*CreateResourceRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2268,7 +2424,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TCreateResourceResponse); i {
+			switch v := v.(*CreateResourceResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2280,7 +2436,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TDeleteResourceRequest); i {
+			switch v := v.(*DeleteResourceRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2292,7 +2448,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TDeleteResourceResponse); i {
+			switch v := v.(*DeleteResourceResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2304,7 +2460,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TToAgentMessage); i {
+			switch v := v.(*ToAgentMessage); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2316,7 +2472,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TFromAgentMessage); i {
+			switch v := v.(*FromAgentMessage); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2328,7 +2484,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TResourceRequest); i {
+			switch v := v.(*ResourceRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2340,7 +2496,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TResourceResponse); i {
+			switch v := v.(*ResourceResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2352,7 +2508,7 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TRMRequest); i {
+			switch v := v.(*RMRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2364,7 +2520,31 @@ func file_api_proto_resource_manager_proto_init() {
 			}
 		}
 		file_api_proto_resource_manager_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TRMResponse); i {
+			switch v := v.(*RMResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_proto_resource_manager_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetResourcesRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_proto_resource_manager_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetResourcesResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2377,28 +2557,28 @@ func file_api_proto_resource_manager_proto_init() {
 		}
 	}
 	file_api_proto_resource_manager_proto_msgTypes[20].OneofWrappers = []interface{}{
-		(*TToAgentMessage_HardwareRequest)(nil),
-		(*TToAgentMessage_TaskRequest)(nil),
-		(*TToAgentMessage_StageInRequest)(nil),
-		(*TToAgentMessage_StageOutRequest)(nil),
-		(*TToAgentMessage_CancelTaskRequest)(nil),
-		(*TToAgentMessage_DeleteTaskRequest)(nil),
-		(*TToAgentMessage_GreetingsValidation)(nil),
+		(*ToAgentMessage_HardwareRequest)(nil),
+		(*ToAgentMessage_TaskRequest)(nil),
+		(*ToAgentMessage_StageInRequest)(nil),
+		(*ToAgentMessage_StageOutRequest)(nil),
+		(*ToAgentMessage_CancelTaskRequest)(nil),
+		(*ToAgentMessage_DeleteTaskRequest)(nil),
+		(*ToAgentMessage_GreetingsValidation)(nil),
 	}
 	file_api_proto_resource_manager_proto_msgTypes[21].OneofWrappers = []interface{}{
-		(*TFromAgentMessage_HardwareResponse)(nil),
-		(*TFromAgentMessage_Greetings)(nil),
-		(*TFromAgentMessage_TaskResponse)(nil),
-		(*TFromAgentMessage_StageInResponse)(nil),
-		(*TFromAgentMessage_StageOutResponse)(nil),
+		(*FromAgentMessage_HardwareResponse)(nil),
+		(*FromAgentMessage_Greetings)(nil),
+		(*FromAgentMessage_TaskResponse)(nil),
+		(*FromAgentMessage_StageInResponse)(nil),
+		(*FromAgentMessage_StageOutResponse)(nil),
 	}
 	file_api_proto_resource_manager_proto_msgTypes[22].OneofWrappers = []interface{}{
-		(*TResourceRequest_CreateResourceRequest)(nil),
-		(*TResourceRequest_DeleteResourceRequest)(nil),
+		(*ResourceRequest_CreateResourceRequest)(nil),
+		(*ResourceRequest_DeleteResourceRequest)(nil),
 	}
 	file_api_proto_resource_manager_proto_msgTypes[23].OneofWrappers = []interface{}{
-		(*TResourceResponse_CreateResourceResponse)(nil),
-		(*TResourceResponse_DeleteResourceResponse)(nil),
+		(*ResourceResponse_CreateResourceResponse)(nil),
+		(*ResourceResponse_DeleteResourceResponse)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -2406,7 +2586,7 @@ func file_api_proto_resource_manager_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_api_proto_resource_manager_proto_rawDesc,
 			NumEnums:      2,
-			NumMessages:   26,
+			NumMessages:   28,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -2434,8 +2614,9 @@ const _ = grpc.SupportPackageIsVersion6
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type ResourceManagerClient interface {
 	Send(ctx context.Context, opts ...grpc.CallOption) (ResourceManager_SendClient, error)
-	Update(ctx context.Context, in *TResourceRequest, opts ...grpc.CallOption) (*TResourceResponse, error)
-	AgentAction(ctx context.Context, in *TRMRequest, opts ...grpc.CallOption) (*TRMResponse, error)
+	Update(ctx context.Context, in *ResourceRequest, opts ...grpc.CallOption) (*ResourceResponse, error)
+	AgentAction(ctx context.Context, in *RMRequest, opts ...grpc.CallOption) (*RMResponse, error)
+	GetResources(ctx context.Context, in *GetResourcesRequest, opts ...grpc.CallOption) (*GetResourcesResponse, error)
 }
 
 type resourceManagerClient struct {
@@ -2456,8 +2637,8 @@ func (c *resourceManagerClient) Send(ctx context.Context, opts ...grpc.CallOptio
 }
 
 type ResourceManager_SendClient interface {
-	Send(*TFromAgentMessage) error
-	Recv() (*TToAgentMessage, error)
+	Send(*FromAgentMessage) error
+	Recv() (*ToAgentMessage, error)
 	grpc.ClientStream
 }
 
@@ -2465,20 +2646,20 @@ type resourceManagerSendClient struct {
 	grpc.ClientStream
 }
 
-func (x *resourceManagerSendClient) Send(m *TFromAgentMessage) error {
+func (x *resourceManagerSendClient) Send(m *FromAgentMessage) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *resourceManagerSendClient) Recv() (*TToAgentMessage, error) {
-	m := new(TToAgentMessage)
+func (x *resourceManagerSendClient) Recv() (*ToAgentMessage, error) {
+	m := new(ToAgentMessage)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
 	return m, nil
 }
 
-func (c *resourceManagerClient) Update(ctx context.Context, in *TResourceRequest, opts ...grpc.CallOption) (*TResourceResponse, error) {
-	out := new(TResourceResponse)
+func (c *resourceManagerClient) Update(ctx context.Context, in *ResourceRequest, opts ...grpc.CallOption) (*ResourceResponse, error) {
+	out := new(ResourceResponse)
 	err := c.cc.Invoke(ctx, "/pb.ResourceManager/Update", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -2486,9 +2667,18 @@ func (c *resourceManagerClient) Update(ctx context.Context, in *TResourceRequest
 	return out, nil
 }
 
-func (c *resourceManagerClient) AgentAction(ctx context.Context, in *TRMRequest, opts ...grpc.CallOption) (*TRMResponse, error) {
-	out := new(TRMResponse)
+func (c *resourceManagerClient) AgentAction(ctx context.Context, in *RMRequest, opts ...grpc.CallOption) (*RMResponse, error) {
+	out := new(RMResponse)
 	err := c.cc.Invoke(ctx, "/pb.ResourceManager/AgentAction", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *resourceManagerClient) GetResources(ctx context.Context, in *GetResourcesRequest, opts ...grpc.CallOption) (*GetResourcesResponse, error) {
+	out := new(GetResourcesResponse)
+	err := c.cc.Invoke(ctx, "/pb.ResourceManager/GetResources", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -2498,8 +2688,9 @@ func (c *resourceManagerClient) AgentAction(ctx context.Context, in *TRMRequest,
 // ResourceManagerServer is the server API for ResourceManager service.
 type ResourceManagerServer interface {
 	Send(ResourceManager_SendServer) error
-	Update(context.Context, *TResourceRequest) (*TResourceResponse, error)
-	AgentAction(context.Context, *TRMRequest) (*TRMResponse, error)
+	Update(context.Context, *ResourceRequest) (*ResourceResponse, error)
+	AgentAction(context.Context, *RMRequest) (*RMResponse, error)
+	GetResources(context.Context, *GetResourcesRequest) (*GetResourcesResponse, error)
 }
 
 // UnimplementedResourceManagerServer can be embedded to have forward compatible implementations.
@@ -2509,11 +2700,14 @@ type UnimplementedResourceManagerServer struct {
 func (*UnimplementedResourceManagerServer) Send(ResourceManager_SendServer) error {
 	return status.Errorf(codes.Unimplemented, "method Send not implemented")
 }
-func (*UnimplementedResourceManagerServer) Update(context.Context, *TResourceRequest) (*TResourceResponse, error) {
+func (*UnimplementedResourceManagerServer) Update(context.Context, *ResourceRequest) (*ResourceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (*UnimplementedResourceManagerServer) AgentAction(context.Context, *TRMRequest) (*TRMResponse, error) {
+func (*UnimplementedResourceManagerServer) AgentAction(context.Context, *RMRequest) (*RMResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentAction not implemented")
+}
+func (*UnimplementedResourceManagerServer) GetResources(context.Context, *GetResourcesRequest) (*GetResourcesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetResources not implemented")
 }
 
 func RegisterResourceManagerServer(s *grpc.Server, srv ResourceManagerServer) {
@@ -2525,8 +2719,8 @@ func _ResourceManager_Send_Handler(srv interface{}, stream grpc.ServerStream) er
 }
 
 type ResourceManager_SendServer interface {
-	Send(*TToAgentMessage) error
-	Recv() (*TFromAgentMessage, error)
+	Send(*ToAgentMessage) error
+	Recv() (*FromAgentMessage, error)
 	grpc.ServerStream
 }
 
@@ -2534,12 +2728,12 @@ type resourceManagerSendServer struct {
 	grpc.ServerStream
 }
 
-func (x *resourceManagerSendServer) Send(m *TToAgentMessage) error {
+func (x *resourceManagerSendServer) Send(m *ToAgentMessage) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *resourceManagerSendServer) Recv() (*TFromAgentMessage, error) {
-	m := new(TFromAgentMessage)
+func (x *resourceManagerSendServer) Recv() (*FromAgentMessage, error) {
+	m := new(FromAgentMessage)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -2547,7 +2741,7 @@ func (x *resourceManagerSendServer) Recv() (*TFromAgentMessage, error) {
 }
 
 func _ResourceManager_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TResourceRequest)
+	in := new(ResourceRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -2559,13 +2753,13 @@ func _ResourceManager_Update_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: "/pb.ResourceManager/Update",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ResourceManagerServer).Update(ctx, req.(*TResourceRequest))
+		return srv.(ResourceManagerServer).Update(ctx, req.(*ResourceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _ResourceManager_AgentAction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TRMRequest)
+	in := new(RMRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -2577,7 +2771,25 @@ func _ResourceManager_AgentAction_Handler(srv interface{}, ctx context.Context, 
 		FullMethod: "/pb.ResourceManager/AgentAction",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ResourceManagerServer).AgentAction(ctx, req.(*TRMRequest))
+		return srv.(ResourceManagerServer).AgentAction(ctx, req.(*RMRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ResourceManager_GetResources_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetResourcesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ResourceManagerServer).GetResources(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.ResourceManager/GetResources",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ResourceManagerServer).GetResources(ctx, req.(*GetResourcesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2593,6 +2805,10 @@ var _ResourceManager_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AgentAction",
 			Handler:    _ResourceManager_AgentAction_Handler,
+		},
+		{
+			MethodName: "GetResources",
+			Handler:    _ResourceManager_GetResources_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

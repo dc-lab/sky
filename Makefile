@@ -42,3 +42,6 @@ dm-node: pkger
 
 cli: protos
 	go build -o build ./internal/cli
+
+clean:
+	rm -f api/proto/*.go

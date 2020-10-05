@@ -28,7 +28,7 @@ func NewFileStorage(config *parser.Config) (*FileStorage, error) {
 	}, nil
 }
 
-func (s *FileStorage) DownloadFile(localPath string, file *pb.TFile) error {
+func (s *FileStorage) DownloadFile(localPath string, file *pb.FileOnAgent) error {
 	reader, err := s.cache.GetCacheFileReader(file.GetHash())
 	if err != nil {
 		err, reader = data_manager_api.GetFileBody(file.GetId())
@@ -47,35 +47,35 @@ func (s *FileStorage) DownloadFile(localPath string, file *pb.TFile) error {
 	return err
 }
 
-func (s *FileStorage) DownloadFiles(taskId string, files []*pb.TFile) pb.TStageInResponse {
+func (s *FileStorage) DownloadFiles(taskId string, files []*pb.FileOnAgent) pb.StageInResponse {
 	taskExecutionDir, err := GetTaskExecutionDir(taskId, s.config.AgentDirectory)
 	utils.DealWithError(err)
-	result := pb.TResult{ResultCode: pb.TResult_FAILED}
+	result := pb.Result{ResultCode: pb.Result_FAILED}
 	for _, file := range files {
 		localPath := path.Join(taskExecutionDir, file.GetAgentRelativeLocalPath())
 		err := s.DownloadFile(localPath, file)
 		if err != nil {
-			result.ResultCode = pb.TResult_FAILED
+			result.ResultCode = pb.Result_FAILED
 			err_str := err.Error()
 			result.ErrorText = err_str
 		}
 	}
-	if result.ResultCode != pb.TResult_FAILED {
-		result.ResultCode = pb.TResult_SUCCESS
+	if result.ResultCode != pb.Result_FAILED {
+		result.ResultCode = pb.Result_SUCCESS
 	}
-	return pb.TStageInResponse{TaskId: taskId, Result: &result}
+	return pb.StageInResponse{TaskId: taskId, Result: &result}
 }
 
-func (s *FileStorage) StageInFiles(client pb.ResourceManager_SendClient, taskId string, files []*pb.TFile) {
+func (s *FileStorage) StageInFiles(client pb.ResourceManager_SendClient, taskId string, files []*pb.FileOnAgent) {
 	response := s.DownloadFiles(taskId, files)
-	body := pb.TFromAgentMessage_StageInResponse{StageInResponse: &response}
-	err := client.Send(&pb.TFromAgentMessage{Body: &body})
+	body := pb.FromAgentMessage_StageInResponse{StageInResponse: &response}
+	err := client.Send(&pb.FromAgentMessage{Body: &body})
 	utils.DealWithError(err)
 }
 
-func (s *FileStorage) UploadTaskFile(taskId string, filePath string) *pb.TFile {
+func (s *FileStorage) UploadTaskFile(taskId string, filePath string) *pb.FileOnAgent {
 	task, flag := GlobalTasksStatuses.Load(taskId)
-	var file pb.TFile
+	var file pb.FileOnAgent
 	if flag {
 		file = data_manager_api.UploadFile(filePath, task.ExecutionDir)
 	}
@@ -84,8 +84,8 @@ func (s *FileStorage) UploadTaskFile(taskId string, filePath string) *pb.TFile {
 
 func (s *FileStorage) StageOutFiles(client pb.ResourceManager_SendClient, taskId string, localPath string) {
 	file := s.UploadTaskFile(taskId, localPath)
-	response := pb.TStageOutResponse{TaskId: taskId, TaskFile: file}
-	body := pb.TFromAgentMessage_StageOutResponse{StageOutResponse: &response}
-	err := client.Send(&pb.TFromAgentMessage{Body: &body})
+	response := pb.StageOutResponse{TaskId: taskId, TaskFile: file}
+	body := pb.FromAgentMessage_StageOutResponse{StageOutResponse: &response}
+	err := client.Send(&pb.FromAgentMessage{Body: &body})
 	utils.DealWithError(err)
 }

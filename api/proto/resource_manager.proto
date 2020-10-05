@@ -14,11 +14,11 @@ option go_package = "github.com/dc-lab/sky/api/proto";
 
 // FIXME(BigRedEye): Refactor this shit
 service ResourceManager {
-    rpc Send (stream TFromAgentMessage) returns (stream TToAgentMessage) {}
+    rpc Send (stream FromAgentMessage) returns (stream ToAgentMessage) {}
 
-    rpc Update (TResourceRequest) returns (TResourceResponse) {}
+    rpc Update (ResourceRequest) returns (ResourceResponse) {}
 
-    rpc AgentAction (TRMRequest) returns (TRMResponse) {}
+    rpc AgentAction (RMRequest) returns (RMResponse) {}
 
     rpc GetResources (GetResourcesRequest) returns (GetResourcesResponse) {
         option (google.api.http) = {
@@ -27,22 +27,22 @@ service ResourceManager {
     }
 }
 
-message TTask {
+message Task {
     string id = 1; // required
     string execution_shell_command = 2; // required
     string requirements_shell_command = 3; // optional
     string docker_image = 4; //optional
 }
 
-message TGreetings {
+message Greetings {
     string token = 1; // required
 }
 
-message TGreetingsValidation {
-    TResult result = 1; // required
+message GreetingsValidation {
+    Result result = 1; // required
 }
 
-message TPermissions {
+message Permissions {
     repeated string users = 1;
     repeated string groups = 2;
 }
@@ -55,146 +55,146 @@ enum EResourceType {
     CLOUD_TASK = 4;
 }
 
-message TResource {
+message Resource {
     string id = 1; // required
     EResourceType type = 2; // required
     string ownerId = 3; // required
     string token = 4; // required
-    TPermissions permissions = 5; // required
+    Permissions permissions = 5; // required
     string name = 6; // required
 
-    THardwareData total_resources = 7; // optional
-    THardwareData available_resources = 8; // optional
+    HardwareData total_resources = 7; // optional
+    HardwareData available_resources = 8; // optional
 }
 
-message THardwareRequest {
+message HardwareRequest {
 }
 
-message THardwareResponse {
-    THardwareData total_hardware_data = 1;
-    THardwareData free_hardware_data = 2;
+message HardwareResponse {
+    HardwareData total_hardware_data = 1;
+    HardwareData free_hardware_data = 2;
 }
 
-message TTaskRequest {
-    TTask task = 1; // required
+message TaskRequest {
+    Task task = 1; // required
 }
 
-message TTaskResponse {
+message TaskResponse {
     string task_id = 1; // required
-    TResult result = 2; // required
+    Result result = 2; // required
     repeated TaskFile task_files = 3; // required
 }
 
-message TFile {
+message FileOnAgent {
     string id = 1; // required
     string agent_relative_local_path = 2; // required
     string hash = 3; // required
 }
 
-message TStageInRequest {
+message StageInRequest {
     string task_id = 1; // required
-    repeated TFile files = 2;
+    repeated FileOnAgent files = 2;
 }
 
-message TStageInResponse {
+message StageInResponse {
     string task_id = 1; // required
-    TResult result = 2; // required
+    Result result = 2; // required
 }
 
-message TStageOutRequest {
+message StageOutRequest {
     string task_id = 1; // required
     string agent_relative_local_path = 2; // required
 }
 
-message TStageOutResponse {
+message StageOutResponse {
     string task_id = 1; // required
-    TFile task_file = 2; // required
+    FileOnAgent task_file = 2; // required
 }
 
-message TCancelTaskRequest {
-    string task_id = 1; // required
-}
-
-message TDeleteTaskRequest {
+message CancelTaskRequest {
     string task_id = 1; // required
 }
 
-message TCreateResourceRequest {
-    TResource resource = 1; // required
+message DeleteTaskRequest {
+    string task_id = 1; // required
 }
 
-message TCreateResourceResponse {
+message CreateResourceRequest {
+    Resource resource = 1; // required
 }
 
-message TDeleteResourceRequest {
+message CreateResourceResponse {
+}
+
+message DeleteResourceRequest {
     string resource_id = 1; // required
     string user_id = 2; // required
 }
 
-message TDeleteResourceResponse {
+message DeleteResourceResponse {
 }
 
 // FIXME(BigRedEye) ...
-message TToAgentMessage {
+message ToAgentMessage {
     oneof Body {
-        THardwareRequest hardware_request = 1;
-        TTaskRequest task_request = 2;
-        TStageInRequest stage_in_request = 3;
-        TStageOutRequest stage_out_request = 4;
-        TCancelTaskRequest cancel_task_request = 5;
-        TDeleteTaskRequest delete_task_request = 6;
-        TGreetingsValidation greetings_validation = 7;
+        HardwareRequest hardware_request = 1;
+        TaskRequest task_request = 2;
+        StageInRequest stage_in_request = 3;
+        StageOutRequest stage_out_request = 4;
+        CancelTaskRequest cancel_task_request = 5;
+        DeleteTaskRequest delete_task_request = 6;
+        GreetingsValidation greetings_validation = 7;
     }
 }
 
 // FIXME(BigRedEye) .....
-message TFromAgentMessage {
+message FromAgentMessage {
     oneof Body {
-        THardwareResponse hardware_response = 1;
-        TGreetings greetings = 2;
-        TTaskResponse task_response = 3;
-        TStageInResponse stage_in_response = 4;
-        TStageOutResponse stage_out_response = 5;
+        HardwareResponse hardware_response = 1;
+        Greetings greetings = 2;
+        TaskResponse task_response = 3;
+        StageInResponse stage_in_response = 4;
+        StageOutResponse stage_out_response = 5;
     }
 }
 
 // FIXME(BigRedEye) .......
-message TResourceRequest {
+message ResourceRequest {
     oneof Body {
-        TCreateResourceRequest create_resource_request = 1;
-        TDeleteResourceRequest delete_resource_request = 2;
+        CreateResourceRequest create_resource_request = 1;
+        DeleteResourceRequest delete_resource_request = 2;
     }
 }
 
 // FIXME(BigRedEye) .........
-message TResourceResponse {
+message ResourceResponse {
     oneof Body {
-        TCreateResourceResponse create_resource_response = 1;
-        TDeleteResourceResponse delete_resource_response = 2;
+        CreateResourceResponse create_resource_response = 1;
+        DeleteResourceResponse delete_resource_response = 2;
     }
 }
 
-message TRMRequest {
+message RMRequest {
     string resource_id = 1; // required
-    TToAgentMessage real_message = 2; //required
+    ToAgentMessage real_message = 2; //required
 }
 
 // FIXME(BigRedEye) WTF?
-message TRMResponse {
-    enum TResultCode {
+message RMResponse {
+    enum ResultCode {
         NONE = 0;
         OK = 1;
         NOT_FOUND = 2;
     }
-    TResultCode result_code = 1; // required
+    ResultCode result_code = 1; // required
 }
 
 
 message GetResourcesRequest {
-    THardwareData requirements = 1; // optional
+    HardwareData requirements = 1; // optional
     uint32 limit = 2; // optional
 }
 
 message GetResourcesResponse {
-    repeated TResource resources = 1;
+    repeated Resource resources = 1;
 }

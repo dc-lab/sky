@@ -13,8 +13,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/dc-lab/sky/internal/agent/src/common"
 	rm "github.com/dc-lab/sky/api/proto"
+	"github.com/dc-lab/sky/internal/agent/src/common"
 )
 
 const DATA_MANAGER_API_URL = "https://sky.sskvor.dev/v1"
@@ -30,12 +30,12 @@ func GetFileBody(file_id string) (error, io.ReadCloser) {
 	return err, resp.Body
 }
 
-func UploadFile(absolutePath string, fileDir string) rm.TFile {
+func UploadFile(absolutePath string, fileDir string) rm.FileOnAgent {
 	relativePath := common.ConvertToRelativePath(fileDir, absolutePath)
 	metadata := UploadFileMetadata(relativePath)
 	fileId := metadata.Id
 	UploadFileContent(absolutePath, metadata.UploadUrl)
-	return rm.TFile{Id: fileId, AgentRelativeLocalPath: relativePath}
+	return rm.FileOnAgent{Id: fileId, AgentRelativeLocalPath: relativePath}
 }
 
 func UploadFileMetadata(filePath string) modelapi.FileResponse {

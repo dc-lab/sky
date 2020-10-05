@@ -2,7 +2,6 @@ package job_manager
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"time"
 
@@ -48,11 +47,11 @@ func (d *dispatcher) run() error {
 }
 
 func (d *dispatcher) startTask(task assignedTask) error {
-	agentMessage := &pb.TToAgentMessage_TaskRequest{}
+	agentMessage := &pb.ToAgentMessage_TaskRequest{}
 
-	res, err := d.rmClient.AgentAction(context.Background(), &pb.TRMRequest{
+	res, err := d.rmClient.AgentAction(context.Background(), &pb.RMRequest{
 		ResourceId: task.resource,
-		RealMessage: &pb.TToAgentMessage{
+		RealMessage: &pb.ToAgentMessage{
 			Body: agentMessage,
 		},
 	})
@@ -62,7 +61,7 @@ func (d *dispatcher) startTask(task assignedTask) error {
 		return err
 	}
 
-	if code := res.GetResultCode(); code != pb.TRMResponse_OK {
+	if code := res.GetResultCode(); code != pb.RMResponse_OK {
 		log.WithField("code", code.String()).Errorf("Start task request failed: bad return code")
 		return fmt.Errorf("Start task request failed")
 	}

@@ -15,7 +15,7 @@ type Task struct {
 	TaskId       string                 // don't change
 	ExecutionDir string                 // don't change
 	Executor     executors.TaskExecutor // don't change
-	Result       *pb.TResult
+	Result       *pb.Result
 	IsFinished   atomic.Value
 	QuitChanel   chan struct{}
 }
@@ -29,7 +29,7 @@ func GetTaskExecutionDir(taskId, dir string) (string, error) {
 	return executionDir, err
 }
 
-func (t *Task) Init(taskProto *rm.TTask, config *parser.Config) {
+func (t *Task) Init(taskProto *rm.Task, config *parser.Config) {
 	t.QuitChanel = make(chan struct{}, 1)
 	t.IsFinished.Store(false)
 	t.TaskId = taskProto.GetId()
@@ -55,7 +55,7 @@ func (t *Task) Init(taskProto *rm.TTask, config *parser.Config) {
 func (t *Task) InstallRequirements() {
 	updateFinalResultFunc := func(err error) {
 		if err != nil {
-			result := pb.TResult{ResultCode: pb.TResult_FAILED, ErrorCode: pb.TResult_INTERNAL}
+			result := pb.Result{ResultCode: pb.Result_FAILED, ErrorCode: pb.Result_INTERNAL}
 			common.DealWithError(err)
 			GlobalTasksStatuses.SetTaskResult(t.TaskId, &result)
 		}
@@ -65,15 +65,15 @@ func (t *Task) InstallRequirements() {
 
 func (t *Task) Run() {
 	updateFinalResultFunc := func(err error) {
-		result := pb.TResult{ResultCode: pb.TResult_SUCCESS}
+		result := pb.Result{ResultCode: pb.Result_SUCCESS}
 		if err != nil {
-			result = pb.TResult{ResultCode: pb.TResult_FAILED, ErrorCode: pb.TResult_INTERNAL}
+			result = pb.Result{ResultCode: pb.Result_FAILED, ErrorCode: pb.Result_INTERNAL}
 			common.DealWithError(err)
 		}
 		GlobalTasksStatuses.SetTaskResult(t.TaskId, &result)
 		t.IsFinished.Store(true)
 	}
-	getProcessInfoBeforeExecution := func(result *pb.TResult) {
+	getProcessInfoBeforeExecution := func(result *pb.Result) {
 		GlobalTasksStatuses.SetTaskResult(t.TaskId, result)
 	}
 	t.Executor.Run(t.QuitChanel, getProcessInfoBeforeExecution, updateFinalResultFunc)
@@ -84,7 +84,7 @@ func (t *Task) Cancel() {
 	case <-time.After(2 * time.Second):
 		return
 	case t.QuitChanel <- struct{}{}:
-		result := pb.TResult{ResultCode: pb.TResult_CANCELED}
+		result := pb.Result{ResultCode: pb.Result_CANCELED}
 		GlobalTasksStatuses.SetTaskResult(t.TaskId, &result)
 		t.IsFinished.Store(true)
 	}
@@ -94,6 +94,6 @@ func (t *Task) Delete() {
 	t.Cancel()
 	err := common.RemoveDirectory(t.ExecutionDir)
 	common.DealWithError(err)
-	result := pb.TResult{ResultCode: pb.TResult_DELETED}
+	result := pb.Result{ResultCode: pb.Result_DELETED}
 	GlobalTasksStatuses.SetTaskResult(t.TaskId, &result)
 }

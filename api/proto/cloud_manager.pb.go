@@ -33,24 +33,24 @@ const (
 const _ = proto.ProtoPackageIsVersion4
 
 // TODO: describe possible errors
-type TAsyncCloudRequest struct {
+type AsyncCloudRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Body:
-	//	*TAsyncCloudRequest_AllocateInstanceRequest
-	//	*TAsyncCloudRequest_DeallocateInstanceRequest
-	//	*TAsyncCloudRequest_StartInstanceRequest
-	//	*TAsyncCloudRequest_StopInstanceRequest
-	//	*TAsyncCloudRequest_StartTaskRequest
-	//	*TAsyncCloudRequest_StopTaskRequest
-	//	*TAsyncCloudRequest_DeployImageRequest
-	Body isTAsyncCloudRequest_Body `protobuf_oneof:"Body"`
+	//	*AsyncCloudRequest_AllocateInstanceRequest
+	//	*AsyncCloudRequest_DeallocateInstanceRequest
+	//	*AsyncCloudRequest_StartInstanceRequest
+	//	*AsyncCloudRequest_StopInstanceRequest
+	//	*AsyncCloudRequest_StartTaskRequest
+	//	*AsyncCloudRequest_StopTaskRequest
+	//	*AsyncCloudRequest_DeployImageRequest
+	Body isAsyncCloudRequest_Body `protobuf_oneof:"Body"`
 }
 
-func (x *TAsyncCloudRequest) Reset() {
-	*x = TAsyncCloudRequest{}
+func (x *AsyncCloudRequest) Reset() {
+	*x = AsyncCloudRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_cloud_manager_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -58,13 +58,13 @@ func (x *TAsyncCloudRequest) Reset() {
 	}
 }
 
-func (x *TAsyncCloudRequest) String() string {
+func (x *AsyncCloudRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TAsyncCloudRequest) ProtoMessage() {}
+func (*AsyncCloudRequest) ProtoMessage() {}
 
-func (x *TAsyncCloudRequest) ProtoReflect() protoreflect.Message {
+func (x *AsyncCloudRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_cloud_manager_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -76,124 +76,124 @@ func (x *TAsyncCloudRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TAsyncCloudRequest.ProtoReflect.Descriptor instead.
-func (*TAsyncCloudRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use AsyncCloudRequest.ProtoReflect.Descriptor instead.
+func (*AsyncCloudRequest) Descriptor() ([]byte, []int) {
 	return file_api_proto_cloud_manager_proto_rawDescGZIP(), []int{0}
 }
 
-func (m *TAsyncCloudRequest) GetBody() isTAsyncCloudRequest_Body {
+func (m *AsyncCloudRequest) GetBody() isAsyncCloudRequest_Body {
 	if m != nil {
 		return m.Body
 	}
 	return nil
 }
 
-func (x *TAsyncCloudRequest) GetAllocateInstanceRequest() *TAllocateInstanceRequest {
-	if x, ok := x.GetBody().(*TAsyncCloudRequest_AllocateInstanceRequest); ok {
+func (x *AsyncCloudRequest) GetAllocateInstanceRequest() *AllocateInstanceRequest {
+	if x, ok := x.GetBody().(*AsyncCloudRequest_AllocateInstanceRequest); ok {
 		return x.AllocateInstanceRequest
 	}
 	return nil
 }
 
-func (x *TAsyncCloudRequest) GetDeallocateInstanceRequest() *TDeallocateInstanceRequest {
-	if x, ok := x.GetBody().(*TAsyncCloudRequest_DeallocateInstanceRequest); ok {
+func (x *AsyncCloudRequest) GetDeallocateInstanceRequest() *DeallocateInstanceRequest {
+	if x, ok := x.GetBody().(*AsyncCloudRequest_DeallocateInstanceRequest); ok {
 		return x.DeallocateInstanceRequest
 	}
 	return nil
 }
 
-func (x *TAsyncCloudRequest) GetStartInstanceRequest() *TStartInstanceRequest {
-	if x, ok := x.GetBody().(*TAsyncCloudRequest_StartInstanceRequest); ok {
+func (x *AsyncCloudRequest) GetStartInstanceRequest() *StartInstanceRequest {
+	if x, ok := x.GetBody().(*AsyncCloudRequest_StartInstanceRequest); ok {
 		return x.StartInstanceRequest
 	}
 	return nil
 }
 
-func (x *TAsyncCloudRequest) GetStopInstanceRequest() *TStopInstanceRequest {
-	if x, ok := x.GetBody().(*TAsyncCloudRequest_StopInstanceRequest); ok {
+func (x *AsyncCloudRequest) GetStopInstanceRequest() *StopInstanceRequest {
+	if x, ok := x.GetBody().(*AsyncCloudRequest_StopInstanceRequest); ok {
 		return x.StopInstanceRequest
 	}
 	return nil
 }
 
-func (x *TAsyncCloudRequest) GetStartTaskRequest() *TStartTaskRequest {
-	if x, ok := x.GetBody().(*TAsyncCloudRequest_StartTaskRequest); ok {
+func (x *AsyncCloudRequest) GetStartTaskRequest() *StartTaskRequest {
+	if x, ok := x.GetBody().(*AsyncCloudRequest_StartTaskRequest); ok {
 		return x.StartTaskRequest
 	}
 	return nil
 }
 
-func (x *TAsyncCloudRequest) GetStopTaskRequest() *TStopTaskRequest {
-	if x, ok := x.GetBody().(*TAsyncCloudRequest_StopTaskRequest); ok {
+func (x *AsyncCloudRequest) GetStopTaskRequest() *StopTaskRequest {
+	if x, ok := x.GetBody().(*AsyncCloudRequest_StopTaskRequest); ok {
 		return x.StopTaskRequest
 	}
 	return nil
 }
 
-func (x *TAsyncCloudRequest) GetDeployImageRequest() *TDeployImageRequest {
-	if x, ok := x.GetBody().(*TAsyncCloudRequest_DeployImageRequest); ok {
+func (x *AsyncCloudRequest) GetDeployImageRequest() *DeployImageRequest {
+	if x, ok := x.GetBody().(*AsyncCloudRequest_DeployImageRequest); ok {
 		return x.DeployImageRequest
 	}
 	return nil
 }
 
-type isTAsyncCloudRequest_Body interface {
-	isTAsyncCloudRequest_Body()
+type isAsyncCloudRequest_Body interface {
+	isAsyncCloudRequest_Body()
 }
 
-type TAsyncCloudRequest_AllocateInstanceRequest struct {
-	AllocateInstanceRequest *TAllocateInstanceRequest `protobuf:"bytes,1,opt,name=allocate_instance_request,json=allocateInstanceRequest,proto3,oneof"`
+type AsyncCloudRequest_AllocateInstanceRequest struct {
+	AllocateInstanceRequest *AllocateInstanceRequest `protobuf:"bytes,1,opt,name=allocate_instance_request,json=allocateInstanceRequest,proto3,oneof"`
 }
 
-type TAsyncCloudRequest_DeallocateInstanceRequest struct {
-	DeallocateInstanceRequest *TDeallocateInstanceRequest `protobuf:"bytes,2,opt,name=deallocate_instance_request,json=deallocateInstanceRequest,proto3,oneof"`
+type AsyncCloudRequest_DeallocateInstanceRequest struct {
+	DeallocateInstanceRequest *DeallocateInstanceRequest `protobuf:"bytes,2,opt,name=deallocate_instance_request,json=deallocateInstanceRequest,proto3,oneof"`
 }
 
-type TAsyncCloudRequest_StartInstanceRequest struct {
-	StartInstanceRequest *TStartInstanceRequest `protobuf:"bytes,3,opt,name=start_instance_request,json=startInstanceRequest,proto3,oneof"`
+type AsyncCloudRequest_StartInstanceRequest struct {
+	StartInstanceRequest *StartInstanceRequest `protobuf:"bytes,3,opt,name=start_instance_request,json=startInstanceRequest,proto3,oneof"`
 }
 
-type TAsyncCloudRequest_StopInstanceRequest struct {
-	StopInstanceRequest *TStopInstanceRequest `protobuf:"bytes,4,opt,name=stop_instance_request,json=stopInstanceRequest,proto3,oneof"`
+type AsyncCloudRequest_StopInstanceRequest struct {
+	StopInstanceRequest *StopInstanceRequest `protobuf:"bytes,4,opt,name=stop_instance_request,json=stopInstanceRequest,proto3,oneof"`
 }
 
-type TAsyncCloudRequest_StartTaskRequest struct {
-	StartTaskRequest *TStartTaskRequest `protobuf:"bytes,5,opt,name=start_task_request,json=startTaskRequest,proto3,oneof"`
+type AsyncCloudRequest_StartTaskRequest struct {
+	StartTaskRequest *StartTaskRequest `protobuf:"bytes,5,opt,name=start_task_request,json=startTaskRequest,proto3,oneof"`
 }
 
-type TAsyncCloudRequest_StopTaskRequest struct {
-	StopTaskRequest *TStopTaskRequest `protobuf:"bytes,6,opt,name=stop_task_request,json=stopTaskRequest,proto3,oneof"`
+type AsyncCloudRequest_StopTaskRequest struct {
+	StopTaskRequest *StopTaskRequest `protobuf:"bytes,6,opt,name=stop_task_request,json=stopTaskRequest,proto3,oneof"`
 }
 
-type TAsyncCloudRequest_DeployImageRequest struct {
-	DeployImageRequest *TDeployImageRequest `protobuf:"bytes,7,opt,name=deploy_image_request,json=deployImageRequest,proto3,oneof"`
+type AsyncCloudRequest_DeployImageRequest struct {
+	DeployImageRequest *DeployImageRequest `protobuf:"bytes,7,opt,name=deploy_image_request,json=deployImageRequest,proto3,oneof"`
 }
 
-func (*TAsyncCloudRequest_AllocateInstanceRequest) isTAsyncCloudRequest_Body() {}
+func (*AsyncCloudRequest_AllocateInstanceRequest) isAsyncCloudRequest_Body() {}
 
-func (*TAsyncCloudRequest_DeallocateInstanceRequest) isTAsyncCloudRequest_Body() {}
+func (*AsyncCloudRequest_DeallocateInstanceRequest) isAsyncCloudRequest_Body() {}
 
-func (*TAsyncCloudRequest_StartInstanceRequest) isTAsyncCloudRequest_Body() {}
+func (*AsyncCloudRequest_StartInstanceRequest) isAsyncCloudRequest_Body() {}
 
-func (*TAsyncCloudRequest_StopInstanceRequest) isTAsyncCloudRequest_Body() {}
+func (*AsyncCloudRequest_StopInstanceRequest) isAsyncCloudRequest_Body() {}
 
-func (*TAsyncCloudRequest_StartTaskRequest) isTAsyncCloudRequest_Body() {}
+func (*AsyncCloudRequest_StartTaskRequest) isAsyncCloudRequest_Body() {}
 
-func (*TAsyncCloudRequest_StopTaskRequest) isTAsyncCloudRequest_Body() {}
+func (*AsyncCloudRequest_StopTaskRequest) isAsyncCloudRequest_Body() {}
 
-func (*TAsyncCloudRequest_DeployImageRequest) isTAsyncCloudRequest_Body() {}
+func (*AsyncCloudRequest_DeployImageRequest) isAsyncCloudRequest_Body() {}
 
-type TAsyncCloudResponse struct {
+type AsyncCloudResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Transaction          *TTransaction          `protobuf:"bytes,1,opt,name=transaction,proto3" json:"transaction,omitempty"`
-	AsyncResponseContent *TAsyncResponseContent `protobuf:"bytes,2,opt,name=async_response_content,json=asyncResponseContent,proto3" json:"async_response_content,omitempty"`
+	Transaction          *Transaction          `protobuf:"bytes,1,opt,name=transaction,proto3" json:"transaction,omitempty"`
+	AsyncResponseContent *AsyncResponseContent `protobuf:"bytes,2,opt,name=async_response_content,json=asyncResponseContent,proto3" json:"async_response_content,omitempty"`
 }
 
-func (x *TAsyncCloudResponse) Reset() {
-	*x = TAsyncCloudResponse{}
+func (x *AsyncCloudResponse) Reset() {
+	*x = AsyncCloudResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_cloud_manager_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -201,13 +201,13 @@ func (x *TAsyncCloudResponse) Reset() {
 	}
 }
 
-func (x *TAsyncCloudResponse) String() string {
+func (x *AsyncCloudResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TAsyncCloudResponse) ProtoMessage() {}
+func (*AsyncCloudResponse) ProtoMessage() {}
 
-func (x *TAsyncCloudResponse) ProtoReflect() protoreflect.Message {
+func (x *AsyncCloudResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_cloud_manager_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -219,43 +219,43 @@ func (x *TAsyncCloudResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TAsyncCloudResponse.ProtoReflect.Descriptor instead.
-func (*TAsyncCloudResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use AsyncCloudResponse.ProtoReflect.Descriptor instead.
+func (*AsyncCloudResponse) Descriptor() ([]byte, []int) {
 	return file_api_proto_cloud_manager_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *TAsyncCloudResponse) GetTransaction() *TTransaction {
+func (x *AsyncCloudResponse) GetTransaction() *Transaction {
 	if x != nil {
 		return x.Transaction
 	}
 	return nil
 }
 
-func (x *TAsyncCloudResponse) GetAsyncResponseContent() *TAsyncResponseContent {
+func (x *AsyncCloudResponse) GetAsyncResponseContent() *AsyncResponseContent {
 	if x != nil {
 		return x.AsyncResponseContent
 	}
 	return nil
 }
 
-type TAsyncResponseContent struct {
+type AsyncResponseContent struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Body:
-	//	*TAsyncResponseContent_AllocateInstanceResponseContent
-	//	*TAsyncResponseContent_DeallocateInstanceResponseContent
-	//	*TAsyncResponseContent_StartInstanceResponseContent
-	//	*TAsyncResponseContent_StopInstanceResponseContent
-	//	*TAsyncResponseContent_StartTaskResponseContent
-	//	*TAsyncResponseContent_StopTaskResponseContent
-	//	*TAsyncResponseContent_DeployImageResponseContent
-	Body isTAsyncResponseContent_Body `protobuf_oneof:"Body"`
+	//	*AsyncResponseContent_AllocateInstanceResponseContent
+	//	*AsyncResponseContent_DeallocateInstanceResponseContent
+	//	*AsyncResponseContent_StartInstanceResponseContent
+	//	*AsyncResponseContent_StopInstanceResponseContent
+	//	*AsyncResponseContent_StartTaskResponseContent
+	//	*AsyncResponseContent_StopTaskResponseContent
+	//	*AsyncResponseContent_DeployImageResponseContent
+	Body isAsyncResponseContent_Body `protobuf_oneof:"Body"`
 }
 
-func (x *TAsyncResponseContent) Reset() {
-	*x = TAsyncResponseContent{}
+func (x *AsyncResponseContent) Reset() {
+	*x = AsyncResponseContent{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_cloud_manager_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -263,13 +263,13 @@ func (x *TAsyncResponseContent) Reset() {
 	}
 }
 
-func (x *TAsyncResponseContent) String() string {
+func (x *AsyncResponseContent) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TAsyncResponseContent) ProtoMessage() {}
+func (*AsyncResponseContent) ProtoMessage() {}
 
-func (x *TAsyncResponseContent) ProtoReflect() protoreflect.Message {
+func (x *AsyncResponseContent) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_cloud_manager_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -281,115 +281,115 @@ func (x *TAsyncResponseContent) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TAsyncResponseContent.ProtoReflect.Descriptor instead.
-func (*TAsyncResponseContent) Descriptor() ([]byte, []int) {
+// Deprecated: Use AsyncResponseContent.ProtoReflect.Descriptor instead.
+func (*AsyncResponseContent) Descriptor() ([]byte, []int) {
 	return file_api_proto_cloud_manager_proto_rawDescGZIP(), []int{2}
 }
 
-func (m *TAsyncResponseContent) GetBody() isTAsyncResponseContent_Body {
+func (m *AsyncResponseContent) GetBody() isAsyncResponseContent_Body {
 	if m != nil {
 		return m.Body
 	}
 	return nil
 }
 
-func (x *TAsyncResponseContent) GetAllocateInstanceResponseContent() *TAllocateInstanceResponseContent {
-	if x, ok := x.GetBody().(*TAsyncResponseContent_AllocateInstanceResponseContent); ok {
+func (x *AsyncResponseContent) GetAllocateInstanceResponseContent() *AllocateInstanceResponseContent {
+	if x, ok := x.GetBody().(*AsyncResponseContent_AllocateInstanceResponseContent); ok {
 		return x.AllocateInstanceResponseContent
 	}
 	return nil
 }
 
-func (x *TAsyncResponseContent) GetDeallocateInstanceResponseContent() *TDeallocateInstanceResponseContent {
-	if x, ok := x.GetBody().(*TAsyncResponseContent_DeallocateInstanceResponseContent); ok {
+func (x *AsyncResponseContent) GetDeallocateInstanceResponseContent() *DeallocateInstanceResponseContent {
+	if x, ok := x.GetBody().(*AsyncResponseContent_DeallocateInstanceResponseContent); ok {
 		return x.DeallocateInstanceResponseContent
 	}
 	return nil
 }
 
-func (x *TAsyncResponseContent) GetStartInstanceResponseContent() *TStartInstanceResponseContent {
-	if x, ok := x.GetBody().(*TAsyncResponseContent_StartInstanceResponseContent); ok {
+func (x *AsyncResponseContent) GetStartInstanceResponseContent() *StartInstanceResponseContent {
+	if x, ok := x.GetBody().(*AsyncResponseContent_StartInstanceResponseContent); ok {
 		return x.StartInstanceResponseContent
 	}
 	return nil
 }
 
-func (x *TAsyncResponseContent) GetStopInstanceResponseContent() *TStopInstanceResponseContent {
-	if x, ok := x.GetBody().(*TAsyncResponseContent_StopInstanceResponseContent); ok {
+func (x *AsyncResponseContent) GetStopInstanceResponseContent() *StopInstanceResponseContent {
+	if x, ok := x.GetBody().(*AsyncResponseContent_StopInstanceResponseContent); ok {
 		return x.StopInstanceResponseContent
 	}
 	return nil
 }
 
-func (x *TAsyncResponseContent) GetStartTaskResponseContent() *TStartTaskResponseContent {
-	if x, ok := x.GetBody().(*TAsyncResponseContent_StartTaskResponseContent); ok {
+func (x *AsyncResponseContent) GetStartTaskResponseContent() *StartTaskResponseContent {
+	if x, ok := x.GetBody().(*AsyncResponseContent_StartTaskResponseContent); ok {
 		return x.StartTaskResponseContent
 	}
 	return nil
 }
 
-func (x *TAsyncResponseContent) GetStopTaskResponseContent() *TStopTaskResponseContent {
-	if x, ok := x.GetBody().(*TAsyncResponseContent_StopTaskResponseContent); ok {
+func (x *AsyncResponseContent) GetStopTaskResponseContent() *StopTaskResponseContent {
+	if x, ok := x.GetBody().(*AsyncResponseContent_StopTaskResponseContent); ok {
 		return x.StopTaskResponseContent
 	}
 	return nil
 }
 
-func (x *TAsyncResponseContent) GetDeployImageResponseContent() *TDeployImageResponseContent {
-	if x, ok := x.GetBody().(*TAsyncResponseContent_DeployImageResponseContent); ok {
+func (x *AsyncResponseContent) GetDeployImageResponseContent() *DeployImageResponseContent {
+	if x, ok := x.GetBody().(*AsyncResponseContent_DeployImageResponseContent); ok {
 		return x.DeployImageResponseContent
 	}
 	return nil
 }
 
-type isTAsyncResponseContent_Body interface {
-	isTAsyncResponseContent_Body()
+type isAsyncResponseContent_Body interface {
+	isAsyncResponseContent_Body()
 }
 
-type TAsyncResponseContent_AllocateInstanceResponseContent struct {
-	AllocateInstanceResponseContent *TAllocateInstanceResponseContent `protobuf:"bytes,1,opt,name=allocate_instance_response_content,json=allocateInstanceResponseContent,proto3,oneof"`
+type AsyncResponseContent_AllocateInstanceResponseContent struct {
+	AllocateInstanceResponseContent *AllocateInstanceResponseContent `protobuf:"bytes,1,opt,name=allocate_instance_response_content,json=allocateInstanceResponseContent,proto3,oneof"`
 }
 
-type TAsyncResponseContent_DeallocateInstanceResponseContent struct {
-	DeallocateInstanceResponseContent *TDeallocateInstanceResponseContent `protobuf:"bytes,2,opt,name=deallocate_instance_response_content,json=deallocateInstanceResponseContent,proto3,oneof"`
+type AsyncResponseContent_DeallocateInstanceResponseContent struct {
+	DeallocateInstanceResponseContent *DeallocateInstanceResponseContent `protobuf:"bytes,2,opt,name=deallocate_instance_response_content,json=deallocateInstanceResponseContent,proto3,oneof"`
 }
 
-type TAsyncResponseContent_StartInstanceResponseContent struct {
-	StartInstanceResponseContent *TStartInstanceResponseContent `protobuf:"bytes,3,opt,name=start_instance_response_content,json=startInstanceResponseContent,proto3,oneof"`
+type AsyncResponseContent_StartInstanceResponseContent struct {
+	StartInstanceResponseContent *StartInstanceResponseContent `protobuf:"bytes,3,opt,name=start_instance_response_content,json=startInstanceResponseContent,proto3,oneof"`
 }
 
-type TAsyncResponseContent_StopInstanceResponseContent struct {
-	StopInstanceResponseContent *TStopInstanceResponseContent `protobuf:"bytes,4,opt,name=stop_instance_response_content,json=stopInstanceResponseContent,proto3,oneof"`
+type AsyncResponseContent_StopInstanceResponseContent struct {
+	StopInstanceResponseContent *StopInstanceResponseContent `protobuf:"bytes,4,opt,name=stop_instance_response_content,json=stopInstanceResponseContent,proto3,oneof"`
 }
 
-type TAsyncResponseContent_StartTaskResponseContent struct {
-	StartTaskResponseContent *TStartTaskResponseContent `protobuf:"bytes,5,opt,name=start_task_response_content,json=startTaskResponseContent,proto3,oneof"`
+type AsyncResponseContent_StartTaskResponseContent struct {
+	StartTaskResponseContent *StartTaskResponseContent `protobuf:"bytes,5,opt,name=start_task_response_content,json=startTaskResponseContent,proto3,oneof"`
 }
 
-type TAsyncResponseContent_StopTaskResponseContent struct {
-	StopTaskResponseContent *TStopTaskResponseContent `protobuf:"bytes,6,opt,name=stop_task_response_content,json=stopTaskResponseContent,proto3,oneof"`
+type AsyncResponseContent_StopTaskResponseContent struct {
+	StopTaskResponseContent *StopTaskResponseContent `protobuf:"bytes,6,opt,name=stop_task_response_content,json=stopTaskResponseContent,proto3,oneof"`
 }
 
-type TAsyncResponseContent_DeployImageResponseContent struct {
-	DeployImageResponseContent *TDeployImageResponseContent `protobuf:"bytes,7,opt,name=deploy_image_response_content,json=deployImageResponseContent,proto3,oneof"`
+type AsyncResponseContent_DeployImageResponseContent struct {
+	DeployImageResponseContent *DeployImageResponseContent `protobuf:"bytes,7,opt,name=deploy_image_response_content,json=deployImageResponseContent,proto3,oneof"`
 }
 
-func (*TAsyncResponseContent_AllocateInstanceResponseContent) isTAsyncResponseContent_Body() {}
+func (*AsyncResponseContent_AllocateInstanceResponseContent) isAsyncResponseContent_Body() {}
 
-func (*TAsyncResponseContent_DeallocateInstanceResponseContent) isTAsyncResponseContent_Body() {}
+func (*AsyncResponseContent_DeallocateInstanceResponseContent) isAsyncResponseContent_Body() {}
 
-func (*TAsyncResponseContent_StartInstanceResponseContent) isTAsyncResponseContent_Body() {}
+func (*AsyncResponseContent_StartInstanceResponseContent) isAsyncResponseContent_Body() {}
 
-func (*TAsyncResponseContent_StopInstanceResponseContent) isTAsyncResponseContent_Body() {}
+func (*AsyncResponseContent_StopInstanceResponseContent) isAsyncResponseContent_Body() {}
 
-func (*TAsyncResponseContent_StartTaskResponseContent) isTAsyncResponseContent_Body() {}
+func (*AsyncResponseContent_StartTaskResponseContent) isAsyncResponseContent_Body() {}
 
-func (*TAsyncResponseContent_StopTaskResponseContent) isTAsyncResponseContent_Body() {}
+func (*AsyncResponseContent_StopTaskResponseContent) isAsyncResponseContent_Body() {}
 
-func (*TAsyncResponseContent_DeployImageResponseContent) isTAsyncResponseContent_Body() {}
+func (*AsyncResponseContent_DeployImageResponseContent) isAsyncResponseContent_Body() {}
 
 // TODO: describe possible errors
-type TPingTransactionRequest struct {
+type PingTransactionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -397,8 +397,8 @@ type TPingTransactionRequest struct {
 	TransactionId string `protobuf:"bytes,1,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`
 }
 
-func (x *TPingTransactionRequest) Reset() {
-	*x = TPingTransactionRequest{}
+func (x *PingTransactionRequest) Reset() {
+	*x = PingTransactionRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_cloud_manager_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -406,13 +406,13 @@ func (x *TPingTransactionRequest) Reset() {
 	}
 }
 
-func (x *TPingTransactionRequest) String() string {
+func (x *PingTransactionRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TPingTransactionRequest) ProtoMessage() {}
+func (*PingTransactionRequest) ProtoMessage() {}
 
-func (x *TPingTransactionRequest) ProtoReflect() protoreflect.Message {
+func (x *PingTransactionRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_cloud_manager_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -424,28 +424,28 @@ func (x *TPingTransactionRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TPingTransactionRequest.ProtoReflect.Descriptor instead.
-func (*TPingTransactionRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use PingTransactionRequest.ProtoReflect.Descriptor instead.
+func (*PingTransactionRequest) Descriptor() ([]byte, []int) {
 	return file_api_proto_cloud_manager_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *TPingTransactionRequest) GetTransactionId() string {
+func (x *PingTransactionRequest) GetTransactionId() string {
 	if x != nil {
 		return x.TransactionId
 	}
 	return ""
 }
 
-type TPingTransactionResponse struct {
+type PingTransactionResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Status ETransactionStatus `protobuf:"varint,1,opt,name=status,proto3,enum=pb.ETransactionStatus" json:"status,omitempty"`
+	Status TransactionStatus `protobuf:"varint,1,opt,name=status,proto3,enum=pb.TransactionStatus" json:"status,omitempty"`
 }
 
-func (x *TPingTransactionResponse) Reset() {
-	*x = TPingTransactionResponse{}
+func (x *PingTransactionResponse) Reset() {
+	*x = PingTransactionResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_cloud_manager_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -453,13 +453,13 @@ func (x *TPingTransactionResponse) Reset() {
 	}
 }
 
-func (x *TPingTransactionResponse) String() string {
+func (x *PingTransactionResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TPingTransactionResponse) ProtoMessage() {}
+func (*PingTransactionResponse) ProtoMessage() {}
 
-func (x *TPingTransactionResponse) ProtoReflect() protoreflect.Message {
+func (x *PingTransactionResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_cloud_manager_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -471,30 +471,30 @@ func (x *TPingTransactionResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TPingTransactionResponse.ProtoReflect.Descriptor instead.
-func (*TPingTransactionResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use PingTransactionResponse.ProtoReflect.Descriptor instead.
+func (*PingTransactionResponse) Descriptor() ([]byte, []int) {
 	return file_api_proto_cloud_manager_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *TPingTransactionResponse) GetStatus() ETransactionStatus {
+func (x *PingTransactionResponse) GetStatus() TransactionStatus {
 	if x != nil {
 		return x.Status
 	}
-	return ETransactionStatus_UNKNOWN
+	return TransactionStatus_UNKNOWN
 }
 
-type TAllocateInstanceRequest struct {
+type AllocateInstanceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserId       string         `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	FactoryId    string         `protobuf:"bytes,2,opt,name=factory_id,json=factoryId,proto3" json:"factory_id,omitempty"`
-	HardwareData *THardwareData `protobuf:"bytes,3,opt,name=hardware_data,json=hardwareData,proto3" json:"hardware_data,omitempty"`
+	UserId       string        `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	FactoryId    string        `protobuf:"bytes,2,opt,name=factory_id,json=factoryId,proto3" json:"factory_id,omitempty"`
+	HardwareData *HardwareData `protobuf:"bytes,3,opt,name=hardware_data,json=hardwareData,proto3" json:"hardware_data,omitempty"`
 }
 
-func (x *TAllocateInstanceRequest) Reset() {
-	*x = TAllocateInstanceRequest{}
+func (x *AllocateInstanceRequest) Reset() {
+	*x = AllocateInstanceRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_cloud_manager_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -502,13 +502,13 @@ func (x *TAllocateInstanceRequest) Reset() {
 	}
 }
 
-func (x *TAllocateInstanceRequest) String() string {
+func (x *AllocateInstanceRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TAllocateInstanceRequest) ProtoMessage() {}
+func (*AllocateInstanceRequest) ProtoMessage() {}
 
-func (x *TAllocateInstanceRequest) ProtoReflect() protoreflect.Message {
+func (x *AllocateInstanceRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_cloud_manager_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -520,33 +520,33 @@ func (x *TAllocateInstanceRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TAllocateInstanceRequest.ProtoReflect.Descriptor instead.
-func (*TAllocateInstanceRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use AllocateInstanceRequest.ProtoReflect.Descriptor instead.
+func (*AllocateInstanceRequest) Descriptor() ([]byte, []int) {
 	return file_api_proto_cloud_manager_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *TAllocateInstanceRequest) GetUserId() string {
+func (x *AllocateInstanceRequest) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
 	return ""
 }
 
-func (x *TAllocateInstanceRequest) GetFactoryId() string {
+func (x *AllocateInstanceRequest) GetFactoryId() string {
 	if x != nil {
 		return x.FactoryId
 	}
 	return ""
 }
 
-func (x *TAllocateInstanceRequest) GetHardwareData() *THardwareData {
+func (x *AllocateInstanceRequest) GetHardwareData() *HardwareData {
 	if x != nil {
 		return x.HardwareData
 	}
 	return nil
 }
 
-type TAllocateInstanceResponseContent struct {
+type AllocateInstanceResponseContent struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -554,8 +554,8 @@ type TAllocateInstanceResponseContent struct {
 	InstanceId string `protobuf:"bytes,1,opt,name=instance_id,json=instanceId,proto3" json:"instance_id,omitempty"`
 }
 
-func (x *TAllocateInstanceResponseContent) Reset() {
-	*x = TAllocateInstanceResponseContent{}
+func (x *AllocateInstanceResponseContent) Reset() {
+	*x = AllocateInstanceResponseContent{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_cloud_manager_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -563,13 +563,13 @@ func (x *TAllocateInstanceResponseContent) Reset() {
 	}
 }
 
-func (x *TAllocateInstanceResponseContent) String() string {
+func (x *AllocateInstanceResponseContent) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TAllocateInstanceResponseContent) ProtoMessage() {}
+func (*AllocateInstanceResponseContent) ProtoMessage() {}
 
-func (x *TAllocateInstanceResponseContent) ProtoReflect() protoreflect.Message {
+func (x *AllocateInstanceResponseContent) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_cloud_manager_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -581,19 +581,19 @@ func (x *TAllocateInstanceResponseContent) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TAllocateInstanceResponseContent.ProtoReflect.Descriptor instead.
-func (*TAllocateInstanceResponseContent) Descriptor() ([]byte, []int) {
+// Deprecated: Use AllocateInstanceResponseContent.ProtoReflect.Descriptor instead.
+func (*AllocateInstanceResponseContent) Descriptor() ([]byte, []int) {
 	return file_api_proto_cloud_manager_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *TAllocateInstanceResponseContent) GetInstanceId() string {
+func (x *AllocateInstanceResponseContent) GetInstanceId() string {
 	if x != nil {
 		return x.InstanceId
 	}
 	return ""
 }
 
-type TDeallocateInstanceRequest struct {
+type DeallocateInstanceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -602,8 +602,8 @@ type TDeallocateInstanceRequest struct {
 	InstanceId string `protobuf:"bytes,2,opt,name=instance_id,json=instanceId,proto3" json:"instance_id,omitempty"`
 }
 
-func (x *TDeallocateInstanceRequest) Reset() {
-	*x = TDeallocateInstanceRequest{}
+func (x *DeallocateInstanceRequest) Reset() {
+	*x = DeallocateInstanceRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_cloud_manager_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -611,13 +611,13 @@ func (x *TDeallocateInstanceRequest) Reset() {
 	}
 }
 
-func (x *TDeallocateInstanceRequest) String() string {
+func (x *DeallocateInstanceRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TDeallocateInstanceRequest) ProtoMessage() {}
+func (*DeallocateInstanceRequest) ProtoMessage() {}
 
-func (x *TDeallocateInstanceRequest) ProtoReflect() protoreflect.Message {
+func (x *DeallocateInstanceRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_cloud_manager_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -629,33 +629,33 @@ func (x *TDeallocateInstanceRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TDeallocateInstanceRequest.ProtoReflect.Descriptor instead.
-func (*TDeallocateInstanceRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeallocateInstanceRequest.ProtoReflect.Descriptor instead.
+func (*DeallocateInstanceRequest) Descriptor() ([]byte, []int) {
 	return file_api_proto_cloud_manager_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *TDeallocateInstanceRequest) GetUserId() string {
+func (x *DeallocateInstanceRequest) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
 	return ""
 }
 
-func (x *TDeallocateInstanceRequest) GetInstanceId() string {
+func (x *DeallocateInstanceRequest) GetInstanceId() string {
 	if x != nil {
 		return x.InstanceId
 	}
 	return ""
 }
 
-type TDeallocateInstanceResponseContent struct {
+type DeallocateInstanceResponseContent struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *TDeallocateInstanceResponseContent) Reset() {
-	*x = TDeallocateInstanceResponseContent{}
+func (x *DeallocateInstanceResponseContent) Reset() {
+	*x = DeallocateInstanceResponseContent{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_cloud_manager_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -663,13 +663,13 @@ func (x *TDeallocateInstanceResponseContent) Reset() {
 	}
 }
 
-func (x *TDeallocateInstanceResponseContent) String() string {
+func (x *DeallocateInstanceResponseContent) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TDeallocateInstanceResponseContent) ProtoMessage() {}
+func (*DeallocateInstanceResponseContent) ProtoMessage() {}
 
-func (x *TDeallocateInstanceResponseContent) ProtoReflect() protoreflect.Message {
+func (x *DeallocateInstanceResponseContent) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_cloud_manager_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -681,13 +681,13 @@ func (x *TDeallocateInstanceResponseContent) ProtoReflect() protoreflect.Message
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TDeallocateInstanceResponseContent.ProtoReflect.Descriptor instead.
-func (*TDeallocateInstanceResponseContent) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeallocateInstanceResponseContent.ProtoReflect.Descriptor instead.
+func (*DeallocateInstanceResponseContent) Descriptor() ([]byte, []int) {
 	return file_api_proto_cloud_manager_proto_rawDescGZIP(), []int{8}
 }
 
 // make API call to start allocated instance associated with user account
-type TStartInstanceRequest struct {
+type StartInstanceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -696,8 +696,8 @@ type TStartInstanceRequest struct {
 	InstanceId string `protobuf:"bytes,2,opt,name=instance_id,json=instanceId,proto3" json:"instance_id,omitempty"`
 }
 
-func (x *TStartInstanceRequest) Reset() {
-	*x = TStartInstanceRequest{}
+func (x *StartInstanceRequest) Reset() {
+	*x = StartInstanceRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_cloud_manager_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -705,13 +705,13 @@ func (x *TStartInstanceRequest) Reset() {
 	}
 }
 
-func (x *TStartInstanceRequest) String() string {
+func (x *StartInstanceRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TStartInstanceRequest) ProtoMessage() {}
+func (*StartInstanceRequest) ProtoMessage() {}
 
-func (x *TStartInstanceRequest) ProtoReflect() protoreflect.Message {
+func (x *StartInstanceRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_cloud_manager_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -723,33 +723,33 @@ func (x *TStartInstanceRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TStartInstanceRequest.ProtoReflect.Descriptor instead.
-func (*TStartInstanceRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use StartInstanceRequest.ProtoReflect.Descriptor instead.
+func (*StartInstanceRequest) Descriptor() ([]byte, []int) {
 	return file_api_proto_cloud_manager_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *TStartInstanceRequest) GetUserId() string {
+func (x *StartInstanceRequest) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
 	return ""
 }
 
-func (x *TStartInstanceRequest) GetInstanceId() string {
+func (x *StartInstanceRequest) GetInstanceId() string {
 	if x != nil {
 		return x.InstanceId
 	}
 	return ""
 }
 
-type TStartInstanceResponseContent struct {
+type StartInstanceResponseContent struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *TStartInstanceResponseContent) Reset() {
-	*x = TStartInstanceResponseContent{}
+func (x *StartInstanceResponseContent) Reset() {
+	*x = StartInstanceResponseContent{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_cloud_manager_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -757,13 +757,13 @@ func (x *TStartInstanceResponseContent) Reset() {
 	}
 }
 
-func (x *TStartInstanceResponseContent) String() string {
+func (x *StartInstanceResponseContent) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TStartInstanceResponseContent) ProtoMessage() {}
+func (*StartInstanceResponseContent) ProtoMessage() {}
 
-func (x *TStartInstanceResponseContent) ProtoReflect() protoreflect.Message {
+func (x *StartInstanceResponseContent) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_cloud_manager_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -775,12 +775,12 @@ func (x *TStartInstanceResponseContent) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TStartInstanceResponseContent.ProtoReflect.Descriptor instead.
-func (*TStartInstanceResponseContent) Descriptor() ([]byte, []int) {
+// Deprecated: Use StartInstanceResponseContent.ProtoReflect.Descriptor instead.
+func (*StartInstanceResponseContent) Descriptor() ([]byte, []int) {
 	return file_api_proto_cloud_manager_proto_rawDescGZIP(), []int{10}
 }
 
-type TStopInstanceRequest struct {
+type StopInstanceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -789,8 +789,8 @@ type TStopInstanceRequest struct {
 	InstanceId string `protobuf:"bytes,2,opt,name=instance_id,json=instanceId,proto3" json:"instance_id,omitempty"`
 }
 
-func (x *TStopInstanceRequest) Reset() {
-	*x = TStopInstanceRequest{}
+func (x *StopInstanceRequest) Reset() {
+	*x = StopInstanceRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_cloud_manager_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -798,13 +798,13 @@ func (x *TStopInstanceRequest) Reset() {
 	}
 }
 
-func (x *TStopInstanceRequest) String() string {
+func (x *StopInstanceRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TStopInstanceRequest) ProtoMessage() {}
+func (*StopInstanceRequest) ProtoMessage() {}
 
-func (x *TStopInstanceRequest) ProtoReflect() protoreflect.Message {
+func (x *StopInstanceRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_cloud_manager_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -816,33 +816,33 @@ func (x *TStopInstanceRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TStopInstanceRequest.ProtoReflect.Descriptor instead.
-func (*TStopInstanceRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use StopInstanceRequest.ProtoReflect.Descriptor instead.
+func (*StopInstanceRequest) Descriptor() ([]byte, []int) {
 	return file_api_proto_cloud_manager_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *TStopInstanceRequest) GetUserId() string {
+func (x *StopInstanceRequest) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
 	return ""
 }
 
-func (x *TStopInstanceRequest) GetInstanceId() string {
+func (x *StopInstanceRequest) GetInstanceId() string {
 	if x != nil {
 		return x.InstanceId
 	}
 	return ""
 }
 
-type TStopInstanceResponseContent struct {
+type StopInstanceResponseContent struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *TStopInstanceResponseContent) Reset() {
-	*x = TStopInstanceResponseContent{}
+func (x *StopInstanceResponseContent) Reset() {
+	*x = StopInstanceResponseContent{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_cloud_manager_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -850,13 +850,13 @@ func (x *TStopInstanceResponseContent) Reset() {
 	}
 }
 
-func (x *TStopInstanceResponseContent) String() string {
+func (x *StopInstanceResponseContent) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TStopInstanceResponseContent) ProtoMessage() {}
+func (*StopInstanceResponseContent) ProtoMessage() {}
 
-func (x *TStopInstanceResponseContent) ProtoReflect() protoreflect.Message {
+func (x *StopInstanceResponseContent) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_cloud_manager_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -868,24 +868,24 @@ func (x *TStopInstanceResponseContent) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TStopInstanceResponseContent.ProtoReflect.Descriptor instead.
-func (*TStopInstanceResponseContent) Descriptor() ([]byte, []int) {
+// Deprecated: Use StopInstanceResponseContent.ProtoReflect.Descriptor instead.
+func (*StopInstanceResponseContent) Descriptor() ([]byte, []int) {
 	return file_api_proto_cloud_manager_proto_rawDescGZIP(), []int{12}
 }
 
 // make API call to start task definition associated with user account
-type TStartTaskRequest struct {
+type StartTaskRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserId       string         `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	FactoryId    string         `protobuf:"bytes,2,opt,name=factory_id,json=factoryId,proto3" json:"factory_id,omitempty"`
-	HardwareData *THardwareData `protobuf:"bytes,3,opt,name=hardware_data,json=hardwareData,proto3" json:"hardware_data,omitempty"`
+	UserId       string        `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	FactoryId    string        `protobuf:"bytes,2,opt,name=factory_id,json=factoryId,proto3" json:"factory_id,omitempty"`
+	HardwareData *HardwareData `protobuf:"bytes,3,opt,name=hardware_data,json=hardwareData,proto3" json:"hardware_data,omitempty"`
 }
 
-func (x *TStartTaskRequest) Reset() {
-	*x = TStartTaskRequest{}
+func (x *StartTaskRequest) Reset() {
+	*x = StartTaskRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_cloud_manager_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -893,13 +893,13 @@ func (x *TStartTaskRequest) Reset() {
 	}
 }
 
-func (x *TStartTaskRequest) String() string {
+func (x *StartTaskRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TStartTaskRequest) ProtoMessage() {}
+func (*StartTaskRequest) ProtoMessage() {}
 
-func (x *TStartTaskRequest) ProtoReflect() protoreflect.Message {
+func (x *StartTaskRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_cloud_manager_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -911,33 +911,33 @@ func (x *TStartTaskRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TStartTaskRequest.ProtoReflect.Descriptor instead.
-func (*TStartTaskRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use StartTaskRequest.ProtoReflect.Descriptor instead.
+func (*StartTaskRequest) Descriptor() ([]byte, []int) {
 	return file_api_proto_cloud_manager_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *TStartTaskRequest) GetUserId() string {
+func (x *StartTaskRequest) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
 	return ""
 }
 
-func (x *TStartTaskRequest) GetFactoryId() string {
+func (x *StartTaskRequest) GetFactoryId() string {
 	if x != nil {
 		return x.FactoryId
 	}
 	return ""
 }
 
-func (x *TStartTaskRequest) GetHardwareData() *THardwareData {
+func (x *StartTaskRequest) GetHardwareData() *HardwareData {
 	if x != nil {
 		return x.HardwareData
 	}
 	return nil
 }
 
-type TStartTaskResponseContent struct {
+type StartTaskResponseContent struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -945,8 +945,8 @@ type TStartTaskResponseContent struct {
 	InstanceId string `protobuf:"bytes,1,opt,name=instance_id,json=instanceId,proto3" json:"instance_id,omitempty"`
 }
 
-func (x *TStartTaskResponseContent) Reset() {
-	*x = TStartTaskResponseContent{}
+func (x *StartTaskResponseContent) Reset() {
+	*x = StartTaskResponseContent{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_cloud_manager_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -954,13 +954,13 @@ func (x *TStartTaskResponseContent) Reset() {
 	}
 }
 
-func (x *TStartTaskResponseContent) String() string {
+func (x *StartTaskResponseContent) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TStartTaskResponseContent) ProtoMessage() {}
+func (*StartTaskResponseContent) ProtoMessage() {}
 
-func (x *TStartTaskResponseContent) ProtoReflect() protoreflect.Message {
+func (x *StartTaskResponseContent) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_cloud_manager_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -972,19 +972,19 @@ func (x *TStartTaskResponseContent) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TStartTaskResponseContent.ProtoReflect.Descriptor instead.
-func (*TStartTaskResponseContent) Descriptor() ([]byte, []int) {
+// Deprecated: Use StartTaskResponseContent.ProtoReflect.Descriptor instead.
+func (*StartTaskResponseContent) Descriptor() ([]byte, []int) {
 	return file_api_proto_cloud_manager_proto_rawDescGZIP(), []int{14}
 }
 
-func (x *TStartTaskResponseContent) GetInstanceId() string {
+func (x *StartTaskResponseContent) GetInstanceId() string {
 	if x != nil {
 		return x.InstanceId
 	}
 	return ""
 }
 
-type TStopTaskRequest struct {
+type StopTaskRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -993,8 +993,8 @@ type TStopTaskRequest struct {
 	InstanceId string `protobuf:"bytes,2,opt,name=instance_id,json=instanceId,proto3" json:"instance_id,omitempty"`
 }
 
-func (x *TStopTaskRequest) Reset() {
-	*x = TStopTaskRequest{}
+func (x *StopTaskRequest) Reset() {
+	*x = StopTaskRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_cloud_manager_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1002,13 +1002,13 @@ func (x *TStopTaskRequest) Reset() {
 	}
 }
 
-func (x *TStopTaskRequest) String() string {
+func (x *StopTaskRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TStopTaskRequest) ProtoMessage() {}
+func (*StopTaskRequest) ProtoMessage() {}
 
-func (x *TStopTaskRequest) ProtoReflect() protoreflect.Message {
+func (x *StopTaskRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_cloud_manager_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1020,33 +1020,33 @@ func (x *TStopTaskRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TStopTaskRequest.ProtoReflect.Descriptor instead.
-func (*TStopTaskRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use StopTaskRequest.ProtoReflect.Descriptor instead.
+func (*StopTaskRequest) Descriptor() ([]byte, []int) {
 	return file_api_proto_cloud_manager_proto_rawDescGZIP(), []int{15}
 }
 
-func (x *TStopTaskRequest) GetUserId() string {
+func (x *StopTaskRequest) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
 	return ""
 }
 
-func (x *TStopTaskRequest) GetInstanceId() string {
+func (x *StopTaskRequest) GetInstanceId() string {
 	if x != nil {
 		return x.InstanceId
 	}
 	return ""
 }
 
-type TStopTaskResponseContent struct {
+type StopTaskResponseContent struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *TStopTaskResponseContent) Reset() {
-	*x = TStopTaskResponseContent{}
+func (x *StopTaskResponseContent) Reset() {
+	*x = StopTaskResponseContent{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_cloud_manager_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1054,13 +1054,13 @@ func (x *TStopTaskResponseContent) Reset() {
 	}
 }
 
-func (x *TStopTaskResponseContent) String() string {
+func (x *StopTaskResponseContent) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TStopTaskResponseContent) ProtoMessage() {}
+func (*StopTaskResponseContent) ProtoMessage() {}
 
-func (x *TStopTaskResponseContent) ProtoReflect() protoreflect.Message {
+func (x *StopTaskResponseContent) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_cloud_manager_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1072,23 +1072,23 @@ func (x *TStopTaskResponseContent) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TStopTaskResponseContent.ProtoReflect.Descriptor instead.
-func (*TStopTaskResponseContent) Descriptor() ([]byte, []int) {
+// Deprecated: Use StopTaskResponseContent.ProtoReflect.Descriptor instead.
+func (*StopTaskResponseContent) Descriptor() ([]byte, []int) {
 	return file_api_proto_cloud_manager_proto_rawDescGZIP(), []int{16}
 }
 
-type TDeployImageRequest struct {
+type DeployImageRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserId      string        `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	InstanceId  string        `protobuf:"bytes,2,opt,name=instance_id,json=instanceId,proto3" json:"instance_id,omitempty"`
-	DockerImage *TDockerImage `protobuf:"bytes,3,opt,name=docker_image,json=dockerImage,proto3" json:"docker_image,omitempty"`
+	UserId      string       `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	InstanceId  string       `protobuf:"bytes,2,opt,name=instance_id,json=instanceId,proto3" json:"instance_id,omitempty"`
+	DockerImage *DockerImage `protobuf:"bytes,3,opt,name=docker_image,json=dockerImage,proto3" json:"docker_image,omitempty"`
 }
 
-func (x *TDeployImageRequest) Reset() {
-	*x = TDeployImageRequest{}
+func (x *DeployImageRequest) Reset() {
+	*x = DeployImageRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_cloud_manager_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1096,13 +1096,13 @@ func (x *TDeployImageRequest) Reset() {
 	}
 }
 
-func (x *TDeployImageRequest) String() string {
+func (x *DeployImageRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TDeployImageRequest) ProtoMessage() {}
+func (*DeployImageRequest) ProtoMessage() {}
 
-func (x *TDeployImageRequest) ProtoReflect() protoreflect.Message {
+func (x *DeployImageRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_cloud_manager_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1114,40 +1114,40 @@ func (x *TDeployImageRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TDeployImageRequest.ProtoReflect.Descriptor instead.
-func (*TDeployImageRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeployImageRequest.ProtoReflect.Descriptor instead.
+func (*DeployImageRequest) Descriptor() ([]byte, []int) {
 	return file_api_proto_cloud_manager_proto_rawDescGZIP(), []int{17}
 }
 
-func (x *TDeployImageRequest) GetUserId() string {
+func (x *DeployImageRequest) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
 	return ""
 }
 
-func (x *TDeployImageRequest) GetInstanceId() string {
+func (x *DeployImageRequest) GetInstanceId() string {
 	if x != nil {
 		return x.InstanceId
 	}
 	return ""
 }
 
-func (x *TDeployImageRequest) GetDockerImage() *TDockerImage {
+func (x *DeployImageRequest) GetDockerImage() *DockerImage {
 	if x != nil {
 		return x.DockerImage
 	}
 	return nil
 }
 
-type TDeployImageResponseContent struct {
+type DeployImageResponseContent struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *TDeployImageResponseContent) Reset() {
-	*x = TDeployImageResponseContent{}
+func (x *DeployImageResponseContent) Reset() {
+	*x = DeployImageResponseContent{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_proto_cloud_manager_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1155,13 +1155,13 @@ func (x *TDeployImageResponseContent) Reset() {
 	}
 }
 
-func (x *TDeployImageResponseContent) String() string {
+func (x *DeployImageResponseContent) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TDeployImageResponseContent) ProtoMessage() {}
+func (*DeployImageResponseContent) ProtoMessage() {}
 
-func (x *TDeployImageResponseContent) ProtoReflect() protoreflect.Message {
+func (x *DeployImageResponseContent) ProtoReflect() protoreflect.Message {
 	mi := &file_api_proto_cloud_manager_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1173,8 +1173,8 @@ func (x *TDeployImageResponseContent) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TDeployImageResponseContent.ProtoReflect.Descriptor instead.
-func (*TDeployImageResponseContent) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeployImageResponseContent.ProtoReflect.Descriptor instead.
+func (*DeployImageResponseContent) Descriptor() ([]byte, []int) {
 	return file_api_proto_cloud_manager_proto_rawDescGZIP(), []int{18}
 }
 
@@ -1185,190 +1185,188 @@ var file_api_proto_cloud_manager_proto_rawDesc = []byte{
 	0x64, 0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x72, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12,
 	0x02, 0x70, 0x62, 0x1a, 0x1c, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x63,
 	0x6c, 0x6f, 0x75, 0x64, 0x5f, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x1a, 0x16, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x65, 0x6e, 0x74,
-	0x69, 0x74, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xd5, 0x04, 0x0a, 0x12, 0x54, 0x41,
-	0x73, 0x79, 0x6e, 0x63, 0x43, 0x6c, 0x6f, 0x75, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x12, 0x5a, 0x0a, 0x19, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x5f, 0x69, 0x6e, 0x73,
-	0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61,
+	0x6f, 0x1a, 0x1d, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x68, 0x61, 0x72,
+	0x64, 0x77, 0x61, 0x72, 0x65, 0x5f, 0x64, 0x61, 0x74, 0x61, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x22, 0xcd, 0x04, 0x0a, 0x11, 0x41, 0x73, 0x79, 0x6e, 0x63, 0x43, 0x6c, 0x6f, 0x75, 0x64, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x59, 0x0a, 0x19, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61,
+	0x74, 0x65, 0x5f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x72, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x70, 0x62, 0x2e, 0x41,
+	0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x17, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61,
 	0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x48, 0x00, 0x52, 0x17, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73,
-	0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x60, 0x0a, 0x1b,
-	0x64, 0x65, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x5f, 0x69, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x5f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x1e, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x44, 0x65, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61,
-	0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x48, 0x00, 0x52, 0x19, 0x64, 0x65, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x49,
-	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x51,
-	0x0a, 0x16, 0x73, 0x74, 0x61, 0x72, 0x74, 0x5f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
-	0x5f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19,
-	0x2e, 0x70, 0x62, 0x2e, 0x54, 0x53, 0x74, 0x61, 0x72, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e,
-	0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x14, 0x73, 0x74, 0x61,
-	0x72, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x12, 0x4e, 0x0a, 0x15, 0x73, 0x74, 0x6f, 0x70, 0x5f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e,
-	0x63, 0x65, 0x5f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x18, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x53, 0x74, 0x6f, 0x70, 0x49, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x13, 0x73, 0x74,
-	0x6f, 0x70, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x12, 0x45, 0x0a, 0x12, 0x73, 0x74, 0x61, 0x72, 0x74, 0x5f, 0x74, 0x61, 0x73, 0x6b, 0x5f,
-	0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e,
-	0x70, 0x62, 0x2e, 0x54, 0x53, 0x74, 0x61, 0x72, 0x74, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x10, 0x73, 0x74, 0x61, 0x72, 0x74, 0x54, 0x61, 0x73,
-	0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x42, 0x0a, 0x11, 0x73, 0x74, 0x6f, 0x70,
-	0x5f, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x06, 0x20,
-	0x01, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x53, 0x74, 0x6f, 0x70, 0x54, 0x61,
-	0x73, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x0f, 0x73, 0x74, 0x6f,
-	0x70, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x4b, 0x0a, 0x14,
-	0x64, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x5f, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x5f, 0x72, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x70, 0x62, 0x2e,
-	0x54, 0x44, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x49, 0x6d, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x12, 0x64, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x49, 0x6d, 0x61,
-	0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x42, 0x06, 0x0a, 0x04, 0x42, 0x6f, 0x64,
-	0x79, 0x22, 0x9a, 0x01, 0x0a, 0x13, 0x54, 0x41, 0x73, 0x79, 0x6e, 0x63, 0x43, 0x6c, 0x6f, 0x75,
-	0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x32, 0x0a, 0x0b, 0x74, 0x72, 0x61,
-	0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10,
-	0x2e, 0x70, 0x62, 0x2e, 0x54, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e,
-	0x52, 0x0b, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x4f, 0x0a,
-	0x16, 0x61, 0x73, 0x79, 0x6e, 0x63, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f,
-	0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e,
-	0x70, 0x62, 0x2e, 0x54, 0x41, 0x73, 0x79, 0x6e, 0x63, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x52, 0x14, 0x61, 0x73, 0x79, 0x6e, 0x63, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x22, 0x87,
-	0x06, 0x0a, 0x15, 0x54, 0x41, 0x73, 0x79, 0x6e, 0x63, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x12, 0x73, 0x0a, 0x22, 0x61, 0x6c, 0x6c, 0x6f,
-	0x63, 0x61, 0x74, 0x65, 0x5f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x72, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x0b, 0x32, 0x24, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x41, 0x6c, 0x6c, 0x6f, 0x63,
-	0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x48, 0x00, 0x52, 0x1f, 0x61, 0x6c,
+	0x74, 0x12, 0x5f, 0x0a, 0x1b, 0x64, 0x65, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x5f,
+	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1d, 0x2e, 0x70, 0x62, 0x2e, 0x44, 0x65, 0x61, 0x6c,
 	0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x12, 0x79, 0x0a,
-	0x24, 0x64, 0x65, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x5f, 0x69, 0x6e, 0x73, 0x74,
-	0x61, 0x6e, 0x63, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x63, 0x6f,
-	0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x70, 0x62,
-	0x2e, 0x54, 0x44, 0x65, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74,
-	0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74,
-	0x65, 0x6e, 0x74, 0x48, 0x00, 0x52, 0x21, 0x64, 0x65, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74,
-	0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x12, 0x6a, 0x0a, 0x1f, 0x73, 0x74, 0x61, 0x72,
-	0x74, 0x5f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x21, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x53, 0x74, 0x61, 0x72, 0x74, 0x49, 0x6e, 0x73,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x19, 0x64, 0x65, 0x61, 0x6c, 0x6c, 0x6f, 0x63,
+	0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x50, 0x0a, 0x16, 0x73, 0x74, 0x61, 0x72, 0x74, 0x5f, 0x69, 0x6e, 0x73, 0x74,
+	0x61, 0x6e, 0x63, 0x65, 0x5f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x18, 0x2e, 0x70, 0x62, 0x2e, 0x53, 0x74, 0x61, 0x72, 0x74, 0x49, 0x6e, 0x73,
+	0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x14,
+	0x73, 0x74, 0x61, 0x72, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x4d, 0x0a, 0x15, 0x73, 0x74, 0x6f, 0x70, 0x5f, 0x69, 0x6e, 0x73,
+	0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x04, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x70, 0x62, 0x2e, 0x53, 0x74, 0x6f, 0x70, 0x49, 0x6e, 0x73,
+	0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x13,
+	0x73, 0x74, 0x6f, 0x70, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x12, 0x44, 0x0a, 0x12, 0x73, 0x74, 0x61, 0x72, 0x74, 0x5f, 0x74, 0x61, 0x73,
+	0x6b, 0x5f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x14, 0x2e, 0x70, 0x62, 0x2e, 0x53, 0x74, 0x61, 0x72, 0x74, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x10, 0x73, 0x74, 0x61, 0x72, 0x74, 0x54, 0x61,
+	0x73, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x41, 0x0a, 0x11, 0x73, 0x74, 0x6f,
+	0x70, 0x5f, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x06,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x70, 0x62, 0x2e, 0x53, 0x74, 0x6f, 0x70, 0x54, 0x61,
+	0x73, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x0f, 0x73, 0x74, 0x6f,
+	0x70, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x4a, 0x0a, 0x14,
+	0x64, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x5f, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x5f, 0x72, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x70, 0x62, 0x2e,
+	0x44, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x49, 0x6d, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x48, 0x00, 0x52, 0x12, 0x64, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x49, 0x6d, 0x61, 0x67,
+	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x42, 0x06, 0x0a, 0x04, 0x42, 0x6f, 0x64, 0x79,
+	0x22, 0x97, 0x01, 0x0a, 0x12, 0x41, 0x73, 0x79, 0x6e, 0x63, 0x43, 0x6c, 0x6f, 0x75, 0x64, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x31, 0x0a, 0x0b, 0x74, 0x72, 0x61, 0x6e, 0x73,
+	0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x70,
+	0x62, 0x2e, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0b, 0x74,
+	0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x4e, 0x0a, 0x16, 0x61, 0x73,
+	0x79, 0x6e, 0x63, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x63, 0x6f, 0x6e,
+	0x74, 0x65, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x70, 0x62, 0x2e,
+	0x41, 0x73, 0x79, 0x6e, 0x63, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e,
+	0x74, 0x65, 0x6e, 0x74, 0x52, 0x14, 0x61, 0x73, 0x79, 0x6e, 0x63, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x22, 0xff, 0x05, 0x0a, 0x14, 0x41,
+	0x73, 0x79, 0x6e, 0x63, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74,
+	0x65, 0x6e, 0x74, 0x12, 0x72, 0x0a, 0x22, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x5f,
+	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x23, 0x2e, 0x70, 0x62, 0x2e, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73,
 	0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e,
-	0x74, 0x65, 0x6e, 0x74, 0x48, 0x00, 0x52, 0x1c, 0x73, 0x74, 0x61, 0x72, 0x74, 0x49, 0x6e, 0x73,
+	0x74, 0x65, 0x6e, 0x74, 0x48, 0x00, 0x52, 0x1f, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65,
+	0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x12, 0x78, 0x0a, 0x24, 0x64, 0x65, 0x61, 0x6c, 0x6c,
+	0x6f, 0x63, 0x61, 0x74, 0x65, 0x5f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x72,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x70, 0x62, 0x2e, 0x44, 0x65, 0x61, 0x6c, 0x6c,
+	0x6f, 0x63, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x48, 0x00, 0x52, 0x21,
+	0x64, 0x65, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e,
+	0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e,
+	0x74, 0x12, 0x69, 0x0a, 0x1f, 0x73, 0x74, 0x61, 0x72, 0x74, 0x5f, 0x69, 0x6e, 0x73, 0x74, 0x61,
+	0x6e, 0x63, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x63, 0x6f, 0x6e,
+	0x74, 0x65, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x70, 0x62, 0x2e,
+	0x53, 0x74, 0x61, 0x72, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x48, 0x00, 0x52, 0x1c,
+	0x73, 0x74, 0x61, 0x72, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x12, 0x66, 0x0a, 0x1e,
+	0x73, 0x74, 0x6f, 0x70, 0x5f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x72, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x04,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x70, 0x62, 0x2e, 0x53, 0x74, 0x6f, 0x70, 0x49, 0x6e,
+	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f,
+	0x6e, 0x74, 0x65, 0x6e, 0x74, 0x48, 0x00, 0x52, 0x1b, 0x73, 0x74, 0x6f, 0x70, 0x49, 0x6e, 0x73,
 	0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e,
-	0x74, 0x65, 0x6e, 0x74, 0x12, 0x67, 0x0a, 0x1e, 0x73, 0x74, 0x6f, 0x70, 0x5f, 0x69, 0x6e, 0x73,
-	0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x63,
-	0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x70,
-	0x62, 0x2e, 0x54, 0x53, 0x74, 0x6f, 0x70, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x48, 0x00,
-	0x52, 0x1b, 0x73, 0x74, 0x6f, 0x70, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x12, 0x5e, 0x0a,
-	0x1b, 0x73, 0x74, 0x61, 0x72, 0x74, 0x5f, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x72, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x05, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x1d, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x53, 0x74, 0x61, 0x72, 0x74, 0x54, 0x61,
-	0x73, 0x6b, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e,
-	0x74, 0x48, 0x00, 0x52, 0x18, 0x73, 0x74, 0x61, 0x72, 0x74, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x12, 0x5b, 0x0a,
-	0x1a, 0x73, 0x74, 0x6f, 0x70, 0x5f, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x06, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x1c, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x53, 0x74, 0x6f, 0x70, 0x54, 0x61, 0x73, 0x6b,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x48,
-	0x00, 0x52, 0x17, 0x73, 0x74, 0x6f, 0x70, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x12, 0x64, 0x0a, 0x1d, 0x64, 0x65,
-	0x70, 0x6c, 0x6f, 0x79, 0x5f, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x07, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x1f, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x44, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x49, 0x6d,
-	0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65,
-	0x6e, 0x74, 0x48, 0x00, 0x52, 0x1a, 0x64, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x49, 0x6d, 0x61, 0x67,
-	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74,
-	0x42, 0x06, 0x0a, 0x04, 0x42, 0x6f, 0x64, 0x79, 0x22, 0x40, 0x0a, 0x17, 0x54, 0x50, 0x69, 0x6e,
-	0x67, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x12, 0x25, 0x0a, 0x0e, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69,
-	0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x74, 0x72, 0x61,
-	0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x22, 0x4a, 0x0a, 0x18, 0x54, 0x50,
-	0x69, 0x6e, 0x67, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2e, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x16, 0x2e, 0x70, 0x62, 0x2e, 0x45, 0x54, 0x72, 0x61,
-	0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x06,
-	0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x22, 0x8a, 0x01, 0x0a, 0x18, 0x54, 0x41, 0x6c, 0x6c, 0x6f,
+	0x74, 0x65, 0x6e, 0x74, 0x12, 0x5d, 0x0a, 0x1b, 0x73, 0x74, 0x61, 0x72, 0x74, 0x5f, 0x74, 0x61,
+	0x73, 0x6b, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74,
+	0x65, 0x6e, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x70, 0x62, 0x2e, 0x53,
+	0x74, 0x61, 0x72, 0x74, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x48, 0x00, 0x52, 0x18, 0x73, 0x74, 0x61, 0x72, 0x74,
+	0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74,
+	0x65, 0x6e, 0x74, 0x12, 0x5a, 0x0a, 0x1a, 0x73, 0x74, 0x6f, 0x70, 0x5f, 0x74, 0x61, 0x73, 0x6b,
+	0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e,
+	0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x70, 0x62, 0x2e, 0x53, 0x74, 0x6f,
+	0x70, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e,
+	0x74, 0x65, 0x6e, 0x74, 0x48, 0x00, 0x52, 0x17, 0x73, 0x74, 0x6f, 0x70, 0x54, 0x61, 0x73, 0x6b,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x12,
+	0x63, 0x0a, 0x1d, 0x64, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x5f, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x5f,
+	0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74,
+	0x18, 0x07, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1e, 0x2e, 0x70, 0x62, 0x2e, 0x44, 0x65, 0x70, 0x6c,
+	0x6f, 0x79, 0x49, 0x6d, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43,
+	0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x48, 0x00, 0x52, 0x1a, 0x64, 0x65, 0x70, 0x6c, 0x6f, 0x79,
+	0x49, 0x6d, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e,
+	0x74, 0x65, 0x6e, 0x74, 0x42, 0x06, 0x0a, 0x04, 0x42, 0x6f, 0x64, 0x79, 0x22, 0x3f, 0x0a, 0x16,
+	0x50, 0x69, 0x6e, 0x67, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x25, 0x0a, 0x0e, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x61,
+	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d,
+	0x74, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x22, 0x48, 0x0a,
+	0x17, 0x50, 0x69, 0x6e, 0x67, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2d, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74,
+	0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x15, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x72,
+	0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52,
+	0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x22, 0x88, 0x01, 0x0a, 0x17, 0x41, 0x6c, 0x6c, 0x6f,
 	0x63, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75,
 	0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01,
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x1d, 0x0a, 0x0a,
 	0x66, 0x61, 0x63, 0x74, 0x6f, 0x72, 0x79, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x09, 0x66, 0x61, 0x63, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x64, 0x12, 0x36, 0x0a, 0x0d, 0x68,
+	0x52, 0x09, 0x66, 0x61, 0x63, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x64, 0x12, 0x35, 0x0a, 0x0d, 0x68,
 	0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x5f, 0x64, 0x61, 0x74, 0x61, 0x18, 0x03, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x11, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x48, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72,
-	0x65, 0x44, 0x61, 0x74, 0x61, 0x52, 0x0c, 0x68, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x44,
-	0x61, 0x74, 0x61, 0x22, 0x43, 0x0a, 0x20, 0x54, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65,
-	0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x69, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x69, 0x6e,
-	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x49, 0x64, 0x22, 0x56, 0x0a, 0x1a, 0x54, 0x44, 0x65, 0x61,
-	0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69,
-	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12,
-	0x1f, 0x0a, 0x0b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x49, 0x64,
-	0x22, 0x24, 0x0a, 0x22, 0x54, 0x44, 0x65, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x49,
-	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43,
-	0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x22, 0x51, 0x0a, 0x15, 0x54, 0x53, 0x74, 0x61, 0x72, 0x74,
-	0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
-	0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x1f, 0x0a, 0x0b, 0x69, 0x6e, 0x73, 0x74,
-	0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x69,
-	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x49, 0x64, 0x22, 0x1f, 0x0a, 0x1d, 0x54, 0x53, 0x74,
-	0x61, 0x72, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x22, 0x50, 0x0a, 0x14, 0x54, 0x53,
-	0x74, 0x6f, 0x70, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x1f, 0x0a, 0x0b, 0x69,
-	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x0a, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x49, 0x64, 0x22, 0x1e, 0x0a, 0x1c,
-	0x54, 0x53, 0x74, 0x6f, 0x70, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x22, 0x83, 0x01, 0x0a,
-	0x11, 0x54, 0x53, 0x74, 0x61, 0x72, 0x74, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x1d, 0x0a, 0x0a, 0x66,
-	0x61, 0x63, 0x74, 0x6f, 0x72, 0x79, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x09, 0x66, 0x61, 0x63, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x64, 0x12, 0x36, 0x0a, 0x0d, 0x68, 0x61,
-	0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x5f, 0x64, 0x61, 0x74, 0x61, 0x18, 0x03, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x11, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x48, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65,
+	0x28, 0x0b, 0x32, 0x10, 0x2e, 0x70, 0x62, 0x2e, 0x48, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65,
 	0x44, 0x61, 0x74, 0x61, 0x52, 0x0c, 0x68, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x44, 0x61,
-	0x74, 0x61, 0x22, 0x3c, 0x0a, 0x19, 0x54, 0x53, 0x74, 0x61, 0x72, 0x74, 0x54, 0x61, 0x73, 0x6b,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x12,
-	0x1f, 0x0a, 0x0b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x49, 0x64,
-	0x22, 0x4c, 0x0a, 0x10, 0x54, 0x53, 0x74, 0x6f, 0x70, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x71,
+	0x74, 0x61, 0x22, 0x42, 0x0a, 0x1f, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x49, 0x6e,
+	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f,
+	0x6e, 0x74, 0x65, 0x6e, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
+	0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x69, 0x6e, 0x73, 0x74,
+	0x61, 0x6e, 0x63, 0x65, 0x49, 0x64, 0x22, 0x55, 0x0a, 0x19, 0x44, 0x65, 0x61, 0x6c, 0x6c, 0x6f,
+	0x63, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x1f, 0x0a, 0x0b,
+	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x0a, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x49, 0x64, 0x22, 0x23, 0x0a,
+	0x21, 0x44, 0x65, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61,
+	0x6e, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65,
+	0x6e, 0x74, 0x22, 0x50, 0x0a, 0x14, 0x53, 0x74, 0x61, 0x72, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61,
+	0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73,
+	0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x75, 0x73, 0x65,
+	0x72, 0x49, 0x64, 0x12, 0x1f, 0x0a, 0x0b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f,
+	0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e,
+	0x63, 0x65, 0x49, 0x64, 0x22, 0x1e, 0x0a, 0x1c, 0x53, 0x74, 0x61, 0x72, 0x74, 0x49, 0x6e, 0x73,
+	0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e,
+	0x74, 0x65, 0x6e, 0x74, 0x22, 0x4f, 0x0a, 0x13, 0x53, 0x74, 0x6f, 0x70, 0x49, 0x6e, 0x73, 0x74,
+	0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x75,
+	0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x75, 0x73,
+	0x65, 0x72, 0x49, 0x64, 0x12, 0x1f, 0x0a, 0x0b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
+	0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x69, 0x6e, 0x73, 0x74, 0x61,
+	0x6e, 0x63, 0x65, 0x49, 0x64, 0x22, 0x1d, 0x0a, 0x1b, 0x53, 0x74, 0x6f, 0x70, 0x49, 0x6e, 0x73,
+	0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e,
+	0x74, 0x65, 0x6e, 0x74, 0x22, 0x81, 0x01, 0x0a, 0x10, 0x53, 0x74, 0x61, 0x72, 0x74, 0x54, 0x61,
+	0x73, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65,
+	0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72,
+	0x49, 0x64, 0x12, 0x1d, 0x0a, 0x0a, 0x66, 0x61, 0x63, 0x74, 0x6f, 0x72, 0x79, 0x5f, 0x69, 0x64,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x66, 0x61, 0x63, 0x74, 0x6f, 0x72, 0x79, 0x49,
+	0x64, 0x12, 0x35, 0x0a, 0x0d, 0x68, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x5f, 0x64, 0x61,
+	0x74, 0x61, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x70, 0x62, 0x2e, 0x48, 0x61,
+	0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x44, 0x61, 0x74, 0x61, 0x52, 0x0c, 0x68, 0x61, 0x72, 0x64,
+	0x77, 0x61, 0x72, 0x65, 0x44, 0x61, 0x74, 0x61, 0x22, 0x3b, 0x0a, 0x18, 0x53, 0x74, 0x61, 0x72,
+	0x74, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e,
+	0x74, 0x65, 0x6e, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
+	0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x69, 0x6e, 0x73, 0x74, 0x61,
+	0x6e, 0x63, 0x65, 0x49, 0x64, 0x22, 0x4b, 0x0a, 0x0f, 0x53, 0x74, 0x6f, 0x70, 0x54, 0x61, 0x73,
+	0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72,
+	0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49,
+	0x64, 0x12, 0x1f, 0x0a, 0x0b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
+	0x49, 0x64, 0x22, 0x19, 0x0a, 0x17, 0x53, 0x74, 0x6f, 0x70, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x22, 0x82, 0x01,
+	0x0a, 0x12, 0x44, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x49, 0x6d, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71,
 	0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18,
 	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x1f, 0x0a,
 	0x0b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x0a, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x49, 0x64, 0x22, 0x1a,
-	0x0a, 0x18, 0x54, 0x53, 0x74, 0x6f, 0x70, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x22, 0x84, 0x01, 0x0a, 0x13, 0x54,
-	0x44, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x49, 0x6d, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x1f, 0x0a, 0x0b, 0x69,
-	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x0a, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x49, 0x64, 0x12, 0x33, 0x0a, 0x0c,
-	0x64, 0x6f, 0x63, 0x6b, 0x65, 0x72, 0x5f, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x18, 0x03, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x10, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x44, 0x6f, 0x63, 0x6b, 0x65, 0x72, 0x49,
-	0x6d, 0x61, 0x67, 0x65, 0x52, 0x0b, 0x64, 0x6f, 0x63, 0x6b, 0x65, 0x72, 0x49, 0x6d, 0x61, 0x67,
-	0x65, 0x22, 0x1d, 0x0a, 0x1b, 0x54, 0x44, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x49, 0x6d, 0x61, 0x67,
+	0x28, 0x09, 0x52, 0x0a, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x49, 0x64, 0x12, 0x32,
+	0x0a, 0x0c, 0x64, 0x6f, 0x63, 0x6b, 0x65, 0x72, 0x5f, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x70, 0x62, 0x2e, 0x44, 0x6f, 0x63, 0x6b, 0x65, 0x72,
+	0x49, 0x6d, 0x61, 0x67, 0x65, 0x52, 0x0b, 0x64, 0x6f, 0x63, 0x6b, 0x65, 0x72, 0x49, 0x6d, 0x61,
+	0x67, 0x65, 0x22, 0x1c, 0x0a, 0x1a, 0x44, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x49, 0x6d, 0x61, 0x67,
 	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74,
-	0x32, 0x9d, 0x01, 0x0a, 0x0d, 0x54, 0x43, 0x6c, 0x6f, 0x75, 0x64, 0x4d, 0x61, 0x6e, 0x61, 0x67,
-	0x65, 0x72, 0x12, 0x3c, 0x0a, 0x07, 0x44, 0x6f, 0x41, 0x73, 0x79, 0x6e, 0x63, 0x12, 0x16, 0x2e,
-	0x70, 0x62, 0x2e, 0x54, 0x41, 0x73, 0x79, 0x6e, 0x63, 0x43, 0x6c, 0x6f, 0x75, 0x64, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x17, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x41, 0x73, 0x79, 0x6e,
-	0x63, 0x43, 0x6c, 0x6f, 0x75, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00,
-	0x12, 0x4e, 0x0a, 0x0f, 0x50, 0x69, 0x6e, 0x67, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74,
-	0x69, 0x6f, 0x6e, 0x12, 0x1b, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x50, 0x69, 0x6e, 0x67, 0x54, 0x72,
-	0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x1c, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x50, 0x69, 0x6e, 0x67, 0x54, 0x72, 0x61, 0x6e, 0x73,
-	0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00,
-	0x42, 0x21, 0x5a, 0x1f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64,
-	0x63, 0x2d, 0x6c, 0x61, 0x62, 0x2f, 0x73, 0x6b, 0x79, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x32, 0x98, 0x01, 0x0a, 0x0c, 0x43, 0x6c, 0x6f, 0x75, 0x64, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65,
+	0x72, 0x12, 0x3a, 0x0a, 0x07, 0x44, 0x6f, 0x41, 0x73, 0x79, 0x6e, 0x63, 0x12, 0x15, 0x2e, 0x70,
+	0x62, 0x2e, 0x41, 0x73, 0x79, 0x6e, 0x63, 0x43, 0x6c, 0x6f, 0x75, 0x64, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x16, 0x2e, 0x70, 0x62, 0x2e, 0x41, 0x73, 0x79, 0x6e, 0x63, 0x43, 0x6c,
+	0x6f, 0x75, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x4c, 0x0a,
+	0x0f, 0x50, 0x69, 0x6e, 0x67, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e,
+	0x12, 0x1a, 0x2e, 0x70, 0x62, 0x2e, 0x50, 0x69, 0x6e, 0x67, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61,
+	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x70,
+	0x62, 0x2e, 0x50, 0x69, 0x6e, 0x67, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f,
+	0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x21, 0x5a, 0x1f, 0x67,
+	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x63, 0x2d, 0x6c, 0x61, 0x62,
+	0x2f, 0x73, 0x6b, 0x79, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1385,55 +1383,55 @@ func file_api_proto_cloud_manager_proto_rawDescGZIP() []byte {
 
 var file_api_proto_cloud_manager_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_api_proto_cloud_manager_proto_goTypes = []interface{}{
-	(*TAsyncCloudRequest)(nil),                 // 0: pb.TAsyncCloudRequest
-	(*TAsyncCloudResponse)(nil),                // 1: pb.TAsyncCloudResponse
-	(*TAsyncResponseContent)(nil),              // 2: pb.TAsyncResponseContent
-	(*TPingTransactionRequest)(nil),            // 3: pb.TPingTransactionRequest
-	(*TPingTransactionResponse)(nil),           // 4: pb.TPingTransactionResponse
-	(*TAllocateInstanceRequest)(nil),           // 5: pb.TAllocateInstanceRequest
-	(*TAllocateInstanceResponseContent)(nil),   // 6: pb.TAllocateInstanceResponseContent
-	(*TDeallocateInstanceRequest)(nil),         // 7: pb.TDeallocateInstanceRequest
-	(*TDeallocateInstanceResponseContent)(nil), // 8: pb.TDeallocateInstanceResponseContent
-	(*TStartInstanceRequest)(nil),              // 9: pb.TStartInstanceRequest
-	(*TStartInstanceResponseContent)(nil),      // 10: pb.TStartInstanceResponseContent
-	(*TStopInstanceRequest)(nil),               // 11: pb.TStopInstanceRequest
-	(*TStopInstanceResponseContent)(nil),       // 12: pb.TStopInstanceResponseContent
-	(*TStartTaskRequest)(nil),                  // 13: pb.TStartTaskRequest
-	(*TStartTaskResponseContent)(nil),          // 14: pb.TStartTaskResponseContent
-	(*TStopTaskRequest)(nil),                   // 15: pb.TStopTaskRequest
-	(*TStopTaskResponseContent)(nil),           // 16: pb.TStopTaskResponseContent
-	(*TDeployImageRequest)(nil),                // 17: pb.TDeployImageRequest
-	(*TDeployImageResponseContent)(nil),        // 18: pb.TDeployImageResponseContent
-	(*TTransaction)(nil),                       // 19: pb.TTransaction
-	(ETransactionStatus)(0),                    // 20: pb.ETransactionStatus
-	(*THardwareData)(nil),                      // 21: pb.THardwareData
-	(*TDockerImage)(nil),                       // 22: pb.TDockerImage
+	(*AsyncCloudRequest)(nil),                 // 0: pb.AsyncCloudRequest
+	(*AsyncCloudResponse)(nil),                // 1: pb.AsyncCloudResponse
+	(*AsyncResponseContent)(nil),              // 2: pb.AsyncResponseContent
+	(*PingTransactionRequest)(nil),            // 3: pb.PingTransactionRequest
+	(*PingTransactionResponse)(nil),           // 4: pb.PingTransactionResponse
+	(*AllocateInstanceRequest)(nil),           // 5: pb.AllocateInstanceRequest
+	(*AllocateInstanceResponseContent)(nil),   // 6: pb.AllocateInstanceResponseContent
+	(*DeallocateInstanceRequest)(nil),         // 7: pb.DeallocateInstanceRequest
+	(*DeallocateInstanceResponseContent)(nil), // 8: pb.DeallocateInstanceResponseContent
+	(*StartInstanceRequest)(nil),              // 9: pb.StartInstanceRequest
+	(*StartInstanceResponseContent)(nil),      // 10: pb.StartInstanceResponseContent
+	(*StopInstanceRequest)(nil),               // 11: pb.StopInstanceRequest
+	(*StopInstanceResponseContent)(nil),       // 12: pb.StopInstanceResponseContent
+	(*StartTaskRequest)(nil),                  // 13: pb.StartTaskRequest
+	(*StartTaskResponseContent)(nil),          // 14: pb.StartTaskResponseContent
+	(*StopTaskRequest)(nil),                   // 15: pb.StopTaskRequest
+	(*StopTaskResponseContent)(nil),           // 16: pb.StopTaskResponseContent
+	(*DeployImageRequest)(nil),                // 17: pb.DeployImageRequest
+	(*DeployImageResponseContent)(nil),        // 18: pb.DeployImageResponseContent
+	(*Transaction)(nil),                       // 19: pb.Transaction
+	(TransactionStatus)(0),                    // 20: pb.TransactionStatus
+	(*HardwareData)(nil),                      // 21: pb.HardwareData
+	(*DockerImage)(nil),                       // 22: pb.DockerImage
 }
 var file_api_proto_cloud_manager_proto_depIdxs = []int32{
-	5,  // 0: pb.TAsyncCloudRequest.allocate_instance_request:type_name -> pb.TAllocateInstanceRequest
-	7,  // 1: pb.TAsyncCloudRequest.deallocate_instance_request:type_name -> pb.TDeallocateInstanceRequest
-	9,  // 2: pb.TAsyncCloudRequest.start_instance_request:type_name -> pb.TStartInstanceRequest
-	11, // 3: pb.TAsyncCloudRequest.stop_instance_request:type_name -> pb.TStopInstanceRequest
-	13, // 4: pb.TAsyncCloudRequest.start_task_request:type_name -> pb.TStartTaskRequest
-	15, // 5: pb.TAsyncCloudRequest.stop_task_request:type_name -> pb.TStopTaskRequest
-	17, // 6: pb.TAsyncCloudRequest.deploy_image_request:type_name -> pb.TDeployImageRequest
-	19, // 7: pb.TAsyncCloudResponse.transaction:type_name -> pb.TTransaction
-	2,  // 8: pb.TAsyncCloudResponse.async_response_content:type_name -> pb.TAsyncResponseContent
-	6,  // 9: pb.TAsyncResponseContent.allocate_instance_response_content:type_name -> pb.TAllocateInstanceResponseContent
-	8,  // 10: pb.TAsyncResponseContent.deallocate_instance_response_content:type_name -> pb.TDeallocateInstanceResponseContent
-	10, // 11: pb.TAsyncResponseContent.start_instance_response_content:type_name -> pb.TStartInstanceResponseContent
-	12, // 12: pb.TAsyncResponseContent.stop_instance_response_content:type_name -> pb.TStopInstanceResponseContent
-	14, // 13: pb.TAsyncResponseContent.start_task_response_content:type_name -> pb.TStartTaskResponseContent
-	16, // 14: pb.TAsyncResponseContent.stop_task_response_content:type_name -> pb.TStopTaskResponseContent
-	18, // 15: pb.TAsyncResponseContent.deploy_image_response_content:type_name -> pb.TDeployImageResponseContent
-	20, // 16: pb.TPingTransactionResponse.status:type_name -> pb.ETransactionStatus
-	21, // 17: pb.TAllocateInstanceRequest.hardware_data:type_name -> pb.THardwareData
-	21, // 18: pb.TStartTaskRequest.hardware_data:type_name -> pb.THardwareData
-	22, // 19: pb.TDeployImageRequest.docker_image:type_name -> pb.TDockerImage
-	0,  // 20: pb.TCloudManager.DoAsync:input_type -> pb.TAsyncCloudRequest
-	3,  // 21: pb.TCloudManager.PingTransaction:input_type -> pb.TPingTransactionRequest
-	1,  // 22: pb.TCloudManager.DoAsync:output_type -> pb.TAsyncCloudResponse
-	4,  // 23: pb.TCloudManager.PingTransaction:output_type -> pb.TPingTransactionResponse
+	5,  // 0: pb.AsyncCloudRequest.allocate_instance_request:type_name -> pb.AllocateInstanceRequest
+	7,  // 1: pb.AsyncCloudRequest.deallocate_instance_request:type_name -> pb.DeallocateInstanceRequest
+	9,  // 2: pb.AsyncCloudRequest.start_instance_request:type_name -> pb.StartInstanceRequest
+	11, // 3: pb.AsyncCloudRequest.stop_instance_request:type_name -> pb.StopInstanceRequest
+	13, // 4: pb.AsyncCloudRequest.start_task_request:type_name -> pb.StartTaskRequest
+	15, // 5: pb.AsyncCloudRequest.stop_task_request:type_name -> pb.StopTaskRequest
+	17, // 6: pb.AsyncCloudRequest.deploy_image_request:type_name -> pb.DeployImageRequest
+	19, // 7: pb.AsyncCloudResponse.transaction:type_name -> pb.Transaction
+	2,  // 8: pb.AsyncCloudResponse.async_response_content:type_name -> pb.AsyncResponseContent
+	6,  // 9: pb.AsyncResponseContent.allocate_instance_response_content:type_name -> pb.AllocateInstanceResponseContent
+	8,  // 10: pb.AsyncResponseContent.deallocate_instance_response_content:type_name -> pb.DeallocateInstanceResponseContent
+	10, // 11: pb.AsyncResponseContent.start_instance_response_content:type_name -> pb.StartInstanceResponseContent
+	12, // 12: pb.AsyncResponseContent.stop_instance_response_content:type_name -> pb.StopInstanceResponseContent
+	14, // 13: pb.AsyncResponseContent.start_task_response_content:type_name -> pb.StartTaskResponseContent
+	16, // 14: pb.AsyncResponseContent.stop_task_response_content:type_name -> pb.StopTaskResponseContent
+	18, // 15: pb.AsyncResponseContent.deploy_image_response_content:type_name -> pb.DeployImageResponseContent
+	20, // 16: pb.PingTransactionResponse.status:type_name -> pb.TransactionStatus
+	21, // 17: pb.AllocateInstanceRequest.hardware_data:type_name -> pb.HardwareData
+	21, // 18: pb.StartTaskRequest.hardware_data:type_name -> pb.HardwareData
+	22, // 19: pb.DeployImageRequest.docker_image:type_name -> pb.DockerImage
+	0,  // 20: pb.CloudManager.DoAsync:input_type -> pb.AsyncCloudRequest
+	3,  // 21: pb.CloudManager.PingTransaction:input_type -> pb.PingTransactionRequest
+	1,  // 22: pb.CloudManager.DoAsync:output_type -> pb.AsyncCloudResponse
+	4,  // 23: pb.CloudManager.PingTransaction:output_type -> pb.PingTransactionResponse
 	22, // [22:24] is the sub-list for method output_type
 	20, // [20:22] is the sub-list for method input_type
 	20, // [20:20] is the sub-list for extension type_name
@@ -1447,10 +1445,10 @@ func file_api_proto_cloud_manager_proto_init() {
 		return
 	}
 	file_api_proto_cloud_entity_proto_init()
-	file_api_proto_entity_proto_init()
+	file_api_proto_hardware_data_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_api_proto_cloud_manager_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TAsyncCloudRequest); i {
+			switch v := v.(*AsyncCloudRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1462,7 +1460,7 @@ func file_api_proto_cloud_manager_proto_init() {
 			}
 		}
 		file_api_proto_cloud_manager_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TAsyncCloudResponse); i {
+			switch v := v.(*AsyncCloudResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1474,7 +1472,7 @@ func file_api_proto_cloud_manager_proto_init() {
 			}
 		}
 		file_api_proto_cloud_manager_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TAsyncResponseContent); i {
+			switch v := v.(*AsyncResponseContent); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1486,7 +1484,7 @@ func file_api_proto_cloud_manager_proto_init() {
 			}
 		}
 		file_api_proto_cloud_manager_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TPingTransactionRequest); i {
+			switch v := v.(*PingTransactionRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1498,7 +1496,7 @@ func file_api_proto_cloud_manager_proto_init() {
 			}
 		}
 		file_api_proto_cloud_manager_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TPingTransactionResponse); i {
+			switch v := v.(*PingTransactionResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1510,7 +1508,7 @@ func file_api_proto_cloud_manager_proto_init() {
 			}
 		}
 		file_api_proto_cloud_manager_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TAllocateInstanceRequest); i {
+			switch v := v.(*AllocateInstanceRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1522,7 +1520,7 @@ func file_api_proto_cloud_manager_proto_init() {
 			}
 		}
 		file_api_proto_cloud_manager_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TAllocateInstanceResponseContent); i {
+			switch v := v.(*AllocateInstanceResponseContent); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1534,7 +1532,7 @@ func file_api_proto_cloud_manager_proto_init() {
 			}
 		}
 		file_api_proto_cloud_manager_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TDeallocateInstanceRequest); i {
+			switch v := v.(*DeallocateInstanceRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1546,7 +1544,7 @@ func file_api_proto_cloud_manager_proto_init() {
 			}
 		}
 		file_api_proto_cloud_manager_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TDeallocateInstanceResponseContent); i {
+			switch v := v.(*DeallocateInstanceResponseContent); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1558,7 +1556,7 @@ func file_api_proto_cloud_manager_proto_init() {
 			}
 		}
 		file_api_proto_cloud_manager_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TStartInstanceRequest); i {
+			switch v := v.(*StartInstanceRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1570,7 +1568,7 @@ func file_api_proto_cloud_manager_proto_init() {
 			}
 		}
 		file_api_proto_cloud_manager_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TStartInstanceResponseContent); i {
+			switch v := v.(*StartInstanceResponseContent); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1582,7 +1580,7 @@ func file_api_proto_cloud_manager_proto_init() {
 			}
 		}
 		file_api_proto_cloud_manager_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TStopInstanceRequest); i {
+			switch v := v.(*StopInstanceRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1594,7 +1592,7 @@ func file_api_proto_cloud_manager_proto_init() {
 			}
 		}
 		file_api_proto_cloud_manager_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TStopInstanceResponseContent); i {
+			switch v := v.(*StopInstanceResponseContent); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1606,7 +1604,7 @@ func file_api_proto_cloud_manager_proto_init() {
 			}
 		}
 		file_api_proto_cloud_manager_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TStartTaskRequest); i {
+			switch v := v.(*StartTaskRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1618,7 +1616,7 @@ func file_api_proto_cloud_manager_proto_init() {
 			}
 		}
 		file_api_proto_cloud_manager_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TStartTaskResponseContent); i {
+			switch v := v.(*StartTaskResponseContent); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1630,7 +1628,7 @@ func file_api_proto_cloud_manager_proto_init() {
 			}
 		}
 		file_api_proto_cloud_manager_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TStopTaskRequest); i {
+			switch v := v.(*StopTaskRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1642,7 +1640,7 @@ func file_api_proto_cloud_manager_proto_init() {
 			}
 		}
 		file_api_proto_cloud_manager_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TStopTaskResponseContent); i {
+			switch v := v.(*StopTaskResponseContent); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1654,7 +1652,7 @@ func file_api_proto_cloud_manager_proto_init() {
 			}
 		}
 		file_api_proto_cloud_manager_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TDeployImageRequest); i {
+			switch v := v.(*DeployImageRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1666,7 +1664,7 @@ func file_api_proto_cloud_manager_proto_init() {
 			}
 		}
 		file_api_proto_cloud_manager_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TDeployImageResponseContent); i {
+			switch v := v.(*DeployImageResponseContent); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1679,22 +1677,22 @@ func file_api_proto_cloud_manager_proto_init() {
 		}
 	}
 	file_api_proto_cloud_manager_proto_msgTypes[0].OneofWrappers = []interface{}{
-		(*TAsyncCloudRequest_AllocateInstanceRequest)(nil),
-		(*TAsyncCloudRequest_DeallocateInstanceRequest)(nil),
-		(*TAsyncCloudRequest_StartInstanceRequest)(nil),
-		(*TAsyncCloudRequest_StopInstanceRequest)(nil),
-		(*TAsyncCloudRequest_StartTaskRequest)(nil),
-		(*TAsyncCloudRequest_StopTaskRequest)(nil),
-		(*TAsyncCloudRequest_DeployImageRequest)(nil),
+		(*AsyncCloudRequest_AllocateInstanceRequest)(nil),
+		(*AsyncCloudRequest_DeallocateInstanceRequest)(nil),
+		(*AsyncCloudRequest_StartInstanceRequest)(nil),
+		(*AsyncCloudRequest_StopInstanceRequest)(nil),
+		(*AsyncCloudRequest_StartTaskRequest)(nil),
+		(*AsyncCloudRequest_StopTaskRequest)(nil),
+		(*AsyncCloudRequest_DeployImageRequest)(nil),
 	}
 	file_api_proto_cloud_manager_proto_msgTypes[2].OneofWrappers = []interface{}{
-		(*TAsyncResponseContent_AllocateInstanceResponseContent)(nil),
-		(*TAsyncResponseContent_DeallocateInstanceResponseContent)(nil),
-		(*TAsyncResponseContent_StartInstanceResponseContent)(nil),
-		(*TAsyncResponseContent_StopInstanceResponseContent)(nil),
-		(*TAsyncResponseContent_StartTaskResponseContent)(nil),
-		(*TAsyncResponseContent_StopTaskResponseContent)(nil),
-		(*TAsyncResponseContent_DeployImageResponseContent)(nil),
+		(*AsyncResponseContent_AllocateInstanceResponseContent)(nil),
+		(*AsyncResponseContent_DeallocateInstanceResponseContent)(nil),
+		(*AsyncResponseContent_StartInstanceResponseContent)(nil),
+		(*AsyncResponseContent_StopInstanceResponseContent)(nil),
+		(*AsyncResponseContent_StartTaskResponseContent)(nil),
+		(*AsyncResponseContent_StopTaskResponseContent)(nil),
+		(*AsyncResponseContent_DeployImageResponseContent)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1724,108 +1722,108 @@ var _ grpc.ClientConnInterface
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion6
 
-// TCloudManagerClient is the client API for TCloudManager service.
+// CloudManagerClient is the client API for CloudManager service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type TCloudManagerClient interface {
-	DoAsync(ctx context.Context, in *TAsyncCloudRequest, opts ...grpc.CallOption) (*TAsyncCloudResponse, error)
-	PingTransaction(ctx context.Context, in *TPingTransactionRequest, opts ...grpc.CallOption) (*TPingTransactionResponse, error)
+type CloudManagerClient interface {
+	DoAsync(ctx context.Context, in *AsyncCloudRequest, opts ...grpc.CallOption) (*AsyncCloudResponse, error)
+	PingTransaction(ctx context.Context, in *PingTransactionRequest, opts ...grpc.CallOption) (*PingTransactionResponse, error)
 }
 
-type tCloudManagerClient struct {
+type cloudManagerClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewTCloudManagerClient(cc grpc.ClientConnInterface) TCloudManagerClient {
-	return &tCloudManagerClient{cc}
+func NewCloudManagerClient(cc grpc.ClientConnInterface) CloudManagerClient {
+	return &cloudManagerClient{cc}
 }
 
-func (c *tCloudManagerClient) DoAsync(ctx context.Context, in *TAsyncCloudRequest, opts ...grpc.CallOption) (*TAsyncCloudResponse, error) {
-	out := new(TAsyncCloudResponse)
-	err := c.cc.Invoke(ctx, "/pb.TCloudManager/DoAsync", in, out, opts...)
+func (c *cloudManagerClient) DoAsync(ctx context.Context, in *AsyncCloudRequest, opts ...grpc.CallOption) (*AsyncCloudResponse, error) {
+	out := new(AsyncCloudResponse)
+	err := c.cc.Invoke(ctx, "/pb.CloudManager/DoAsync", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *tCloudManagerClient) PingTransaction(ctx context.Context, in *TPingTransactionRequest, opts ...grpc.CallOption) (*TPingTransactionResponse, error) {
-	out := new(TPingTransactionResponse)
-	err := c.cc.Invoke(ctx, "/pb.TCloudManager/PingTransaction", in, out, opts...)
+func (c *cloudManagerClient) PingTransaction(ctx context.Context, in *PingTransactionRequest, opts ...grpc.CallOption) (*PingTransactionResponse, error) {
+	out := new(PingTransactionResponse)
+	err := c.cc.Invoke(ctx, "/pb.CloudManager/PingTransaction", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// TCloudManagerServer is the server API for TCloudManager service.
-type TCloudManagerServer interface {
-	DoAsync(context.Context, *TAsyncCloudRequest) (*TAsyncCloudResponse, error)
-	PingTransaction(context.Context, *TPingTransactionRequest) (*TPingTransactionResponse, error)
+// CloudManagerServer is the server API for CloudManager service.
+type CloudManagerServer interface {
+	DoAsync(context.Context, *AsyncCloudRequest) (*AsyncCloudResponse, error)
+	PingTransaction(context.Context, *PingTransactionRequest) (*PingTransactionResponse, error)
 }
 
-// UnimplementedTCloudManagerServer can be embedded to have forward compatible implementations.
-type UnimplementedTCloudManagerServer struct {
+// UnimplementedCloudManagerServer can be embedded to have forward compatible implementations.
+type UnimplementedCloudManagerServer struct {
 }
 
-func (*UnimplementedTCloudManagerServer) DoAsync(context.Context, *TAsyncCloudRequest) (*TAsyncCloudResponse, error) {
+func (*UnimplementedCloudManagerServer) DoAsync(context.Context, *AsyncCloudRequest) (*AsyncCloudResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DoAsync not implemented")
 }
-func (*UnimplementedTCloudManagerServer) PingTransaction(context.Context, *TPingTransactionRequest) (*TPingTransactionResponse, error) {
+func (*UnimplementedCloudManagerServer) PingTransaction(context.Context, *PingTransactionRequest) (*PingTransactionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PingTransaction not implemented")
 }
 
-func RegisterTCloudManagerServer(s *grpc.Server, srv TCloudManagerServer) {
-	s.RegisterService(&_TCloudManager_serviceDesc, srv)
+func RegisterCloudManagerServer(s *grpc.Server, srv CloudManagerServer) {
+	s.RegisterService(&_CloudManager_serviceDesc, srv)
 }
 
-func _TCloudManager_DoAsync_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TAsyncCloudRequest)
+func _CloudManager_DoAsync_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AsyncCloudRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TCloudManagerServer).DoAsync(ctx, in)
+		return srv.(CloudManagerServer).DoAsync(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.TCloudManager/DoAsync",
+		FullMethod: "/pb.CloudManager/DoAsync",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TCloudManagerServer).DoAsync(ctx, req.(*TAsyncCloudRequest))
+		return srv.(CloudManagerServer).DoAsync(ctx, req.(*AsyncCloudRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TCloudManager_PingTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TPingTransactionRequest)
+func _CloudManager_PingTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PingTransactionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TCloudManagerServer).PingTransaction(ctx, in)
+		return srv.(CloudManagerServer).PingTransaction(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.TCloudManager/PingTransaction",
+		FullMethod: "/pb.CloudManager/PingTransaction",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TCloudManagerServer).PingTransaction(ctx, req.(*TPingTransactionRequest))
+		return srv.(CloudManagerServer).PingTransaction(ctx, req.(*PingTransactionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-var _TCloudManager_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.TCloudManager",
-	HandlerType: (*TCloudManagerServer)(nil),
+var _CloudManager_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "pb.CloudManager",
+	HandlerType: (*CloudManagerServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "DoAsync",
-			Handler:    _TCloudManager_DoAsync_Handler,
+			Handler:    _CloudManager_DoAsync_Handler,
 		},
 		{
 			MethodName: "PingTransaction",
-			Handler:    _TCloudManager_PingTransaction_Handler,
+			Handler:    _CloudManager_PingTransaction_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

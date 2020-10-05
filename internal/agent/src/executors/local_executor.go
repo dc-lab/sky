@@ -1,8 +1,8 @@
 package executors
 
 import (
-	"github.com/dc-lab/sky/internal/agent/src/common"
 	pb "github.com/dc-lab/sky/api/proto"
+	"github.com/dc-lab/sky/internal/agent/src/common"
 	"os/exec"
 	"path"
 	"sync/atomic"
@@ -10,7 +10,7 @@ import (
 
 type TaskExecutor interface {
 	Prepare(func(err error))
-	Run(<-chan struct{}, func(result *pb.TResult), func(err error))
+	Run(<-chan struct{}, func(result *pb.Result), func(err error))
 }
 
 type LocalExecutor struct {
@@ -35,7 +35,7 @@ func (e *LocalExecutor) Prepare(afterExecution func(err error)) {
 
 func (e *LocalExecutor) Run(
 	quiteChannel <-chan struct{},
-	beforeExecution func(result *pb.TResult),
+	beforeExecution func(result *pb.Result),
 	afterExecution func(err error),
 ) {
 	e.RunShellCommand(
@@ -54,7 +54,7 @@ func (e *LocalExecutor) RunShellCommand(
 	directory string,
 	stdOutFilePath string,
 	stdErrFilePath string,
-	beforeExecution func(result *pb.TResult),
+	beforeExecution func(result *pb.Result),
 	afterExecution func(err error),
 	quit <-chan struct{},
 ) {
@@ -69,7 +69,7 @@ func (e *LocalExecutor) RunShellCommand(
 	err := cmd.Start()
 	common.DealWithError(err)
 	atomic.StoreInt64(&e.ProcessID, int64(cmd.Process.Pid))
-	result := pb.TResult{ResultCode: pb.TResult_RUN}
+	result := pb.Result{ResultCode: pb.Result_RUN}
 	if beforeExecution != nil {
 		beforeExecution(&result)
 	}

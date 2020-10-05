@@ -5,16 +5,16 @@ import (
 	"github.com/dc-lab/sky/internal/user_manager/db"
 )
 
-type Server struct {}
+type Server struct{}
 
-func (s Server) GetUserGroups(user *pb.TUser, stream pb.UserManager_GetUserGroupsServer) error {
+func (s Server) GetUserGroups(user *pb.User, stream pb.UserManager_GetUserGroupsServer) error {
 	userId := user.GetId()
 	groups, err := db.GetGroups(userId)
 	if err != nil {
 		return err
 	}
 	for _, group := range groups {
-		protoGroup := pb.TGroup{
+		protoGroup := pb.Group{
 			Id:    group.Id,
 			Name:  group.Name,
 			Users: group.Users,

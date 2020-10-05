@@ -6,114 +6,114 @@ syntax = "proto3";
 package pb;
 
 import "api/proto/cloud_entity.proto";
-import "api/proto/hardare_data.proto";
+import "api/proto/hardware_data.proto";
 
 option go_package = "github.com/dc-lab/sky/api/proto";
 
-service TCloudManager {
-    rpc DoAsync (TAsyncCloudRequest) returns (TAsyncCloudResponse) {}
+service CloudManager {
+    rpc DoAsync (AsyncCloudRequest) returns (AsyncCloudResponse) {}
 
-    rpc PingTransaction (TPingTransactionRequest) returns (TPingTransactionResponse) {}
+    rpc PingTransaction (PingTransactionRequest) returns (PingTransactionResponse) {}
 }
 
 // TODO: describe possible errors
-message TAsyncCloudRequest {
+message AsyncCloudRequest {
     oneof Body {
-        TAllocateInstanceRequest allocate_instance_request = 1;
-        TDeallocateInstanceRequest deallocate_instance_request = 2;
-        TStartInstanceRequest start_instance_request = 3;
-        TStopInstanceRequest stop_instance_request = 4;
-        TStartTaskRequest start_task_request = 5;
-        TStopTaskRequest stop_task_request = 6;
-        TDeployImageRequest deploy_image_request = 7;
+        AllocateInstanceRequest allocate_instance_request = 1;
+        DeallocateInstanceRequest deallocate_instance_request = 2;
+        StartInstanceRequest start_instance_request = 3;
+        StopInstanceRequest stop_instance_request = 4;
+        StartTaskRequest start_task_request = 5;
+        StopTaskRequest stop_task_request = 6;
+        DeployImageRequest deploy_image_request = 7;
     }
 }
 
-message TAsyncCloudResponse {
-    TTransaction transaction = 1;
-    TAsyncResponseContent async_response_content = 2;
+message AsyncCloudResponse {
+    Transaction transaction = 1;
+    AsyncResponseContent async_response_content = 2;
 }
 
-message TAsyncResponseContent {
+message AsyncResponseContent {
     oneof Body {
-        TAllocateInstanceResponseContent allocate_instance_response_content = 1;
-        TDeallocateInstanceResponseContent deallocate_instance_response_content = 2;
-        TStartInstanceResponseContent start_instance_response_content = 3;
-        TStopInstanceResponseContent stop_instance_response_content = 4;
-        TStartTaskResponseContent start_task_response_content = 5;
-        TStopTaskResponseContent stop_task_response_content = 6;
-        TDeployImageResponseContent deploy_image_response_content = 7;
+        AllocateInstanceResponseContent allocate_instance_response_content = 1;
+        DeallocateInstanceResponseContent deallocate_instance_response_content = 2;
+        StartInstanceResponseContent start_instance_response_content = 3;
+        StopInstanceResponseContent stop_instance_response_content = 4;
+        StartTaskResponseContent start_task_response_content = 5;
+        StopTaskResponseContent stop_task_response_content = 6;
+        DeployImageResponseContent deploy_image_response_content = 7;
     }
 }
 
 // TODO: describe possible errors
-message TPingTransactionRequest {
+message PingTransactionRequest {
     string transaction_id = 1;
 }
 
-message TPingTransactionResponse {
-    ETransactionStatus status = 1;
+message PingTransactionResponse {
+    TransactionStatus status = 1;
 }
 
-message TAllocateInstanceRequest {
+message AllocateInstanceRequest {
     string user_id = 1;
     string factory_id = 2;
-    THardwareData hardware_data = 3;
+    HardwareData hardware_data = 3;
 }
 
-message TAllocateInstanceResponseContent {
+message AllocateInstanceResponseContent {
     string instance_id = 1;
 }
 
-message TDeallocateInstanceRequest {
+message DeallocateInstanceRequest {
     string user_id = 1;
     string instance_id = 2;
 }
 
-message TDeallocateInstanceResponseContent {
+message DeallocateInstanceResponseContent {
 }
 
 // make API call to start allocated instance associated with user account
-message TStartInstanceRequest {
+message StartInstanceRequest {
     string user_id = 1;
     string instance_id = 2;
 }
 
-message TStartInstanceResponseContent {
+message StartInstanceResponseContent {
 }
 
-message TStopInstanceRequest {
+message StopInstanceRequest {
     string user_id = 1;
     string instance_id = 2;
 }
 
-message TStopInstanceResponseContent {
+message StopInstanceResponseContent {
 }
 
 // make API call to start task definition associated with user account
-message TStartTaskRequest {
+message StartTaskRequest {
     string user_id = 1;
     string factory_id = 2;
-    THardwareData hardware_data = 3;
+    HardwareData hardware_data = 3;
 }
 
-message TStartTaskResponseContent {
+message StartTaskResponseContent {
     string instance_id = 1;
 }
 
-message TStopTaskRequest {
+message StopTaskRequest {
     string user_id = 1;
     string instance_id = 2;
 }
 
-message TStopTaskResponseContent {
+message StopTaskResponseContent {
 }
 
-message TDeployImageRequest {
+message DeployImageRequest {
     string user_id = 1;
     string instance_id = 2;
-    TDockerImage docker_image = 3;
+    DockerImage docker_image = 3;
 }
 
-message TDeployImageResponseContent {
+message DeployImageResponseContent {
 }

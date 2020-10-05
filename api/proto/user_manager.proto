@@ -8,14 +8,14 @@ package pb;
 option go_package = "github.com/dc-lab/sky/api/proto";
 
 service UserManager {
-    rpc GetUserGroups (TUser) returns (stream TGroup) {}
+    rpc GetUserGroups (User) returns (stream Group) {}
 }
 
-message TUser {
+message User {
     string id = 1; // required
 }
 
-message TGroup {
+message Group {
     string id = 1; // required
     string name = 2; // required
     repeated string users = 3; // required

@@ -73,6 +73,58 @@
         ]
       }
     },
+    "/api/v1/resources": {
+      "get": {
+        "operationId": "ResourceManager_GetResources",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetResourcesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "requirements.cores_count",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "requirements.memory_bytes",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "requirements.disk_bytes",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "ResourceManager"
+        ]
+      }
+    },
     "/v1/files": {
       "post": {
         "operationId": "DataManager_CreateFile",
@@ -203,7 +255,7 @@
     }
   },
   "definitions": {
-    "TResultTErrorCode": {
+    "ResultErrorCode": {
       "type": "string",
       "enum": [
         "ERROR_UNKNOWN",
@@ -214,6 +266,73 @@
         "NOT_IMPLEMENTED"
       ],
       "default": "ERROR_UNKNOWN"
+    },
+    "pbAllocateInstanceRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "factory_id": {
+          "type": "string"
+        },
+        "hardware_data": {
+          "$ref": "#/definitions/pbHardwareData"
+        }
+      }
+    },
+    "pbAllocateInstanceResponseContent": {
+      "type": "object",
+      "properties": {
+        "instance_id": {
+          "type": "string"
+        }
+      }
+    },
+    "pbAsyncCloudResponse": {
+      "type": "object",
+      "properties": {
+        "transaction": {
+          "$ref": "#/definitions/pbTransaction"
+        },
+        "async_response_content": {
+          "$ref": "#/definitions/pbAsyncResponseContent"
+        }
+      }
+    },
+    "pbAsyncResponseContent": {
+      "type": "object",
+      "properties": {
+        "allocate_instance_response_content": {
+          "$ref": "#/definitions/pbAllocateInstanceResponseContent"
+        },
+        "deallocate_instance_response_content": {
+          "$ref": "#/definitions/pbDeallocateInstanceResponseContent"
+        },
+        "start_instance_response_content": {
+          "$ref": "#/definitions/pbStartInstanceResponseContent"
+        },
+        "stop_instance_response_content": {
+          "$ref": "#/definitions/pbStopInstanceResponseContent"
+        },
+        "start_task_response_content": {
+          "$ref": "#/definitions/pbStartTaskResponseContent"
+        },
+        "stop_task_response_content": {
+          "$ref": "#/definitions/pbStopTaskResponseContent"
+        },
+        "deploy_image_response_content": {
+          "$ref": "#/definitions/pbDeployImageResponseContent"
+        }
+      }
+    },
+    "pbCancelTaskRequest": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string"
+        }
+      }
     },
     "pbCreateFileRequest": {
       "type": "object",
@@ -231,6 +350,87 @@
         }
       }
     },
+    "pbCreateResourceRequest": {
+      "type": "object",
+      "properties": {
+        "resource": {
+          "$ref": "#/definitions/pbResource"
+        }
+      }
+    },
+    "pbCreateResourceResponse": {
+      "type": "object"
+    },
+    "pbDeallocateInstanceRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "instance_id": {
+          "type": "string"
+        }
+      }
+    },
+    "pbDeallocateInstanceResponseContent": {
+      "type": "object"
+    },
+    "pbDeleteResourceRequest": {
+      "type": "object",
+      "properties": {
+        "resource_id": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        }
+      }
+    },
+    "pbDeleteResourceResponse": {
+      "type": "object"
+    },
+    "pbDeleteTaskRequest": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string"
+        }
+      }
+    },
+    "pbDeployImageRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "instance_id": {
+          "type": "string"
+        },
+        "docker_image": {
+          "$ref": "#/definitions/pbDockerImage"
+        }
+      }
+    },
+    "pbDeployImageResponseContent": {
+      "type": "object"
+    },
+    "pbDockerImage": {
+      "type": "object",
+      "properties": {
+        "registry": {
+          "type": "string"
+        },
+        "repository": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "string"
+        }
+      }
+    },
     "pbEResourceType": {
       "type": "string",
       "enum": [
@@ -241,17 +441,6 @@
         "CLOUD_TASK"
       ],
       "default": "RESOURCE_UNKNOWN"
-    },
-    "pbETransactionStatus": {
-      "type": "string",
-      "enum": [
-        "UNKNOWN",
-        "ACTIVE",
-        "COMPLETED",
-        "EXPIRED",
-        "CANCELLED"
-      ],
-      "default": "UNKNOWN"
     },
     "pbFile": {
       "type": "object",
@@ -281,6 +470,20 @@
           "items": {
             "type": "string"
           }
+        }
+      }
+    },
+    "pbFileOnAgent": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "agent_relative_local_path": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string"
         }
       }
     },
@@ -321,12 +524,23 @@
           "type": "string"
         },
         "status": {
-          "$ref": "#/definitions/pbTResultTResultCode"
+          "$ref": "#/definitions/pbJobStatus"
         },
         "tasks": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/pbTaskStatus"
+          }
+        }
+      }
+    },
+    "pbGetResourcesResponse": {
+      "type": "object",
+      "properties": {
+        "resources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbResource"
           }
         }
       }
@@ -342,6 +556,83 @@
         }
       }
     },
+    "pbGreetings": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "pbGreetingsValidation": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/pbResult"
+        }
+      }
+    },
+    "pbGroup": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "pbHardwareData": {
+      "type": "object",
+      "properties": {
+        "cores_count": {
+          "type": "number",
+          "format": "double"
+        },
+        "memory_bytes": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "disk_bytes": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "pbHardwareRequest": {
+      "type": "object"
+    },
+    "pbHardwareResponse": {
+      "type": "object",
+      "properties": {
+        "total_hardware_data": {
+          "$ref": "#/definitions/pbHardwareData"
+        },
+        "free_hardware_data": {
+          "$ref": "#/definitions/pbHardwareData"
+        }
+      }
+    },
+    "pbJobStatus": {
+      "type": "string",
+      "enum": [
+        "JOB_UNSPECIFIED",
+        "JOB_CREATED",
+        "JOB_SCHEDULED",
+        "JOB_EXECUTING",
+        "JOB_FINISHED",
+        "JOB_FAILED",
+        "JOB_CANCELLED"
+      ],
+      "default": "JOB_UNSPECIFIED"
+    },
     "pbNodeTarget": {
       "type": "object",
       "properties": {
@@ -353,6 +644,49 @@
         }
       }
     },
+    "pbPermissions": {
+      "type": "object",
+      "properties": {
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "pbPingTransactionResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/pbTransactionStatus"
+        }
+      }
+    },
+    "pbRMResponse": {
+      "type": "object",
+      "properties": {
+        "result_code": {
+          "$ref": "#/definitions/pbRMResponseResultCode"
+        }
+      },
+      "title": "FIXME(BigRedEye) WTF?"
+    },
+    "pbRMResponseResultCode": {
+      "type": "string",
+      "enum": [
+        "NONE",
+        "OK",
+        "NOT_FOUND"
+      ],
+      "default": "NONE"
+    },
     "pbResolveBlobReplicasResponse": {
       "type": "object",
       "properties": {
@@ -363,6 +697,137 @@
           }
         }
       }
+    },
+    "pbResource": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/pbEResourceType"
+        },
+        "ownerId": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        },
+        "permissions": {
+          "$ref": "#/definitions/pbPermissions"
+        },
+        "name": {
+          "type": "string"
+        },
+        "total_resources": {
+          "$ref": "#/definitions/pbHardwareData"
+        },
+        "available_resources": {
+          "$ref": "#/definitions/pbHardwareData"
+        }
+      }
+    },
+    "pbResourceResponse": {
+      "type": "object",
+      "properties": {
+        "create_resource_response": {
+          "$ref": "#/definitions/pbCreateResourceResponse"
+        },
+        "delete_resource_response": {
+          "$ref": "#/definitions/pbDeleteResourceResponse"
+        }
+      },
+      "description": "FIXME(BigRedEye) ........."
+    },
+    "pbResult": {
+      "type": "object",
+      "properties": {
+        "result_code": {
+          "$ref": "#/definitions/pbResultResultCode"
+        },
+        "error_code": {
+          "$ref": "#/definitions/ResultErrorCode"
+        },
+        "error_text": {
+          "type": "string"
+        }
+      },
+      "title": "FIXME: WTF?"
+    },
+    "pbResultResultCode": {
+      "type": "string",
+      "enum": [
+        "NONE",
+        "WAIT",
+        "RUN",
+        "FAILED",
+        "CANCELED",
+        "DELETED",
+        "SUCCESS"
+      ],
+      "default": "NONE"
+    },
+    "pbStageInRequest": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbFileOnAgent"
+          }
+        }
+      }
+    },
+    "pbStageInResponse": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string"
+        },
+        "result": {
+          "$ref": "#/definitions/pbResult"
+        }
+      }
+    },
+    "pbStageOutRequest": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string"
+        },
+        "agent_relative_local_path": {
+          "type": "string"
+        }
+      }
+    },
+    "pbStageOutResponse": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string"
+        },
+        "task_file": {
+          "$ref": "#/definitions/pbFileOnAgent"
+        }
+      }
+    },
+    "pbStartInstanceRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "instance_id": {
+          "type": "string"
+        }
+      },
+      "title": "make API call to start allocated instance associated with user account"
+    },
+    "pbStartInstanceResponseContent": {
+      "type": "object"
     },
     "pbStartJobRequest": {
       "type": "object",
@@ -386,6 +851,57 @@
         }
       }
     },
+    "pbStartTaskRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "factory_id": {
+          "type": "string"
+        },
+        "hardware_data": {
+          "$ref": "#/definitions/pbHardwareData"
+        }
+      },
+      "title": "make API call to start task definition associated with user account"
+    },
+    "pbStartTaskResponseContent": {
+      "type": "object",
+      "properties": {
+        "instance_id": {
+          "type": "string"
+        }
+      }
+    },
+    "pbStopInstanceRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "instance_id": {
+          "type": "string"
+        }
+      }
+    },
+    "pbStopInstanceResponseContent": {
+      "type": "object"
+    },
+    "pbStopTaskRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "instance_id": {
+          "type": "string"
+        }
+      }
+    },
+    "pbStopTaskResponseContent": {
+      "type": "object"
+    },
     "pbSubmitFileHashResponse": {
       "type": "object",
       "properties": {
@@ -394,450 +910,7 @@
         }
       }
     },
-    "pbTAllocateInstanceRequest": {
-      "type": "object",
-      "properties": {
-        "user_id": {
-          "type": "string"
-        },
-        "factory_id": {
-          "type": "string"
-        },
-        "hardware_data": {
-          "$ref": "#/definitions/pbTHardwareData"
-        }
-      }
-    },
-    "pbTAllocateInstanceResponseContent": {
-      "type": "object",
-      "properties": {
-        "instance_id": {
-          "type": "string"
-        }
-      }
-    },
-    "pbTAsyncCloudResponse": {
-      "type": "object",
-      "properties": {
-        "transaction": {
-          "$ref": "#/definitions/pbTTransaction"
-        },
-        "async_response_content": {
-          "$ref": "#/definitions/pbTAsyncResponseContent"
-        }
-      }
-    },
-    "pbTAsyncResponseContent": {
-      "type": "object",
-      "properties": {
-        "allocate_instance_response_content": {
-          "$ref": "#/definitions/pbTAllocateInstanceResponseContent"
-        },
-        "deallocate_instance_response_content": {
-          "$ref": "#/definitions/pbTDeallocateInstanceResponseContent"
-        },
-        "start_instance_response_content": {
-          "$ref": "#/definitions/pbTStartInstanceResponseContent"
-        },
-        "stop_instance_response_content": {
-          "$ref": "#/definitions/pbTStopInstanceResponseContent"
-        },
-        "start_task_response_content": {
-          "$ref": "#/definitions/pbTStartTaskResponseContent"
-        },
-        "stop_task_response_content": {
-          "$ref": "#/definitions/pbTStopTaskResponseContent"
-        },
-        "deploy_image_response_content": {
-          "$ref": "#/definitions/pbTDeployImageResponseContent"
-        }
-      }
-    },
-    "pbTCancelTaskRequest": {
-      "type": "object",
-      "properties": {
-        "task_id": {
-          "type": "string"
-        }
-      }
-    },
-    "pbTCreateResourceRequest": {
-      "type": "object",
-      "properties": {
-        "resource": {
-          "$ref": "#/definitions/pbTResource"
-        }
-      }
-    },
-    "pbTCreateResourceResponse": {
-      "type": "object"
-    },
-    "pbTDeallocateInstanceRequest": {
-      "type": "object",
-      "properties": {
-        "user_id": {
-          "type": "string"
-        },
-        "instance_id": {
-          "type": "string"
-        }
-      }
-    },
-    "pbTDeallocateInstanceResponseContent": {
-      "type": "object"
-    },
-    "pbTDeleteResourceRequest": {
-      "type": "object",
-      "properties": {
-        "resource_id": {
-          "type": "string"
-        },
-        "user_id": {
-          "type": "string"
-        }
-      }
-    },
-    "pbTDeleteResourceResponse": {
-      "type": "object"
-    },
-    "pbTDeleteTaskRequest": {
-      "type": "object",
-      "properties": {
-        "task_id": {
-          "type": "string"
-        }
-      }
-    },
-    "pbTDeployImageRequest": {
-      "type": "object",
-      "properties": {
-        "user_id": {
-          "type": "string"
-        },
-        "instance_id": {
-          "type": "string"
-        },
-        "docker_image": {
-          "$ref": "#/definitions/pbTDockerImage"
-        }
-      }
-    },
-    "pbTDeployImageResponseContent": {
-      "type": "object"
-    },
-    "pbTDockerImage": {
-      "type": "object",
-      "properties": {
-        "registry": {
-          "type": "string"
-        },
-        "repository": {
-          "type": "string"
-        },
-        "image": {
-          "type": "string"
-        },
-        "tag": {
-          "type": "string"
-        }
-      }
-    },
-    "pbTFile": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "agent_relative_local_path": {
-          "type": "string"
-        },
-        "hash": {
-          "type": "string"
-        }
-      }
-    },
-    "pbTGreetings": {
-      "type": "object",
-      "properties": {
-        "token": {
-          "type": "string"
-        }
-      }
-    },
-    "pbTGreetingsValidation": {
-      "type": "object",
-      "properties": {
-        "result": {
-          "$ref": "#/definitions/pbTResult"
-        }
-      }
-    },
-    "pbTGroup": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "users": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "pbTHardwareData": {
-      "type": "object",
-      "properties": {
-        "cores_count": {
-          "type": "number",
-          "format": "double"
-        },
-        "memory_bytes": {
-          "type": "string",
-          "format": "uint64"
-        },
-        "disk_bytes": {
-          "type": "string",
-          "format": "uint64"
-        }
-      }
-    },
-    "pbTHardwareRequest": {
-      "type": "object"
-    },
-    "pbTHardwareResponse": {
-      "type": "object",
-      "properties": {
-        "total_hardware_data": {
-          "$ref": "#/definitions/pbTHardwareData"
-        },
-        "free_hardware_data": {
-          "$ref": "#/definitions/pbTHardwareData"
-        }
-      }
-    },
-    "pbTPermissions": {
-      "type": "object",
-      "properties": {
-        "users": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "groups": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "pbTPingTransactionResponse": {
-      "type": "object",
-      "properties": {
-        "status": {
-          "$ref": "#/definitions/pbETransactionStatus"
-        }
-      }
-    },
-    "pbTRMResponse": {
-      "type": "object",
-      "properties": {
-        "result_code": {
-          "$ref": "#/definitions/pbTRMResponseTResultCode"
-        }
-      }
-    },
-    "pbTRMResponseTResultCode": {
-      "type": "string",
-      "enum": [
-        "NONE",
-        "OK",
-        "NOT_FOUND"
-      ],
-      "default": "NONE"
-    },
-    "pbTResource": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "type": {
-          "$ref": "#/definitions/pbEResourceType"
-        },
-        "ownerId": {
-          "type": "string"
-        },
-        "token": {
-          "type": "string"
-        },
-        "permissions": {
-          "$ref": "#/definitions/pbTPermissions"
-        },
-        "name": {
-          "type": "string"
-        }
-      }
-    },
-    "pbTResourceResponse": {
-      "type": "object",
-      "properties": {
-        "create_resource_response": {
-          "$ref": "#/definitions/pbTCreateResourceResponse"
-        },
-        "delete_resource_response": {
-          "$ref": "#/definitions/pbTDeleteResourceResponse"
-        }
-      }
-    },
-    "pbTResult": {
-      "type": "object",
-      "properties": {
-        "result_code": {
-          "$ref": "#/definitions/pbTResultTResultCode"
-        },
-        "error_code": {
-          "$ref": "#/definitions/TResultTErrorCode"
-        },
-        "error_text": {
-          "type": "string"
-        }
-      },
-      "title": "FIXME: WTF?"
-    },
-    "pbTResultTResultCode": {
-      "type": "string",
-      "enum": [
-        "NONE",
-        "WAIT",
-        "RUN",
-        "FAILED",
-        "CANCELED",
-        "DELETED",
-        "SUCCESS"
-      ],
-      "default": "NONE"
-    },
-    "pbTStageInRequest": {
-      "type": "object",
-      "properties": {
-        "task_id": {
-          "type": "string"
-        },
-        "files": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/pbTFile"
-          }
-        }
-      }
-    },
-    "pbTStageInResponse": {
-      "type": "object",
-      "properties": {
-        "task_id": {
-          "type": "string"
-        },
-        "result": {
-          "$ref": "#/definitions/pbTResult"
-        }
-      }
-    },
-    "pbTStageOutRequest": {
-      "type": "object",
-      "properties": {
-        "task_id": {
-          "type": "string"
-        },
-        "agent_relative_local_path": {
-          "type": "string"
-        }
-      }
-    },
-    "pbTStageOutResponse": {
-      "type": "object",
-      "properties": {
-        "task_id": {
-          "type": "string"
-        },
-        "task_file": {
-          "$ref": "#/definitions/pbTFile"
-        }
-      }
-    },
-    "pbTStartInstanceRequest": {
-      "type": "object",
-      "properties": {
-        "user_id": {
-          "type": "string"
-        },
-        "instance_id": {
-          "type": "string"
-        }
-      },
-      "title": "make API call to start allocated instance associated with user account"
-    },
-    "pbTStartInstanceResponseContent": {
-      "type": "object"
-    },
-    "pbTStartTaskRequest": {
-      "type": "object",
-      "properties": {
-        "user_id": {
-          "type": "string"
-        },
-        "factory_id": {
-          "type": "string"
-        },
-        "hardware_data": {
-          "$ref": "#/definitions/pbTHardwareData"
-        }
-      },
-      "title": "make API call to start task definition associated with user account"
-    },
-    "pbTStartTaskResponseContent": {
-      "type": "object",
-      "properties": {
-        "instance_id": {
-          "type": "string"
-        }
-      }
-    },
-    "pbTStopInstanceRequest": {
-      "type": "object",
-      "properties": {
-        "user_id": {
-          "type": "string"
-        },
-        "instance_id": {
-          "type": "string"
-        }
-      }
-    },
-    "pbTStopInstanceResponseContent": {
-      "type": "object"
-    },
-    "pbTStopTaskRequest": {
-      "type": "object",
-      "properties": {
-        "user_id": {
-          "type": "string"
-        },
-        "instance_id": {
-          "type": "string"
-        }
-      }
-    },
-    "pbTStopTaskResponseContent": {
-      "type": "object"
-    },
-    "pbTTask": {
+    "pbTask": {
       "type": "object",
       "properties": {
         "id": {
@@ -850,65 +923,6 @@
           "type": "string"
         },
         "docker_image": {
-          "type": "string"
-        }
-      }
-    },
-    "pbTTaskRequest": {
-      "type": "object",
-      "properties": {
-        "task": {
-          "$ref": "#/definitions/pbTTask"
-        }
-      }
-    },
-    "pbTTaskResponse": {
-      "type": "object",
-      "properties": {
-        "task_id": {
-          "type": "string"
-        },
-        "result": {
-          "$ref": "#/definitions/pbTResult"
-        },
-        "task_files": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/pbTaskFile"
-          }
-        }
-      }
-    },
-    "pbTToAgentMessage": {
-      "type": "object",
-      "properties": {
-        "hardware_request": {
-          "$ref": "#/definitions/pbTHardwareRequest"
-        },
-        "task_request": {
-          "$ref": "#/definitions/pbTTaskRequest"
-        },
-        "stage_in_request": {
-          "$ref": "#/definitions/pbTStageInRequest"
-        },
-        "stage_out_request": {
-          "$ref": "#/definitions/pbTStageOutRequest"
-        },
-        "cancel_task_request": {
-          "$ref": "#/definitions/pbTCancelTaskRequest"
-        },
-        "delete_task_request": {
-          "$ref": "#/definitions/pbTDeleteTaskRequest"
-        },
-        "greetings_validation": {
-          "$ref": "#/definitions/pbTGreetingsValidation"
-        }
-      }
-    },
-    "pbTTransaction": {
-      "type": "object",
-      "properties": {
-        "transaction_id": {
           "type": "string"
         }
       }
@@ -933,6 +947,31 @@
         "modification_time": {
           "type": "string",
           "format": "date-time"
+        }
+      }
+    },
+    "pbTaskRequest": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "$ref": "#/definitions/pbTask"
+        }
+      }
+    },
+    "pbTaskResponse": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string"
+        },
+        "result": {
+          "$ref": "#/definitions/pbResult"
+        },
+        "task_files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbTaskFile"
+          }
         }
       }
     },
@@ -972,7 +1011,7 @@
           "$ref": "#/definitions/pbTaskSpec"
         },
         "status": {
-          "$ref": "#/definitions/pbTResultTResultCode"
+          "$ref": "#/definitions/pbJobStatus"
         },
         "pending_dependencies": {
           "type": "array",
@@ -989,6 +1028,52 @@
           "format": "date-time"
         }
       }
+    },
+    "pbToAgentMessage": {
+      "type": "object",
+      "properties": {
+        "hardware_request": {
+          "$ref": "#/definitions/pbHardwareRequest"
+        },
+        "task_request": {
+          "$ref": "#/definitions/pbTaskRequest"
+        },
+        "stage_in_request": {
+          "$ref": "#/definitions/pbStageInRequest"
+        },
+        "stage_out_request": {
+          "$ref": "#/definitions/pbStageOutRequest"
+        },
+        "cancel_task_request": {
+          "$ref": "#/definitions/pbCancelTaskRequest"
+        },
+        "delete_task_request": {
+          "$ref": "#/definitions/pbDeleteTaskRequest"
+        },
+        "greetings_validation": {
+          "$ref": "#/definitions/pbGreetingsValidation"
+        }
+      },
+      "description": "FIXME(BigRedEye) ..."
+    },
+    "pbTransaction": {
+      "type": "object",
+      "properties": {
+        "transaction_id": {
+          "type": "string"
+        }
+      }
+    },
+    "pbTransactionStatus": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "ACTIVE",
+        "COMPLETED",
+        "EXPIRED",
+        "CANCELLED"
+      ],
+      "default": "UNKNOWN"
     },
     "pbUpdateTaskResultsResponse": {
       "type": "object"

@@ -49,27 +49,27 @@ func (c *Client) ReceiveResourceManagerRequest(client rm.ResourceManager_SendCli
 		}
 		common.DealWithError(err)
 		switch response := generalResponse.Body.(type) {
-		case *rm.TToAgentMessage_HardwareRequest:
+		case *rm.ToAgentMessage_HardwareRequest:
 			log.Debugln("Hardware data request")
 			go SendHardwareData(client, hardware.GetTotalHardwareData(c.config.AgentDirectory), hardware.GetFreeHardwareData(c.config.AgentDirectory))
-		case *rm.TToAgentMessage_TaskRequest:
+		case *rm.ToAgentMessage_TaskRequest:
 			log.Debugln("Task request")
 			task := response.TaskRequest.GetTask()
 			go StartTask(task, c.config)
-		case *rm.TToAgentMessage_StageInRequest:
+		case *rm.ToAgentMessage_StageInRequest:
 			log.Debugln("Stage in request")
 			files := response.StageInRequest.GetFiles()
 			taskId := response.StageInRequest.GetTaskId()
 			go c.files.StageInFiles(client, taskId, files)
-		case *rm.TToAgentMessage_StageOutRequest:
+		case *rm.ToAgentMessage_StageOutRequest:
 			log.Debugln("Stage out request")
 			taskId := response.StageOutRequest.GetTaskId()
 			localPath := response.StageOutRequest.GetAgentRelativeLocalPath()
 			go c.files.StageOutFiles(client, taskId, localPath)
-		case *rm.TToAgentMessage_CancelTaskRequest:
+		case *rm.ToAgentMessage_CancelTaskRequest:
 			taskId := response.CancelTaskRequest.GetTaskId()
 			go CancelTask(taskId)
-		case *rm.TToAgentMessage_DeleteTaskRequest:
+		case *rm.ToAgentMessage_DeleteTaskRequest:
 			taskId := response.DeleteTaskRequest.GetTaskId()
 			go DeleteTask(taskId)
 		default:
