@@ -14,6 +14,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	pb "github.com/dc-lab/sky/api/proto"
+	"github.com/google/uuid"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -76,7 +77,42 @@ func (s *Server) StartJob(ctx context.Context, req *pb.StartJobRequest) (*pb.Sta
 }
 
 func (s *Server) GetJob(ctx context.Context, req *pb.GetJobRequest) (*pb.GetJobResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetJob not implemented")
+	id, err := uuid.Parse(req.Id)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "cannot parse job id")
+	}
+
+	job, err := s.repo.GetJob(id)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "unknown job")
+	}
+
+	tasks := make([]*pb.TaskStatus, len(job.Tasks))
+	for i, task := range job.Tasks {
+		deps := make([]string, len(task.PendingDependencies))
+		for j, dep := range task.PendingDependencies {
+			deps[j] = dep.Name
+		}
+
+		tasks[i] = &pb.TaskStatus{
+			Id: task.ID.String(),
+			Spec: &pb.TaskSpec{
+				Name:         task.Name,
+				Command:      task.Command,
+				Dependencies: task.Dependencies,
+			},
+			Status:              pb.JobStatus(task.Status),
+			PendingDependencies: deps,
+		}
+	}
+
+	res := &pb.GetJobResponse{
+		Id:     id.String(),
+		Status: pb.JobStatus(job.Status),
+		Tasks:  tasks,
+	}
+
+	return res, nil
 }
 
 func (s *Server) Run() error {

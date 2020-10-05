@@ -12,7 +12,8 @@ type JobId = uuid.UUID
 type TaskId = uuid.UUID
 
 const (
-	JobCreated JobStatus = iota
+	JobUnspecified JobStatus = iota
+	JobCreated
 	JobWaiting
 	JobScheduled
 	JobRunning
