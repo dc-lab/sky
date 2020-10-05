@@ -3,6 +3,8 @@ package job_manager
 import (
 	"context"
 	"fmt"
+	"strings"
+	"sync"
 	"time"
 
 	pb "github.com/dc-lab/sky/api/proto"
@@ -32,9 +34,12 @@ func NewDispatcher(config *Config) (*dispatcher, error) {
 	}, nil
 }
 
-func (d *dispatcher) Run() {
+func (d *dispatcher) Run(wg *sync.WaitGroup) error {
+	wg.Add(1)
+	defer wg.Done()
 	err := d.run()
-	log.WithError(err).Fatalln("dispatcher failed")
+	log.WithError(err).Errorf("dispatcher failed")
+	return err
 }
 
 func (d *dispatcher) run() error {
@@ -47,23 +52,83 @@ func (d *dispatcher) run() error {
 }
 
 func (d *dispatcher) startTask(task assignedTask) error {
-	agentMessage := &pb.ToAgentMessage_TaskRequest{}
+	err := d.stageInTaskFiles(task)
+	if err != nil {
+		return err
+	}
 
+	err = d.sendTaskToAgent(task)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (d *dispatcher) agentAction(agent string, message *pb.ToAgentMessage) error {
 	res, err := d.rmClient.AgentAction(context.Background(), &pb.RMRequest{
-		ResourceId: task.resource,
-		RealMessage: &pb.ToAgentMessage{
-			Body: agentMessage,
-		},
+		ResourceId:  agent,
+		RealMessage: message,
 	})
 
 	if err != nil {
-		log.WithError(err).Errorf("Start task request failed")
+		log.WithError(err).Errorf("Agent request failed")
 		return err
 	}
 
 	if code := res.GetResultCode(); code != pb.RMResponse_OK {
-		log.WithField("code", code.String()).Errorf("Start task request failed: bad return code")
-		return fmt.Errorf("Start task request failed")
+		log.WithField("code", code.String()).Errorf("Agent request failed: bad return code")
+		return fmt.Errorf("Agent request failed")
+	}
+
+	return nil
+}
+
+func (d *dispatcher) stageInTaskFiles(task assignedTask) error {
+	files := make([]*pb.FileOnAgent, len(task.task.Files))
+	for i := range task.task.Files {
+		files[i] = &pb.FileOnAgent{
+			Id:                     task.task.Files[i],
+			AgentRelativeLocalPath: task.task.FilePaths[i],
+		}
+	}
+
+	agentMessage := &pb.ToAgentMessage_StageInRequest{
+		StageInRequest: &pb.StageInRequest{
+			TaskId: task.task.ID.String(),
+			Files:  files,
+		},
+	}
+
+	err := d.agentAction(task.resource, &pb.ToAgentMessage{Body: agentMessage})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (d *dispatcher) sendTaskToAgent(task assignedTask) error {
+	shellCommandBuilder := strings.Builder{}
+	for i, arg := range task.task.Command {
+		if i > 0 {
+			shellCommandBuilder.WriteString(" ")
+		}
+		shellCommandBuilder.WriteString(arg)
+	}
+
+	agentMessage := &pb.ToAgentMessage_TaskRequest{
+		TaskRequest: &pb.TaskRequest{
+			Task: &pb.Task{
+				Id:                    task.task.ID.String(),
+				ExecutionShellCommand: shellCommandBuilder.String(),
+			},
+		},
+	}
+
+	err := d.agentAction(task.resource, &pb.ToAgentMessage{Body: agentMessage})
+	if err != nil {
+		return err
 	}
 
 	return nil

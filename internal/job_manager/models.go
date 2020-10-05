@@ -13,6 +13,7 @@ type TaskId = uuid.UUID
 
 const (
 	JobCreated JobStatus = iota
+	JobWaiting
 	JobScheduled
 	JobRunning
 	JobFinished
@@ -21,7 +22,7 @@ const (
 )
 
 type Job struct {
-	ID        JobId `gorm:"primarykey,type:uuid,default:uuid_generate_v4()"`
+	ID        JobId `gorm:"primarykey;type:uuid;default:uuid_generate_v4()"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`
@@ -33,17 +34,39 @@ type Job struct {
 }
 
 type Task struct {
-	ID        TaskId `gorm:"primarykey,type:uuid,default:uuid_generate_v4()"`
+	ID        TaskId `gorm:"primarykey;type:uuid;default:uuid_generate_v4()"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 
 	Status              JobStatus
-	JobID               JobId   `gorm:"type:uuid"`
-	PendingDependencies []*Task `gorm:"many2many:task_pending_dependencies"`
+	JobID               JobId    `gorm:"type:uuid"`
+	PendingDependencies []*Task  `gorm:"many2many:deps"`
+	Executors           []*Agent `gorm:"many2many:task_executions"`
 
-	Name        string
-	Command     pq.StringArray `gorm:"type:text[]"`
-	Files       pq.StringArray `gorm:"type:text[]"`
-	Dependecies pq.StringArray `gorm:"type:text[]"`
+	Name         string
+	Command      pq.StringArray `gorm:"type:text[]"`
+	Files        pq.StringArray `gorm:"type:text[]"`
+	FilePaths    pq.StringArray `gorm:"type:text[]"`
+	Dependencies pq.StringArray `gorm:"type:text[]"`
+}
+
+type Agent struct {
+	ID        string `gorm:"primarykey"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt `gorm:"index"`
+
+	AssignedTasks []*Task `gorm:"many2many:task_executions"`
+}
+
+type TaskExecution struct {
+	AgentID string
+	TaskID  TaskId `gorm:"type:uuid"`
+
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt `gorm:"index"`
+
+	Status JobStatus
 }

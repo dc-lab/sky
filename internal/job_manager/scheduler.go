@@ -3,21 +3,24 @@ package job_manager
 import (
 	"errors"
 	"fmt"
+	"sync"
 	"time"
 
 	log "github.com/sirupsen/logrus"
 )
 
 type scheduler struct {
-	repo *Repo
+	repo       *Repo
+	dispatcher *dispatcher
 
 	startedJobs  chan JobId
 	updatedTasks chan TaskId
 }
 
-func NewScheduler(repo *Repo) (*scheduler, error) {
+func NewScheduler(repo *Repo, dispatcher *dispatcher) (*scheduler, error) {
 	return &scheduler{
 		repo:         repo,
+		dispatcher:   dispatcher,
 		startedJobs:  make(chan JobId),
 		updatedTasks: make(chan TaskId),
 	}, nil
@@ -45,13 +48,16 @@ func (s *scheduler) StartJob(job JobId, timeout time.Duration) error {
 	}
 }
 
-func (s *scheduler) Run() {
+func (s *scheduler) Run(wg *sync.WaitGroup) error {
+	wg.Add(1)
+	defer wg.Done()
 	err := s.run()
-	log.WithError(err).Fatalln("scheduler failed")
+	log.WithError(err).Errorf("scheduler failed")
+	return err
 }
 
 func (s *scheduler) run() error {
-	ticker := time.Tick(time.Second) // FIXME(BigRedEye): Read interval from config
+	ticker := time.Tick(time.Second * 100000) // FIXME(BigRedEye): Read interval from config
 	for {
 		select {
 		case task := <-s.updatedTasks:
@@ -87,29 +93,44 @@ func (s *scheduler) onTick() error {
 }
 
 func (s *scheduler) scheduleTasks() error {
-	return s.repo.Transaction(func(tx *Repo) error {
-		err := tx.ProcessReadyToRunTasks(func(batch []Task) error {
-			return nil
+	return s.repo.Transaction(s.scheduleTasksImpl)
+}
+
+// TODO(BigRedEye): Implement fair share
+func (s *scheduler) scheduleTasksImpl(tx *Repo) error {
+	// TODO(BigRedEye): Filter agents by task requirements
+	agents, err := tx.GetAvailableAgents()
+	if err != nil {
+		log.WithError(err).Error("Failed to select available agents")
+		return err
+	}
+
+	tasksToRun := make([]Task, 0)
+	err = tx.ProcessReadyToRunTasks(func(batch []Task) error {
+		for i := range batch {
+			log.WithField("task_name", batch[i].Name).WithField("task_id", batch[i].ID.String()).Infoln("Task is ready to run")
+			tasksToRun = append(tasksToRun, batch...)
+		}
+		return nil
+	})
+	if err != nil {
+		log.WithError(err).Error("Failed to select ready to run tasks")
+		return err
+	}
+
+	var nextAvailableAgent = 0
+	for i := range tasksToRun {
+		if nextAvailableAgent >= len(*agents) {
+			break
+		}
+
+		s.dispatcher.PushTask(assignedTask{
+			resource: (*agents)[nextAvailableAgent].ID,
+			task:     &tasksToRun[i],
 		})
-		if err != nil {
-			log.WithError(err).Error("Failed to schedule tasks")
-			return err
-		}
-		return nil
-	})
+
+		nextAvailableAgent++
+	}
+
+	return nil
 }
-
-/*
-func (s *scheduler) scheduleJob(jobId JobId) error {
-	log.WithField("job_id", jobId).Infoln("Start schedule job")
-
-	return s.repo.Transaction(func(tx *Repo) error {
-		job, err := tx.GetJob(jobId)
-		if err != nil {
-			return err
-		}
-
-		return nil
-	})
-}
-*/

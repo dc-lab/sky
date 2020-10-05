@@ -2,7 +2,11 @@ package job_manager
 
 import (
 	"context"
+	"errors"
 	"net"
+	"strings"
+	"sync"
+	"time"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -14,20 +18,28 @@ import (
 )
 
 type Server struct {
-	repo      *Repo
-	config    *Config
-	scheduler *scheduler
+	repo       *Repo
+	config     *Config
+	dispatcher *dispatcher
+	scheduler  *scheduler
 }
 
 func CreateServer(config *Config, repo *Repo) (*Server, error) {
-	scheduler, err := NewScheduler(repo)
+	dispatcher, err := NewDispatcher(config)
 	if err != nil {
 		return nil, err
 	}
+
+	scheduler, err := NewScheduler(repo, dispatcher)
+	if err != nil {
+		return nil, err
+	}
+
 	return &Server{
-		repo:      repo,
-		config:    config,
-		scheduler: scheduler,
+		repo:       repo,
+		config:     config,
+		dispatcher: dispatcher,
+		scheduler:  scheduler,
 	}, nil
 }
 
@@ -35,11 +47,12 @@ func (s *Server) StartJob(ctx context.Context, req *pb.StartJobRequest) (*pb.Sta
 	tasks := make([]Task, len(req.Tasks))
 	for i := range req.Tasks {
 		tasks[i] = Task{
-			Name:        req.Tasks[i].GetName(),
-			Command:     req.Tasks[i].GetCommand(),
-			Files:       req.Tasks[i].GetFiles(),
-			Dependecies: req.Tasks[i].GetDependencies(),
+			Name:         req.Tasks[i].GetName(),
+			Command:      req.Tasks[i].GetCommand(),
+			Files:        req.Tasks[i].GetFiles(),
+			Dependencies: req.Tasks[i].GetDependencies(),
 		}
+		log.Println(tasks[i])
 	}
 
 	job := &Job{
@@ -49,7 +62,12 @@ func (s *Server) StartJob(ctx context.Context, req *pb.StartJobRequest) (*pb.Sta
 
 	err := s.repo.AddJob(job)
 	if err != nil {
-		return nil, status.Errorf(codes.Internal, "failed to add job")
+		return nil, status.Errorf(codes.InvalidArgument, "failed to create job: %w", err)
+	}
+
+	err = s.scheduler.StartJob(job.ID, time.Duration(time.Second))
+	if err != nil {
+		log.WithError(err).Warn("Failed to explicitly push task to the scheduler")
 	}
 
 	return &pb.StartJobResponse{
@@ -62,8 +80,42 @@ func (s *Server) GetJob(ctx context.Context, req *pb.GetJobRequest) (*pb.GetJobR
 }
 
 func (s *Server) Run() error {
-	go s.scheduler.Run()
+	errs := make(chan error, 3)
+	var wg sync.WaitGroup
+	go func() {
+		errs <- s.dispatcher.Run(&wg)
+	}()
 
+	go func() {
+		errs <- s.scheduler.Run(&wg)
+	}()
+
+	go func() {
+		errs <- s.run(&wg)
+	}()
+
+	defer wg.Wait()
+
+	errBuilder := strings.Builder{}
+	numErrors := 0
+	for i := 0; i < 3; i++ {
+		err := <-errs
+		if err != nil {
+			numErrors++
+			errBuilder.WriteString("")
+			errBuilder.WriteString(err.Error())
+			errBuilder.WriteString(",")
+		}
+	}
+
+	if numErrors > 0 {
+		return errors.New(errBuilder.String())
+	}
+
+	return nil
+}
+
+func (s *Server) run(wg *sync.WaitGroup) error {
 	srv := grpc.NewServer()
 	pb.RegisterJobManagerServer(srv, s)
 	reflection.Register(srv)
